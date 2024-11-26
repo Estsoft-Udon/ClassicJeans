@@ -1,0 +1,17 @@
+name: Validate PR to main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check base branch
+        run: |
+          if [[ ! "${{ github.event.pull_request.head.ref }}" =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Pull requests to main must be from a release branch (e.g., release/v1.0.0)."
+            exit 1
+          fi
