@@ -86,6 +86,17 @@ public class AlanService {
         return "종합 평가 정보가 없습니다.";
     }
 
+    // 개선 방법 추출 메서드
+    private String extractImprovementSuggestions(String content) {
+        Pattern pattern = Pattern.compile("### 개선 방법 \\(improvementSuggestions\\)[\\s\\S]*?\\n(.*)", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            String suggestions = matcher.group(1).trim();
+            return removeSourceLinks(suggestions);
+        }
+        return "개선 방법 정보가 없습니다.";
+    }
+
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         String urlPattern = "\\[\\(출처\\d+\\)]\\(https?://[\\w./?&=-]+\\)";
