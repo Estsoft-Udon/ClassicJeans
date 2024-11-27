@@ -1,4 +1,12 @@
 package com.example.classicjeans.repository;
 
-public class UsersRepository {
+import com.example.classicjeans.entity.Users;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface UsersRepository extends JpaRepository<Users, Long> {
+    List<Users> findByIsDeletedFalse();
 }
