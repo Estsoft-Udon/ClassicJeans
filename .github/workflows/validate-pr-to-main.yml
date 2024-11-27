@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Check base branch
         run: |
+          if [[ "${{ github.event.pull_request.base.ref }}" != "main" ]]; then
+            echo "This workflow only applies to PRs targeting 'main'."
+            exit 0  # main이 아니면 아무 것도 하지 않고 종료
+          fi
+
           if [[ ! "${{ github.event.pull_request.head.ref }}" =~ ^release/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Pull requests to main must be from a release branch (e.g., release/v1.0.0)."
             exit 1
