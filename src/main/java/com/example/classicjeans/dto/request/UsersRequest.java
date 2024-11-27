@@ -3,18 +3,14 @@ package com.example.classicjeans.dto.request;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class UsersRequest {
-    private Long id;
-
     private String loginId;
 
     private String name;
