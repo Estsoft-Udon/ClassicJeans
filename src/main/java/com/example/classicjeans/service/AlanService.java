@@ -75,6 +75,30 @@ public class AlanService {
         return objectMapper.readValue(response.getBody(), AlanDementiaResponse.class);
     }
 
+    // AI 응답을 AlanDementiaResponse로 변환
+    private AlanDementiaResponse parseAIResponse(String aiResponseContent) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(aiResponseContent);
+
+        JsonNode actionNode = rootNode.path("action");
+        AlanDementiaResponse.Action action = new AlanDementiaResponse.Action(
+                actionNode.path("name").asText(),
+                actionNode.path("speak").asText()
+        );
+
+        String content = rootNode.path("content").asText();
+        String summaryEvaluation = extractSummaryEvaluation(content);
+        String improvementSuggestions = extractImprovementSuggestions(content);
+
+        AlanDementiaResponse response = new AlanDementiaResponse();
+        response.setAction(action);
+        response.setContent(content);
+        response.setSummaryEvaluation(summaryEvaluation);
+        response.setImprovementSuggestions(improvementSuggestions);
+
+        return response;
+    }
+
     // 종합 평가 추출 메서드
     private String extractSummaryEvaluation(String content) {
         Pattern pattern = Pattern.compile("### 종합 평가 \\(summaryEvaluation\\)[\\s\\S]*?\\n-.*?\\n(.*?)\\n### 개선 방법", Pattern.DOTALL);
