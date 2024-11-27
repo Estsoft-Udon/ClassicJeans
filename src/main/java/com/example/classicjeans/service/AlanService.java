@@ -72,7 +72,7 @@ public class AlanService {
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
         System.out.println(response.getBody());
 
-        return objectMapper.readValue(response.getBody(), AlanDementiaResponse.class);
+        return parseAIResponse(response.getBody());
     }
 
     // AI 응답을 AlanDementiaResponse로 변환
