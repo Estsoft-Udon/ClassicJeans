@@ -74,4 +74,10 @@ public class AlanService {
 
         return objectMapper.readValue(response.getBody(), AlanDementiaResponse.class);
     }
+
+    // 출처 링크 제거
+    private String removeSourceLinks(String text) {
+        String urlPattern = "\\[\\(출처\\d+\\)]\\(https?://[\\w./?&=-]+\\)";
+        return text.replaceAll(urlPattern, "").trim();
+    }
 }
