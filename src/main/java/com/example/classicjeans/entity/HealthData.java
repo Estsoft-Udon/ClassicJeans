@@ -17,8 +17,12 @@ public class HealthData {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private Users userId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private FamilyInfo familyId;
 
     @Column(nullable = false)
     private LocalDate date;
