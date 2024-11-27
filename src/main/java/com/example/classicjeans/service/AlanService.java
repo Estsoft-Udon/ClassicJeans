@@ -75,6 +75,17 @@ public class AlanService {
         return objectMapper.readValue(response.getBody(), AlanDementiaResponse.class);
     }
 
+    // 종합 평가 추출 메서드
+    private String extractSummaryEvaluation(String content) {
+        Pattern pattern = Pattern.compile("### 종합 평가 \\(summaryEvaluation\\)[\\s\\S]*?\\n-.*?\\n(.*?)\\n### 개선 방법", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            String summaryEvaluation = matcher.group(1).trim();
+            return removeSourceLinks(summaryEvaluation);
+        }
+        return "종합 평가 정보가 없습니다.";
+    }
+
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         String urlPattern = "\\[\\(출처\\d+\\)]\\(https?://[\\w./?&=-]+\\)";
