@@ -95,13 +95,11 @@ public class AlanService {
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        // 사용자와 평균 데이터 추출
         response.setUserHeight(extractDouble(content, "\\*\\*키\\*\\*: (\\d+(\\.\\d+)?)cm"));
         response.setAverageHeight(extractDouble(content, "한국인 남성 평균: 약 (\\d+(\\.\\d+)?)cm"));
         response.setUserWeight(extractDouble(content, "\\*\\*체중\\*\\*: (\\d+(\\.\\d+)?)kg"));
         response.setAverageWeight(extractDouble(content, "한국인 남성 평균: 약 (\\d+(\\.\\d+)?)kg"));
 
-        // 흡연, 음주, 운동 관련 데이터 설정
         response.setSmokingRate(extractDouble(content, "한국인 흡연율: 약 (\\d+(\\.\\d+)?)%"));
         response.setDrinkingRate(extractDouble(content, "한국인 음주율: 약 (\\d+(\\.\\d+)?)%"));
         response.setExerciseRate(extractDouble(content, "한국인 운동 실천율: 약 (\\d+(\\.\\d+)?)%"));
@@ -115,6 +113,27 @@ public class AlanService {
             return Double.parseDouble(matcher.group(1));
         }
         return null;
+    }
+
+    // AI 응답을 AlanQuestionnaireResponse로 변환
+    private AlanQuestionnaireResponse parseQuestionnaireResponse(String aiResponseContent) throws JsonProcessingException {
+        JsonNode rootNode = objectMapper.readTree(aiResponseContent);
+        AlanQuestionnaireResponse response = new AlanQuestionnaireResponse();
+
+        JsonNode actionNode = rootNode.path("action");
+        AlanQuestionnaireResponse.Action action = new AlanQuestionnaireResponse.Action(
+                actionNode.path("name").asText(),
+                actionNode.path("speak").asText()
+        );
+        response.setAction(action);
+
+        response.setContent(rootNode.path("content").asText());
+
+        parseHealthData(response);
+        response.setSummaryEvaluation(extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN));
+        response.setImprovementSuggestions(extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN));
+
+        return response;
     }
 
     // AI 응답을 AlanDementiaResponse로 변환
