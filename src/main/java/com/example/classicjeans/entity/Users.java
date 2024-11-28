@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Getter
 @Setter
@@ -90,5 +91,14 @@ public class Users {
         this.isLunar = request.getIsLunar();
         this.hourOfBirth = request.getHourOfBirth();
         this.gender = request.getGender();
+    }
+
+    // 생년월일로 나이 계산
+    @Transient
+    public int getAge() {
+        if (dateOfBirth == null) {
+            return 0;
+        }
+        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 }
