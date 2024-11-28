@@ -97,7 +97,7 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
-        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
+//        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 
     // 오늘의 운세
