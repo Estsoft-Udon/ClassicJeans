@@ -77,7 +77,7 @@ public class UsersService {
 
     // 아이디 찾기
     public Users searchId(String name, String email) {
-        return usersRepository.findByNameAndEmail(name, email);
+        return usersRepository.findByNameAndEmailAndIsDeletedFalse(name, email);
     }
 
     // 비밀번호 찾기
@@ -113,6 +113,6 @@ public class UsersService {
     }
 
     public Users findByLoginId(String loginId) {
-        return usersRepository.findByLoginId(loginId);
+        return usersRepository.findByLoginIdAndIsDeletedFalse(loginId);
     }
 }

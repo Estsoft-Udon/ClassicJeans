@@ -3,6 +3,7 @@ package com.example.classicjeans.dto.request;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class UsersRequest {
     private String loginId;
 
