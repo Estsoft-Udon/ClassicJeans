@@ -15,6 +15,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,13 +108,27 @@ public class AlanService {
     }
 
     // 종합 평가, 개선 방법 추출 메서드
-    private String extractContent(String content, String patternString) {
+    private List<String> extractContent(String content, String patternString) {
         Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(content);
-        if (matcher.find()) {
-            return removeSourceLinks(matcher.group(1).trim());
+        List<String> results = new ArrayList<>();
+
+        while (matcher.find()) {
+            String matchedContent = matcher.group(1).trim();
+            String[] items = matchedContent.split("\n");
+            for (String item : items) {
+                if (item.startsWith("-")) {
+                    results.add(removeSourceLinks(item.trim()));
+                } else if (item.matches("^\\d+\\.\\s.*")) {
+                    results.add(removeSourceLinks(item.trim()));
+                }
+            }
         }
-        return "정보가 없습니다.";
+        if (results.isEmpty()) {
+            results.add("정보가 없습니다.");
+        }
+
+        return results;
     }
 
     // 출처 링크 제거
