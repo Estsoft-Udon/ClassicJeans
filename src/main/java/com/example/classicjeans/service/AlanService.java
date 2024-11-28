@@ -56,12 +56,14 @@ public class AlanService {
 
     // 기본 문진표 AI 검사
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
+//        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         return parseQuestionnaireResponse(responseBody);
     }
 
     // 치매 문진표 AI 검사
     public AlanDementiaResponse fetchDementiaResponse(AlanDementiaRequest request) throws JsonProcessingException {
+//        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         return parseAIResponse(responseBody);
     }
