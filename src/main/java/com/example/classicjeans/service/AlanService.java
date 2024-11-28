@@ -101,8 +101,8 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        String summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
-        String improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
+        List<String> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
+        List<String> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
