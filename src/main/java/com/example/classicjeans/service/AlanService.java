@@ -1,15 +1,18 @@
 package com.example.classicjeans.service;
 
+import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
+import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.util.RegexPatterns;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -184,5 +187,50 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(RegexPatterns.URL_PATTERN, "").trim();
+    }
+
+    // 오늘의 운세
+    public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
+        String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
+        // URI 생성
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL)
+                .queryParam("content", request)  // AlanBaziRequest.toString() 호출
+                .queryParam("client_id", CLIENT_ID)
+                .toUriString();
+
+        // API 호출
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        String responseBody = response.getBody();
+
+        // JSON 파싱
+        JsonNode rootNode = objectMapper.readTree(responseBody);
+        JsonNode contentNode = rootNode.path("content");
+
+        if (contentNode.isTextual()) {
+            String cleanedContent = removeBaziContent(contentNode.asText()); // 정리된 텍스트 처리
+
+            // JSON 수정
+            ((ObjectNode) rootNode).put("content", cleanedContent);
+        }
+
+        // System.out.println("Cleaned content: " + rootNode.toString());  // 처리된 텍스트 출력
+
+        // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
+        return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
+
+    }
+    // 운세 결과 텍스트 정리
+    private String removeBaziContent(String text) {
+        return text
+                .replaceAll(URL_PATTERN, "")
+                .replaceAll("\\d{4}년 \\d{1,2}월 \\d{1,2}일에 태어난 (남성|여성)의\\s*", "") // 0000년 00월 00일에 태어난 남성/여성" 제거
+                .replaceAll("\\[.*?]\\(.*?\\)", "")
+                .replaceAll("\\d{4}년생은\\s*", "")
+                .replaceAll("이 외에도.*", "")
+                .replaceAll("다른 띠의 내용은 포함하지 않았습니다\\.?", "")
+                .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
+                .replaceAll(":\\s*:\\s*:", "") // ': : :' 제거
+                .trim();
     }
 }

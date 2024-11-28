@@ -11,12 +11,14 @@ import java.util.List;
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
     List<Users> findByIsDeletedFalse();
-    Users findByNameAndEmail(String name, String email);
-    Users findByLoginId(String loginId);
+    Users findByNameAndEmailAndIsDeletedFalse(String name, String email);
+    Users findByLoginIdAndIsDeletedFalse(String loginId);
 
     boolean existsByLoginIdIgnoreCase(String loginId);
-    Page<Users> findByNameContaining(String search, Pageable pageable);
+    Page<Users> findByNameContainingAndIsDeletedFalse(String name, Pageable pageable);
     boolean existsByNicknameIgnoreCase(String nickname);
     boolean existsByEmailIgnoreCase(String email);
-    Users findByEmail(String email);
+    Users findByEmailAndIsDeletedFalse(String email);
+
+    Page<Users> findAllByIsDeletedFalse(Pageable pageable);
 }
