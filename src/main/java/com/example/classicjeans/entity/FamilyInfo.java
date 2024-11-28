@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @NoArgsConstructor
-public class ParentsInfo {
+public class FamilyInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,4 +29,7 @@ public class ParentsInfo {
 
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
+
+    @Column
+    private String relationship;
 }
