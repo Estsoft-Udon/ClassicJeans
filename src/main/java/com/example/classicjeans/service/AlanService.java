@@ -90,6 +90,16 @@ public class AlanService {
         }
     }
 
+    // 정규 표현식으로 숫자 추출
+    private Double extractDouble(String content, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find()) {
+            return Double.parseDouble(matcher.group(1));
+        }
+        return null;
+    }
+
     // AI 응답을 AlanDementiaResponse로 변환
     private AlanDementiaResponse parseAIResponse(String aiResponseContent) throws JsonProcessingException {
         JsonNode rootNode = objectMapper.readTree(aiResponseContent);
