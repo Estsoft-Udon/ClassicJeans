@@ -2,6 +2,7 @@ package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
+import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
@@ -51,6 +52,12 @@ public class AlanService {
     public AlanBasicResponse fetchHealthResponse(AlanHealthRequest request) throws JsonProcessingException {
         String responseBody = fetchResponse(request.toString());
         return objectMapper.readValue(responseBody, AlanBasicResponse.class);
+    }
+
+    // 기본 문진표 AI 검사
+    public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
+        String responseBody = fetchResponse(request.toString());
+        return parseQuestionnaireResponse(responseBody);
     }
 
     // 치매 문진표 AI 검사
