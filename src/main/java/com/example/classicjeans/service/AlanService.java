@@ -4,6 +4,7 @@ import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
+import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -88,6 +89,22 @@ public class AlanService {
         } catch (HttpStatusCodeException e) {
             System.err.println("Error during reset: " + e.getResponseBodyAsString());
         }
+    }
+
+    // 사용자 건강 데이터 및 한국 평균 데이터 추출
+    private void parseHealthData(AlanQuestionnaireResponse response) {
+        String content = response.getContent();
+
+        // 사용자와 평균 데이터 추출
+        response.setUserHeight(extractDouble(content, "\\*\\*키\\*\\*: (\\d+(\\.\\d+)?)cm"));
+        response.setAverageHeight(extractDouble(content, "한국인 남성 평균: 약 (\\d+(\\.\\d+)?)cm"));
+        response.setUserWeight(extractDouble(content, "\\*\\*체중\\*\\*: (\\d+(\\.\\d+)?)kg"));
+        response.setAverageWeight(extractDouble(content, "한국인 남성 평균: 약 (\\d+(\\.\\d+)?)kg"));
+
+        // 흡연, 음주, 운동 관련 데이터 설정
+        response.setSmokingRate(extractDouble(content, "한국인 흡연율: 약 (\\d+(\\.\\d+)?)%"));
+        response.setDrinkingRate(extractDouble(content, "한국인 음주율: 약 (\\d+(\\.\\d+)?)%"));
+        response.setExerciseRate(extractDouble(content, "한국인 운동 실천율: 약 (\\d+(\\.\\d+)?)%"));
     }
 
     // 정규 표현식으로 숫자 추출
