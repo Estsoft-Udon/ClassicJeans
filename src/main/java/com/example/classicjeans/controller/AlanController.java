@@ -32,4 +32,12 @@ public class AlanController {
         AlanBasicResponse response = alenService.fetchHealthResponse(request);
         return ResponseEntity.ok(response);
     }
+
+    // 앨런 오늘의 운세
+    @GetMapping("/alan/bazi")
+    public ResponseEntity<AlanBasicResponse> getHealthResponse() throws
+            JsonProcessingException {
+        AlanBasicResponse response = alenService.fetchBazi();
+        return ResponseEntity.ok(response);
+    }
 }
