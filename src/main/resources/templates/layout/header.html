@@ -2,11 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="headerFragment">
   <head>
-    <title>udon</title>
+    <title>chungbaji</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <script src="js/common.js"></script>
   </head>
-  <header>헤더입니다</header>
+  <header>
+    <h1><img src="" alt="logo"></h1>
+    <nav>
+      <ul>
+        <li><a href="javascript:void(0)">AI 건강 검진</a></li>
+        <li class="dept">
+          <a href="javascript:void(0)">정보 마당</a>
+          <div>
+            <a href="javascript:void(0)">벙원 정보</a>
+            <a href="javascript:void(0)">요양원 정보</a>
+          </div>
+        </li>
+        <li><a href="javascript:void(0)">알려줘 엘런아!</a></li>
+      </ul>
+    </nav>
+    <div class="user_box">
+        <!-- 로그인 전 -->
+        <ul class="flex_box">
+          <li>
+            <a href="/login">로그인</a>
+          </li>
+          <li>
+            <a href="/signup">회원가입</a>
+          </li>
+        </ul>
+        <!-- 로그인 후 -->
+<!--        <ul class="flex_box">-->
+<!--          <li>-->
+<!--            <a href="/mypage">마이페이지</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="/logout">로그아웃</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+    </div>
+  </header>
 </th:block>
 </html>

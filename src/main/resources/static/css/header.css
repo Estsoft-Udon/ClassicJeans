@@ -1,0 +1,61 @@
+header{
+    width: 100%;
+    padding: clamp(2.2rem, 1.8vw, 2.6rem)  clamp(2rem, 2.2vw, 3.2rem);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: ease-in-out 0.25s;
+    z-index: 999;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header.fixed {
+    width: 100%;
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+header nav ul {
+    display: flex;
+    gap: 2rem;
+}
+header nav ul li a,
+header .user_box ul li a{
+    font-size: clamp(1.6rem, 1.04vw, 2rem);
+    transition: 0.3s;
+}
+header nav ul li a:hover,
+header .user_box ul li a:hover{
+    font-weight: bold;
+}
+header nav ul .dept {
+    position: relative;
+}
+header nav ul .dept a {
+    padding-bottom: 2rem;
+}
+header nav ul .dept div {
+    position: absolute;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 0;
+    overflow: hidden;
+    transition: 0.3s;
+    top: 4rem;
+    left: -1rem;
+    background: #fff;
+}
+header nav ul .dept:hover div {
+    height: 12.5rem;
+    padding: 2rem 1rem 1rem;
+    border: 1px solid #000;
+    border-radius: 1rem;
+}
+header .user_box ul {
+    gap: 2rem;
+}
