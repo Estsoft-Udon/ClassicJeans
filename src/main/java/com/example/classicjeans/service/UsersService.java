@@ -111,4 +111,8 @@ public class UsersService {
         usersRepository.save(user);
         return true;
     }
+
+    public Users findByLoginId(String loginId) {
+        return usersRepository.findByLoginId(loginId);
+    }
 }

@@ -14,9 +14,13 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     Users findByNameAndEmail(String name, String email);
     Users findByLoginId(String loginId);
 
+    List<Users> findByNameContainingAndIsDeletedFalse(String name);
+
     boolean existsByLoginIdIgnoreCase(String loginId);
-    Page<Users> findByNameContaining(String search, Pageable pageable);
+    Page<Users> findByNameContainingAndIsDeleted(String search, Pageable pageable);
     boolean existsByNicknameIgnoreCase(String nickname);
     boolean existsByEmailIgnoreCase(String email);
     Users findByEmail(String email);
+
+    Page<Users> findAllByIsDeletedFalse(Pageable pageable);
 }
