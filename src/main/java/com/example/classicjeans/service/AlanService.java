@@ -23,8 +23,8 @@ public class AlanService {
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
 
-    private static final String SUMMARY_EVALUATION_PATTERN = "### 종합 평가 \\(summaryEvaluation\\)[\\s\\S]*?\\n-.*?\\n(.*?)\\n### 개선 방법";
-    private static final String IMPROVEMENT_SUGGESTIONS_PATTERN = "### 개선 방법 \\(improvementSuggestions\\)[\\s\\S]*?\\n(.*)";
+    private static final String SUMMARY_EVALUATION_PATTERN = "### 종합 평가 \\(Summary Evaluation\\)[\\s\\S]*?\\n-.*?\\n(.*?)\\n### 개선 방법";
+    private static final String IMPROVEMENT_SUGGESTIONS_PATTERN = "### 개선 방법 \\(Improvement Suggestions\\)[\\s\\S]*?(\\d+\\.\\s.*?)(?=\\n$|$)";
     private static final String URL_PATTERN = "\\[\\(출처\\d+\\)]\\(https?://[\\w./?&=-]+\\)";
 
     private final RestTemplate restTemplate;
