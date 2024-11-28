@@ -10,5 +10,4 @@ import lombok.Setter;
 public class HospitalRequest {
     private String city;
     private String district;
-    private String hospitalName;
 }
