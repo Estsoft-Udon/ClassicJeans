@@ -93,6 +93,22 @@ img{
     height: auto;
 }
 
+.logo {
+    width: 5rem;
+    height: auto;
+    max-width: 100%;
+}
+
+.logo_box{
+    display: flex;
+    align-items: center;
+}
+
+.logo_box picture{
+    display: flex;
+    align-items: center;
+}
+
 section{
     padding: 0 3.2rem;
 }
