@@ -8,7 +8,6 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.util.RegexPatterns;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.example.classicjeans.util.RegexPatterns.*;
 
 @Service
 public class AlanService {
@@ -113,8 +114,8 @@ public class AlanService {
         response.setContent(rootNode.path("content").asText());
 
         parseHealthData(response);
-        response.setSummaryEvaluation(extractContent(response.getContent(), RegexPatterns.SUMMARY_EVALUATION_PATTERN));
-        response.setImprovementSuggestions(extractContent(response.getContent(), RegexPatterns.IMPROVEMENT_SUGGESTIONS_PATTERN));
+        response.setSummaryEvaluation(extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN));
+        response.setImprovementSuggestions(extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN));
 
         return response;
     }
@@ -130,8 +131,8 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        List<String> summaryEvaluation = extractContent(content, RegexPatterns.SUMMARY_EVALUATION_PATTERN);
-        List<String> improvementSuggestions = extractContent(content, RegexPatterns.IMPROVEMENT_SUGGESTIONS_PATTERN);
+        List<String> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
+        List<String> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
@@ -140,14 +141,14 @@ public class AlanService {
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        response.setUserHeight(extractDouble(content, RegexPatterns.HEIGHT_PATTERN));
-        response.setAverageHeight(extractDouble(content, RegexPatterns.AVERAGE_HEIGHT_PATTERN));
-        response.setUserWeight(extractDouble(content, RegexPatterns.WEIGHT_PATTERN));
-        response.setAverageWeight(extractDouble(content, RegexPatterns.AVERAGE_WEIGHT_PATTERN));
+        response.setUserHeight(extractDouble(content, HEIGHT_PATTERN));
+        response.setAverageHeight(extractDouble(content, AVERAGE_HEIGHT_PATTERN));
+        response.setUserWeight(extractDouble(content, WEIGHT_PATTERN));
+        response.setAverageWeight(extractDouble(content, AVERAGE_WEIGHT_PATTERN));
 
-        response.setSmokingRate(extractDouble(content, RegexPatterns.SMOKING_RATE_PATTERN));
-        response.setDrinkingRate(extractDouble(content, RegexPatterns.DRINKING_RATE_PATTERN));
-        response.setExerciseRate(extractDouble(content, RegexPatterns.EXERCISE_RATE_PATTERN));
+        response.setSmokingRate(extractDouble(content, SMOKING_RATE_PATTERN));
+        response.setDrinkingRate(extractDouble(content, DRINKING_RATE_PATTERN));
+        response.setExerciseRate(extractDouble(content, EXERCISE_RATE_PATTERN));
     }
 
     // 정규 표현식으로 숫자 추출
@@ -186,12 +187,11 @@ public class AlanService {
 
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
-        return text.replaceAll(RegexPatterns.URL_PATTERN, "").trim();
+        return text.replaceAll(URL_PATTERN, "").trim();
     }
 
     // 오늘의 운세
     public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
-        String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
         // URI 생성
         String uri = UriComponentsBuilder
                 .fromHttpUrl(BASE_URL)
