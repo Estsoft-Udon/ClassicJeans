@@ -251,14 +251,14 @@ dialog{
     margin: 0 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: #007bff;
-    color: white;
     cursor: pointer;
     font-size: 16px;
 }
 
 .page_btn:hover {
-    background-color: #0056b3;
+    background-color: #daa52038;
+    border: 1px solid #daa52038;
+    color: #000;
 }
 
 .page_btn:disabled {
@@ -266,7 +266,7 @@ dialog{
     cursor: not-allowed;
 }
 
-#page_numbers {
+#page-numbers {
     padding: 10px;
     font-size: 16px;
     color: #333;
