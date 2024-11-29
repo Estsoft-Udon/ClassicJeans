@@ -8,6 +8,8 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.QuestionnaireData;
+import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,15 +34,18 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
+    private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    private final QuestionnaireDataRepository questionnaireDataRepository;
+
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
+        this.questionnaireDataRepository = questionnaireDataRepository;
     }
 
     // 앨런AI test - 추후 제거
@@ -59,7 +64,43 @@ public class AlanService {
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
+        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        saveQuestionnaireDate(request, response);
         return parseQuestionnaireResponse(responseBody);
+    }
+
+    // 기본 검사 결과 저장
+    private void saveQuestionnaireDate(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        QuestionnaireData data = new QuestionnaireData(
+                request.getUser().getAge(),
+                request.getUser().getGender(),
+                request.getHeight(),
+                request.getWeight(),
+                request.getChronicDisease(),
+                request.getHospitalVisit(),
+                request.getCurrentMedication(),
+                request.getSmokingStatus(),
+                request.getAlcoholConsumption(),
+                request.getExerciseFrequency(),
+                request.getDietPattern(),
+                request.getMoodStatus(),
+                request.getSleepPattern(),
+                request.getIndependenceLevel(),
+                request.getSocialParticipation(),
+                request.isHasGeneticDisease(),
+                request.getWeightChange(),
+                request.isHasAllergy(),
+                response.getAgeGroup(),
+                response.getAverageHeight(),
+                response.getAverageWeight(),
+                response.getSmokingRate(),
+                response.getDrinkingRate(),
+                response.getExerciseRate(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        questionnaireDataRepository.save(data);
     }
 
     // 치매 문진표 AI 검사
