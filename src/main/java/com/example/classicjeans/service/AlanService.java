@@ -32,7 +32,7 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
+    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -137,18 +137,31 @@ public class AlanService {
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
 
-    // 사용자 건강 데이터 및 한국 평균 데이터 파싱
+    // 한국 평균 데이터 파싱
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        response.setUserHeight(extractDouble(content, HEIGHT_PATTERN));
         response.setAverageHeight(extractDouble(content, AVERAGE_HEIGHT_PATTERN));
-        response.setUserWeight(extractDouble(content, WEIGHT_PATTERN));
         response.setAverageWeight(extractDouble(content, AVERAGE_WEIGHT_PATTERN));
-
         response.setSmokingRate(extractDouble(content, SMOKING_RATE_PATTERN));
         response.setDrinkingRate(extractDouble(content, DRINKING_RATE_PATTERN));
         response.setExerciseRate(extractDouble(content, EXERCISE_RATE_PATTERN));
+
+        String ageGroup = extractAgeGroup(content);
+        if (ageGroup != null) {
+            response.setAgeGroup(ageGroup);
+        }
+    }
+
+    // 연령대 추출 함수
+    private String extractAgeGroup(String content) {
+        Pattern pattern = Pattern.compile(AGE_GROUP_PATTERN);
+        Matcher matcher = pattern.matcher(content);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     // 정규 표현식으로 숫자 추출

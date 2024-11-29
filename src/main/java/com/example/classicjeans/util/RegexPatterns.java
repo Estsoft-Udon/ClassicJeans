@@ -13,4 +13,6 @@ public class RegexPatterns {
     public static final String EXERCISE_RATE_PATTERN = "한국인 운동 실천율: 약 (\\d+(\\.\\d+)?)%";
 
     public static final String URL_PATTERN = "\\[\\(출처\\d+\\)]\\(https?://[\\w./?&=-]+\\)";
+
+    public static final String AGE_GROUP_PATTERN = "연령대:\\s*(\\d+대)";
 }
