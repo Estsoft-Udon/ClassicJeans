@@ -144,7 +144,6 @@ public class QuestionnaireData {
                                                    Double exerciseRate, List<String> summaryEvaluation, List<String> improvementSuggestions) {
 //        this.userId = userId;
 //        this.familyId = familyId;
-        this.date = LocalDate.now();
         this.age = age;
         this.gender = String.valueOf(gender);
         this.height = height;
