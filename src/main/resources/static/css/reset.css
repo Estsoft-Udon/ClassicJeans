@@ -216,3 +216,58 @@ dialog{
 .btn:hover {
     background: #e97536;
 }
+
+/* 타이틀 공통 */
+.tit h1{
+    font-size: clamp(2.4rem, 4.7vw, 4.8rem);
+    font-weight: bold;
+    text-align: left;
+    word-break: break-word;
+    margin-bottom: 2rem;
+}
+
+.tit p{
+    font-size: clamp(2rem, 4.1vw, 3rem);
+    font-weight: 500;
+    text-align: left;
+    word-break: keep-all;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+}
+
+.pagination button{
+    font-size: 1.6rem;
+    padding: 1rem;
+}
+
+.page_btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.page_btn:hover {
+    background-color: #0056b3;
+}
+
+.page_btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#page_numbers {
+    padding: 10px;
+    font-size: 16px;
+    color: #333;
+}

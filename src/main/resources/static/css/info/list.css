@@ -1,0 +1,107 @@
+.list_section{
+    padding: 0;
+}
+
+label {
+    font-weight: bold;
+    font-size: clamp(1rem, 1.0417vw, 2rem);
+}
+
+input {
+    padding: 1rem;
+    font-size: clamp(1rem, 1.0417vw, 2rem);
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.province_cont,
+.district_cont{
+    position: relative;
+}
+
+.autocomplete-list {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /*display: none;*/
+    z-index: 10;
+}
+
+.autocomplete-list div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-list div:hover {
+    background-color: #f0f0f0;
+}
+input:focus + .autocomplete-list,
+input:active + .autocomplete-list {
+    display: block;
+}
+
+#region_form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10rem 0;
+    border-radius: 10px;
+    background: #daa52038;
+    padding: 1rem 2rem;
+}
+
+#region_form input{
+    margin: 0 2rem;
+}
+
+#region_form .btn,
+.search_hospital_name .btn{
+    padding: 1rem;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 8px;
+}
+
+table th{
+    border-right: 0;
+    word-break: keep-all;
+    padding: 2rem;
+    font-size: clamp(1rem, 1vw, 1.8rem);
+    font-weight: 600;
+    background: #daa52038;
+    vertical-align: middle;
+    text-align: Center;
+}
+
+table td{
+    border-right: 0;
+    font-weight: 400;
+    padding: 0 1rem;
+    height: 7rem;
+    vertical-align: middle;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    line-height: 2.6rem;
+    word-break: keep-all;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+td.show_map{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.show_map .btn{
+    padding: 1rem 3rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+}

@@ -20,7 +20,7 @@ public class HospitalViewController {
     }
 
     // 병원 목록
-    @GetMapping("/hospitals")
+    @GetMapping("/hospital_list")
     public String getHospitalList(@RequestParam(defaultValue = "1") int pageNo, Model model) throws IOException, URISyntaxException {
         int numOfRows = 10;  // 한 페이지 항목 수
         List<HospitalResponse> hospitalList = hospitalService.getHospitalList(pageNo, numOfRows); // 병원 목록 조회
@@ -29,7 +29,7 @@ public class HospitalViewController {
         model.addAttribute("hospitalList", hospitalList);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", pageNo);
-        return "hospital";  // Thymeleaf 템플릿 이름
+        return "/info/hospital_list";  // Thymeleaf 템플릿 이름
     }
 
 
