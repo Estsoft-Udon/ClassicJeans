@@ -35,7 +35,7 @@ header nav ul .dept {
     position: relative;
 }
 header nav ul .dept a {
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
 }
 header nav ul .dept div {
     position: absolute;
@@ -51,7 +51,7 @@ header nav ul .dept div {
     background: #fff;
 }
 header nav ul .dept:hover div {
-    height: 12.5rem;
+    height: auto;
     padding: 2rem 1rem 1rem;
     border: 1px solid #000;
     border-radius: 1rem;
