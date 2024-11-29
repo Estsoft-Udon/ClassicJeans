@@ -64,8 +64,8 @@ public class AlanDementiaRequest {
                 ", \n  hasStrokeHistory=" + hasStrokeHistory +
                 ", \n  hasFamilyDementia=" + hasFamilyDementia +
                 "\n  종합평가, 개선방법 상세히 알려줘" +
-                "\n  종합평가 (summaryEvaluation): [이 값은 AI가 응답에서 제공]" +
-                "\n  개선 방법 (improvementSuggestions): [이 값은 AI가 응답에서 제공]" +
+                "\n  **종합 평가 (summaryEvaluation)**: [이 값은 AI가 응답에서 제공]" +
+                "\n  **개선 방법 (improvementSuggestions)**: [이 값은 AI가 응답에서 제공]" +
                 "}";
     }
 }
