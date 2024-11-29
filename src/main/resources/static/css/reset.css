@@ -287,3 +287,9 @@ dialog{
     font-size: 16px;
     color: #333;
 }
+
+@media screen and (max-width: 767px) {
+    .w_1280{
+        padding: 20rem 1.5rem;
+    }
+}
