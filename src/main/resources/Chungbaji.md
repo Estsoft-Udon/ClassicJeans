@@ -107,17 +107,11 @@ CREATE TABLE questionnaire_data
     id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id                 BIGINT NOT NULL,
     family_id               BIGINT,
-    date                    DATE NOT NULL,                      -- 설문지 작성 날짜
-    age                     VARCHAR(255) NOT NULL,              -- 나이
-    gender                  VARCHAR(10) NOT NULL,               -- 성별
-    height                  VARCHAR(255) NOT NULL,              -- 키
-    weight                  VARCHAR(255) NOT NULL,              -- 체중
-    age_group               VARCHAR(255) NOT NULL,              -- 연령대
-    average_height          DOUBLE NOT NULL,                   -- 한국인 평균 키
-    average_weight          DOUBLE NOT NULL,                   -- 한국인 평균 체중
-    smoking_rate            DOUBLE NOT NULL,                   -- 한국인 평균 흡연율
-    drinking_rate           DOUBLE NOT NULL,                   -- 한국인 평균 음주율
-    exercise_rate           DOUBLE NOT NULL,                   -- 한국인 평균 운동 실천율
+    date                    DATE NOT NULL,                     -- 설문지 작성 날짜
+    age                     INT NOT NULL,                      -- 나이
+    gender                  VARCHAR(10) NOT NULL,              -- 성별
+    height                  DOUBLE NOT NULL,                   -- 키
+    weight                  DOUBLE NOT NULL,                   -- 체중
     chronic_disease         VARCHAR(255),                      -- 만성 질환 (ENUM 값)
     hospital_visit          VARCHAR(255),                      -- 병원 방문 여부 (ENUM 값)
     current_medication      VARCHAR(255),                      -- 복용 약물 (ENUM 값)
@@ -132,8 +126,14 @@ CREATE TABLE questionnaire_data
     has_genetic_disease     BOOLEAN NOT NULL,                  -- 유전적 질환 여부
     weight_change           VARCHAR(255),                      -- 체중 변화 (ENUM 값)
     has_allergy             BOOLEAN NOT NULL,                  -- 알레르기 여부
-    summary_evaluation      TEXT,                               -- 종합 평가 내용 (TEXT)
-    improvement_suggestions TEXT,                               -- 개선 방법 (TEXT)
+    age_group               VARCHAR(255) NOT NULL,             -- 연령대
+    average_height          DOUBLE NOT NULL,                   -- 한국인 평균 키
+    average_weight          DOUBLE NOT NULL,                   -- 한국인 평균 체중
+    smoking_rate            DOUBLE NOT NULL,                   -- 한국인 평균 흡연율
+    drinking_rate           DOUBLE NOT NULL,                   -- 한국인 평균 음주율
+    exercise_rate           DOUBLE NOT NULL,                   -- 한국인 평균 운동 실천율
+    summary_evaluation      TEXT,                              -- 종합 평가 내용 (TEXT)
+    improvement_suggestions TEXT,                              -- 개선 방법 (TEXT)
     FOREIGN KEY (user_id)   REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
 );

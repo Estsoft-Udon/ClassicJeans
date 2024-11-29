@@ -6,11 +6,10 @@ import lombok.Data;
 
 @Data
 public class AlanQuestionnaireRequest {
-    private Users age = getAge();
-    private Users gender = getGender();
+    private Users user;
 
-    private String height;
-    private String weight;
+    private Double height;
+    private Double weight;
 
     // 건강 상태
     private ChronicDisease chronicDisease;  // 현재 앓고 있는 만성 질환
@@ -41,8 +40,8 @@ public class AlanQuestionnaireRequest {
     @Override
     public String toString() {
         return "입력한 건강 정보와 한국인 평균 데이터 비교:\n" +
-                "1. **연령**: " + age + " (연령대: n0대)\n" +
-                "2. **성별**: " + gender + " (성별: Gender)\n" +
+                "1. **연령**: " + user.getAge() + " (연령대: n0대)\n" +
+                "2. **성별**: " + user.getGender() + " (성별: Gender)\n" +
                 "3. **키**: " + height + " (한국인 남성 평균: cm)\n" +
                 "4. **체중**: " + weight + " (한국인 남성 평균: kg)\n" +
                 "5. **흡연 상태**: " + smokingStatus + " (한국인 흡연율: 약 %)\n" +

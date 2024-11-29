@@ -3,13 +3,19 @@ package com.example.classicjeans.entity;
 import com.example.classicjeans.enums.questionnaire.*;
 import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionnaireData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,35 +33,16 @@ public class QuestionnaireData {
     private LocalDate date;
 
     @Column(nullable = false)
-    private String age;
+    private int age;
 
     @Column(nullable = false)
     private String gender;
 
     @Column(nullable = false)
-    private String height;
+    private Double height;
 
     @Column(nullable = false)
-    private String weight;
-
-    @Column(nullable = false)
-    private String ageGroup;
-
-    // 한국인 평균 값들
-    @Column(nullable = false)
-    private Double averageHeight;       // 한국인 평균 키
-
-    @Column(nullable = false)
-    private Double averageWeight;       // 한국인 평균 체중
-
-    @Column(nullable = false)
-    private Double smokingRate;         // 한국인 평균 흡연율
-
-    @Column(nullable = false)
-    private Double drinkingRate;        // 한국인 평균 음주율
-
-    @Column(nullable = false)
-    private Double exerciseRate;        // 한국인 평균 운동 실천율
+    private Double weight;
 
     // 건강 상태
     @Enumerated(EnumType.STRING)
@@ -104,6 +91,25 @@ public class QuestionnaireData {
 
     @Column(nullable = false)
     private boolean hasAllergy;  // 알레르기 여부
+
+    @Column(nullable = false)
+    private String ageGroup;
+
+    // 한국인 평균 값들
+    @Column(nullable = false)
+    private Double averageHeight;       // 한국인 평균 키
+
+    @Column(nullable = false)
+    private Double averageWeight;       // 한국인 평균 체중
+
+    @Column(nullable = false)
+    private Double smokingRate;         // 한국인 평균 흡연율
+
+    @Column(nullable = false)
+    private Double drinkingRate;        // 한국인 평균 음주율
+
+    @Column(nullable = false)
+    private Double exerciseRate;        // 한국인 평균 운동 실천율
 
     // 종합 평가 내용
     @ElementCollection
