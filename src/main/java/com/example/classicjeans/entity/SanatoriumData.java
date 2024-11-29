@@ -22,15 +22,19 @@ public class SanatoriumData {
     private String address;
 
     @Column
-    private String state;
+    private String region;
 
-    @Column
-    private String city;
+    @Column(name = "sub_region")
+    private String subRegion;
 
     public SanatoriumData(SanatoriumRequest request) {
         name = request.getName();
         address = request.getAddress();
-        state = request.getState();
-        city = request.getCity();
+        if(request.getRegion() != null) {
+            region = request.getRegion();
+        }
+        if(request.getSubRegion() != null) {
+            subRegion = request.getSubRegion();
+        }
     }
 }

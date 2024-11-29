@@ -88,11 +88,11 @@ CREATE TABLE hospital_data
 
 CREATE TABLE sanatorium_data
 (
-    id      BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name    VARCHAR(255)  NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    state   VARCHAR(255),
-    city    VARCHAR(255)
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name       VARCHAR(255) NOT NULL,
+    address    VARCHAR(255) NOT NULL,
+    region     VARCHAR(255),
+    sub_region VARCHAR(255)
 );
 
 CREATE TABLE address_code

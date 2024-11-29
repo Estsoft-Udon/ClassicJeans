@@ -11,13 +11,13 @@ import lombok.Setter;
 public class SanatoriumResponse {
     private String name;
     private String address;
-    private String state;
-    private String city;
+    private String region;
+    private String subRegion;
 
     public SanatoriumResponse(SanatoriumData data) {
         this.name = data.getName();
         this.address = data.getAddress();
-        this.state = data.getState();
-        this.city = data.getCity();
+        this.region = data.getRegion();
+        this.subRegion = data.getSubRegion();
     }
 }

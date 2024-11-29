@@ -10,8 +10,8 @@ import lombok.Setter;
 public class SanatoriumRequest {
     private String name;
     private String address;
-    private String state;
-    private String city;
+    private String region;
+    private String subRegion;
 
     public SanatoriumRequest(String name, String address1, String address2) {
         this.name = name;

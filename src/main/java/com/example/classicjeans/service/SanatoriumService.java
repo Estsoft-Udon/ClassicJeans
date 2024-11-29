@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class SanatoriumService {
     private final SanatoriumDataRepository repository;
     private final AddressCodeService addressCodeService;
     private final String[] siDoCodes = {"11", "21", "22", "23", "24", "25", "26", "36", "41", "42", "43", "44", "45", "46", "47", "48", "50"};
-
+    private final String API_KEY = "2ogCXo2SHKelqGs5eqM%2FG%2FLLmJ%2FwJmM%2BABW7tKBCTi1GjRUV7enps2byfYp1KGJXSvou9b2zSxMh%2FVbFZYrn2g%3D%3D";
 
     public List<SanatoriumData> getSanatoriumDatas() {
         return repository.findAll();
@@ -37,7 +39,8 @@ public class SanatoriumService {
     public void setSanatoriumDatas() throws Exception {
         for(String sidoCode : siDoCodes) {
             List<SanatoriumRequest> datas = new ArrayList<>();
-            datas.addAll(parseJsonToDTOList(fetchSanatoriumData(sidoCode)));
+            int totalCount = Math.min(calculateTotalCount(sidoCode), 1000);
+            datas.addAll(parseJsonToDTOList(fetchSanatoriumData(sidoCode, totalCount)));
 
             for(SanatoriumRequest response : datas) {
                 if(repository.existsByName(response.getName())) {
@@ -45,18 +48,17 @@ public class SanatoriumService {
                 }
 
                 SanatoriumData sanatoriumData = new SanatoriumData(response);
+
                 repository.save(sanatoriumData);
             }
         }
     }
 
-    public String fetchSanatoriumData(String siDoCd) {
+    public String fetchSanatoriumData(String siDoCd, int numOfRows) {
         try {
-            String API_KEY = "2ogCXo2SHKelqGs5eqM%2FG%2FLLmJ%2FwJmM%2BABW7tKBCTi1GjRUV7enps2byfYp1KGJXSvou9b2zSxMh%2FVbFZYrn2g%3D%3D";
-
             String url = "http://apis.data.go.kr/B550928/searchLtcInsttService01/getLtcInsttSeachList01" +
                     "?serviceKey=" + API_KEY +
-                    "&numOfRows=100" +
+                    "&numOfRows=" + numOfRows +
                     "&siDoCd=" + siDoCd;
 
             URI uri = new URI(url);
@@ -99,15 +101,15 @@ public class SanatoriumService {
 
             switch(addressParts.length) {
                 case 3:
-                    sanatoriumRequest.setCity(addressParts[1] + " " + addressParts[2]);
+                    sanatoriumRequest.setSubRegion(addressParts[1] + " " + addressParts[2]);
                     break;
                 case 2:
-                    sanatoriumRequest.setCity(addressParts[1]);
+                    sanatoriumRequest.setSubRegion(addressParts[1]);
                     break;
             }
 
             if(addressParts.length > 0) {
-                sanatoriumRequest.setState(addressParts[0]);
+                sanatoriumRequest.setRegion(addressParts[0]);
             }
 
             sanatoriumRequests.add(sanatoriumRequest);
@@ -115,11 +117,27 @@ public class SanatoriumService {
         return sanatoriumRequests;
     }
 
-    private SanatoriumRequest mapToSanatoriumRequest(AddressCodeRequest request) {
+    public SanatoriumRequest mapToSanatoriumRequest(AddressCodeRequest request) {
         return new SanatoriumRequest(
                 request.getName(),
                 request.getAddress1(),
                 request.getAddress2()
         );
+    }
+
+    public int calculateTotalCount(String siDoCd) throws JsonProcessingException, URISyntaxException {
+        String url = "http://apis.data.go.kr/B550928/searchLtcInsttService01/getLtcInsttSeachList01" +
+                "?serviceKey=" + API_KEY +
+                "&numOfRows=1" +
+                "&siDoCd=" + siDoCd;
+
+        URI uri = new URI(url);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                uri, HttpMethod.GET, null, String.class);
+
+        JsonNode rootNode = objectMapper.readTree(response.getBody());
+
+        return rootNode.path("response").path("body").path("totalCount").asInt();
     }
 }
