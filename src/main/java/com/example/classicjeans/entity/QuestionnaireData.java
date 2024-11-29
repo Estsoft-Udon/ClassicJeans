@@ -2,10 +2,12 @@ package com.example.classicjeans.entity;
 
 import com.example.classicjeans.enums.Analysis;
 import com.example.classicjeans.enums.questionnaire.*;
+import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.example.classicjeans.enums.Analysis.BASIC;
@@ -121,4 +123,13 @@ public class QuestionnaireData {
     @CollectionTable(name = "improvement_suggestions", joinColumns = @JoinColumn(name = "dementia_data_id"))
     @Column(name = "suggestion", columnDefinition = "TEXT")
     private List<String> improvementSuggestions;
+
+    @PrePersist
+    public void setDate() {
+        this.date = LocalDate.now();
+    }
+
+    public String getDate() {
+        return this.date.format(DateFormatUtil.formatter);
+    }
 }
