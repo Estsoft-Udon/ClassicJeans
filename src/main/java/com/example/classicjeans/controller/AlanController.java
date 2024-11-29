@@ -1,9 +1,13 @@
 package com.example.classicjeans.controller;
 
+import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
+import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
+import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
+import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.service.AlanService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +44,6 @@ public class AlanController {
     @PostMapping("/api/analysis/questionnaire")
     public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request) throws JsonProcessingException {
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
-        return ResponseEntity.ok(response);
-    }
-
-    // 앨런 오늘의 운세
-    @GetMapping("/alan/bazi")
-    public ResponseEntity<AlanBasicResponse> getHealthResponse() throws
-            JsonProcessingException {
-        AlanBasicResponse response = alenService.fetchBazi();
         return ResponseEntity.ok(response);
     }
 
