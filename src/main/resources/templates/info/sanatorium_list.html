@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/info/list.css">
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43674e9fb7f4d940d2c3a46b585a4361&libraries=services"></script>
 </head>
 <th:block layout:fragment="content">
     <div class="wrap sanatorium w_1280">
@@ -31,11 +32,18 @@
                     <td>365경희한의원</td>
                     <td class="show_map">
                         <span>경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
-                        <button type="button" class="btn">지도보기</button>
+                        <button type="button" class="btn view-map">지도보기</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
+            <!-- 지도 모달 -->
+            <div id="map-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="map"></div>
+                </div>
+            </div>
         </section>
         <!-- 페이지네이션 -->
         <div id="pagination" class="pagination">
@@ -46,5 +54,7 @@
             <button id="last-btn" class="page_btn">맨끝으로 >></button>
         </div>
     </div>
+
+    <script src="/js/kakaomap.js"></script>
 </th:block>
 </html>
