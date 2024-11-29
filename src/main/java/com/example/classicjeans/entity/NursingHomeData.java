@@ -1,5 +1,6 @@
 package com.example.classicjeans.entity;
 
+import com.example.classicjeans.dto.request.NursingHomeRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,9 @@ public class NursingHomeData {
     @Column(nullable = false)
     private String phone;
 
-    @Column()
-    private Double latitude;
-
-    @Column()
-    private Double longitude;
+    public NursingHomeData(NursingHomeRequest request) {
+        name = request.getName();
+        address = request.getAddress();
+        phone = request.getPhone();
+    }
 }
