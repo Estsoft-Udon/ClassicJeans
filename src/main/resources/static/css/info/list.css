@@ -110,19 +110,22 @@ td.show_map{
     font-size: clamp(1.5rem, 1vw, 1.8rem);
 }
 
-.sanatorium .search_cont{
+.sanatorium .search_cont,
+.nursing .search_cont{
     background: transparent;
     margin-bottom: 1rem;
     padding: 0 1rem 0 0;
 }
 
-.sanatorium .search_box{
+.sanatorium .search_box,
+.nursing .search_box{
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.sanatorium .btn{
+.sanatorium .btn,
+.nursing .btn{
     padding: 1rem 2rem;
     margin-left: 1rem;
 }

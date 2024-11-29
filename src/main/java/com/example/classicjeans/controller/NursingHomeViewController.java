@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class SanatoriumViewController {
+public class NursingHomeViewController {
 
-    @GetMapping("/sanatorium_list")
-    public String sanatoriumList() {
-        return "/info/sanatorium_list";
+    @GetMapping("/nursing_list")
+    public String nursingList() {
+        return "/info/nursing_list";
     }
+
 }
