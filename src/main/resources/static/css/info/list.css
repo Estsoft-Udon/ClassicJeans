@@ -44,14 +44,17 @@ input:active + .autocomplete-list {
     display: block;
 }
 
+.search_cont{
+    border-radius: 10px;
+    background: #daa52038;
+    margin: 10rem 0;
+    padding: 1rem 2rem;
+}
+
 #region_form{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10rem 0;
-    border-radius: 10px;
-    background: #daa52038;
-    padding: 1rem 2rem;
 }
 
 #region_form input{
@@ -60,7 +63,8 @@ input:active + .autocomplete-list {
 
 #region_form .btn,
 .search_hospital_name .btn{
-    padding: 1rem;
+    padding: 1rem 2rem;
+    font-size: clamp(1.6rem, 1vw, 1.8rem);
 }
 
 table{
@@ -104,4 +108,21 @@ td.show_map{
 .show_map .btn{
     padding: 1rem 3rem;
     font-size: clamp(1.5rem, 1vw, 1.8rem);
+}
+
+.sanatorium .search_cont{
+    background: transparent;
+    margin-bottom: 1rem;
+    padding: 0 1rem 0 0;
+}
+
+.sanatorium .search_box{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.sanatorium .btn{
+    padding: 1rem 2rem;
+    margin-left: 1rem;
 }
