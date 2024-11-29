@@ -98,7 +98,6 @@ table td{
     line-height: 2.6rem;
     word-break: keep-all;
     border-bottom: 1px solid #E4E4E4;
-    white-space: nowrap;
 }
 
 td.show_map{
@@ -180,6 +179,10 @@ td.show_map{
 
     table {
         width: 100%;
+    }
+
+    table td{
+        white-space: nowrap;
     }
 
     #region_form {

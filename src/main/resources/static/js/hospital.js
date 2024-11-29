@@ -73,10 +73,12 @@ const data = {
     ]
 };
 
+// 대한민국 시/도와 시/군/구 데이터
 const provinceInput = document.getElementById("province");
 const districtInput = document.getElementById("district");
 const provinceList = document.getElementById("province-list");
 const districtList = document.getElementById("district-list");
+const searchForm = document.getElementById("region_form");
 
 // 자동완성 리스트 생성 함수
 function createAutocompleteList(input, listElement, suggestions) {
@@ -129,4 +131,45 @@ document.addEventListener("click", function (event) {
     if (!districtInput.contains(event.target) && !districtList.contains(event.target)) {
         districtList.style.display = "none";
     }
+});
+
+// 병원 검색 API 호출 함수
+function searchHospitalsByRegion(province, district) {
+    let url = `/hospital_list?`;  // 타임리프에서 처리되는 URL로 수정
+
+    // 지역에 따른 파라미터 추가
+    if (province) {
+        url += `province=${province}&`;
+    }
+    if (district) {
+        url += `district=${district}&`;
+    }
+
+    // URL 끝에 불필요한 '&' 제거
+    url = url.slice(0, -1);
+
+    // URL 확인 (콘솔에서 확인)
+    console.log("Generated URL:", url);
+
+    return url;
+}
+
+// 검색 폼 제출 시 처리
+searchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const province = provinceInput.value.trim();
+    const district = districtInput.value.trim();
+
+    const searchButtonClicked = event.submitter && event.submitter.type === 'submit';
+
+    if (searchButtonClicked) {
+        const url = searchHospitalsByRegion(province, district);
+        window.location.href = url;
+    }
+});
+
+// 병원 목록을 기본적으로 모두 조회하는 코드 (초기값 설정)
+document.addEventListener("DOMContentLoaded", function () {
+    searchHospitalsByRegion("", "");  // 시/도 및 시/군/구 값 없이 전체 병원 조회
 });

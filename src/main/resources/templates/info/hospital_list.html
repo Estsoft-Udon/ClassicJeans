@@ -11,27 +11,21 @@
             <p>지역별로 검색하여 공공의료기관 정보를 확인해보세요!</p>
         </div>
         <div class="search_cont">
-            <form id="region_form">
-               <div class="province_cont">
-                   <label for="province">시/도 입력</label>
-                   <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
-                   <div id="province-list" class="autocomplete-list"></div>
-               </div>
+            <form id="region_form" th:action="@{/hospital_list}" method="get">
+                <div class="province_cont">
+                    <label for="province">시/도 입력</label>
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
+                    <div id="province-list" class="autocomplete-list"></div>
+                </div>
 
-               <div class="district_cont">
-                   <label for="district">시/군/구 입력</label>
-                   <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
-                   <div id="district-list" class="autocomplete-list"></div>
-               </div>
+                <div class="district_cont">
+                    <label for="district">시/군/구 입력</label>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
+                    <div id="district-list" class="autocomplete-list"></div>
+                </div>
 
-                <button type="button" class="btn">지역별 병원 검색하기</button>
+                <button type="submit" class="btn" id="search-btn">지역별 병원 검색하기</button>
             </form>
-            <div class="search_hospital_name dn">
-                <label for="hospital-name"></label>
-                <input type="text" id="hospital-name" placeholder="병원명을 입력하세요">
-
-                <button type="button" class="btn">병원명으로 검색하기</button>
-            </div>
         </div>
         <section class="list_section">
             <!-- 병원 목록 테이블 -->
@@ -49,6 +43,13 @@
                     <td>031-761-1365</td>
                     <td class="show_map">
                         <span>경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
+                        <button type="button" class="btn view-map">지도보기</button>
+                    </td>
+                </tr>
+                <tr th:each="hospital : ${hospitals}">
+                    <td th:text="${hospital.name}"></td>
+                    <td th:text="${hospital.phone}"></td>
+                    <td th:text="${hospital.address}">
                         <button type="button" class="btn view-map">지도보기</button>
                     </td>
                 </tr>
