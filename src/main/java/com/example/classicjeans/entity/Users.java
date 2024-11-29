@@ -1,5 +1,6 @@
 package com.example.classicjeans.entity;
 
+import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Getter
 @Setter
@@ -77,5 +79,26 @@ public class Users {
 
     public void updateLastLoginAt() {
         this.lastLoginAt = LocalDateTime.now();
+    }
+
+    public Users(UsersRequest request) {
+        this.loginId = request.getLoginId();
+        this.name = request.getName();
+        this.nickname = request.getNickname();
+        this.email = request.getEmail();
+        this.grade = request.getGrade();
+        this.dateOfBirth = request.getDateOfBirth();
+        this.isLunar = request.getIsLunar();
+        this.hourOfBirth = request.getHourOfBirth();
+        this.gender = request.getGender();
+    }
+
+    // 생년월일로 나이 계산
+    @Transient
+    public int getAge() {
+        if (dateOfBirth == null) {
+            return 0;
+        }
+        return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 }
