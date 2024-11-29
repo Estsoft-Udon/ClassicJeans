@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +20,11 @@ public class AlanDementiaResponse {
 
     // 종합 평가 내용
     @JsonProperty(value = "summaryEvaluation")
-    private String summaryEvaluation;  // 종합평가 내용 추가
+    private List<String> summaryEvaluation;  // 종합평가 내용 추가
 
     // 개선 방법
     @JsonProperty(value = "improvementSuggestions")
-    private String improvementSuggestions; // 개선 방법 추가
+    private List<String> improvementSuggestions; // 개선 방법 추가
 
     // Action 서브 클래스 정의
     @Data
