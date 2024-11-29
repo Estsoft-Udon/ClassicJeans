@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/info/list.css">
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43674e9fb7f4d940d2c3a46b585a4361&libraries=services"></script>
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap sanatorium w_1280">
+        <div class="tit">
+            <h1>요양원 찾기</h1>
+            <p>요양원 정보를 확인해보세요!</p>
+        </div>
+        <div class="search_cont">
+            <div class="search_box">
+                <label for="sanatorium_search"></label>
+                <input type="text" id="sanatorium_search" placeholder="요양원 이름을 입력하세요">
+
+                <button type="button" class="btn">검색하기</button>
+            </div>
+        </div>
+        <section class="list_section">
+            <!-- 병원 목록 테이블 -->
+            <table id="sanatoriumTable">
+                <thead>
+                <tr>
+                    <th>병원 이름</th>
+                    <th>주소</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>365경희한의원</td>
+                    <td class="show_map">
+                        <span>경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
+                        <button type="button" class="btn view-map">지도보기</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 지도 모달 -->
+            <div id="map-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </section>
+        <!-- 페이지네이션 -->
+        <div id="pagination" class="pagination">
+            <button id="first-btn" class="page_btn"><< 맨앞으로</button>
+            <button id="prev-btn" class="page_btn">< 이전</button>
+            <span id="page-numbers">1</span>
+            <button id="next-btn" class="page_btn">다음 ></button>
+            <button id="last-btn" class="page_btn">맨끝으로 >></button>
+        </div>
+    </div>
+
+    <script src="/js/kakaomap.js"></script>
+</th:block>
+</html>
