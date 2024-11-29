@@ -1,6 +1,7 @@
 package com.example.classicjeans.entity;
 
 import com.example.classicjeans.enums.questionnaire.*;
+import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -130,5 +131,45 @@ public class QuestionnaireData {
 
     public String getDate() {
         return this.date.format(DateFormatUtil.formatter);
+    }
+
+    public QuestionnaireData(
+            /*Users userId, FamilyInfo familyId, */int age, Gender gender, Double height,
+                                                   Double weight, ChronicDisease chronicDisease, HospitalVisit hospitalVisit,
+                                                   Medication currentMedication, SmokingStatus smokingStatus, AlcoholConsumption alcoholConsumption,
+                                                   ExerciseFrequency exerciseFrequency, DietPattern dietPattern, MoodStatus moodStatus,
+                                                   SleepPattern sleepPattern, IndependenceLevel independenceLevel, SocialParticipation socialParticipation,
+                                                   boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
+                                                   Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
+                                                   Double exerciseRate, List<String> summaryEvaluation, List<String> improvementSuggestions) {
+//        this.userId = userId;
+//        this.familyId = familyId;
+        this.date = LocalDate.now();
+        this.age = age;
+        this.gender = String.valueOf(gender);
+        this.height = height;
+        this.weight = weight;
+        this.chronicDisease = chronicDisease;
+        this.hospitalVisit = hospitalVisit;
+        this.currentMedication = currentMedication;
+        this.smokingStatus = smokingStatus;
+        this.alcoholConsumption = alcoholConsumption;
+        this.exerciseFrequency = exerciseFrequency;
+        this.dietPattern = dietPattern;
+        this.moodStatus = moodStatus;
+        this.sleepPattern = sleepPattern;
+        this.independenceLevel = independenceLevel;
+        this.socialParticipation = socialParticipation;
+        this.hasGeneticDisease = hasGeneticDisease;
+        this.weightChange = weightChange;
+        this.hasAllergy = hasAllergy;
+        this.ageGroup = ageGroup;
+        this.averageHeight = averageHeight;
+        this.averageWeight = averageWeight;
+        this.smokingRate = smokingRate;
+        this.drinkingRate = drinkingRate;
+        this.exerciseRate = exerciseRate;
+        this.summaryEvaluation = summaryEvaluation;
+        this.improvementSuggestions = improvementSuggestions;
     }
 }
