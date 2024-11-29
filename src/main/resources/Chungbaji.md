@@ -40,19 +40,6 @@ relationship  VARCHAR(255) NOT NULL, -- 가족 관계
 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE health_data
-(
-id        BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-user_id   BIGINT NOT NULL,
-family_id BIGINT NOT NULL,
-date      DATE   NOT NULL, -- 검사 날짜
-content   TEXT   NOT NULL, -- 검사 내용
-UNIQUE (family_id, date),  -- 중복 검사 방지
-UNIQUE (user_id, date),
-FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
-);
-
 CREATE TABLE subsidy_data
 (
 id      BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -152,5 +139,4 @@ CREATE TABLE questionnaire_data
     FOREIGN KEY (user_id)   REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
 );
-
 ```
