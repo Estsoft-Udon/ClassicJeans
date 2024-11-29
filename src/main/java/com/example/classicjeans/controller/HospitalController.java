@@ -3,6 +3,8 @@ package com.example.classicjeans.controller;
 import com.example.classicjeans.dto.response.HospitalResponse;
 import com.example.classicjeans.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,5 +46,16 @@ public class HospitalController {
             @RequestParam(defaultValue = "10") int numOfRows
     ) throws IOException, URISyntaxException {
         return hospitalService.getTotalPages(numOfRows);
+    }
+
+    // 전체 병원 목록 저장
+    @GetMapping("/saveAllHospitals")
+    public ResponseEntity<String> saveAllHospitals() {
+        try {
+            hospitalService.saveAllHospitals(100); // 예시로 100개 항목씩 페이지네이션
+            return ResponseEntity.ok("병원 목록이 DB에 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
+        }
     }
 }
