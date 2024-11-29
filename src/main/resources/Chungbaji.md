@@ -85,4 +85,72 @@ region     VARCHAR(255) NULL,     -- 병원이 위치한 지역
 sub_region VARCHAR(255) NULL      -- 세부 지역
 );
 
+CREATE TABLE dementia_data
+(
+    id                        BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id                   BIGINT NOT NULL,
+    family_id                 BIGINT,
+    analysis                 VARCHAR(255) DEFAULT 'DEMENTIA' NOT NULL,  -- 'DEMENTIA' 기본값 설정
+    date                      DATE NOT NULL,                           -- 검사 날짜
+    memory_change             VARCHAR(255),                             -- 기억력 변화 (ENUM 값으로 관리 가능)
+    daily_confusion           VARCHAR(255),                             -- 일상 혼란 (ENUM 값)
+    problem_solving_change    VARCHAR(255),                             -- 문제 해결 능력 변화 (ENUM 값)
+    language_change           VARCHAR(255),                             -- 언어 사용 변화 (ENUM 값)
+    knows_date                BOOLEAN NOT NULL,                         -- 날짜와 요일 인지 여부
+    knows_location            BOOLEAN NOT NULL,                         -- 현재 위치 인지 여부
+    remembers_recent_events   BOOLEAN NOT NULL,                         -- 최근 사건 기억 여부
+    frequency_of_repetition   VARCHAR(255),                             -- 반복적 질문 빈도 (ENUM 값)
+    lost_items_frequency      VARCHAR(255),                             -- 물건 잃어버림 빈도 (ENUM 값)
+    daily_activity_difficulty VARCHAR(255),                             -- 일상 활동 난이도 (ENUM 값)
+    going_out_alone           VARCHAR(255),                             -- 혼자 외출 난이도 (ENUM 값)
+    financial_management_difficulty VARCHAR(255),                       -- 금전 관리 난이도 (ENUM 값)
+    anxiety_or_aggression     VARCHAR(255),                             -- 불안, 공격성 빈도 (ENUM 값)
+    hallucination_or_delusion VARCHAR(255),                             -- 환각/망상 빈도 (ENUM 값)
+    sleep_pattern_change      VARCHAR(255),                             -- 수면 패턴 변화 빈도 (ENUM 값)
+    has_chronic_diseases      BOOLEAN NOT NULL,                         -- 만성 질환 여부
+    has_stroke_history        BOOLEAN NOT NULL,                         -- 뇌졸중 병력 여부
+    has_family_dementia       BOOLEAN NOT NULL,                         -- 치매 가족력 여부
+    summary_evaluation        TEXT,                                     -- 종합 평가 내용 (TEXT 컬럼)
+    improvement_suggestions   TEXT,                                     -- 개선 방법 (TEXT 컬럼)
+    FOREIGN KEY (user_id)     REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (family_id)   REFERENCES family_info (id) ON DELETE CASCADE
+);
+
+CREATE TABLE questionnaire_data
+(
+    id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id                 BIGINT NOT NULL,
+    family_id               BIGINT,
+    analysis               VARCHAR(255) DEFAULT 'BASIC' NOT NULL, -- 기본값 'BASIC' 설정
+    date                    DATE NOT NULL,                      -- 설문지 작성 날짜
+    age                     VARCHAR(255) NOT NULL,              -- 나이
+    gender                  VARCHAR(10) NOT NULL,               -- 성별
+    height                  VARCHAR(255) NOT NULL,              -- 키
+    weight                  VARCHAR(255) NOT NULL,              -- 체중
+    age_group               VARCHAR(255) NOT NULL,              -- 연령대
+    average_height          DOUBLE NOT NULL,                   -- 한국인 평균 키
+    average_weight          DOUBLE NOT NULL,                   -- 한국인 평균 체중
+    smoking_rate            DOUBLE NOT NULL,                   -- 한국인 평균 흡연율
+    drinking_rate           DOUBLE NOT NULL,                   -- 한국인 평균 음주율
+    exercise_rate           DOUBLE NOT NULL,                   -- 한국인 평균 운동 실천율
+    chronic_disease         VARCHAR(255),                      -- 만성 질환 (ENUM 값)
+    hospital_visit          VARCHAR(255),                      -- 병원 방문 여부 (ENUM 값)
+    current_medication      VARCHAR(255),                      -- 복용 약물 (ENUM 값)
+    smoking_status          VARCHAR(255),                      -- 흡연 여부 (ENUM 값)
+    alcohol_consumption     VARCHAR(255),                      -- 음주 빈도 (ENUM 값)
+    exercise_frequency      VARCHAR(255),                      -- 운동 빈도 (ENUM 값)
+    diet_pattern            VARCHAR(255),                      -- 식습관 (ENUM 값)
+    mood_status             VARCHAR(255),                      -- 기분 상태 (ENUM 값)
+    sleep_pattern           VARCHAR(255),                      -- 수면 패턴 (ENUM 값)
+    independence_level      VARCHAR(255),                      -- 자립 수준 (ENUM 값)
+    social_participation    VARCHAR(255),                      -- 사회적 활동 참여 (ENUM 값)
+    has_genetic_disease     BOOLEAN NOT NULL,                  -- 유전적 질환 여부
+    weight_change           VARCHAR(255),                      -- 체중 변화 (ENUM 값)
+    has_allergy             BOOLEAN NOT NULL,                  -- 알레르기 여부
+    summary_evaluation      TEXT,                               -- 종합 평가 내용 (TEXT)
+    improvement_suggestions TEXT,                               -- 개선 방법 (TEXT)
+    FOREIGN KEY (user_id)   REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
+);
+
 ```
