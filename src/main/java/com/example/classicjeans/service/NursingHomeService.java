@@ -71,9 +71,9 @@ public class NursingHomeService {
         }
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode itemsNode = rootNode.path("response").path("body").path("items");
-        List<NursingHomeRequest> responses = objectMapper.convertValue(
+        List<NursingHomeRequest> requests = objectMapper.convertValue(
                 itemsNode, objectMapper.getTypeFactory().constructCollectionType(List.class, NursingHomeRequest.class));
 
-        return responses;
+        return requests;
     }
 }
