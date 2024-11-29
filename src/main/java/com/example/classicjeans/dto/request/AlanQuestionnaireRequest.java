@@ -1,6 +1,7 @@
 package com.example.classicjeans.dto.request;
 
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.enums.questionnaire.*;
 import lombok.Data;
 
 @Data
@@ -35,20 +36,6 @@ public class AlanQuestionnaireRequest {
     // 추가 정보
     private WeightChange weightChange;  // 최근 체중 변화
     private boolean hasAllergy;  // 알레르기 여부
-
-    // Enum으로 선택지 정의
-    public enum ChronicDisease { NONE, DIABETES, HYPERTENSION, HEART_DISEASE }
-    public enum HospitalVisit { NONE, REGULAR_CHECKUP, DISEASE_TREATMENT, EMERGENCY }
-    public enum Medication { NONE, BLOOD_PRESSURE_MEDICINE, DIABETES_MEDICINE, HEART_MEDICINE }
-    public enum SmokingStatus { CURRENTLY_SMOKING, FORMER_SMOKER, NON_SMOKER }
-    public enum AlcoholConsumption { NONE, OCCASIONAL, REGULAR, FREQUENT }
-    public enum ExerciseFrequency { NONE, OCCASIONAL, REGULAR }
-    public enum DietPattern { REGULAR_3_MEALS, IRREGULAR_MEALS }
-    public enum MoodStatus { GOOD, OCCASIONALLY_ANXIOUS_OR_DEPRESSED, PERSISTENTLY_ANXIOUS_OR_DEPRESSED }
-    public enum SleepPattern { SUFFICIENT, INSUFFICIENT, IRREGULAR }
-    public enum IndependenceLevel { FULLY_INDEPENDENT, PARTIALLY_DEPENDENT, FULLY_DEPENDENT }
-    public enum SocialParticipation { NONE, OCCASIONAL, FREQUENT }
-    public enum WeightChange { NONE, WEIGHT_GAIN, WEIGHT_LOSS }
 
     @Override
     public String toString() {
