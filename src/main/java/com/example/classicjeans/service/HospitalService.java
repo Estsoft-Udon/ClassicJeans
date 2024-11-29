@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -69,7 +70,7 @@ public class HospitalService {
         }
     }
 
-    // 병원 목록 조회 (페이지네이션)
+    // 병원 목록 조회
     public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
         String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
         String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
@@ -167,5 +168,59 @@ public class HospitalService {
             e.printStackTrace();
             return 0; // 오류 발생 시 0 반환
         }
+    }
+
+    // 모든 병원 목록 조회
+    public List<HospitalResponse> getAllHospitals() {
+        List<Hospital> hospitals = hospitalRepository.findAll(); // DB에서 모든 병원 조회
+        List<HospitalResponse> hospitalResponses = new ArrayList<>();
+
+        for (Hospital hospital : hospitals) {
+            // Hospital 엔티티를 HospitalResponse DTO로 변환하여 반환
+            HospitalResponse hospitalResponse = new HospitalResponse(
+                    hospital.getName(),
+                    hospital.getPhone(),
+                    hospital.getAddress(),
+                    hospital.getLatitude(),
+                    hospital.getLongitude(),
+                    hospital.getCity(),
+                    hospital.getDistrict()
+            );
+            hospitalResponses.add(hospitalResponse);
+        }
+        return hospitalResponses;
+    }
+
+
+    // city와 district로 병원 검색
+    public List<HospitalResponse> searchHospitals(String city, String district) {
+        List<Hospital> hospitals;
+
+        if (city != null && district != null) {
+            hospitals = hospitalRepository.findByCityAndDistrict(city, district);
+        } else if (city != null) {
+            hospitals = hospitalRepository.findByCity(city);
+        } else if (district != null) {
+            hospitals = hospitalRepository.findByDistrict(district);
+        } else {
+            hospitals = hospitalRepository.findAll(); // city와 district가 없으면 모든 병원 반환
+        }
+
+        // Hospital 엔티티를 HospitalResponse DTO로 변환하여 반환
+        List<HospitalResponse> hospitalResponses = new ArrayList<>();
+        for (Hospital hospital : hospitals) {
+            HospitalResponse hospitalResponse = new HospitalResponse(
+                    hospital.getName(),
+                    hospital.getPhone(),
+                    hospital.getAddress(),
+                    hospital.getLatitude(),
+                    hospital.getLongitude(),
+                    hospital.getCity(),
+                    hospital.getDistrict()
+            );
+            hospitalResponses.add(hospitalResponse);
+        }
+
+        return hospitalResponses;
     }
 }

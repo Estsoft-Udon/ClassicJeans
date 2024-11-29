@@ -12,44 +12,45 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/hospitals")
 public class HospitalController {
 
     @Autowired
     private HospitalService hospitalService;
 
-    // 병원 목록 API (페이지네이션 포함)
-    @GetMapping("/api/hospitals")
-    public List<HospitalResponse> getHospitals(
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String district,
-            @RequestParam(defaultValue = "1") int pageNo,  // 기본 페이지 번호 1
-            @RequestParam(defaultValue = "10") int numOfRows  // 기본 항목 수 10
-    ) throws IOException, URISyntaxException {
-        if (city != null && district != null) {
-            // 특정 지역 검색
-            System.out.println("Filtering hospitals for city: " + city + ", district: " + district);
-            List<HospitalResponse> filteredHospitals = hospitalService.getFilteredHospitalList(city, district,pageNo, numOfRows);
-            System.out.println("Filtered hospitals count: " + filteredHospitals.size());
-            return filteredHospitals;
-        } else {
-            // 전체 병원 리스트 조회
-            System.out.println("Fetching all hospitals");
-            List<HospitalResponse> hospitalList = hospitalService.getHospitalList(pageNo, numOfRows);
-            System.out.println("Fetched hospitals count: " + hospitalList.size());
-            return hospitalList;
-        }
-    }
-
-    // 총 페이지 수 계산 API
-    @GetMapping("/api/hospitals/pages")
-    public int getTotalPages(
-            @RequestParam(defaultValue = "10") int numOfRows
-    ) throws IOException, URISyntaxException {
-        return hospitalService.getTotalPages(numOfRows);
-    }
+//    // 병원 목록 API (페이지네이션 포함)
+//    @GetMapping("/api/hospitals")
+//    public List<HospitalResponse> getHospitals(
+//            @RequestParam(required = false) String city,
+//            @RequestParam(required = false) String district,
+//            @RequestParam(defaultValue = "1") int pageNo,  // 기본 페이지 번호 1
+//            @RequestParam(defaultValue = "10") int numOfRows  // 기본 항목 수 10
+//    ) throws IOException, URISyntaxException {
+//        if (city != null && district != null) {
+//            // 특정 지역 검색
+//            System.out.println("Filtering hospitals for city: " + city + ", district: " + district);
+//            List<HospitalResponse> filteredHospitals = hospitalService.getFilteredHospitalList(city, district,pageNo, numOfRows);
+//            System.out.println("Filtered hospitals count: " + filteredHospitals.size());
+//            return filteredHospitals;
+//        } else {
+//            // 전체 병원 리스트 조회
+//            System.out.println("Fetching all hospitals");
+//            List<HospitalResponse> hospitalList = hospitalService.getHospitalList(pageNo, numOfRows);
+//            System.out.println("Fetched hospitals count: " + hospitalList.size());
+//            return hospitalList;
+//        }
+//    }
+//
+//    // 총 페이지 수 계산 API
+//    @GetMapping("/api/hospitals/pages")
+//    public int getTotalPages(
+//            @RequestParam(defaultValue = "10") int numOfRows
+//    ) throws IOException, URISyntaxException {
+//        return hospitalService.getTotalPages(numOfRows);
+//    }
 
     // 전체 병원 목록 저장
-    @GetMapping("/saveAllHospitals")
+    @GetMapping("/saveAll")
     public ResponseEntity<String> saveAllHospitals() {
         try {
             hospitalService.saveAllHospitals(100); // 예시로 100개 항목씩 페이지네이션
@@ -57,5 +58,15 @@ public class HospitalController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
         }
+    }
+
+    // 병원 전체 목록 조회 + 지역 검색
+    @GetMapping
+    public List<HospitalResponse> getHospitals(
+            @RequestParam(required = false) String city,  // city(도시)
+            @RequestParam(required = false) String district   // district(구/시)
+    ) {
+        // city와 district로 병원 검색
+        return hospitalService.searchHospitals(city, district);
     }
 }

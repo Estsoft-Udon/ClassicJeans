@@ -12,4 +12,10 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
     // city와 district로 병원 검색
     List<Hospital> findByCityAndDistrict(String city, String district);
+
+    // city로 병원 검색
+    List<Hospital> findByCity(String city);
+
+    // district로 병원 검색
+    List<Hospital> findByDistrict(String district);
 }
