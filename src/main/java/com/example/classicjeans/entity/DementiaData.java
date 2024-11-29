@@ -1,6 +1,5 @@
 package com.example.classicjeans.entity;
 
-import com.example.classicjeans.enums.Analysis;
 import com.example.classicjeans.enums.questionnaire.MemoryChange;
 import com.example.classicjeans.enums.questionnaire.CommonFrequency;
 import com.example.classicjeans.util.DateFormatUtil;
@@ -8,10 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static com.example.classicjeans.enums.Analysis.DEMENTIA;
 
 @Getter
 @Entity
@@ -27,9 +23,6 @@ public class DementiaData {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     private FamilyInfo familyId;
-
-    @Enumerated(EnumType.STRING)
-    private Analysis analysis = DEMENTIA;
 
     @Column(nullable = false)
     private LocalDate date;

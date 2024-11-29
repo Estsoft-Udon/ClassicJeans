@@ -77,7 +77,6 @@ CREATE TABLE dementia_data
     id                        BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id                   BIGINT NOT NULL,
     family_id                 BIGINT,
-    analysis                 VARCHAR(255) DEFAULT 'DEMENTIA' NOT NULL,  -- 'DEMENTIA' 기본값 설정
     date                      DATE NOT NULL,                           -- 검사 날짜
     memory_change             VARCHAR(255),                             -- 기억력 변화 (ENUM 값으로 관리 가능)
     daily_confusion           VARCHAR(255),                             -- 일상 혼란 (ENUM 값)
@@ -108,7 +107,6 @@ CREATE TABLE questionnaire_data
     id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id                 BIGINT NOT NULL,
     family_id               BIGINT,
-    analysis               VARCHAR(255) DEFAULT 'BASIC' NOT NULL, -- 기본값 'BASIC' 설정
     date                    DATE NOT NULL,                      -- 설문지 작성 날짜
     age                     VARCHAR(255) NOT NULL,              -- 나이
     gender                  VARCHAR(10) NOT NULL,               -- 성별

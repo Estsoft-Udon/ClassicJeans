@@ -1,16 +1,12 @@
 package com.example.classicjeans.entity;
 
-import com.example.classicjeans.enums.Analysis;
 import com.example.classicjeans.enums.questionnaire.*;
 import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static com.example.classicjeans.enums.Analysis.BASIC;
 
 @Getter
 @Entity
@@ -26,9 +22,6 @@ public class QuestionnaireData {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "family_id")
     private FamilyInfo familyId;
-
-    @Enumerated(EnumType.STRING)
-    private Analysis analysis = BASIC;
 
     @Column(nullable = false)
     private LocalDate date;
