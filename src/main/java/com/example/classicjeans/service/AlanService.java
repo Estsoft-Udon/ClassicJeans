@@ -65,12 +65,12 @@ public class AlanService {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
-        saveQuestionnaireDate(request, response);
+        saveQuestionnaireData(request, response);
         return parseQuestionnaireResponse(responseBody);
     }
 
     // 기본 검사 결과 저장
-    private void saveQuestionnaireDate(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+    private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
         // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
         QuestionnaireData data = new QuestionnaireData(
                 request.getUser().getAge(),
