@@ -5,12 +5,14 @@ import com.example.classicjeans.enums.questionnaire.CommonFrequency;
 import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @Entity
+@NoArgsConstructor
 public class DementiaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,5 +102,37 @@ public class DementiaData {
 
     public String getDate() {
         return this.date.format(DateFormatUtil.formatter);
+    }
+
+    public DementiaData(
+            /*Users userId, FamilyInfo familyId, */MemoryChange memoryChange, CommonFrequency dailyConfusion,
+                                                   CommonFrequency problemSolvingChange, CommonFrequency languageChange, boolean knowsDate, boolean knowsLocation,
+                                                   boolean remembersRecentEvents, CommonFrequency frequencyOfRepetition, CommonFrequency lostItemsFrequency,
+                                                   CommonFrequency dailyActivityDifficulty, CommonFrequency goingOutAlone, CommonFrequency financialManagementDifficulty,
+                                                   CommonFrequency anxietyOrAggression, CommonFrequency hallucinationOrDelusion, CommonFrequency sleepPatternChange,
+                                                   boolean hasChronicDiseases, boolean hasStrokeHistory, boolean hasFamilyDementia,
+                                                   List<String> summaryEvaluation, List<String> improvementSuggestions) {
+//        this.userId = userId;
+//        this.familyId = familyId;
+        this.memoryChange = memoryChange;
+        this.dailyConfusion = dailyConfusion;
+        this.problemSolvingChange = problemSolvingChange;
+        this.languageChange = languageChange;
+        this.knowsDate = knowsDate;
+        this.knowsLocation = knowsLocation;
+        this.remembersRecentEvents = remembersRecentEvents;
+        this.frequencyOfRepetition = frequencyOfRepetition;
+        this.lostItemsFrequency = lostItemsFrequency;
+        this.dailyActivityDifficulty = dailyActivityDifficulty;
+        this.goingOutAlone = goingOutAlone;
+        this.financialManagementDifficulty = financialManagementDifficulty;
+        this.anxietyOrAggression = anxietyOrAggression;
+        this.hallucinationOrDelusion = hallucinationOrDelusion;
+        this.sleepPatternChange = sleepPatternChange;
+        this.hasChronicDiseases = hasChronicDiseases;
+        this.hasStrokeHistory = hasStrokeHistory;
+        this.hasFamilyDementia = hasFamilyDementia;
+        this.summaryEvaluation = summaryEvaluation;
+        this.improvementSuggestions = improvementSuggestions;
     }
 }
