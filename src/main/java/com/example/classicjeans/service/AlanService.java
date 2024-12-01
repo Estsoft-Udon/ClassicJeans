@@ -8,7 +8,9 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.DementiaData;
 import com.example.classicjeans.entity.QuestionnaireData;
+import com.example.classicjeans.repository.DementiaDataRepository;
 import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,12 +42,14 @@ public class AlanService {
     private final ObjectMapper objectMapper;
 
     private final QuestionnaireDataRepository questionnaireDataRepository;
+    private final DementiaDataRepository dementiaDataRepository;
 
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.questionnaireDataRepository = questionnaireDataRepository;
+        this.dementiaDataRepository = dementiaDataRepository;
     }
 
     // 앨런AI test - 추후 제거
@@ -107,7 +111,36 @@ public class AlanService {
     public AlanDementiaResponse fetchDementiaResponse(AlanDementiaRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
+        AlanDementiaResponse response = parseAIResponse(responseBody);
+        saveDementiaData(request, response);
         return parseAIResponse(responseBody);
+    }
+
+    private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        DementiaData data = new DementiaData(
+                request.getMemoryChange(),
+                request.getDailyConfusion(),
+                request.getProblemSolvingChange(),
+                request.getLanguageChange(),
+                request.isKnowsDate(),
+                request.isKnowsLocation(),
+                request.isRemembersRecentEvents(),
+                request.getFrequencyOfRepetition(),
+                request.getLostItemsFrequency(),
+                request.getDailyActivityDifficulty(),
+                request.getGoingOutAlone(),
+                request.getFinancialManagementDifficulty(),
+                request.getAnxietyOrAggression(),
+                request.getHallucinationOrDelusion(),
+                request.getSleepPatternChange(),
+                request.isHasChronicDiseases(),
+                request.isHasStrokeHistory(),
+                request.isHasFamilyDementia(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        dementiaDataRepository.save(data);
     }
 
     // URI 생성과 요청 전송
