@@ -70,7 +70,7 @@ public class AlanService {
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
         saveQuestionnaireData(request, response);
-        return parseQuestionnaireResponse(responseBody);
+        return response;
     }
 
     // 기본 검사 결과 저장
@@ -113,9 +113,10 @@ public class AlanService {
         String responseBody = fetchResponse(request.toString());
         AlanDementiaResponse response = parseAIResponse(responseBody);
         saveDementiaData(request, response);
-        return parseAIResponse(responseBody);
+        return response;
     }
 
+    // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
         // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
         DementiaData data = new DementiaData(
