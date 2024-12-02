@@ -138,36 +138,6 @@ form{
     padding-left: 0.5rem;
 }
 
-.grade_box{
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    gap: 1rem;
-}
-
-.grade_box .reversal_btn{
-    padding: 1rem;
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    border-color: rgba(0,0,0,0.5);
-    color: rgba(0,0,0,0.5);
-    cursor: not-allowed;
-    white-space: nowrap;
-}
-
-.grade_box .reversal_btn.on{
-    cursor: pointer;
-    border-color: rgba(0, 133, 249, 1);
-    white-space: nowrap;
-}
-
-.info-section span.grade_info{
-    font-size: 1.2rem;
-    border: none;
-    display: inline;
-    padding: 0;
-    vertical-align: top;
-}
-
 .pw_change_btn{
     width: 100%;
     padding: 1rem;
@@ -209,4 +179,34 @@ form{
     font-weight: bold;
     padding: 1rem 0;
     border-bottom: 1px solid #aaa;
+}
+
+.edit_profile .btn{
+    display: block;
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.edit_profile label{
+    margin-top: 2rem;
+    display: block;
+}
+
+/* 인풋 박스 */
+input{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+input:last-child{
+    margin-bottom: 2.5rem;
+}
+
+input:focus{
+    border: 1px solid rgba(0,133,249,1);
 }
