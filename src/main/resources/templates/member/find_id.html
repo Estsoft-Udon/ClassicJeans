@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member.css">
+    <div class="wrap member">
+        <div class="w_1280">
+            <h1 class="tit">아이디 찾기</h1>
+            <section>
+                <form th:action="@{/find_id}" method="POST">
+                    <div class="top">
+                        <label for="name"></label>
+                        <input type="text" id="name" name="name" required placeholder="이름을 입력하세요">
+                        <label for="email"></label>
+                        <input type="email" id="email" name="email" required placeholder="이메일을 입력하세요">
+                    </div>
+                    <!--아이디 찾기 버튼 클릭 시 txt_box 노출됩니다.-->
+                    <!--정보 조회 결과에 따라 dn 클래스를 통해 텍스트 노출/비노출 처리 됩니다.-->
+                    <div class="txt_box">
+                        <!--아이디가 존재할 때-->
+                        <div class="id_info" th:if="${isIdFound != null && isIdFound}">
+                            <span>회원님의 아이디는</span>
+                            <span class="def_c" th:text="${foundId}"> </span>
+                            <span>입니다.</span>
+                        </div>
+                        <!--아이디가 존재하지 않을 때-->
+                        <div class="id_info" th:if="${isIdFound != null && !isIdFound}">
+                            <span>일치하는 회원 정보가 존재하지 않습니다.</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="default_btn btn_layout">아이디 찾기</button>
+                    <div class="btn_box">
+                        <button type="button" onclick="window.location.href='/find_pw'" class="reversal_btn">비밀번호 찾기
+                        </button>
+                        <button type="button" onclick="window.location.href='/login'" class="default_btn">로그인하기</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</th:block>
+</html>
