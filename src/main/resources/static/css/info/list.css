@@ -171,6 +171,25 @@ td.show_map{
     height: 300px;
 }
 
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #e97536;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: default;
+}
+
+.pagination button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
 @media screen and (max-width: 767px) {
     .list_section {
         overflow-x: auto;

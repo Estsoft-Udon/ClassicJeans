@@ -5,6 +5,9 @@ import com.example.classicjeans.entity.Hospital;
 import com.example.classicjeans.repository.HospitalRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -171,56 +174,41 @@ public class HospitalService {
     }
 
     // 모든 병원 목록 조회
-    public List<HospitalResponse> getAllHospitals() {
-        List<Hospital> hospitals = hospitalRepository.findAll(); // DB에서 모든 병원 조회
-        List<HospitalResponse> hospitalResponses = new ArrayList<>();
-
-        for (Hospital hospital : hospitals) {
-            // Hospital 엔티티를 HospitalResponse DTO로 변환하여 반환
-            HospitalResponse hospitalResponse = new HospitalResponse(
-                    hospital.getName(),
-                    hospital.getPhone(),
-                    hospital.getAddress(),
-                    hospital.getLatitude(),
-                    hospital.getLongitude(),
-                    hospital.getCity(),
-                    hospital.getDistrict()
-            );
-            hospitalResponses.add(hospitalResponse);
-        }
-        return hospitalResponses;
+    public Page<HospitalResponse> getAllHospitals(int page, int size) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return hospitalRepository.findAll(pageable)
+                .map(this::convertToResponse);
     }
 
 
     // city와 district로 병원 검색
-    public List<HospitalResponse> searchHospitals(String city, String district) {
-        List<Hospital> hospitals;
+    public Page<HospitalResponse> searchHospitals(String city, String district, int page, int size) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        Page<Hospital> hospitalPage;
 
         if (city != null && district != null) {
-            hospitals = hospitalRepository.findByCityAndDistrict(city, district);
+            hospitalPage = hospitalRepository.findByCityAndDistrict(city, district, pageable);
         } else if (city != null) {
-            hospitals = hospitalRepository.findByCity(city);
+            hospitalPage = hospitalRepository.findByCity(city, pageable);
         } else if (district != null) {
-            hospitals = hospitalRepository.findByDistrict(district);
+            hospitalPage = hospitalRepository.findByDistrict(district, pageable);
         } else {
-            hospitals = hospitalRepository.findAll(); // city와 district가 없으면 모든 병원 반환
+            hospitalPage = hospitalRepository.findAll(pageable);
         }
 
-        // Hospital 엔티티를 HospitalResponse DTO로 변환하여 반환
-        List<HospitalResponse> hospitalResponses = new ArrayList<>();
-        for (Hospital hospital : hospitals) {
-            HospitalResponse hospitalResponse = new HospitalResponse(
-                    hospital.getName(),
-                    hospital.getPhone(),
-                    hospital.getAddress(),
-                    hospital.getLatitude(),
-                    hospital.getLongitude(),
-                    hospital.getCity(),
-                    hospital.getDistrict()
-            );
-            hospitalResponses.add(hospitalResponse);
-        }
+        return hospitalPage.map(this::convertToResponse);
+    }
 
-        return hospitalResponses;
+    private HospitalResponse convertToResponse(Hospital hospital) {
+        return new HospitalResponse(
+                hospital.getName(),
+                hospital.getPhone(),
+                hospital.getAddress(),
+                hospital.getLatitude(),
+                hospital.getLongitude(),
+                hospital.getCity(),
+                hospital.getDistrict()
+        );
     }
 }

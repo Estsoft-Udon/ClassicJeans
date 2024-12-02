@@ -124,7 +124,6 @@ districtInput.addEventListener("input", function () {
 
 // 다른 곳 클릭 시 목록 닫기
 document.addEventListener("click", function (event) {
-    // 인풋 필드나 목록이 아닌 곳을 클릭하면 목록을 숨김
     if (!provinceInput.contains(event.target) && !provinceList.contains(event.target)) {
         provinceList.style.display = "none";
     }
@@ -134,21 +133,21 @@ document.addEventListener("click", function (event) {
 });
 
 // 병원 검색 API 호출 함수
-function searchHospitalsByRegion(province, district) {
-    let url = `/hospital_list?`;  // 타임리프에서 처리되는 URL로 수정
+function searchHospitalsByRegion(province, district, page = 0, size = 10) {
+    let url = `/hospital_list?`;
 
-    // 지역에 따른 파라미터 추가
     if (province) {
-        url += `province=${province}&`;
+        url += `city=${province}&`;
     }
     if (district) {
         url += `district=${district}&`;
     }
 
+    url += `page=${page}&size=${size}`;
+
     // URL 끝에 불필요한 '&' 제거
     url = url.slice(0, -1);
 
-    // URL 확인 (콘솔에서 확인)
     console.log("Generated URL:", url);
 
     return url;
@@ -164,12 +163,64 @@ searchForm.addEventListener("submit", function (event) {
     const searchButtonClicked = event.submitter && event.submitter.type === 'submit';
 
     if (searchButtonClicked) {
-        const url = searchHospitalsByRegion(province, district);
+        const url = searchHospitalsByRegion(province, district, 0, 10);  // 기본값: page=0, size=10
         window.location.href = url;
     }
 });
 
-// 병원 목록을 기본적으로 모두 조회하는 코드 (초기값 설정)
 document.addEventListener("DOMContentLoaded", function () {
-    searchHospitalsByRegion("", "");  // 시/도 및 시/군/구 값 없이 전체 병원 조회
+    // 병원 목록을 기본적으로 모두 조회하는 코드
+    const hospitalPage = window.hospitalPage || { number: 0, size: 10, totalPages: 1 }; // 서버에서 받은 페이지 정보 객체
+
+    // 페이지네이션 텍스트 업데이트
+    const pageNumbersText = document.getElementById("page-numbers");
+    pageNumbersText.textContent = `Page ${hospitalPage.number + 1} of ${hospitalPage.totalPages}`;
+
 });
+
+// 페이지 이동 함수
+function navigateToPage(pageNumber) {
+    const province = document.getElementById("province").value;
+    const district = document.getElementById("district").value;
+
+    // 페이지 번호와 함께 URL에 쿼리 파라미터 추가
+    let url = "/hospital_list?page=" + pageNumber + "&size=10"; // 기본 페이지네이션 URL
+
+    // 지역 값이 존재하는 경우 URL에 포함
+    if (province) {
+        url += `&city=${encodeURIComponent(province)}`;
+    }
+    if (district) {
+        url += `&district=${encodeURIComponent(district)}`;
+    }
+
+    window.location.href = url;  // 새로운 페이지로 이동
+}
+
+// 페이지네이션 업데이트 함수
+function updatePagination(pageInfo) {
+    const pageNumbersText = document.getElementById("page-numbers");
+    pageNumbersText.textContent = `Page ${pageInfo.number + 1} of ${pageInfo.totalPages}`;
+
+    const firstBtn = document.getElementById("first-btn");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const lastBtn = document.getElementById("last-btn");
+
+    firstBtn.disabled = pageInfo.number === 0;
+    prevBtn.disabled = pageInfo.number === 0;
+    nextBtn.disabled = pageInfo.number === pageInfo.totalPages - 1;
+    lastBtn.disabled = pageInfo.number === pageInfo.totalPages - 1;
+}
+
+function loadHospitals(page, size) {
+    // 페이지 번호가 음수로 넘어가는 것을 방지
+    if (page < 0) page = 0;
+
+    // 기본 URL 형식
+    let url = "/hospital_list?page=" + page + "&size=" + size;
+
+    // 페이지 이동
+    window.location.href = url;
+}
+

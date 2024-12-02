@@ -64,12 +64,30 @@
             </div>
         </section>
         <!-- 페이지네이션 -->
-        <div id="pagination" class="pagination">
-            <button id="first-btn" class="page_btn"><< 맨앞으로</button>
-            <button id="prev-btn" class="page_btn">< 이전</button>
-            <span id="page-numbers">1</span>
-            <button id="next-btn" class="page_btn">다음 ></button>
-            <button id="last-btn" class="page_btn">맨끝으로 >></button>
+        <div class="pagination">
+            <!-- 첫 페이지 버튼 -->
+            <button th:disabled="${currentPage == 0}"
+                    th:onclick="|loadHospitals(0, ${size})|">첫 페이지</button>
+
+            <!-- 이전 페이지 버튼 -->
+            <button th:disabled="${currentPage == 0}"
+                    th:onclick="|loadHospitals(${currentPage - 1}, ${size})|">이전</button>
+
+            <!-- 페이지 숫자 버튼들 -->
+            <span th:each="pageNum : ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+                <button th:if="${pageNum >= 0 && pageNum < totalPages}"
+                        th:classappend="${pageNum == currentPage ? 'active' : ''}"
+                        th:onclick="|loadHospitals(${pageNum}, ${size})|"
+                        th:text="${pageNum + 1}"></button>
+            </span>
+
+            <!-- 다음 페이지 버튼 -->
+            <button th:disabled="${currentPage == totalPages - 1}"
+                    th:onclick="|loadHospitals(${currentPage + 1}, ${size})|">다음</button>
+
+            <!-- 마지막 페이지 버튼 -->
+            <button th:disabled="${currentPage == totalPages - 1}"
+                    th:onclick="|loadHospitals(${totalPages - 1}, ${size})|">마지막 페이지</button>
         </div>
     </div>
 
