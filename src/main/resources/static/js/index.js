@@ -20,3 +20,7 @@ window.addEventListener('scroll', function() {
         scrTopBtn.classList.remove("act");
     }
 });
+
+function goToChat() {
+    window.location.href = '/chat';
+};
