@@ -110,14 +110,16 @@ td.show_map{
 }
 
 .sanatorium .search_box,
-.nursing .search_box{
+.nursing .search_box,
+.hospital .search_box{
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
 .sanatorium .btn,
-.nursing .btn{
+.nursing .btn,
+.hospital .btn{
     padding: 1rem 2rem;
     margin-left: 1rem;
 }

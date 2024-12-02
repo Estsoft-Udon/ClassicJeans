@@ -20,4 +20,7 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
 
     // district로 병원 검색 (페이지네이션 적용)
     Page<Hospital> findByDistrict(String district, Pageable pageable);
+
+    // 병원명으로 병원 검색 (페이지네이션 적용)
+    Page<Hospital> findByNameContaining(String name, Pageable pageable);
 }

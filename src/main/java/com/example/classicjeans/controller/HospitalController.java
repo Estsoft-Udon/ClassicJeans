@@ -76,4 +76,13 @@ public class HospitalController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    // 병원명으로 병원 검색
+    @GetMapping("/search")
+    public Page<HospitalResponse> searchHospitalsByName(
+            @RequestParam String name,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return hospitalService.searchHospitalsByName(name, page, size);
+    }
 }
