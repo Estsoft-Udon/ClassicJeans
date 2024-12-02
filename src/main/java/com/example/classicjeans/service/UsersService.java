@@ -122,4 +122,10 @@ public class UsersService {
         return usersRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
     }
+
+    public void changePasswordAfterFind(String loginId, String newPassword) {
+        Users user = usersRepository.findByLoginId(loginId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+    }
 }
