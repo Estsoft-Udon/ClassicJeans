@@ -12,7 +12,7 @@
             <p>요양원 정보를 확인해보세요!</p>
         </div>
         <div class="search_cont">
-            <form id="region_form" action="/sanatorium_list" method="GET">
+            <form id="region_form" action="/sanatorium_list" method="GET" class="region_form">
                 <div class="province_cont">
                     <label for="province">시/도 입력</label>
                     <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
@@ -35,6 +35,10 @@
                     <button type="submit" class="btn">검색하기</button>
                 </div>
             </form>
+            <div class="search_info">
+                <p id="location-display"></p>
+                <p id="search-display"></p>
+            </div>
         </div>
         <section class="list_section">
             <!-- 요양원 목록 테이블 -->
@@ -105,6 +109,8 @@
                     <button type="button" th:text="${i + 1}">1</button>
                 </a>
             </li>
+
+            <!-- 데이터 없음 표시 -->
             <div th:if="${sanatoriums.getContent().isEmpty()}">
                 검색 기준에 맞는 데이터가 없습니다.
             </div>
