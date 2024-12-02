@@ -115,6 +115,7 @@ td.show_map{
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .sanatorium .btn,
@@ -161,6 +162,27 @@ td.show_map{
 #map {
     width: 100%;
     height: 300px;
+}
+
+.search_empty {
+    text-align: center;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    margin: 3rem 0;
+}
+
+.search_info{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.search_info p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    text-align: center;
+}
+
+.search_cont{
+    position: relative;
 }
 
 @media screen and (max-width: 767px) {

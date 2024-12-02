@@ -41,6 +41,10 @@ public class HospitalViewController {
             hospitalPage = hospitalService.getAllHospitals(page, size);
         }
 
+        if (hospitalPage.getTotalElements() == 0) {
+            model.addAttribute("noResults", true);
+        }
+
         model.addAttribute("hospitals", hospitalPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", hospitalPage.getTotalPages());
