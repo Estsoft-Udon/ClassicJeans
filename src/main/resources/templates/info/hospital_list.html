@@ -11,7 +11,7 @@
             <p>지역별로 검색하여 공공의료기관 정보를 확인해보세요!</p>
         </div>
         <div class="search_cont">
-            <form id="region_form" th:action="@{/hospital_list}" method="get">
+            <form id="hospital_form" th:action="@{/hospital_list}" method="get" class="region_form">
                 <div class="province_cont">
                     <label for="province">시/도 입력</label>
                     <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">

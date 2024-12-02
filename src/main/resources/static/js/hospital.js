@@ -78,7 +78,7 @@ const provinceInput = document.getElementById("province");
 const districtInput = document.getElementById("district");
 const provinceList = document.getElementById("province-list");
 const districtList = document.getElementById("district-list");
-const searchForm = document.getElementById("region_form");
+const searchForm = document.getElementById("hospital_form");
 
 // 자동완성 리스트 생성 함수
 function createAutocompleteList(input, listElement, suggestions) {
