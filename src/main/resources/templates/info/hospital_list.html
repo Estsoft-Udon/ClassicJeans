@@ -49,8 +49,9 @@
                 <tr th:each="hospital : ${hospitals}">
                     <td th:text="${hospital.name}"></td>
                     <td th:text="${hospital.phone}"></td>
-                    <td th:text="${hospital.address}">
-                        <button type="button" class="btn view-map">지도보기</button>
+                    <td class="show_map">
+                        <span th:text="${hospital.address}"></span>
+                        <button type="button" class="btn view-map" th:data-address="${hospital.address}">지도보기</button>
                     </td>
                 </tr>
                 </tbody>
