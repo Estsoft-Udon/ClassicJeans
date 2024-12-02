@@ -20,3 +20,10 @@ window.addEventListener('scroll', function() {
         scrTopBtn.classList.remove("act");
     }
 });
+
+// 운세 확인 버튼
+document.querySelector('.bazi_btn').addEventListener('click', function() {
+    this.classList.add('dn');
+    document.querySelector('.log_off_txt').classList.add('dn');
+    document.querySelector('.log_on_txt').classList.remove('dn');
+});
