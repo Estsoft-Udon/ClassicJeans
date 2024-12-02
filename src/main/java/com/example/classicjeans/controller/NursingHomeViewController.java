@@ -1,7 +1,6 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.NursingHomeResponse;
-import com.example.classicjeans.dto.response.SanatoriumResponse;
 import com.example.classicjeans.service.NursingHomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,14 +32,13 @@ public class NursingHomeViewController {
         else if (province != null && district != null) {
             nursinghomes = service.getNursingHomeByRegion(pageable, province, district);
         } else {
-            // ¾øÀ» °æ¿ì ÀüÃ¼ ¿ä¾ç¿ø ¸®½ºÆ® °¡Á®¿À±â
             nursinghomes = service.getNursingHomeList(pageable);
         }
 
         model.addAttribute("nursinghomes", nursinghomes);
         model.addAttribute("search", search);
-        model.addAttribute("province", province);  // °Ë»öµÈ province °ªÀ» ´Ù½Ã Àü´Þ
-        model.addAttribute("district", district);  // °Ë»öµÈ district °ªÀ» ´Ù½Ã Àü´Þ
+        model.addAttribute("province", province);  // ï¿½Ë»ï¿½ï¿½ï¿½ province ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        model.addAttribute("district", district);  // ï¿½Ë»ï¿½ï¿½ï¿½ district ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         return "/info/nursing_list";
     }
