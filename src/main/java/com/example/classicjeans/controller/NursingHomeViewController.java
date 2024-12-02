@@ -37,8 +37,8 @@ public class NursingHomeViewController {
 
         model.addAttribute("nursinghomes", nursinghomes);
         model.addAttribute("search", search);
-        model.addAttribute("province", province);  // �˻��� province ���� �ٽ� ����
-        model.addAttribute("district", district);  // �˻��� district ���� �ٽ� ����
+        model.addAttribute("province", province);
+        model.addAttribute("district", district);
 
         return "/info/nursing_list";
     }
