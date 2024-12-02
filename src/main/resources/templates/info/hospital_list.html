@@ -38,14 +38,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>365경희한의원</td>
-                    <td>031-761-1365</td>
-                    <td class="show_map">
-                        <span>경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
-                        <button type="button" class="btn view-map">지도보기</button>
-                    </td>
-                </tr>
                 <tr th:each="hospital : ${hospitals}">
                     <td th:text="${hospital.name}"></td>
                     <td th:text="${hospital.phone}"></td>
