@@ -58,8 +58,6 @@ public class HospitalService {
                             hospitalResponse.getDistrict()
                     );
                     hospitalRepository.save(hospital);
-                } else {
-                    System.out.println("이미 존재하는 병원: " + hospitalResponse.getName());
                 }
             }
 
@@ -109,8 +107,6 @@ public class HospitalService {
                         // Hospital 엔티티로 변환하여 DB에 저장
                         Hospital hospital = new Hospital(name, address, phone, latitudeDouble, longitudeDouble, city, district);
                         hospitalRepository.save(hospital);  // DB에 저장
-                    } else {
-                        System.out.println("이미 존재하는 병원: " + name);
                     }
 
                     // HospitalResponse 객체 추가

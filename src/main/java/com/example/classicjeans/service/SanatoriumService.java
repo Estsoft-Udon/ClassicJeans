@@ -3,12 +3,17 @@ package com.example.classicjeans.service;
 import com.example.classicjeans.addresscode.dto.request.AddressCodeRequest;
 import com.example.classicjeans.addresscode.service.AddressCodeService;
 import com.example.classicjeans.dto.request.SanatoriumRequest;
+import com.example.classicjeans.dto.response.NursingHomeResponse;
+import com.example.classicjeans.dto.response.SanatoriumResponse;
+import com.example.classicjeans.entity.NursingHomeData;
 import com.example.classicjeans.entity.SanatoriumData;
 import com.example.classicjeans.repository.SanatoriumDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -139,5 +144,23 @@ public class SanatoriumService {
         JsonNode rootNode = objectMapper.readTree(response.getBody());
 
         return rootNode.path("response").path("body").path("totalCount").asInt();
+    }
+
+    public Page<SanatoriumResponse> getSanatoriumList(Pageable pageable) {
+        Page<SanatoriumData> sanatoriumData = repository.findAll(pageable);
+
+        return sanatoriumData.map(SanatoriumResponse::new);
+    }
+
+    public Page<SanatoriumResponse> getSanatoriumBySubregion(Pageable pageable, String region, String subregion) {
+        Page<SanatoriumData> sanatoriumData = repository.findAllByRegionAndSubRegion(region, subregion, pageable);
+
+        return sanatoriumData.map(SanatoriumResponse::new);
+    }
+
+    public Page<SanatoriumResponse> searchSanatoriumByName(Pageable pageable, String search) {
+        Page<SanatoriumData> sanatoriumData = repository.findAllByNameContaining(search, pageable);
+
+        return sanatoriumData.map(SanatoriumResponse::new);
     }
 }
