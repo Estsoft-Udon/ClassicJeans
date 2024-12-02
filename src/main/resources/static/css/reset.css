@@ -251,41 +251,36 @@ dialog{
 
 /* 페이지네이션 스타일 */
 .pagination {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: 5rem;
 }
 
-.pagination button{
-    font-size: 1.6rem;
-    padding: 1rem;
-}
-
-.page_btn {
-    padding: 10px 20px;
+.pagination li {
     margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+}
+
+.pagination button {
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 16px;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1.6rem;
 }
 
-.page_btn:hover {
-    background-color: #daa52038;
-    border: 1px solid #daa52038;
-    color: #000;
+.pagination button.active {
+    background-color: #e97536;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: default;
 }
 
-.page_btn:disabled {
-    background-color: #ccc;
+.pagination button:disabled {
+    color: #ccc;
     cursor: not-allowed;
-}
-
-#page-numbers {
-    padding: 10px;
-    font-size: 16px;
-    color: #333;
 }
 
 @media screen and (max-width: 767px) {
