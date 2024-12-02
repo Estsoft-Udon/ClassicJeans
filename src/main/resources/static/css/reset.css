@@ -94,25 +94,6 @@ img{
 }
 
 
-/* 인풋 박스 */
-input{
-    width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    border-radius: 1rem;
-    font-size: 1.5rem;
-    display: block;
-    margin-bottom: 1.5rem;
-}
-
-input:last-child{
-    margin-bottom: 2.5rem;
-}
-
-input:focus{
-    border: 1px solid rgba(0,133,249,1);
-}
-
 .logo {
     width: 5rem;
     height: auto;
