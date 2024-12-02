@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/member/member.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap member">
+        <div class="w_1280">
+            <div class="tit mw_50">
+                <h1>마이페이지</h1>
+                <p>
+                    회원님의 정보를 확인하고, 수정할 수 있습니다. <br>
+                    정보 수정을 원하시면 하단의 정보 수정하기 버튼을 눌러주세요☺️
+                </p>
+            </div>
+            <section>
+                <div class="profile_basic mw_50">
+                    <dl class="row">
+                        <dt class="col-3">✅ 이름</dt>
+                        <dd class="col-9">청바지</dd>
+                        <dt class="col-3">✅ 아이디</dt>
+                        <dd class="col-9">chungbaji</dd>
+                        <dt class="col-3">✅ 닉네임</dt>
+                        <dd class="col-9">바지짱</dd>
+                        <dt class="col-3">✅ 생년월일</dt>
+                        <dd class="col-9">1956.01.23</dd>
+                        <dt class="col-3">✅ 성별</dt>
+                        <dd class="col-9">여자</dd>
+                        <dt class="col-3">✅ 이메일</dt>
+                        <dd class="col-9">test@test.com</dd>
+                    </dl>
+                    <div class="family_cont">
+                        <p>🏠 나의 가족 정보</p>
+                        <dl class="row">
+                            <dt class="col-3">✅ 부모님 존함</dt>
+                            <dd class="col-9">홍길동</dd>
+                            <dt class="col-3">✅ 부모님 생년월일</dt>
+                            <dd class="col-9">바지짱</dd>
+                            <dt class="col-3">✅ 부모님 성별</dt>
+                            <dd class="col-9">여성</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="btn_box mw_50">
+                    <button onclick="location.href='/'" class="btn">메인으로</button>
+                    <button onclick="location.href='edit_profile'" class="btn">정보수정하기</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</th:block>
+</html>

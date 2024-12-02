@@ -1,0 +1,204 @@
+
+h1.tit{
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 4rem;
+}
+
+.top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.txt_box{
+    margin: 2rem 0 3rem;
+    text-align: center;
+}
+
+.txt_box span{
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.txt_box span:nth-child(2){
+    margin: 0 1rem;
+}
+
+.btn_box{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 10rem;
+}
+
+.btn_box button{
+    flex: 1;
+}
+
+.change_btn{
+    margin-top: 10rem;
+}
+
+.find_box{
+    text-align: right;
+}
+
+.find_box button:hover{
+    font-weight: 500;
+}
+
+.find_box button.find_id_btn{
+    position: relative;
+    padding-right: 0.7rem;
+    margin-right: 0.4rem;
+}
+
+.find_box button.find_id_btn:before{
+    content: "";
+    width: 1px;
+    height: 70%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input_bot{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.input_bot .txt_box{
+    margin: 0;
+    position: absolute;
+    left: 0;
+}
+
+.input_bot .txt_box span{
+    font-weight: normal;
+    font-size: 1.5rem;
+    color: red;
+}
+.error-message{
+    margin-top: 3rem;
+    font-weight: normal;
+    font-size: 1.75rem;
+    text-align: center;
+    color: red;
+}
+
+.id_box{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+}
+
+.id_box button{
+    padding: 1rem;
+    font-size: 1.4rem;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.success_cont p{
+    text-align: center;
+    line-height: 9rem;
+    font-size: 2rem;
+    font-weight: 500;
+    border-radius: 1rem;
+}
+
+.warning{
+    font-size: 1.7rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.grade_box{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 1rem;
+}
+
+.grade_box .reversal_btn{
+    padding: 1rem;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    border-color: rgba(0,0,0,0.5);
+    color: rgba(0,0,0,0.5);
+    cursor: not-allowed;
+    white-space: nowrap;
+}
+
+.grade_box .reversal_btn.on{
+    cursor: pointer;
+    border-color: rgba(0, 133, 249, 1);
+    white-space: nowrap;
+}
+
+.pw_change_btn{
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+.bot{
+    text-align: right;
+    margin-top: 10rem;
+}
+
+.delete_btn{
+    color: #aaa;
+}
+
+.member .tit h1{
+    text-align: center;
+}
+
+.member .tit p {
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: center;
+    word-break: keep-all;
+}
+
+.profile_basic dt, .profile_basic dd {
+    padding: 0.9rem 0;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+}
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-3{
+    flex: 0 0 auto;
+    width: 40%;
+}
+
+.col-9 {
+    flex: 0 0 auto;
+    width: 60%;
+}
+
+.family_cont{
+    margin: 2rem 0;
+}
+
+.family_cont p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    margin-bottom: 1rem;
+    font-weight: bold;
+    padding: 1rem 0;
+    border-bottom: 1px solid #aaa;
+}
