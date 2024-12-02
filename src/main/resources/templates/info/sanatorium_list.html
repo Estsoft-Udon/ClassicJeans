@@ -127,7 +127,7 @@
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.totalPages - 1}}">
                     <button class="last-btn page_btn">맨끝으로 >></button>
                 </a>
-                <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + (sanatoriums.totalPages - 1)}">
+                <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.totalPages - 1}}">
                     <button class="last-btn page_btn">맨끝으로 >></button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${sanatoriums.totalPages - 1}}">
