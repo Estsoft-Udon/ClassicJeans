@@ -5,6 +5,9 @@ import com.example.classicjeans.entity.Hospital;
 import com.example.classicjeans.repository.HospitalRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -67,7 +71,7 @@ public class HospitalService {
         }
     }
 
-    // 병원 목록 조회 (페이지네이션)
+    // 병원 목록 조회
     public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
         String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
         String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
@@ -163,5 +167,44 @@ public class HospitalService {
             e.printStackTrace();
             return 0; // 오류 발생 시 0 반환
         }
+    }
+
+    // 모든 병원 목록 조회
+    public Page<HospitalResponse> getAllHospitals(int page, int size) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return hospitalRepository.findAll(pageable)
+                .map(this::convertToResponse);
+    }
+
+
+    // city와 district로 병원 검색
+    public Page<HospitalResponse> searchHospitals(String city, String district, int page, int size) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        Page<Hospital> hospitalPage;
+
+        if (city != null && district != null) {
+            hospitalPage = hospitalRepository.findByCityAndDistrict(city, district, pageable);
+        } else if (city != null) {
+            hospitalPage = hospitalRepository.findByCity(city, pageable);
+        } else if (district != null) {
+            hospitalPage = hospitalRepository.findByDistrict(district, pageable);
+        } else {
+            hospitalPage = hospitalRepository.findAll(pageable);
+        }
+
+        return hospitalPage.map(this::convertToResponse);
+    }
+
+    private HospitalResponse convertToResponse(Hospital hospital) {
+        return new HospitalResponse(
+                hospital.getName(),
+                hospital.getPhone(),
+                hospital.getAddress(),
+                hospital.getLatitude(),
+                hospital.getLongitude(),
+                hospital.getCity(),
+                hospital.getDistrict()
+        );
     }
 }

@@ -11,27 +11,21 @@
             <p>지역별로 검색하여 공공의료기관 정보를 확인해보세요!</p>
         </div>
         <div class="search_cont">
-            <form id="region_form">
-               <div class="province_cont">
-                   <label for="province">시/도 입력</label>
-                   <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
-                   <div id="province-list" class="autocomplete-list"></div>
-               </div>
+            <form id="region_form" th:action="@{/hospital_list}" method="get">
+                <div class="province_cont">
+                    <label for="province">시/도 입력</label>
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
+                    <div id="province-list" class="autocomplete-list"></div>
+                </div>
 
-               <div class="district_cont">
-                   <label for="district">시/군/구 입력</label>
-                   <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
-                   <div id="district-list" class="autocomplete-list"></div>
-               </div>
+                <div class="district_cont">
+                    <label for="district">시/군/구 입력</label>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
+                    <div id="district-list" class="autocomplete-list"></div>
+                </div>
 
-                <button type="button" class="btn">지역별 병원 검색하기</button>
+                <button type="submit" class="btn" id="search-btn">지역별 병원 검색하기</button>
             </form>
-            <div class="search_hospital_name dn">
-                <label for="hospital-name"></label>
-                <input type="text" id="hospital-name" placeholder="병원명을 입력하세요">
-
-                <button type="button" class="btn">병원명으로 검색하기</button>
-            </div>
         </div>
         <section class="list_section">
             <!-- 병원 목록 테이블 -->
@@ -44,12 +38,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>365경희한의원</td>
-                    <td>031-761-1365</td>
+                <tr th:each="hospital : ${hospitals}">
+                    <td th:text="${hospital.name}"></td>
+                    <td th:text="${hospital.phone}"></td>
                     <td class="show_map">
-                        <span>경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
-                        <button type="button" class="btn view-map">지도보기</button>
+                        <span th:text="${hospital.address}"></span>
+                        <button type="button" class="btn view-map" th:data-address="${hospital.address}">지도보기</button>
                     </td>
                 </tr>
                 </tbody>
@@ -63,12 +57,30 @@
             </div>
         </section>
         <!-- 페이지네이션 -->
-        <div id="pagination" class="pagination">
-            <button id="first-btn" class="page_btn"><< 맨앞으로</button>
-            <button id="prev-btn" class="page_btn">< 이전</button>
-            <span id="page-numbers">1</span>
-            <button id="next-btn" class="page_btn">다음 ></button>
-            <button id="last-btn" class="page_btn">맨끝으로 >></button>
+        <div class="pagination">
+            <!-- 첫 페이지 버튼 -->
+            <button th:disabled="${currentPage == 0}"
+                    th:onclick="|loadHospitals(0, ${size})|">첫 페이지</button>
+
+            <!-- 이전 페이지 버튼 -->
+            <button th:disabled="${currentPage == 0}"
+                    th:onclick="|loadHospitals(${currentPage - 1}, ${size})|">이전</button>
+
+            <!-- 페이지 숫자 버튼들 -->
+            <span th:each="pageNum : ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+                <button th:if="${pageNum >= 0 && pageNum < totalPages}"
+                        th:classappend="${pageNum == currentPage ? 'active' : ''}"
+                        th:onclick="|loadHospitals(${pageNum}, ${size})|"
+                        th:text="${pageNum + 1}"></button>
+            </span>
+
+            <!-- 다음 페이지 버튼 -->
+            <button th:disabled="${currentPage == totalPages - 1}"
+                    th:onclick="|loadHospitals(${currentPage + 1}, ${size})|">다음</button>
+
+            <!-- 마지막 페이지 버튼 -->
+            <button th:disabled="${currentPage == totalPages - 1}"
+                    th:onclick="|loadHospitals(${totalPages - 1}, ${size})|">마지막 페이지</button>
         </div>
     </div>
 
