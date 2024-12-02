@@ -93,6 +93,22 @@ img{
     height: auto;
 }
 
+.logo {
+    width: 5rem;
+    height: auto;
+    max-width: 100%;
+}
+
+.logo_box{
+    display: flex;
+    align-items: center;
+}
+
+.logo_box picture{
+    display: flex;
+    align-items: center;
+}
+
 section{
     padding: 0 3.2rem;
 }
@@ -215,4 +231,60 @@ dialog{
 }
 .btn:hover {
     background: #e97536;
+}
+
+/* 타이틀 공통 */
+.tit h1{
+    font-size: clamp(2.4rem, 4.7vw, 4.8rem);
+    font-weight: bold;
+    text-align: left;
+    word-break: break-word;
+    margin-bottom: 2rem;
+}
+
+.tit p{
+    font-size: clamp(2rem, 4.1vw, 3rem);
+    font-weight: 500;
+    text-align: left;
+    word-break: keep-all;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    list-style-type: none;
+    padding: 0;
+    margin: 5rem 0 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1.6rem;
+}
+
+.pagination button.active {
+    background-color: #e97536;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: default;
+}
+
+.pagination .disabled button {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 767px) {
+    .w_1280{
+        padding: 20rem 1.5rem;
+    }
 }

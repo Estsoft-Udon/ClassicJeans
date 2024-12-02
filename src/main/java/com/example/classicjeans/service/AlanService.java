@@ -11,6 +11,10 @@ import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.entity.Bazi;
 import com.example.classicjeans.repository.AlanBaziRepository;
 import com.example.classicjeans.repository.UsersRepository;
+import com.example.classicjeans.entity.DementiaData;
+import com.example.classicjeans.entity.QuestionnaireData;
+import com.example.classicjeans.repository.DementiaDataRepository;
+import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,12 +50,18 @@ public class AlanService {
 
 
 
+    private final QuestionnaireDataRepository questionnaireDataRepository;
+    private final DementiaDataRepository dementiaDataRepository;
+
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper,AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
+        this.questionnaireDataRepository = questionnaireDataRepository;
+        this.dementiaDataRepository = dementiaDataRepository;
         this.alanBaziRepository = alanBaziRepository;
         this.usersRepository = usersRepository;
+
     }
 
     // 앨런AI test - 추후 제거
@@ -70,14 +80,80 @@ public class AlanService {
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
-        return parseQuestionnaireResponse(responseBody);
+        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        saveQuestionnaireData(request, response);
+        return response;
+    }
+
+    // 기본 검사 결과 저장
+    private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        QuestionnaireData data = new QuestionnaireData(
+                request.getUser().getAge(),
+                request.getUser().getGender(),
+                request.getHeight(),
+                request.getWeight(),
+                request.getChronicDisease(),
+                request.getHospitalVisit(),
+                request.getCurrentMedication(),
+                request.getSmokingStatus(),
+                request.getAlcoholConsumption(),
+                request.getExerciseFrequency(),
+                request.getDietPattern(),
+                request.getMoodStatus(),
+                request.getSleepPattern(),
+                request.getIndependenceLevel(),
+                request.getSocialParticipation(),
+                request.isHasGeneticDisease(),
+                request.getWeightChange(),
+                request.isHasAllergy(),
+                response.getAgeGroup(),
+                response.getAverageHeight(),
+                response.getAverageWeight(),
+                response.getSmokingRate(),
+                response.getDrinkingRate(),
+                response.getExerciseRate(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        questionnaireDataRepository.save(data);
     }
 
     // 치매 문진표 AI 검사
     public AlanDementiaResponse fetchDementiaResponse(AlanDementiaRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
-        return parseAIResponse(responseBody);
+        AlanDementiaResponse response = parseAIResponse(responseBody);
+        saveDementiaData(request, response);
+        return response;
+    }
+
+    // 치매 검진 결과 저장
+    private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        DementiaData data = new DementiaData(
+                request.getMemoryChange(),
+                request.getDailyConfusion(),
+                request.getProblemSolvingChange(),
+                request.getLanguageChange(),
+                request.isKnowsDate(),
+                request.isKnowsLocation(),
+                request.isRemembersRecentEvents(),
+                request.getFrequencyOfRepetition(),
+                request.getLostItemsFrequency(),
+                request.getDailyActivityDifficulty(),
+                request.getGoingOutAlone(),
+                request.getFinancialManagementDifficulty(),
+                request.getAnxietyOrAggression(),
+                request.getHallucinationOrDelusion(),
+                request.getSleepPatternChange(),
+                request.isHasChronicDiseases(),
+                request.isHasStrokeHistory(),
+                request.isHasFamilyDementia(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        dementiaDataRepository.save(data);
     }
 
     // URI 생성과 요청 전송
@@ -148,18 +224,31 @@ public class AlanService {
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
 
-    // 사용자 건강 데이터 및 한국 평균 데이터 파싱
+    // 한국 평균 데이터 파싱
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        response.setUserHeight(extractDouble(content, HEIGHT_PATTERN));
         response.setAverageHeight(extractDouble(content, AVERAGE_HEIGHT_PATTERN));
-        response.setUserWeight(extractDouble(content, WEIGHT_PATTERN));
         response.setAverageWeight(extractDouble(content, AVERAGE_WEIGHT_PATTERN));
-
         response.setSmokingRate(extractDouble(content, SMOKING_RATE_PATTERN));
         response.setDrinkingRate(extractDouble(content, DRINKING_RATE_PATTERN));
         response.setExerciseRate(extractDouble(content, EXERCISE_RATE_PATTERN));
+
+        String ageGroup = extractAgeGroup(content);
+        if (ageGroup != null) {
+            response.setAgeGroup(ageGroup);
+        }
+    }
+
+    // 연령대 추출 함수
+    private String extractAgeGroup(String content) {
+        Pattern pattern = Pattern.compile(AGE_GROUP_PATTERN);
+        Matcher matcher = pattern.matcher(content);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     // 정규 표현식으로 숫자 추출
