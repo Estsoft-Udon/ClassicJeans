@@ -278,7 +278,7 @@ dialog{
     cursor: default;
 }
 
-.pagination button:disabled {
+.pagination .disabled button {
     color: #ccc;
     cursor: not-allowed;
 }
