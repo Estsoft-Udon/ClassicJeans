@@ -12,7 +12,7 @@
             <p>복지시설 정보를 확인해보세요!</p>
         </div>
         <div class="search_cont">
-            <form id="region_form" action="/nursing_list" method="GET">
+            <form id="region_form" action="/nursing_list" method="GET" class="region_form">
                 <div class="province_cont">
                     <label for="province">시/도 입력</label>
                     <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
@@ -35,6 +35,10 @@
                     <button type="submit" class="btn">검색하기</button>
                 </div>
             </form>
+            <div class="search_info">
+                <p id="location-display"></p>
+                <p id="search-display"></p>
+            </div>
         </div>
         <section class="list_section">
             <!-- 복지시설 목록 테이블 -->
@@ -69,74 +73,71 @@
             <!-- 맨앞으로 버튼 -->
             <li th:if="${nursinghomes.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">첫 페이지</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/nursing_list?province=' + ${province} + '&district=' + ${district} + '&page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">첫 페이지</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/nursing_list?page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">첫 페이지</button>
                 </a>
             </li>
 
             <!-- 이전 버튼 -->
             <li th:if="${nursinghomes.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=' + ${nursinghomes.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">이전</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/nursing_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${nursinghomes.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">이전</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/nursing_list?page=' + ${nursinghomes.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn" th:class="${nursinghomes.number == 0 ? 'disabled' : ''}">이전</button>
                 </a>
             </li>
 
             <!-- 현재 페이지 기준으로 앞뒤 2개씩 표시 -->
             <li th:if="${!nursinghomes.getContent().isEmpty()}" th:each="i : ${#numbers.sequence(nursinghomes.number - 2 > 0 ? nursinghomes.number - 2 : 0, nursinghomes.number + 2 < nursinghomes.totalPages - 1 ? nursinghomes.number + 2 : nursinghomes.totalPages - 1)}"
-                th:class="${i == nursinghomes.number} ? 'on'">
+                th:class="${i == nursinghomes.number} ? 'on active'">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}">1</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/nursing_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}">1</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/nursing_list?page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}">1</button>
                 </a>
             </li>
-            <div th:if="${nursinghomes.getContent().isEmpty()}">
-                검색 기준에 맞는 데이터가 없습니다.
-            </div>
 
             <!-- 다음 버튼 -->
             <li th:if="${nursinghomes.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=' + ${nursinghomes.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">다음</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/nursing_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${nursinghomes.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">다음</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/nursing_list?page=' + ${nursinghomes.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">다음</button>
                 </a>
             </li>
 
             <!-- 맨끝으로 버튼 -->
             <li th:if="${nursinghomes.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=' + ${nursinghomes.totalPages - 1}}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">마지막 페이지</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/nursing_list?province=' + ${province} + '&district=' + ${district} + '&page=' + (nursinghomes.totalPages - 1)}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">마지막 페이지</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/nursing_list?page=' + ${nursinghomes.totalPages - 1}}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn" th:class="${nursinghomes.number == nursinghomes.totalPages - 1 ? 'disabled' : ''}">마지막 페이지</button>
                 </a>
             </li>
         </ul>
     </div>
-    <script src="/js/hospital.js"></script>
+    <script src="/js/list.js"></script>
     <script src="/js/kakaomap.js"></script>
 </th:block>
 </html>

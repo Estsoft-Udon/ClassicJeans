@@ -196,6 +196,16 @@ public class HospitalService {
         return hospitalPage.map(this::convertToResponse);
     }
 
+    // 병원명으로 병원 검색
+    public Page<HospitalResponse> searchHospitalsByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        // 병원명에 해당하는 병원 목록 검색
+        Page<Hospital> hospitalPage = hospitalRepository.findByNameContaining(name, pageable);
+
+        return hospitalPage.map(this::convertToResponse);
+    }
+
     private HospitalResponse convertToResponse(Hospital hospital) {
         return new HospitalResponse(
                 hospital.getName(),

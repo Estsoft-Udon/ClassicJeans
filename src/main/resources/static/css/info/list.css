@@ -44,24 +44,21 @@ input:active + .autocomplete-list {
     display: block;
 }
 
-.search_cont{
+.region_form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
     background: #daa52038;
     margin: 10rem 0;
     padding: 1rem 2rem;
 }
 
-#region_form{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#region_form input{
+.region_form input{
     margin: 0 2rem;
 }
 
-#region_form .btn,
+.region_form .btn,
 .search_hospital_name .btn{
     padding: 1rem 2rem;
     font-size: clamp(1.6rem, 1vw, 1.8rem);
@@ -112,22 +109,18 @@ td.show_map{
     font-size: clamp(1.5rem, 1vw, 1.8rem);
 }
 
-.sanatorium .search_cont,
-.nursing .search_cont{
-    background: transparent;
-    margin-bottom: 1rem;
-    padding: 0 1rem 0 0;
-}
-
 .sanatorium .search_box,
-.nursing .search_box{
+.nursing .search_box,
+.hospital .search_box{
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 .sanatorium .btn,
-.nursing .btn{
+.nursing .btn,
+.hospital .btn{
     padding: 1rem 2rem;
     margin-left: 1rem;
 }
@@ -171,23 +164,25 @@ td.show_map{
     height: 300px;
 }
 
-.pagination button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    cursor: pointer;
+.search_empty {
+    text-align: center;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    margin: 3rem 0;
 }
 
-.pagination button.active {
-    background-color: #e97536;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    cursor: default;
+.search_info{
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
-.pagination button:disabled {
-    color: #ccc;
-    cursor: not-allowed;
+.search_info p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    text-align: center;
+}
+
+.search_cont{
+    position: relative;
 }
 
 @media screen and (max-width: 767px) {
@@ -204,7 +199,7 @@ td.show_map{
         white-space: nowrap;
     }
 
-    #region_form {
+    .region_form {
         align-items: flex-start;
         gap: 1.5rem;
         flex-direction: column
@@ -222,11 +217,11 @@ td.show_map{
         white-space: nowrap;
     }
 
-    #region_form input{
+    .region_form input{
         width: 100%;
     }
 
-    #region_form .btn{
+    .region_form .btn{
         margin: 2rem auto 0;
     }
 
