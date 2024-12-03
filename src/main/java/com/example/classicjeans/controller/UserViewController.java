@@ -1,11 +1,14 @@
 package com.example.classicjeans.controller;
 
+import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +31,14 @@ public class UserViewController {
         Users user = usersService.findUserById(8L);
         model.addAttribute("user", user);
         return "/member/edit_profile";
+    }
+
+    @PostMapping("/edit-profile")
+    public String editProfile(@ModelAttribute UsersRequest request, Model model) {
+        // 추후에 로그인 중인 유저 정보로 변경 필요
+        Users user = usersService.findUserById(8L);
+        usersService.update(user.getId(), request);
+        return "redirect:/mypage";
     }
 
     // 가족정보수정
