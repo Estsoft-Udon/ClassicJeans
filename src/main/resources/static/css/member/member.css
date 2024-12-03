@@ -267,3 +267,49 @@ input:focus{
     color: #ff9e33;
     font-weight: bold;
 }
+
+/* 로그인 */
+
+.oauth2_btn_box{
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid #ddd;
+}
+
+.oauth2_btn_box ul li{
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.oauth2_btn_box button{
+    width: 100%;
+    background-size: 4rem;
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    background-position: left 1rem center;
+    padding: 0.63rem 0;
+}
+
+.oauth2_btn_box button.kakao{
+    background-color: #fee500;
+    background-image: url("/img/kakao.png");
+}
+
+.oauth2_btn_box button.naver{
+    background-color: #03c75a;
+    color: #fff;
+    background-image: url("/img/naver.png");
+}
+
+.oauth2_btn_box button.google{
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-size: 3rem;
+    background-image: url("/img/google2.png");
+}
+
+.login .btn_box{
+    margin-top: 4rem;
+}
