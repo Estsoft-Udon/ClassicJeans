@@ -1,0 +1,24 @@
+.checkout {
+    text-align: center;
+}
+.checkout .flex_box{
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+.checkout .tit h1,
+.checkout .txt_box .txt {
+    text-align: center;
+}
+.checkout .txt_box .txt + .txt {
+    margin-top: 3rem;
+}
+.checkout .sel_box label {
+    font-size: 0;
+}
+.checkout .btn_wr {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 5rem;
+}

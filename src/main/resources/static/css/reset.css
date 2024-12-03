@@ -150,7 +150,7 @@ mark{
 }
 
 .txt{
-    font-size: clamp(2.5rem,1.56vw,3rem);
+    font-size: clamp(1.8rem,1.56vw,3rem);
     line-height: clamp(3rem,2.08vw,4rem);
 }
 
@@ -281,6 +281,37 @@ dialog{
 .pagination .disabled button {
     color: #ccc;
     cursor: not-allowed;
+}
+
+/* 셀렉트 박스 */
+select{
+    width: 100%;
+    padding: 1.5rem 3rem 1.5rem 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    box-sizing: border-box;
+    font-size: clamp(1.6rem, 1.04vw, 2rem);
+    appearance: none;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.6);
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 2rem;
+}
+
+select:focus {
+    border-color: rgba(0,133,249,1);
+    outline: none;
+    color: #000;
+}
+
+select.selected {
+    color: #000;
+}
+
+select option:checked {
+    color: #000;
 }
 
 @media screen and (max-width: 767px) {
