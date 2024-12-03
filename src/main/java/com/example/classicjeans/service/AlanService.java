@@ -8,6 +8,9 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.Bazi;
+import com.example.classicjeans.repository.AlanBaziRepository;
+import com.example.classicjeans.repository.UsersRepository;
 import com.example.classicjeans.entity.DementiaData;
 import com.example.classicjeans.entity.QuestionnaireData;
 import com.example.classicjeans.repository.DementiaDataRepository;
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -24,6 +28,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -36,20 +41,28 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
+    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final AlanBaziRepository alanBaziRepository;
+    private final UsersRepository usersRepository;
+
+
 
     private final QuestionnaireDataRepository questionnaireDataRepository;
     private final DementiaDataRepository dementiaDataRepository;
 
+
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.questionnaireDataRepository = questionnaireDataRepository;
         this.dementiaDataRepository = dementiaDataRepository;
+        this.alanBaziRepository = alanBaziRepository;
+        this.usersRepository = usersRepository;
+
     }
 
     // 앨런AI test - 추후 제거
@@ -276,7 +289,27 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
+//        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
+
+    // 오늘의 운세
+    public AlanBasicResponse fetchBazi() throws JsonProcessingException {
+        String CLIENT_ID = "1a06fccc-d4f6-44ff-8daf-8dab60c82b93";
+
+        //request -> response
+        String s = "1999년 11월 13일 오늘의 운세 알려줘";
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL)
+                .queryParam("content", s)
+                .queryParam("client_id", CLIENT_ID)
+                .toUriString();
+
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        System.out.println(response.getBody());
+
+        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
+    }
+
 
     // 오늘의 운세
     public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
@@ -308,6 +341,22 @@ public class AlanService {
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
 
     }
+    public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
+        AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
+
+        Bazi bazi = new Bazi();
+        bazi.setUser(usersRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found")));
+        bazi.setDate(LocalDate.now()); // 오늘 날짜 저장
+        bazi.setContent(response.getContent()); // 운세 내용 저장
+
+        return alanBaziRepository.save(bazi);
+    }
+
+    public Bazi getBaziByUserId(Long userId) {
+        return alanBaziRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Bazi data not found"));
+    }
+
     // 운세 결과 텍스트 정리
     private String removeBaziContent(String text) {
         return text

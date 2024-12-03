@@ -71,20 +71,20 @@
             <h2 class="tit ani_load tran">알려줘 앨런아!</h2>
             <p class="txt ani_load tran">일상생활에서 생기는 사소한 궁금증을<br>앨런이에게 물어보세요.</p>
             <div class="btn_box ani_load tran">
-                <button type="button" class="btn">앨런이와 대화하러가기</button>
+                <button type="button" class="btn" onclick="goToChat()">앨런이와 대화하러가기</button>
             </div>
         </article>
         <article class="sec sec05">
             <h2 class="tit ani_load">오늘의 운세는</h2>
             <!-- 로그인 전-->
-            <p class="txt ani_load">로그인 후 오늘의 운세를 확인해보세요.</p>
-            <!-- 로그인 후-->
-            <div class="cont_wr dn">
-                <p class="sub_txt ani_load">로그인한 회원 이름</p>
-                <span class="date ani_load">당일 날짜 노출</span>
-                <div class="btn_box ani_load">
-                    <button type="button" class="btn">운세 확인하기</button>
-                </div>
+            <p class="txt log_off_txt ani_load">로그인 후 오늘의 운세를 확인해보세요.</p>
+            <!-- 운세 확인 -->
+            <div class="cont_wr log_on_txt dn">
+                <p class="txt ani_load"><span th:text="${nickname}">유저 이름</span>님</p>
+                <p class="txt ani_load" th:text="${content}">오늘의 운세는 운수대통입니다. 행복하시겠어요~</p>
+            </div>
+            <div class="btn_box ani_load">
+                <button type="button" class="btn bazi_btn">운세 확인하기</button>
             </div>
         </article>
     </div>

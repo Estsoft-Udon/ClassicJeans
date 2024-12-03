@@ -29,6 +29,7 @@
                         <button onclick="location.href='/edit_profile'" class="btn">취소하기</button>
                         <button type="submit" class="btn">변경하기</button>
                     </div>
+
                 </form>
             </section>
         </div>
@@ -40,5 +41,8 @@
     <script th:if="${errorMessage}" type="text/javascript">
         alert('현재 비밀번호가 일치하지 않습니다.');
     </script>
+    <script src="/js/common.js"></script>
+    <script src="/js/password_change.js"></script>
+    <script src="/js/password_change_after_find.js"></script>
 </th:block>
 </html>

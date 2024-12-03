@@ -1,7 +1,6 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.NursingHomeResponse;
-import com.example.classicjeans.dto.response.SanatoriumResponse;
 import com.example.classicjeans.service.NursingHomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,14 +32,13 @@ public class NursingHomeViewController {
         else if (province != null && district != null) {
             nursinghomes = service.getNursingHomeByRegion(pageable, province, district);
         } else {
-            // 없을 경우 전체 요양원 리스트 가져오기
             nursinghomes = service.getNursingHomeList(pageable);
         }
 
         model.addAttribute("nursinghomes", nursinghomes);
         model.addAttribute("search", search);
-        model.addAttribute("province", province);  // 검색된 province 값을 다시 전달
-        model.addAttribute("district", district);  // 검색된 district 값을 다시 전달
+        model.addAttribute("province", province);
+        model.addAttribute("district", district);
 
         return "/info/nursing_list";
     }

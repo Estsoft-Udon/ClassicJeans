@@ -3,6 +3,7 @@ package com.example.classicjeans.service;
 import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.repository.UsersRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -114,5 +115,22 @@ public class UsersService {
 
     public Users findByLoginId(String loginId) {
         return usersRepository.findByLoginIdAndIsDeletedFalse(loginId);
+    }
+
+
+    public Users findById(Long userId) {
+        return usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+    }
+
+    public void changePasswordAfterFind(String loginId, String newPassword) {
+        Users user = usersRepository.findByLoginId(loginId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+    }
+
+    public Users findByLoginIdAndEmail(String loginId, String email) {
+
+        return usersRepository.findByLoginIdAndEmailAndIsDeletedFalse(loginId, email);
     }
 }
