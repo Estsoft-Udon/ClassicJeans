@@ -73,26 +73,26 @@
             <!-- 맨앞으로 버튼 -->
             <li th:if="${sanatoriums.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=0'}">
-                    <button class="first-btn page_btn"><< 맨앞으로</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
             </li>
 
             <!-- 이전 버튼 -->
             <li th:if="${sanatoriums.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn">이전</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn">이전</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${sanatoriums.number - 1}}">
-                    <button class="prev-btn page_btn">< 이전</button>
+                    <button class="prev-btn page_btn">이전</button>
                 </a>
             </li>
 
@@ -100,13 +100,13 @@
             <li th:if="${!sanatoriums.getContent().isEmpty()}" th:each="i : ${#numbers.sequence(sanatoriums.number - 2 > 0 ? sanatoriums.number - 2 : 0, sanatoriums.number + 2 < sanatoriums.totalPages - 1 ? sanatoriums.number + 2 : sanatoriums.totalPages - 1)}"
                 th:class="${i == sanatoriums.number} ? 'on'">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}">1</button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1</button>
                 </a>
             </li>
 
@@ -118,26 +118,26 @@
             <!-- 다음 버튼 -->
             <li th:if="${sanatoriums.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn">다음</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn">다음</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${sanatoriums.number + 1}}">
-                    <button class="next-btn page_btn">다음 ></button>
+                    <button class="next-btn page_btn">다음</button>
                 </a>
             </li>
 
             <!-- 맨끝으로 버튼 -->
             <li th:if="${sanatoriums.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.totalPages - 1}}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.totalPages - 1}}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${sanatoriums.totalPages - 1}}">
-                    <button class="last-btn page_btn">맨끝으로 >></button>
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
             </li>
         </ul>
