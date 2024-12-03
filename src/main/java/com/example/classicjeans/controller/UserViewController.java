@@ -22,7 +22,7 @@ public class UserViewController {
     }
 
     // 회원 정보 수정
-    @GetMapping("/edit_profile")
+    @GetMapping("/edit-profile")
     public String editProfile(Model model) {
         // 추후에 로그인 중인 유저 정보로 변경 필요
         Users user = usersService.findUserById(8L);
