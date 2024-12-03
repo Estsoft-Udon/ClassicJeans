@@ -90,61 +90,67 @@ async function checkNickname() {
     }
 }
 
-// 이메일 중복확인
-async function checkEmail() {
-    const email = document.getElementById('email').value.trim();
+// 이메일 실시간 중복확인
+document.getElementById('email').addEventListener('input', function() {
+    const email = this.value.trim();
     const messageElement = document.getElementById('emailCheckMessage');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email) {
         messageElement.textContent = '이메일을 입력하세요.';
         messageElement.style.color = 'red';
-        return Promise.resolve(false);
+        isEmailChecked = false;
+        document.getElementById('emailAuthBtn').disabled = true;  // 이메일 인증 버튼 비활성화
+        return;
     }
 
     if (!emailPattern.test(email)) {
         messageElement.textContent = '유효한 이메일 주소를 입력하세요.';
         messageElement.style.color = 'red';
-        return Promise.resolve(false);
+        isEmailChecked = false;
+        document.getElementById('emailAuthBtn').disabled = true;  // 이메일 인증 버튼 비활성화
+        return;
     }
 
-    try {
-        const response = await fetch('/api/checkEmail', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email })
-        });
-
-        const isDuplicate = await response.json();
-
-        if (isDuplicate) {
-            messageElement.textContent = '이미 사용 중인 이메일입니다.';
+    // 이메일 중복 확인 API 호출
+    fetch('/api/checkEmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+    })
+        .then(response => response.json())
+        .then(isDuplicate => {
+            if (isDuplicate) {
+                messageElement.textContent = '이미 사용 중인 이메일입니다.';
+                messageElement.style.color = 'red';
+                isEmailChecked = false;
+                document.getElementById('emailAuthBtn').disabled = true;  // 이메일 인증 버튼 비활성화
+            } else {
+                messageElement.textContent = '사용 가능한 이메일입니다.';
+                messageElement.style.color = 'green';
+                isEmailChecked = true;
+                document.getElementById('emailAuthBtn').disabled = false;  // 이메일 인증 버튼 활성화
+            }
+        })
+        .catch(error => {
+            console.error('이메일 중복 확인 오류:', error);
+            messageElement.textContent = '이메일 확인 중 오류가 발생했습니다.';
             messageElement.style.color = 'red';
             isEmailChecked = false;
-        } else {
-            messageElement.textContent = '사용 가능한 이메일입니다.';
-            messageElement.style.color = 'green';
-            fetch('/email/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: new URLSearchParams({
-                    email: document.getElementById('email').value, // 이메일 입력값
-                })
-            })
+            document.getElementById('emailAuthBtn').disabled = true;  // 이메일 인증 버튼 비활성화
+        });
+});
 
-            showEmailModal();
-
-            isEmailChecked = true;
-        }
-    } catch (error) {
-        console.error('이메일 중복 확인 오류:', error);
-        isEmailChecked = false;
+// 이메일 인증 버튼 클릭 시 모달 띄우기
+document.getElementById('emailAuthBtn').addEventListener('click', function() {
+    if (isEmailChecked) {
+        showEmailModal();  // 인증 모달 창을 여는 함수 호출
+    } else {
+        alert('이메일 중복 확인을 먼저 해주세요');
     }
-}
+});
 
 // 모달 띄우기
 function showEmailModal() {
@@ -220,4 +226,3 @@ document.getElementById("emailAuthForm").addEventListener("submit", function (ev
             alert(error.message); // 오류 메시지 표시
         });
 });
-

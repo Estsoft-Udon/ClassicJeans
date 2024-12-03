@@ -117,12 +117,12 @@ form{
 }
 
 .warning{
-    font-size: 1.7rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
     text-align: center;
     font-weight: 500;
 }
 
-.info-section span{
+.info-section span:not(.req){
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);
     padding: 1rem;
@@ -166,6 +166,7 @@ form{
     font-weight: 500;
     text-align: center;
     word-break: keep-all;
+    line-height: 1.25;
 }
 
 .family_cont{
@@ -208,4 +209,61 @@ input:last-child{
 
 input:focus{
     border: 1px solid rgba(0,133,249,1);
+}
+
+/* 가족 정보 수정 */
+.family-section{
+    position: relative;
+    padding-top: 1rem;
+}
+.edit_family .delete_btn{
+    width: auto;
+    padding: 1rem 2rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+}
+
+.empty_family p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: center;
+    margin: 15rem 0;
+}
+
+.autocomplete_cont {
+    position: relative;
+}
+
+.autocomplete_list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.autocomplete_list.active {
+    display: block;
+}
+
+.autocomplete_item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete_item:hover {
+    background: #f0f0f0;
+}
+
+.req{
+    color: #ff9e33;
+    font-weight: bold;
 }

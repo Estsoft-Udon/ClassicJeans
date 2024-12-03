@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/member/member.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap member edit_family">
+        <div class="w_1280">
+            <div class="tit mw_50">
+                <h1>가족 정보 수정</h1>
+                <p>
+                    연동할 가족 정보를 추가 또는 삭제할 수 있습니다. <br>
+                    저장하기 버튼을 반드시 눌러 완료해주세요 🏠
+                </p>
+            </div>
+            <section class="edit_profile info-section">
+                <form>
+                    <div id="family-container">
+                        <!-- 기존 가족 정보를 서버에서 전달받아 렌더링 필요하시다면 참고해주시고, 필요없다면 삭제해주세요-->
+<!--                        <div th:each="family, iterStat : ${families}" class="family-section" th:id="'family-' + ${iterStat.index}">-->
+<!--                            <button type="button" th:onclick="'removeFamily(' + 'family-' + ${iterStat.index} + ')'" class="btn delete_btn">삭제</button>-->
+<!--                            <label for="'relationship-' + ${iterStat.index}">가족 관계</label>-->
+<!--                            <input type="text" th:id="'relationship-' + ${iterStat.index}" th:name="'families[' + ${iterStat.index} + '].relation'" th:value="${family.relation}" required>-->
+<!--                            <label for="'family-name-' + ${iterStat.index}">이름</label>-->
+<!--                            <input type="text" th:id="'family-name-' + ${iterStat.index}" th:name="'families[' + ${iterStat.index} + '].name'" th:value="${family.name}" required>-->
+<!--                            <label for="'family-birth-' + ${iterStat.index}">생년월일</label>-->
+<!--                            <input type="date" th:id="'family-birth-' + ${iterStat.index}" th:name="'families[' + ${iterStat.index} + '].birthDate'" th:value="${family.birthDate}" required>-->
+<!--                            <label for="'family-gender-' + ${iterStat.index}">성별</label>-->
+<!--                            <input type="text" th:id="'family-gender-' + ${iterStat.index}" th:name="'families[' + ${iterStat.index} + '].gender'" th:value="${family.gender}" required>-->
+<!--                        </div>-->
+                        <div class="family-section">
+                            <button type="button" onclick="removeFamily()" class="btn delete_btn">삭제</button>
+                            <div class="autocomplete_cont">
+                                <label for="relationship"><span class="req">*</span>가족 관계</label>
+                                <input type="text" id="relationship" autocomplete="off" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required>
+                                <div class="autocomplete_list" id="relation-autocomplete"></div>
+                            </div>
+                            <label for="family-name"><span class="req">*</span>이름</label>
+                            <input type="text" id="family-name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
+                            <label for="family-birth"><span class="req">*</span>생년월일</label>
+                            <input type="date" id="family-birth" required>
+                            <label for="family-gender"><span class="req">*</span>성별</label>
+                            <input type="text" id="family-gender" placeholder="등록하실 가족의 성별을 입력해주세요" required>
+                        </div>
+                        <!-- 등록된 가족 정보가 없을 때 dn 클래스는 display:none 입니다-->
+                        <div class="empty_family dn">
+                            <p>등록된 가족 정보가 없습니다.</p>
+                        </div>
+                    </div>
+                    <button type="button" id="add-family" class="btn">+ 가족 정보 추가</button>
+                    <div class="btn_box">
+                        <button onclick="location.href='/edit_profile'" class="btn">취소하기</button>
+                        <button type="submit" class="btn">저장하기</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script src="/js/edit_family.js"></script>
+</th:block>
+</html>

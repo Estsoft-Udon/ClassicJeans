@@ -44,12 +44,18 @@
                     <div class="id_box">
                         <label for="email" class="dn"></label>
                         <input type="email" id="email" name="email" required placeholder="이메일">
-                        <button type="button" onclick="checkEmail()" class="reversal_btn">중복 확인</button>
+                        <button type="button" id="emailAuthBtn" class="reversal_btn" disabled>이메일 인증</button>
                     </div>
 
                     <!-- 생일 입력 -->
                     <label for="dateOfBirth">생년월일</label>
                     <input type="date" id="dateOfBirth" name="dateOfBirth" required placeholder="생년월일">
+
+                    <!-- 출생 시간 입력 -->
+                    <label for="hourOfBirth">출생 시간</label>
+                    <select id="hourOfBirth" name="hourOfBirth" required>
+                        <option value="">선택하세요</option>
+                    </select>
 
                     <!-- 음력 여부 선택 -->
                     <label for="isLunar">음력 여부</label>
@@ -87,11 +93,15 @@
             </section>
         </div>
     </div>
-
-    <!-- 출생 시간 입력 -->
-    <label for="hourOfBirth">출생 시간</label>
-    <input type="number" id="hourOfBirth" name="hourOfBirth" min="0" max="23" placeholder="출생 시간">
-
+    <script>
+        const hourSelect = document.getElementById('hourOfBirth');
+        for (let i = 0; i <= 23; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i}시`;
+            hourSelect.appendChild(option);
+        }
+    </script>
     <script src="/js/common.js"></script>
     <script src="/js/signup.js"></script>
     <script src="/js/password_check.js"></script>
