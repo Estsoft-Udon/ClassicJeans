@@ -16,34 +16,34 @@
                 <form method="POST">
                     <!-- 이름 -->
                     <label for="name">이름</label>
-                    <input type="text" id="name" name="name" value="청바지" disabled>
+                    <input type="text" id="name" name="name" th:value="${user.name}" disabled>
 
                     <button type="button" onclick="window.location.href='/change_pw'" class="btn">비밀번호 변경하러가기
                     </button>
 
                     <!-- 아이디 -->
                     <label for="userName">아이디</label>
-                    <input type="text" id="userName" name="name" value="홍길동" disabled>
+                    <input type="text" id="userName" name="name" th:value="${user.loginId}" disabled>
 
                     <!-- 닉네임 -->
                     <label for="nickname" class="label">닉네임</label>
                     <div id="nicknameCheckMessage" class="check-message"></div>
                     <div class="id_box">
-                        <input type="text" id="nickname" name="nickname" required placeholder="닉네임">
+                        <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required placeholder="닉네임">
                         <button type="button" onclick="checkNickname()" class="btn">중복 확인</button>
                     </div>
 
                     <label for="userBirthday">생년월일</label>
-                    <input type="text" id="userBirthday" name="name" value="1956.01.23" disabled>
+                    <input type="text" id="userBirthday" name="name" th:value="${user.dateOfBirth}" disabled>
 
                     <label for="userGender">성별</label>
-                    <input type="text" id="userGender" name="name" value="여성" disabled>
+                    <input type="text" id="userGender" name="name" th:value="${user.gender.displayName}" disabled>
 
                     <!-- 이메일 -->
                     <label for="email" class="label">이메일</label>
                     <div id="emailCheckMessage" class="check-message"></div>
                     <div class="id_box">
-                        <input type="email" id="email" name="email" required placeholder="이메일">
+                        <input type="email" id="email" name="email" th:value="${user.email}" required placeholder="이메일">
                         <button type="button" onclick="checkEmail()" class="btn">중복 확인</button>
                     </div>
 
