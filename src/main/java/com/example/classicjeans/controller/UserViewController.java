@@ -22,4 +22,10 @@ public class UserViewController {
     public String editFamily() {
         return "/member/edit_family";
     }
+
+    // 비밀번호 번경
+    @GetMapping("/change_pw")
+    public String changePassword() {
+        return "/member/change_pw";
+    }
 }
