@@ -1,56 +1,57 @@
-let isEmailVerified = false; // ÀÌ¸ŞÀÏ ÀÎÁõ »óÅÂ º¯¼ö
-let isEmailChecked = false; // Á¸ÀçÇÏ´Â ÀÌ¸ŞÀÏÀÎÁö È®ÀÎ
-// ÀÌ¸ŞÀÏ Áßº¹È®ÀÎ
+let isEmailVerified = false; // ì´ë©”ì¼ ì¸ì¦ ìƒíƒœ ë³€ìˆ˜
+let isEmailChecked = false; // ì¡´ì¬í•˜ëŠ” ì´ë©”ì¼ì¸ì§€ í™•ì¸
+// ì´ë©”ì¼ ì¤‘ë³µí™•ì¸
 async function checkEmail() {
     const email = document.getElementById('email').value.trim();
+    const login_id = document.getElementById('loginId').value.trim();
 
     try {
-        const response = await fetch('/api/checkEmail', {
+        const response = await fetch('/api/checkEmailAndLoginId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email, login_id })
         });
 
         const isDuplicate = await response.json();
 
         if (isDuplicate) {
-            alert('ÀÌ¸ŞÀÏ ÀÎÁõ ÄÚµå°¡ Àü¼ÛµÇ¾ú½À´Ï´Ù.');
+            alert('ì´ë©”ì¼ ì¸ì¦ ì½”ë“œê°€ ì „ì†¡ë˜ì—ˆìŠµë‹ˆë‹¤.');
 
-            fetch('/send-email', {
+            fetch('/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: new URLSearchParams({
-                    email: document.getElementById('email').value, // ÀÌ¸ŞÀÏ ÀÔ·Â°ª
+                    email: document.getElementById('email').value, // ì´ë©”ì¼ ì…ë ¥ê°’
                 })
             })
 
             isEmailChecked = true;
         } else {
-            alert('°¡ÀÔµÇÁö ¾ÊÀº ÀÌ¸ŞÀÏÀÔ´Ï´Ù.');
+            alert('ê°€ì…ë˜ì§€ ì•Šì€ ì´ë©”ì¼ì…ë‹ˆë‹¤.');
 
             isEmailChecked = false;
         }
     } catch (error) {
-        console.error('ÀÌ¸ŞÀÏ È®ÀÎ ¿À·ù:', error);
+        console.error('ì´ë©”ì¼ í™•ì¸ ì˜¤ë¥˜:', error);
         isEmailChecked = false;
     }
 }
 
-// ÀÎÁõ ÄÚµå Á¦Ãâ ÇÔ¼ö
+// ì¸ì¦ ì½”ë“œ ì œì¶œ í•¨ìˆ˜
 function submitAuthCode() {
     const authCode = document.getElementById('authCode').value.trim();
     const email = document.getElementById('email').value.trim();
 
     if (!authCode || !email) {
-        alert('ÀÎÁõ ÄÚµå¸¦ ÀÔ·ÂÇÏ¼¼¿ä.');
+        alert('ì¸ì¦ ì½”ë“œë¥¼ ì…ë ¥í•˜ì„¸ìš”.');
         return;
     }
 
-    // ÀÎÁõ ÄÚµå¿Í ÀÌ¸ŞÀÏÀ» ¼­¹ö¿¡ Àü¼ÛÇÏ¿© ÀÎÁõ È®ÀÎ
+    // ì¸ì¦ ì½”ë“œì™€ ì´ë©”ì¼ì„ ì„œë²„ì— ì „ì†¡í•˜ì—¬ ì¸ì¦ í™•ì¸
     fetch('/api/auth/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -58,18 +59,18 @@ function submitAuthCode() {
     })
         .then(response => {
             if (response.ok) {
-                return response.text(); // ÀÎÁõ ¼º°ø ½Ã ¸Ş½ÃÁö ¹İÈ¯
+                return response.text(); // ì¸ì¦ ì„±ê³µ ì‹œ ë©”ì‹œì§€ ë°˜í™˜
             } else {
-                throw new Error('ÀÎÁõ¹øÈ£ È®ÀÎ ½ÇÆĞ');
+                throw new Error('ì¸ì¦ë²ˆí˜¸ í™•ì¸ ì‹¤íŒ¨');
             }
         })
         .then(result => {
-            alert(result); // ¼­¹ö ÀÀ´ä ¸Ş½ÃÁö Ç¥½Ã
-            isEmailVerified = true; // ÀÌ¸ŞÀÏ ÀÎÁõ ¿Ï·á »óÅÂ·Î º¯°æ
-            window.location.href = '/change_pw'; // ÀÎÁõ ÈÄ Æ¯Á¤ ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+            alert(result); // ì„œë²„ ì‘ë‹µ ë©”ì‹œì§€ í‘œì‹œ
+            isEmailVerified = true; // ì´ë©”ì¼ ì¸ì¦ ì™„ë£Œ ìƒíƒœë¡œ ë³€ê²½
+            window.location.href = '/change_pw'; // ì¸ì¦ í›„ íŠ¹ì • í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
         })
         .catch(error => {
-            isEmailVerified = false; // ÀÎÁõ ½ÇÆĞ »óÅÂ·Î º¯°æ
-            alert(error.message); // ¿À·ù ¸Ş½ÃÁö Ç¥½Ã
+            isEmailVerified = false; // ì¸ì¦ ì‹¤íŒ¨ ìƒíƒœë¡œ ë³€ê²½
+            alert(error.message); // ì˜¤ë¥˜ ë©”ì‹œì§€ í‘œì‹œ
         });
 }

@@ -16,7 +16,7 @@ public class EmailController {
     private final AuthService authService;
 
     @ResponseBody
-    @PostMapping("/send-email")
+    @PostMapping("/email/send")
     public String sendEmail(@RequestParam(required = false) String email) {
         String authCode = AuthCodeGenerator.generateCode(6); // 6자리 랜덤 숫자 생성
         authService.saveAuthCode(email, authCode);
