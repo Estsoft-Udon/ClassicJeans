@@ -110,6 +110,11 @@
                 </a>
             </li>
 
+            <!-- 데이터 없음 표시 -->
+            <div th:if="${nursinghomes.getContent().isEmpty()}">
+                검색 기준에 맞는 데이터가 없습니다.
+            </div>
+
             <!-- 다음 버튼 -->
             <li th:if="${nursinghomes.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/nursing_list?search=' + ${search} + '&page=' + ${nursinghomes.number + 1}}">

@@ -53,6 +53,7 @@ public class AlanService {
     private final QuestionnaireDataRepository questionnaireDataRepository;
     private final DementiaDataRepository dementiaDataRepository;
 
+
     @Autowired
     public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
@@ -288,6 +289,25 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
+//        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
+    }
+
+    // 오늘의 운세
+    public AlanBasicResponse fetchBazi() throws JsonProcessingException {
+        String CLIENT_ID = "1a06fccc-d4f6-44ff-8daf-8dab60c82b93";
+
+        //request -> response
+        String s = "1999년 11월 13일 오늘의 운세 알려줘";
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL)
+                .queryParam("content", s)
+                .queryParam("client_id", CLIENT_ID)
+                .toUriString();
+
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        System.out.println(response.getBody());
+
+        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 
 

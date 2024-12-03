@@ -32,14 +32,13 @@ public class SanatoriumViewController {
         else if (province != null && district != null) {
             sanatoriums = service.getSanatoriumBySubregion(pageable, province, district);
         } else {
-            // 없을 경우 전체 요양원 리스트 가져오기
             sanatoriums = service.getSanatoriumList(pageable);
         }
 
         model.addAttribute("sanatoriums", sanatoriums);
         model.addAttribute("search", search);
-        model.addAttribute("province", province);  // 검색된 province 값을 다시 전달
-        model.addAttribute("district", district);  // 검색된 district 값을 다시 전달
+        model.addAttribute("province", province);
+        model.addAttribute("district", district);
 
         return "/info/sanatorium_list";
     }

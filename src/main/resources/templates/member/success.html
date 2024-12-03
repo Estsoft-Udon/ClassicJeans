@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member.css">
+    <div class="wrap member">
+        <div class="w_1280">
+            <h1 class="tit">가입 완료</h1>
+            <section>
+                <div class="success_cont mw_50">
+                    <p>환영합니다! <br> 회원가입이 성공적으로 완료되었습니다.</p>
+                    <div class="btn_box">
+                        <button onclick="location.href='login'" class="default_btn">로그인</button>
+                        <button onclick="location.href='/'" class="reversal_btn">메인으로</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</th:block>
+</html>

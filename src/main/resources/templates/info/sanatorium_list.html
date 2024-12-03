@@ -71,20 +71,20 @@
         <!-- 페이지네이션 -->
         <ul class="pagination">
             <!-- 맨앞으로 버튼 -->
-            <li th:if="${sanatoriums.hasPrevious()}" th:class="${sanatoriums.number == 0 ? 'disabled' : ''}">
+            <li th:if="${sanatoriums.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=0'}">
-                    <button class="first-btn page_btn">첫 페이지</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
                 <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=0'}">
-                    <button class="first-btn page_btn">첫 페이지</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=0'}">
-                    <button class="first-btn page_btn">첫 페이지</button>
+                    <button class="first-btn page_btn">맨앞으로</button>
                 </a>
             </li>
 
             <!-- 이전 버튼 -->
-            <li th:if="${sanatoriums.hasPrevious()}" th:class="${sanatoriums.number == 0 ? 'disabled' : ''}">
+            <li th:if="${sanatoriums.hasPrevious()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.number - 1}}">
                     <button class="prev-btn page_btn">이전</button>
                 </a>
@@ -98,7 +98,7 @@
 
             <!-- 현재 페이지 기준으로 앞뒤 2개씩 표시 -->
             <li th:if="${!sanatoriums.getContent().isEmpty()}" th:each="i : ${#numbers.sequence(sanatoriums.number - 2 > 0 ? sanatoriums.number - 2 : 0, sanatoriums.number + 2 < sanatoriums.totalPages - 1 ? sanatoriums.number + 2 : sanatoriums.totalPages - 1)}"
-                th:class="${i == sanatoriums.number ? 'on active' : ''}">
+                th:class="${i == sanatoriums.number} ? 'on'">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${i}}">
                     <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1</button>
                 </a>
@@ -116,7 +116,7 @@
             </div>
 
             <!-- 다음 버튼 -->
-            <li th:if="${sanatoriums.hasNext()}" th:class="${sanatoriums.number == sanatoriums.totalPages - 1 ? 'disabled' : ''}">
+            <li th:if="${sanatoriums.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.number + 1}}">
                     <button class="next-btn page_btn">다음</button>
                 </a>
@@ -129,20 +129,23 @@
             </li>
 
             <!-- 맨끝으로 버튼 -->
-            <li th:if="${sanatoriums.hasNext()}" th:class="${sanatoriums.number == sanatoriums.totalPages - 1 ? 'disabled' : ''}">
+            <li th:if="${sanatoriums.hasNext()}">
                 <a th:if="${search != null}" th:href="@{'/sanatorium_list?search=' + ${search} + '&page=' + ${sanatoriums.totalPages - 1}}">
-                    <button class="last-btn page_btn">마지막 페이지</button>
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
-                <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + (sanatoriums.totalPages - 1)}">
-                    <button class="last-btn page_btn">마지막 페이지</button>
+                <a th:if="${search == null and district != null}" th:href="@{'/sanatorium_list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.totalPages - 1}}">
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium_list?page=' + ${sanatoriums.totalPages - 1}}">
-                    <button class="last-btn page_btn">마지막 페이지</button>
+                    <button class="last-btn page_btn">맨끝으로</button>
                 </a>
             </li>
         </ul>
+
+
+
     </div>
-    <script src="/js/list.js"></script>
+    <script src="/js/hospital.js"></script>
     <script src="/js/kakaomap.js"></script>
 </th:block>
 </html>

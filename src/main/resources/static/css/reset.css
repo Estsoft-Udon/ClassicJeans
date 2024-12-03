@@ -93,6 +93,11 @@ img{
     height: auto;
 }
 
+
+section {
+    padding: 0 3.2rem;
+}
+
 .logo {
     width: 5rem;
     height: auto;
@@ -113,109 +118,118 @@ section{
     padding: 0 3.2rem;
 }
 
-.w_1280{
+.w_1280 {
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     padding: 20rem 0;
 }
 
-.default_btn{
+.default_btn {
     color: #fff;
-    background-color: rgba(0,133,249,1);
+    background-color: rgba(0, 133, 249, 1);
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem,1.1vw,1.6rem);
+    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
     }
 }
 
-.reversal_btn{
-    color: rgba(0,133,249,1);
+.reversal_btn {
+    color: rgba(0, 133, 249, 1);
     background-color: #fff;
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem,1.1vw,1.6rem);
-    border: 1px solid rgba(0,133,249,1);
+    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
+    border: 1px solid rgba(0, 133, 249, 1);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
     }
 }
 
-mark{
+mark {
     background-color: transparent;
 }
 
+.txt {
+    font-size: clamp(2.5rem, 1.56vw, 3rem);
+    line-height: clamp(3rem, 2.08vw, 4rem);
 .txt{
     font-size: clamp(1.8rem,1.56vw,3rem);
     line-height: clamp(3rem,2.08vw,4rem);
 }
 
-.pc{
+.pc {
     display: block;
     @media (max-width: 767px) {
         display: none;
     }
 }
 
-.mo{
+.mo {
     display: none;
     @media (max-width: 767px) {
         display: block;
     }
 }
 
-dialog{
+dialog {
     border: none;
 }
 
-.def_c{
-    color: rgba(0,133,249,1);
+.def_c {
+    color: rgba(0, 133, 249, 1);
 }
 
-.dn{
+.dn {
     display: none;
 }
 
-.btn_layout{
+.btn_layout {
     width: 100%;
     margin: 0 auto 10rem;
     text-align: center;
     display: block;
 }
 
-.mw_50{
+.mw_50 { /**/
     max-width: 50rem;
     margin: 0 auto 5rem;
 }
+
 .flex_box {
     display: flex;
 }
-
 
 .ani_load {
     transition: transform .6s ease, opacity .6s ease, filter .6s ease;
     opacity: 0;
 }
+
 .img_box img.ani_load {
     opacity: 1;
     transform: scale(1.2);
 }
+
 .btt {
     transform: translate(0, 5rem);
 }
+
 .ltr {
     transform: translate(-5rem, 0);
 }
+
 .rtl {
     transform: translate(5rem, 0);
 }
+
 .ttb {
     transform: translate(0, -5rem);
 }
+
 .ani_load.ani_view {
     /* transform: translate(0, 0); */
     opacity: 1;
@@ -229,6 +243,7 @@ dialog{
     padding: 2rem;
     transition: 0.3s;
 }
+
 .btn:hover {
     background: #e97536;
 }
@@ -283,6 +298,13 @@ dialog{
     cursor: not-allowed;
 }
 
+.oauth2_btn_box {
+
+}
+.social-btn {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
 /* 셀렉트 박스 */
 select{
     width: 100%;
@@ -318,4 +340,8 @@ select option:checked {
     .w_1280{
         padding: 20rem 1.5rem;
     }
+}
+.social-icon {
+    width: 100%;
+    height: 100%;
 }
