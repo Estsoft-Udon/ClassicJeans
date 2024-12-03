@@ -282,9 +282,3 @@ dialog{
     color: #ccc;
     cursor: not-allowed;
 }
-
-@media screen and (max-width: 767px) {
-    .w_1280{
-        padding: 20rem 1.5rem;
-    }
-}
