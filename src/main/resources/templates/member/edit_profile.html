@@ -13,7 +13,7 @@
                 </p>
             </div>
             <section class="edit_profile info-section">
-                <form method="POST">
+                <form id="editForm" method="POST" action="/edit-profile">
                     <!-- 이름 -->
                     <label for="name">이름</label>
                     <input type="text" id="name" name="name" th:value="${user.name}" disabled>
@@ -54,7 +54,7 @@
 
                     <div class="btn_box">
                         <button type="button" onclick="location.href='/mypage'" class="btn">취소하기</button>
-                        <button type="submit" class="save_btn btn">저장하기</button>
+                        <button type="submit" class="save_btn btn" disabled>저장하기</button>
                     </div>
                     <div class="bot">
                         <button type="button" onclick="location.href='/withdrawal'" class="">회원 탈퇴하기</button>
