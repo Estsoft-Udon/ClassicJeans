@@ -8,18 +8,26 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <script src="js/common.js"></script>
+    <script src="/js/common.js"></script>
   </head>
   <header>
-    <h1><img src="" alt="logo"></h1>
+    <h1 class="logo_box">
+      <a href="/" class="logo">
+        <picture>
+          <img th:src="@{/img/logo.png}" alt="logo">
+          <span>청바지</span>
+        </picture>
+      </a>
+    </h1>
     <nav>
       <ul>
         <li><a href="javascript:void(0)">AI 건강 검진</a></li>
         <li class="dept">
           <a href="javascript:void(0)">정보 마당</a>
           <div>
-            <a href="javascript:void(0)">벙원 정보</a>
-            <a href="javascript:void(0)">요양원 정보</a>
+            <a href="/hospital_list">공공의료기관찾기</a>
+            <a href="/sanatorium_list">요양원 찾기</a>
+            <a href="/nursing_list">복지시설 찾기</a>
           </div>
         </li>
         <li><a href="javascript:void(0)">알려줘 앨런아!</a></li>
@@ -35,15 +43,15 @@
             <a href="/signup">회원가입</a>
           </li>
         </ul>
-        <!-- 로그인 후 -->
-<!--        <ul class="flex_box">-->
-<!--          <li>-->
-<!--            <a href="/mypage">마이페이지</a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="/logout">로그아웃</a>-->
-<!--          </li>-->
-<!--        </ul>-->
+<!--         로그인 후 -->
+        <ul class="flex_box">
+          <li>
+            <a href="/mypage">마이페이지</a>
+          </li>
+          <li>
+            <a href="/logout">로그아웃</a>
+          </li>
+        </ul>
     </div>
   </header>
 </th:block>

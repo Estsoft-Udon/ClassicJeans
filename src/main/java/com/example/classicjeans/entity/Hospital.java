@@ -33,9 +33,7 @@ public class Hospital {
     private String district;
 
 
-    public Hospital() {
-
-    }
+    public Hospital() {}
 
     public Hospital(String name, String address, String phone, Double latitude, Double longitude, String city, String district) {
         this.name = name;

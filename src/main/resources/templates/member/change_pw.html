@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <meta charset="UTF-8">
+</head>
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member.css">
+    <div class="wrap member">
+        <div class="w_1280">
+            <h1 class="tit">비밀번호 변경</h1>
+            <section>
+                <form id="changePasswordForm" method="POST" action="/change_pw" th:if="${user != null}">
+                    <label for="currentPassword"></label>
+                    <input type="password" id="currentPassword" name="currentPassword" required placeholder="현재 비밀번호">
+
+                    <div id="passwordMessage"></div>
+                    <label for="newPassword"></label>
+                    <input type="password" id="newPassword" name="newPassword" required placeholder="변경할 비밀번호">
+
+                    <div id="passwordMatchMessage"></div>
+                    <label for="confirmPassword"></label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                           placeholder="변경할 비밀번호 확인">
+
+                    <button type="submit" class="default_btn btn_layout change_btn">확인</button>
+                </form>
+            </section>
+
+            <section>
+                <form id="changePasswordForm2" method="POST" action="/change_pw_after_find" th:if="${user == null}">
+                    <input type="hidden" name="loginId" th:value="${loginId}"/>
+
+                    <div id="passwordMessage2"></div>
+                    <label for="newPassword"></label>
+                    <input type="password" id="newPassword2" name="newPassword" required placeholder="변경할 비밀번호">
+
+                    <div id="passwordMatchMessage2"></div>
+                    <label for="confirmPassword"></label>
+                    <input type="password" id="confirmPassword2" name="confirmPassword" required
+                           placeholder="변경할 비밀번호 확인">
+
+                    <button type="submit" class="default_btn btn_layout change_btn">확인</button>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script th:if="${successMessage}" type="text/javascript">
+        alert('비밀번호가 성공적으로 변경되었습니다.');
+        window.location.href = '/mypage';
+    </script>
+    <script th:if="${errorMessage}" type="text/javascript">
+        alert('현재 비밀번호가 일치하지 않습니다.');
+    </script>
+    <script src="/js/common.js"></script>
+    <script src="/js/password_change.js"></script>
+    <script src="/js/password_change_after_find.js"></script>
+</th:block>
+</html>

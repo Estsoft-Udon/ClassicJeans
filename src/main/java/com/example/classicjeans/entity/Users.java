@@ -86,7 +86,7 @@ public class Users {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.email = request.getEmail();
-        this.grade = request.getGrade();
+        this.grade = Grade.CHUNGBAZI;
         this.dateOfBirth = request.getDateOfBirth();
         this.isLunar = request.getIsLunar();
         this.hourOfBirth = request.getHourOfBirth();
