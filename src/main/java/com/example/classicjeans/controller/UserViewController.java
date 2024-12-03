@@ -29,4 +29,22 @@ public class UserViewController {
         model.addAttribute("user", user);
         return "/member/edit_profile";
     }
+
+    // 가족정보수정
+    @GetMapping("/edit_family")
+    public String editFamily() {
+        return "/member/edit_family";
+    }
+
+    // 비밀번호 번경
+    @GetMapping("/change_pw")
+    public String changePassword() {
+        return "/member/change_pw";
+    }
+
+    // 회원 탈퇴
+    @GetMapping("/withdrawal")
+    public String withdrawal() {
+        return "/member/withdrawal";
+    }
 }
