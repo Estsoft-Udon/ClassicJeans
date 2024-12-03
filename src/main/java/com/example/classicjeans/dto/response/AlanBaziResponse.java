@@ -17,7 +17,9 @@ public class AlanBaziResponse {
     private String content;
 
     @Getter
-    static class Action {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Action {
 
         @JsonProperty(value = "name")
         private String name;
