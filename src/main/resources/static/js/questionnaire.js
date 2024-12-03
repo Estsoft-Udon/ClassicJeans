@@ -1,6 +1,6 @@
 
 // 분석받기 버튼 스크립트
-document.querySelector('.questionnaire_btn').addEventListener('click', function (event) {
+document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click', function (event) {
     event.preventDefault(); // 기본 제출 방지
     const sections = document.querySelectorAll('.step-content');
     let isValid = true;

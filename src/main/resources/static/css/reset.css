@@ -154,9 +154,6 @@ mark {
     background-color: transparent;
 }
 
-.txt {
-    font-size: clamp(2.5rem, 1.56vw, 3rem);
-    line-height: clamp(3rem, 2.08vw, 4rem);
 .txt{
     font-size: clamp(1.8rem,1.56vw,3rem);
     line-height: clamp(3rem,2.08vw,4rem);
@@ -298,13 +295,11 @@ dialog {
     cursor: not-allowed;
 }
 
-.oauth2_btn_box {
-
-}
 .social-btn {
     margin-top: 5px;
     width: 40px;
     height: 40px;
+}
 /* 셀렉트 박스 */
 select{
     width: 100%;
@@ -335,13 +330,13 @@ select.selected {
 select option:checked {
     color: #000;
 }
+.social-icon {
+    width: 100%;
+    height: 100%;
+}
 
 @media screen and (max-width: 767px) {
     .w_1280{
         padding: 20rem 1.5rem;
     }
-}
-.social-icon {
-    width: 100%;
-    height: 100%;
 }
