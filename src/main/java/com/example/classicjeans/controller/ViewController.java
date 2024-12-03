@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static com.example.classicjeans.util.SecurityUtil.*;
+
 @Controller
 @RequiredArgsConstructor
 public class ViewController {
@@ -35,53 +37,36 @@ public class ViewController {
         return "member/login";
     }
 
-    @GetMapping("/find_id")
-    public String findId() {
-        return "member/find_id";
-    }
-
     @PostMapping("/find_id")
     public String findId(String name, String email, Model model) {
         Users foundUser = usersService.searchId(name, email);
 
-        if (foundUser != null) { // ¾ÆÀÌµğ°¡ ¹ß°ßµÈ °æ¿ì
+        if (foundUser != null) { // ì•„ì´ë””ê°€ ë°œê²¬ëœ ê²½ìš°
             String loginId = foundUser.getLoginId();
             model.addAttribute("foundId", loginId);
             model.addAttribute("isIdFound", true);
 
-        } else {  // ¾ÆÀÌµğ ¹ß°ß ¿©ºÎ ÇÃ·¡±×
+        } else {  // ì•„ì´ë”” ë°œê²¬ ì—¬ë¶€ í”Œë˜ê·¸
             model.addAttribute("isIdFound", false);
         }
         return "member/find_id";
     }
 
-    @GetMapping("/find_pw")
-    public String findPw(Model model) {
-
-        return "member/find_pw";
-    }
-
-    @PostMapping("/find_pw")
-    public String findPw(Model model, String loginId) {
-
-        return "redirect:/find_pw";
-    }
-
-    // ºñ¹Ğ¹øÈ£ º¯°æ Ã³¸® (POST)
+    // ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ì²˜ë¦¬ (POST)
     @PostMapping("/change_pw")
     public String changePassword(@RequestParam String currentPassword,
                                  @RequestParam String newPassword,
                                  Model model) {
         boolean isUpdated = false;
-//        if (getLoggedInUser() != null) {
-//            isUpdated = usersService.changePassword(getLoggedInUser().getId(), currentPassword, newPassword);
-//        }
+        if (getLoggedInUser() != null) {
+            isUpdated = usersService.changePassword(getLoggedInUser().getId(), currentPassword, newPassword);
+        }
 
         if (isUpdated) {
-            model.addAttribute("successMessage", "ºñ¹Ğ¹øÈ£°¡ ¼º°øÀûÀ¸·Î º¯°æµÇ¾ú½À´Ï´Ù.");
+            model.addAttribute("successMessage", "ë¹„ë°€ë²ˆí˜¸ê°€ ì„±ê³µì ìœ¼ë¡œ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
             return "member/change_pw";
         } else {
-            model.addAttribute("errorMessage", "ÇöÀç ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+            model.addAttribute("errorMessage", "í˜„ì¬ ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return "redirect:/change_pw";
         }
     }
@@ -91,11 +76,11 @@ public class ViewController {
         String loginId = (String) session.getAttribute("loginId");
 
         if (loginId == null) {
-            model.addAttribute("errorMessage", "ºñ¹Ğ¹øÈ£ º¯°æ¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
-            throw new IllegalStateException("ºñ¹Ğ¹øÈ£ º¯°æ ¿äÃ»ÀÌ À¯È¿ÇÏÁö ¾Ê½À´Ï´Ù.");
+            model.addAttribute("errorMessage", "ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
+            throw new IllegalStateException("ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ìš”ì²­ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
 
-        model.addAttribute("successMessage", "ºñ¹Ğ¹øÈ£°¡ ¼º°øÀûÀ¸·Î º¯°æµÇ¾ú½À´Ï´Ù.");
+        model.addAttribute("successMessage", "ë¹„ë°€ë²ˆí˜¸ê°€ ì„±ê³µì ìœ¼ë¡œ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
         usersService.changePasswordAfterFind(loginId, newPassword);
 
         return "member/change_pw";
@@ -107,7 +92,7 @@ public class ViewController {
                          Model model) {
         try {
             if (!authService.isEmailVerified(request.getEmail())) {
-                model.addAttribute("error", "ÀÌ¸ŞÀÏ ÀÎÁõÀÌ ¿Ï·áµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                model.addAttribute("error", "ì´ë©”ì¼ ì¸ì¦ì´ ì™„ë£Œë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
                 return "member/signup";
             }
 
@@ -117,11 +102,5 @@ public class ViewController {
             model.addAttribute("error", e.getMessage());
             return "member/signup";
         }
-    }
-
-    // Á¢±Ù Á¦ÇÑ
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "access-denied";
     }
 }

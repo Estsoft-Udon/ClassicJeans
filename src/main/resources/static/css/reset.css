@@ -324,3 +324,9 @@ select option:checked {
         padding: 20rem 1.5rem;
     }
 }
+  
+.social-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
+}

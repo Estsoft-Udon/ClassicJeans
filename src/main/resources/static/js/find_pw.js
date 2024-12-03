@@ -76,7 +76,7 @@ function submitAuthCode() {
         .then(result => {
             alert(result); // 서버 응답 메시지 표시
             isEmailVerified = true; // 이메일 인증 완료 상태로 변경
-            window.location.href = `/change_pw`;
+            window.location.href = `/change_pw_after_find`;
         })
         .catch(error => {
             isEmailVerified = false; // 인증 실패 상태로 변경

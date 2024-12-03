@@ -156,6 +156,15 @@ document.getElementById('emailAuthBtn').addEventListener('click', function() {
 function showEmailModal() {
     const modal = document.getElementById("emailAuthModal");
     const email = document.getElementById("email").value; // 이메일 입력 필드 값 가져오기
+    fetch('/email/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            email: document.getElementById('email').value, // 이메일 입력값
+        })
+    })
     document.getElementById('authEmail').value = email; // 숨겨진 필드에 이메일 값 설정
     modal.style.display = "block";  // 모달을 보이게 설정
 }
