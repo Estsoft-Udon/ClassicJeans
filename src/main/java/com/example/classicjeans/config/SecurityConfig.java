@@ -1,5 +1,7 @@
 package com.example.classicjeans.config;
 
+import com.example.classicjeans.security.CustomAuthFailureHandler;
+import com.example.classicjeans.security.UsersDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final CustomAuthFailureHandler customAuthFailureHandler;
+    private final UsersDetailService usersDetailService;
 
     @Bean
     public WebSecurityCustomizer ignore() {
@@ -26,6 +30,10 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(
                         custom -> custom.requestMatchers("/**").permitAll()
                 )
+                .formLogin(custom -> {
+                    custom.loginPage("/login")
+                            .failureHandler(customAuthFailureHandler);
+                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }

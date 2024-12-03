@@ -21,8 +21,6 @@ public class UsersRequest {
 
     private String email;
 
-    private Grade grade;
-
     private String password;
 
     private LocalDate dateOfBirth;

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <meta charset="UTF-8">
+</head>
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member.css">
+    <div class="wrap member">
+        <div class="w_1280">
+            <h1 class="tit">회원가입</h1>
+            <section>
+                <form id="signupForm" action="/signup" method="post">
+                    <label for="name"></label>
+                    <input type="text" id="name" name="name" required placeholder="이름">
+
+                    <!-- 중복 확인 메시지 표시 -->
+                    <div id="idCheckMessage" class="id-check-message"></div>
+                    <div class="id_box">
+                        <label for="loginId" class="dn"></label>
+                        <input type="text" id="loginId" name="loginId" required placeholder="아이디">
+                        <button type="button" onclick="checkId()" class="reversal_btn">중복 확인</button>
+                    </div>
+
+                    <!-- 비밀번호 정규식 검증 메시지 -->
+                    <div id="passwordMessage"></div>
+                    <label for="password"></label>
+                    <input type="password" id="password" name="password" required placeholder="비밀번호 입력">
+                    <!-- 비밀번호 일치 여부 메시지 표시 -->
+                    <div id="passwordMatchMessage"></div>
+                    <label for="confirmPassword"></label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="비밀번호 확인">
+
+                    <!-- 닉네임 입력 및 중복 확인 -->
+                    <div id="nicknameCheckMessage" class="check-message"></div>
+                    <div class="id_box">
+                        <label for="nickname" class="dn"></label>
+                        <input type="text" id="nickname" name="nickname" required placeholder="닉네임">
+                        <button type="button" onclick="checkNickname()" class="reversal_btn">중복 확인</button>
+                    </div>
+
+                    <!-- 이메일 중복 확인 메시지 표시 -->
+                    <div id="emailCheckMessage" class="check-message"></div>
+                    <div class="id_box">
+                        <label for="email" class="dn"></label>
+                        <input type="email" id="email" name="email" required placeholder="이메일">
+                        <button type="button" onclick="checkEmail()" class="reversal_btn">중복 확인</button>
+                    </div>
+
+                    <!-- 생일 입력 -->
+                    <label for="dateOfBirth">생년월일</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" required placeholder="생년월일">
+
+                    <!-- 음력 여부 선택 -->
+                    <label for="isLunar">음력 여부</label>
+                    <select id="isLunar" name="isLunar">
+                        <option value="true">음력</option>
+                        <option value="false">양력</option>
+                    </select>
+
+                    <!-- 성별 선택 -->
+                    <label for="gender">성별</label>
+                    <select id="gender" name="gender" required>
+                        <option value="MALE">남성</option>
+                        <option value="FEMALE">여성</option>
+                        <option value="OTHER">기타</option>
+                    </select>
+
+                    <div class="btn_box">
+                        <button type="button" onclick="cancel()" class="reversal_btn">취소</button>
+                        <button type="submit" class="default_btn">회원가입</button>
+                    </div>
+                </form>
+
+                <div id="emailAuthModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeEmailModal()">&times;</span>
+                        <p>인증번호가 발송되었습니다.</p>
+                        <form id="emailAuthForm">
+                            <input type="hidden" id="authEmail" name="email" value=""> <!-- 숨겨진 이메일 필드 -->
+                            <label for="emailAuthCode"></label>
+                            <input type="text" id="emailAuthCode" name="authCode" required placeholder="인증번호를 입력하세요">
+                            <button type="submit">인증번호 확인</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 출생 시간 입력 -->
+    <label for="hourOfBirth">출생 시간</label>
+    <input type="number" id="hourOfBirth" name="hourOfBirth" min="0" max="23" placeholder="출생 시간">
+
+    <script src="/js/common.js"></script>
+    <script src="/js/signup.js"></script>
+    <script src="/js/password_check.js"></script>
+</th:block>
+</html>
