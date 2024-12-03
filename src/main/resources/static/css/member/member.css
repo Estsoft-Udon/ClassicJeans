@@ -128,12 +128,12 @@ form{
     border: 1px solid rgba(0, 0, 0, 0.2);
     padding: 1rem;
     border-radius: 1rem;
-    font-size: 1.5rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
     display: block;
     margin-bottom: 1.5rem;
 }
 
-.info-section label{
+label{
     font-size: clamp(1.5rem, 1vw, 1.8rem);
     padding-left: 0.5rem;
 }
@@ -199,7 +199,7 @@ input{
     border: 1px solid rgba(0, 0, 0, 0.2);
     padding: 1rem;
     border-radius: 1rem;
-    font-size: clamp(1.2rem,0.78vw,1.5rem);
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
     display: block;
     margin-bottom: 1.5rem;
 }
@@ -261,7 +261,7 @@ input:focus{
 }
 
 .req{
-    color: #ff9e33;
+    color: #013E8B;
     font-weight: bold;
 }
 
@@ -283,10 +283,10 @@ input:focus{
     background-size: 4rem;
     background-repeat: no-repeat;
     border-radius: 1rem;
-    font-size: 1.6rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
     font-weight: 500;
     background-position: left 1rem center;
-    padding: 0.63rem 0;
+    padding: 1rem 0;
 }
 
 .oauth2_btn_box button.kakao{
