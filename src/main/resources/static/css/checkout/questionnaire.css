@@ -1,0 +1,126 @@
+.progress-container {
+    position: fixed;
+    top: 9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: #fff;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding: 3.5rem 2rem 1.5rem;
+    max-width: 128rem;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 5.8rem;
+    left: 50%;
+    width: calc(100% - 100px);
+    height: 1.5rem;
+    background-color: #fff;
+    z-index: -1;
+    transform: translateX(-50%);
+    border: 0.5rem solid #efefef;
+}
+
+.progress {
+    height: 100%;
+    background-color: #013E8B;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.circle {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 0.8rem solid #efefef;
+}
+
+.step.active .circle {
+    background-color: #013E8B;
+    transform: scale(1.2);
+}
+
+.step p{
+    margin-top: 1.5rem;
+    font-size: clamp(1.2rem, 1.04vw, 1.8rem);
+}
+.step.active p {
+    font-weight: bold;
+}
+.step-content {
+    padding-top: 10rem;
+}
+.step-content h2 {
+    font-weight: bold;
+    font-size: clamp(1.8rem,1.56vw,3rem);
+}
+.question + .question {
+    margin-top: 5rem;
+}
+.question p{
+    margin-top: 1.5rem;
+    font-size: clamp(1.2rem, 1.04vw, 1.8rem);
+    margin-bottom: 4rem;
+    font-weight: 500;
+}
+label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: clamp(1.2rem, 1.04vw, 1.8rem);
+}
+label + label {
+    margin-top: 1.5rem;
+}
+input[type="radio"] {
+    display: none;
+}
+input[type="radio"] + span {
+    display: block;
+    padding: 3rem 2rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    text-align: center;
+    transition: background-color 0.2s linear;
+}
+label:hover input[type="radio"] + span,
+input[type="radio"]:checked + span{
+    background-color: #013E8B;
+    color: #fff;
+    font-weight: bold;
+}
+.questionnaire_btn {
+    margin: 10rem 3.2rem 0;
+    width: calc(100% - 6.4rem);
+}
+@media screen and (max-width: 767px) {
+    .step-content {
+        padding: 5rem 0 0;
+    }
+    input[type="radio"] + span {
+        padding: 2.5rem 0;
+    }
+    .questionnaire_btn {
+        margin: 7rem 0 0;
+        width: 100%;
+    }
+}
