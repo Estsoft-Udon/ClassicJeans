@@ -13,6 +13,6 @@ public class MainController {
 
     @RequestMapping("/chat")
     public String chat() {
-        return "chat";
+        return "chat/chat";
     }
 }
