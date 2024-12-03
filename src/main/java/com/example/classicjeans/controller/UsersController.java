@@ -4,7 +4,9 @@ import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.UsersResponse;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.UsersService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,12 +90,27 @@ public class UsersController {
 
     // 비밀번호 찾기 시 가입된 email인지 체크
     @PostMapping("/checkEmailAndLoginId")
-    public ResponseEntity<Users> checkEmailAndLoginId(@RequestBody Map<String, String> requestBody) {
-        String email = requestBody.get("email");
+    public ResponseEntity<Map<String, String>> checkEmailAndLoginId(@RequestBody Map<String, String> requestBody,
+                                                                    HttpSession session) {
         String loginId = requestBody.get("loginId");
-        Users foundUser = usersService.findByLoginIdAndEmail(email, loginId);
-        return ResponseEntity.ok(foundUser);
+        String email = requestBody.get("email");
+
+        try {
+            Users foundUser = usersService.findByLoginIdAndEmail(loginId, email);
+
+            if (foundUser == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "사용자나 이메일을 찾을 수 없습니다."));
+            }
+            session.setAttribute("loginId", loginId);
+
+            return ResponseEntity.ok(Map.of("message", "인증 코드가 이메일로 전송되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "서버 오류가 발생했습니다."));
+        }
     }
+
 //
 //    // 회원탈퇴
 //    @PostMapping("/withdrawal")

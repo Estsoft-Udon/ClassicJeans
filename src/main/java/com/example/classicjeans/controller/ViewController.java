@@ -99,9 +99,15 @@ public class ViewController {
     }
 
     @PostMapping("/change_pw_after_find")
-    public String changePasswordAfterFind(@RequestParam String newPassword,
-                                          @ModelAttribute("loginId") String loginId) {
+    public String changePasswordAfterFind(String newPassword, HttpSession session, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
 
+        if (loginId == null) {
+            model.addAttribute("errorMessage", "비밀번호 변경에 실패하였습니다.");
+            throw new IllegalStateException("비밀번호 변경 요청이 유효하지 않습니다.");
+        }
+
+        model.addAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
         usersService.changePasswordAfterFind(loginId, newPassword);
 
         return "member/change_pw";
