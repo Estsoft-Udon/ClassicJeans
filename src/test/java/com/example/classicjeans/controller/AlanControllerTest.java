@@ -92,4 +92,50 @@ class AlanControllerTest {
                 .andExpect(jsonPath("$.summaryEvaluation[0]").value("Evaluation 1"))
                 .andExpect(jsonPath("$.improvementSuggestions[0]").value("Suggestion 1"));
     }
+
+    // 치매 검사 테스트
+    @Test
+    void testGetDementiaResponseWithNewRequest() throws Exception {
+        AlanDementiaRequest request = new AlanDementiaRequest();
+        request.setMemoryChange(MemoryChange.SOMETIMES);
+        request.setDailyConfusion(CommonFrequency.NONE);
+        request.setProblemSolvingChange(CommonFrequency.SOMETIMES);
+        request.setLanguageChange(CommonFrequency.NONE);
+        request.setKnowsDate(true);
+        request.setKnowsLocation(true);
+        request.setRemembersRecentEvents(true);
+        request.setFrequencyOfRepetition(CommonFrequency.NONE);
+        request.setLostItemsFrequency(CommonFrequency.SOMETIMES);
+        request.setDailyActivityDifficulty(CommonFrequency.NONE);
+        request.setGoingOutAlone(CommonFrequency.NONE);
+        request.setFinancialManagementDifficulty(CommonFrequency.NONE);
+        request.setAnxietyOrAggression(CommonFrequency.NONE);
+        request.setHallucinationOrDelusion(CommonFrequency.NONE);
+        request.setSleepPatternChange(CommonFrequency.NONE);
+        request.setHasChronicDiseases(false);
+        request.setHasStrokeHistory(false);
+        request.setHasFamilyDementia(false);
+
+        AlanDementiaResponse response = new AlanDementiaResponse();
+        response.setContent("정상 상태 평가");
+        response.setSummaryEvaluation(Arrays.asList("기억력 변화는 드뭅니다.", "인지 기능은 전반적으로 안정적입니다."));
+        response.setImprovementSuggestions(Arrays.asList("건강한 식단 유지", "적절한 신체 활동 지속"));
+        response.setAction(new AlanDementiaResponse.Action("normal_action", "상태가 양호합니다."));
+
+        // 서비스 모킹
+        when(alanService.fetchDementiaResponse(request)).thenReturn(response);
+
+        // MockMvc 테스트 수행
+        mockMvc.perform(post("/api/analysis/dementia")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value("정상 상태 평가"))
+                .andExpect(jsonPath("$.summaryEvaluation[0]").value("기억력 변화는 드뭅니다."))
+                .andExpect(jsonPath("$.summaryEvaluation[1]").value("인지 기능은 전반적으로 안정적입니다."))
+                .andExpect(jsonPath("$.improvementSuggestions[0]").value("건강한 식단 유지"))
+                .andExpect(jsonPath("$.improvementSuggestions[1]").value("적절한 신체 활동 지속"))
+                .andExpect(jsonPath("$.action.name").value("normal_action"))
+                .andExpect(jsonPath("$.action.speak").value("상태가 양호합니다."));
+    }
 }
