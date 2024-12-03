@@ -1,45 +1,54 @@
 let isEmailVerified = false; // 이메일 인증 상태 변수
 let isEmailChecked = false; // 존재하는 이메일인지 확인
-// 이메일 중복확인
+
+// 이메일 존재 확인
 async function checkEmail() {
     const email = document.getElementById('email').value.trim();
-    const login_id = document.getElementById('loginId').value.trim();
+    const loginId = document.getElementById('loginId').value.trim();
 
     try {
+        // 첫 번째 API 호출: 이메일과 로그인 ID 확인
         const response = await fetch('/api/checkEmailAndLoginId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, login_id })
+            body: JSON.stringify({ email, loginId })
         });
 
-        const isDuplicate = await response.json();
+        const data = await response.json(); // JSON 응답 파싱
 
-        if (isDuplicate) {
-            alert('이메일 인증 코드가 전송되었습니다.');
+        if (response.ok) {
+            // 성공 메시지 처리
+            alert(data.message);
 
-            fetch('/email/send', {
+            // 두 번째 API 호출: 이메일 인증 코드 전송
+            const emailResponse = await fetch('/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: new URLSearchParams({
-                    email: document.getElementById('email').value, // 이메일 입력값
-                })
-            })
+                body: new URLSearchParams({ email }) // email만 전송
+            });
 
-            isEmailChecked = true;
+            if (emailResponse.ok) {
+                isEmailChecked = true;
+            } else {
+                alert('이메일 인증 코드 전송에 실패했습니다.');
+                isEmailChecked = false;
+            }
         } else {
-            alert('가입되지 않은 이메일입니다.');
-
+            // 실패 메시지 처리
+            alert(data.error || '가입되지 않은 이메일입니다.');
             isEmailChecked = false;
         }
     } catch (error) {
         console.error('이메일 확인 오류:', error);
+        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
         isEmailChecked = false;
     }
 }
+
 
 // 인증 코드 제출 함수
 function submitAuthCode() {
@@ -67,7 +76,7 @@ function submitAuthCode() {
         .then(result => {
             alert(result); // 서버 응답 메시지 표시
             isEmailVerified = true; // 이메일 인증 완료 상태로 변경
-            window.location.href = '/change_pw'; // 인증 후 특정 페이지로 리다이렉트
+            window.location.href = `/change_pw`;
         })
         .catch(error => {
             isEmailVerified = false; // 인증 실패 상태로 변경

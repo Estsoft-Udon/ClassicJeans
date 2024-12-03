@@ -96,6 +96,8 @@ img {
 
 
 section {
+    padding: 0 3.2rem;
+}
 
 .logo {
     width: 5rem;
@@ -111,9 +113,6 @@ section {
 .logo_box picture{
     display: flex;
     align-items: center;
-}
-
-    padding: 0 3.2rem;
 }
 
 
@@ -292,4 +291,17 @@ dialog {
 .pagination .disabled button {
     color: #ccc;
     cursor: not-allowed;
+}
+
+.oauth2_btn_box {
+
+}
+.social-btn {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+}
+.social-icon {
+    width: 100%;
+    height: 100%;
 }
