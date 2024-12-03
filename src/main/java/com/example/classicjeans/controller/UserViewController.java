@@ -28,4 +28,10 @@ public class UserViewController {
     public String changePassword() {
         return "/member/change_pw";
     }
+
+    // 회원 탈퇴
+    @GetMapping("/withdrawal")
+    public String withdrawal() {
+        return "/member/withdrawal";
+    }
 }
