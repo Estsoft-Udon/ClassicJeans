@@ -47,4 +47,16 @@ public class UserViewController {
     public String withdrawal() {
         return "/member/withdrawal";
     }
+
+    // 회원가입
+    @GetMapping("/signup")
+    public String signup(Model model) {
+
+        return "member/signup";
+    }
+
+    @GetMapping("/success")
+    public String success() {
+        return "member/success";
+    }
 }

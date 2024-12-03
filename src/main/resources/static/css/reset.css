@@ -96,6 +96,8 @@ img {
 
 
 section {
+    padding: 0 3.2rem;
+}
 
 .logo {
     width: 5rem;
@@ -111,9 +113,6 @@ section {
 .logo_box picture{
     display: flex;
     align-items: center;
-}
-
-    padding: 0 3.2rem;
 }
 
 

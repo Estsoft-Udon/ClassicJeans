@@ -67,18 +67,6 @@ public class ViewController {
         return "redirect:/find_pw";
     }
 
-    @GetMapping("/change_pw")
-    public String changePw(Model model, String loginId) {
-//        if (SecurityUtil.getLoggedInUser() != null) {
-//            Users user = usersService.findUserById(SecurityUtil.getLoggedInUser().getId());
-//            model.addAttribute("user", user);
-//        } else {
-//            model.addAttribute("loginId", loginId);
-//        }
-
-        return "member/change_pw";
-    }
-
     // 비밀번호 변경 처리 (POST)
     @PostMapping("/change_pw")
     public String changePassword(@RequestParam String currentPassword,
@@ -114,14 +102,6 @@ public class ViewController {
     }
 
 
-
-    // 회원가입
-    @GetMapping("/signup")
-    public String signup(Model model) {
-
-        return "member/signup";
-    }
-
     @PostMapping("/signup")
     public String signup(@ModelAttribute UsersRequest request,
                          Model model) {
@@ -138,39 +118,6 @@ public class ViewController {
             return "member/signup";
         }
     }
-
-    @GetMapping("/success")
-    public String success() {
-        return "member/success";
-    }
-
-    // 회원 탈퇴
-    @GetMapping("/withdrawal")
-    public String withdrawal() {
-        return "member/withdrawal";
-    }
-
-//    @GetMapping("/mypage")
-//    public String mypage(Model model) {
-//        Users userById = usersService.findUserById(getLoggedInUser().getId());
-//        model.addAttribute("user", userById);
-//        return "member/mypage";
-//    }
-
-//    @GetMapping("/edit_profile")
-//    public String editProfile(Model model) {
-//        // 로그인 사용자의 정보
-//        Users users = usersService.findUserById(getLoggedInUser().getId());
-//        model.addAttribute("user", users);
-//
-//        return "member/edit_profile";
-//    }
-//
-//    @PostMapping("/edit_profile")
-//    public String editProfile(@ModelAttribute UsersRequest request) {
-//        usersService.updateUser(getLoggedInUser().getId(), request);
-//        return "redirect:/mypage";
-//    }
 
     // 접근 제한
     @GetMapping("/access-denied")
