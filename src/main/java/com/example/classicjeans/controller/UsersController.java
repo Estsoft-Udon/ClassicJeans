@@ -85,6 +85,15 @@ public class UsersController {
         boolean isDuplicate = usersService.isLoginCheckEmail(email);
         return ResponseEntity.ok(isDuplicate);
     }
+
+    // 비밀번호 찾기 시 가입된 email인지 체크
+    @PostMapping("/checkEmailAndLoginId")
+    public ResponseEntity<Users> checkEmailAndLoginId(@RequestBody Map<String, String> requestBody) {
+        String email = requestBody.get("email");
+        String loginId = requestBody.get("loginId");
+        Users foundUser = usersService.findByLoginIdAndEmail(email, loginId);
+        return ResponseEntity.ok(foundUser);
+    }
 //
 //    // 회원탈퇴
 //    @PostMapping("/withdrawal")

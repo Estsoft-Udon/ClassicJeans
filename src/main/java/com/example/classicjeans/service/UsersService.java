@@ -128,4 +128,9 @@ public class UsersService {
         user.setPassword(passwordEncoder.encode(newPassword));
         usersRepository.save(user);
     }
+
+    public Users findByLoginIdAndEmail(String loginId, String email) {
+
+        return usersRepository.findByLoginIdAndEmailAndIsDeletedFalse(loginId, email);
+    }
 }

@@ -15,6 +15,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     Users findByLoginIdAndIsDeletedFalse(String loginId);
     Users findByLoginId(String loginId);
     Users findByEmail(String emailId);
+    Users findByLoginIdAndEmailAndIsDeletedFalse(String loginId, String emailId);
 
     boolean existsByLoginIdIgnoreCase(String loginId);
     Page<Users> findByNameContainingAndIsDeletedFalse(String name, Pageable pageable);
