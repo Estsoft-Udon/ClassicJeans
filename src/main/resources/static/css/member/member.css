@@ -204,7 +204,7 @@ input{
 }
 
 input:last-child{
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 input:focus{
@@ -312,4 +312,24 @@ input:focus{
 
 .login .btn_box{
     margin-top: 4rem;
+}
+
+/* 비밀번호 찾기 */
+.email_cont{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.email_cont #email,
+.email_cont #authCode{
+    margin-bottom: 0;
+}
+
+.email_cont .btn{
+    width: 100%;
+    border-radius: 1rem;
+    padding: 1rem;
 }
