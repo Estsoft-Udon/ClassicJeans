@@ -16,4 +16,10 @@ public class UserViewController {
     public String editProfile() {
         return "/member/edit_profile";
     }
+
+    // 가족정보수정
+    @GetMapping("/edit_family")
+    public String editFamily() {
+        return "/member/edit_family";
+    }
 }
