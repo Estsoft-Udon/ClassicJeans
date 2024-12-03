@@ -42,6 +42,12 @@ public class UserViewController {
         return "/member/change_pw";
     }
 
+    // 비밀번호 변경 (찾기 후)
+    @GetMapping("/change_pw_after_find")
+    public String changePasswordAfterFind() {
+        return "member/change_pw_after_find";
+    }
+
     // 회원 탈퇴
     @GetMapping("/withdrawal")
     public String withdrawal() {
@@ -58,5 +64,22 @@ public class UserViewController {
     @GetMapping("/success")
     public String success() {
         return "member/success";
+    }
+
+    @GetMapping("/find_id")
+    public String findId() {
+        return "member/find_id";
+    }
+
+    @GetMapping("/find_pw")
+    public String findPw(Model model) {
+
+        return "member/find_pw";
+    }
+
+    // 접근 제한
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
     }
 }

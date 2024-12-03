@@ -53,17 +53,18 @@ public class UsersService {
     }
 
     // soft Delete
-    public Users softDelete(Long id) {
+    public Boolean softDelete(Long id, String password) {
         Users user = usersRepository.findById(id).orElse(null);
 
-        if(user == null) {
-            return null;
+        if(user == null || !passwordEncoder.matches(password, user.getPassword())) {
+            return false;
         }
 
         user.setIsDeleted(true);
         user.setDeletedAt(LocalDateTime.now());
 
-        return usersRepository.save(user);
+        usersRepository.save(user);
+        return true;
     }
 
     // 회원정보삭제
@@ -80,8 +81,6 @@ public class UsersService {
     public Users searchId(String name, String email) {
         return usersRepository.findByNameAndEmailAndIsDeletedFalse(name, email);
     }
-
-    // 비밀번호 찾기
 
     // 회원가입시 아이디 중복체크
     public boolean isLoginIdDuplicate(String loginId) {

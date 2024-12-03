@@ -1,8 +1,8 @@
 
-function validatePassword2() {
-    const newPassword = document.getElementById('newPassword2').value.trim();
+function validatePassword() {
+    const newPassword = document.getElementById('newPassword').value.trim();
     const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-    const passwordMessage = document.getElementById('passwordMessage2');
+    const passwordMessage = document.getElementById('passwordMessage');
 
     // 비밀번호 패턴 검증
     if (!passwordPattern.test(newPassword)) {
@@ -15,10 +15,10 @@ function validatePassword2() {
     }
 }
 // 비밀번호 확인
-function checkPasswordMatch2() {
-    const newPassword = document.getElementById('newPassword2').value.trim();
-    const confirmPassword = document.getElementById('confirmPassword2').value.trim();
-    const messageElement = document.getElementById('passwordMatchMessage2');
+function checkPasswordMatch() {
+    const newPassword = document.getElementById('newPassword').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
+    const messageElement = document.getElementById('passwordMatchMessage');
     if (!newPassword || !confirmPassword) {
         messageElement.textContent = '';
         return true;
@@ -35,9 +35,9 @@ function checkPasswordMatch2() {
 }
 
 // 폼 제출 시 비밀번호 확인과 검증
-document.getElementById('changePasswordForm2').addEventListener('submit', function(event) {
-    const isPasswordValid = validatePassword2();
-    const isPasswordMatch = checkPasswordMatch2();
+document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+    const isPasswordValid = validatePassword();
+    const isPasswordMatch = checkPasswordMatch();
 
     // 검증 실패 시 폼 제출 막기
     if (!isPasswordValid || !isPasswordMatch) {
@@ -52,9 +52,9 @@ document.getElementById('changePasswordForm2').addEventListener('submit', functi
 
 
 // 비밀번호 입력 시 실시간 정규식 검사
-document.getElementById('newPassword2').addEventListener('input', function() {
-    validatePassword2();
-    checkPasswordMatch2();
+document.getElementById('newPassword').addEventListener('input', function() {
+    validatePassword();
+    checkPasswordMatch();
 });
 // 실시간으로 비밀번호 확인 입력 시 검증
-document.getElementById('confirmPassword2').addEventListener('input', checkPasswordMatch2);
+document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
