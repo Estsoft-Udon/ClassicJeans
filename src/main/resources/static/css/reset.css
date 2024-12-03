@@ -288,6 +288,11 @@ dialog{
     cursor: not-allowed;
 }
 
+.social-btn {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+}
 /* 셀렉트 박스 */
 select{
     width: 100%;
@@ -295,7 +300,7 @@ select{
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 1rem;
     box-sizing: border-box;
-    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-size: clamp(1.6rem, 1.04vw, 2rem);
     appearance: none;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.6);
@@ -318,15 +323,13 @@ select.selected {
 select option:checked {
     color: #000;
 }
+.social-icon {
+    width: 100%;
+    height: 100%;
+}
 
 @media screen and (max-width: 767px) {
     .w_1280{
         padding: 20rem 1.5rem;
     }
-}
-  
-.social-icon {
-    width: 40px;
-    height: 40px;
-    margin-top: 5px;
 }
