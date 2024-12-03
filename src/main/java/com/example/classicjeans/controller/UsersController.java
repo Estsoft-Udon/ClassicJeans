@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static com.example.classicjeans.util.SecurityUtil.*;
 
 import java.util.List;
 import java.util.Map;
@@ -57,13 +58,6 @@ public class UsersController {
         return ResponseEntity.ok(foundUser.getLoginId());
     }
 
-//    @PostMapping("/searchPassword")
-//    public ResponseEntity<String> findUserByPassword(@RequestBody UsersRequest user) {
-//        Users foundUser = usersService.searchPassword(user.getLoginId(), user.getPasswordHint(),
-//                user.getPasswordAnswer());
-//        return ResponseEntity.ok(foundUser.getPassword());
-//    }
-
     // 회원가입시 아이디 중복체크
     @PostMapping("/checkId")
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> requestBody) {
@@ -111,17 +105,15 @@ public class UsersController {
         }
     }
 
-//
-//    // 회원탈퇴
-//    @PostMapping("/withdrawal")
-//    public ResponseEntity<Void> doWithdrawal(@RequestBody Map<String, String> request) {
-//        String password = request.get("password");
-//
-//        Users user = usersService.findUserById(SecurityUtil.getLoggedInUser().getId());
-//        if(usersService.softDelete(user, password)) {
-//            return ResponseEntity.ok().build();
-//        }
-//
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//    }
+    // 회원탈퇴
+    @PostMapping("/withdrawal")
+    public ResponseEntity<Void> doWithdrawal(@RequestBody Map<String, String> request) {
+        String password = request.get("password");
+
+        if(usersService.softDelete(getLoggedInUser().getId(), password)) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 }
