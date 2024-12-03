@@ -140,7 +140,7 @@ td.show_map{
 }
 
 .modal-content {
-    background-color: white;
+    background-color: #fff;
     width: 90%;
     max-width: 500px;
     border-radius: 10px;

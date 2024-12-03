@@ -1,6 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-* {
+*{
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-weight: 400;
     margin: 0;
@@ -25,14 +25,13 @@ time, mark, audio, video {
     border: 0;
     vertical-align: baseline;
 }
-
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-html {
+html{
     font-size: 62.5%;
     /*overflow-x: hidden;*/
 }
@@ -43,7 +42,7 @@ body {
     overflow-x: hidden;
 }
 
-body.no-scroll {
+body.no-scroll{
     overflow: hidden;
 }
 
@@ -65,12 +64,12 @@ table {
     border-spacing: 0;
 }
 
-a {
+a{
     color: inherit;
     text-decoration: none;
 }
 
-input {
+input{
     border: none;
 }
 
@@ -78,25 +77,20 @@ input:focus {
     outline: none;
 }
 
-button {
+button{
     border: none;
     padding: 0;
     background: none;
 }
 
-button:hover {
+button:hover{
     cursor: pointer;
 }
 
-img {
+img{
     width: 100%;
     max-width: 100%;
     height: auto;
-}
-
-
-section {
-    padding: 0 3.2rem;
 }
 
 .logo {
@@ -115,130 +109,126 @@ section {
     align-items: center;
 }
 
+section{
+    padding: 0 3.2rem;
+}
 
-.w_1280 {
+.w_1280{
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     padding: 20rem 0;
 }
 
-.default_btn {
+.default_btn{
     color: #fff;
-    background-color: rgba(0, 133, 249, 1);
+    background-color: rgba(0,133,249,1);
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
     }
 }
 
-.reversal_btn {
-    color: rgba(0, 133, 249, 1);
+.reversal_btn{
+    color: rgba(0,133,249,1);
     background-color: #fff;
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
-    border: 1px solid rgba(0, 133, 249, 1);
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
+    border: 1px solid rgba(0,133,249,1);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
     }
 }
 
-mark {
+mark{
     background-color: transparent;
 }
 
-.txt {
-    font-size: clamp(2.5rem, 1.56vw, 3rem);
-    line-height: clamp(3rem, 2.08vw, 4rem);
+.txt{
+    font-size: clamp(1.8rem,1.56vw,3rem);
+    line-height: clamp(3rem,2.08vw,4rem);
 }
 
-.pc {
+.pc{
     display: block;
     @media (max-width: 767px) {
         display: none;
     }
 }
 
-.mo {
+.mo{
     display: none;
     @media (max-width: 767px) {
         display: block;
     }
 }
 
-dialog {
+dialog{
     border: none;
 }
 
-.def_c {
-    color: rgba(0, 133, 249, 1);
+.def_c{
+    color: rgba(0,133,249,1);
 }
 
-.dn {
+.dn{
     display: none;
 }
 
-.btn_layout {
+.btn_layout{
     width: 100%;
     margin: 0 auto 10rem;
     text-align: center;
     display: block;
 }
 
-.mw_50 { /**/
+.mw_50{
     max-width: 50rem;
     margin: 0 auto 5rem;
 }
-
 .flex_box {
     display: flex;
 }
+
 
 .ani_load {
     transition: transform .6s ease, opacity .6s ease, filter .6s ease;
     opacity: 0;
 }
-
 .img_box img.ani_load {
     opacity: 1;
     transform: scale(1.2);
 }
-
 .btt {
     transform: translate(0, 5rem);
 }
-
 .ltr {
     transform: translate(-5rem, 0);
 }
-
 .rtl {
     transform: translate(5rem, 0);
 }
-
 .ttb {
     transform: translate(0, -5rem);
 }
-
 .ani_load.ani_view {
     /* transform: translate(0, 0); */
     opacity: 1;
 }
 
 .btn {
-    font-size: clamp(1.6rem, 1.04vw, 2rem);
+    font-size: clamp(1.2rem, 1.04vw, 1.8rem);
     background: #ff9e33;
     border-radius: 2rem;
     color: #fff;
     padding: 2rem;
     transition: 0.3s;
 }
-
 .btn:hover {
     background: #e97536;
 }
@@ -293,15 +283,39 @@ dialog {
     cursor: not-allowed;
 }
 
-.oauth2_btn_box {
-
-}
-.social-btn {
-    margin-top: 5px;
-    width: 40px;
-    height: 40px;
-}
-.social-icon {
+/* 셀렉트 박스 */
+select{
     width: 100%;
-    height: 100%;
+    padding: 1.5rem 3rem 1.5rem 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    box-sizing: border-box;
+    font-size: clamp(1.2rem, 0.78vw, 1.5rem);
+    appearance: none;
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.6);
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 2rem;
+}
+
+select:focus {
+    border-color: rgba(0,133,249,1);
+    outline: none;
+    color: #000;
+}
+
+select.selected {
+    color: #000;
+}
+
+select option:checked {
+    color: #000;
+}
+
+@media screen and (max-width: 767px) {
+    .w_1280{
+        padding: 20rem 1.5rem;
+    }
 }
