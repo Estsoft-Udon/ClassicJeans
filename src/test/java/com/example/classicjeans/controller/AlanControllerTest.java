@@ -1,7 +1,9 @@
 package com.example.classicjeans.controller;
 
+import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
+import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.enums.questionnaire.*;
@@ -16,9 +18,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -137,5 +141,31 @@ class AlanControllerTest {
                 .andExpect(jsonPath("$.improvementSuggestions[1]").value("적절한 신체 활동 지속"))
                 .andExpect(jsonPath("$.action.name").value("normal_action"))
                 .andExpect(jsonPath("$.action.speak").value("상태가 양호합니다."));
+    }
+
+    @Test
+    void testGetHealthResponse() throws Exception {
+        // AlanBaziRequest 객체 설정
+        AlanBaziRequest request = new AlanBaziRequest();
+        request.setBirthDate(LocalDate.of(1999, 12, 10));
+        request.setGender("female");
+
+        // AlanBaziResponse 객체 설정
+        AlanBaziResponse response = new AlanBaziResponse();
+        response.setContent("오늘의 운세: 좋은 기운이 있습니다.");
+        response.setAction(new AlanBaziResponse.Action("bazi_action", "오늘은 운이 좋습니다."));
+
+        // 서비스 메서드 모킹
+        when(alanService.fetchBazi(request)).thenReturn(response);
+
+        // MockMvc를 사용한 GET 요청 수행
+        mockMvc.perform(get("/alan/bazi")
+                        .param("birthDate", "1999-12-10")
+                        .param("gender", "female")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").value("오늘의 운세: 좋은 기운이 있습니다."))
+                .andExpect(jsonPath("$.action.name").value("bazi_action"))
+                .andExpect(jsonPath("$.action.speak").value("오늘은 운이 좋습니다."));
     }
 }
