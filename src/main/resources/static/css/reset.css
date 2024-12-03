@@ -1,6 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-*{
+* {
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-weight: 400;
     margin: 0;
@@ -25,13 +25,14 @@ time, mark, audio, video {
     border: 0;
     vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-html{
+html {
     font-size: 62.5%;
     /*overflow-x: hidden;*/
 }
@@ -42,7 +43,7 @@ body {
     overflow-x: hidden;
 }
 
-body.no-scroll{
+body.no-scroll {
     overflow: hidden;
 }
 
@@ -64,12 +65,12 @@ table {
     border-spacing: 0;
 }
 
-a{
+a {
     color: inherit;
     text-decoration: none;
 }
 
-input{
+input {
     border: none;
 }
 
@@ -77,17 +78,17 @@ input:focus {
     outline: none;
 }
 
-button{
+button {
     border: none;
     padding: 0;
     background: none;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 }
 
-img{
+img {
     width: 100%;
     max-width: 100%;
     height: auto;
@@ -114,9 +115,6 @@ section {
     align-items: center;
 }
 
-section{
-    padding: 0 3.2rem;
-}
 
 .w_1280 {
     width: 100%;
@@ -233,16 +231,16 @@ dialog {
 }
 
 .btn {
-    font-size: clamp(1.6rem, 1.04vw, 2rem);
-    background: #ff9e33;
-    border-radius: 2rem;
+    font-size: clamp(1.2rem, 1.04vw, 1.8rem);
+    background: #013E8B;
+    border-radius: 1rem;
     color: #fff;
-    padding: 2rem;
+    padding: 1.2rem 4rem;
     transition: 0.3s;
 }
 
 .btn:hover {
-    background: #e97536;
+    background: #032D41;
 }
 
 /* 타이틀 공통 */
@@ -279,15 +277,20 @@ dialog {
     cursor: pointer;
     border-radius: 4px;
     background-color: #fff;
-    font-size: 1.6rem;
+    font-size: clamp(1.6rem, 1vw, 1.8rem);
 }
 
 .pagination button.active {
-    background-color: #e97536;
+    background-color: #013E8B;
     color: #fff;
     font-weight: bold;
     border: none;
     cursor: default;
+}
+
+.pagination button:hover{
+    background-color: #032D41;
+    color: #fff;
 }
 
 .pagination .disabled button {
@@ -295,11 +298,6 @@ dialog {
     cursor: not-allowed;
 }
 
-.social-btn {
-    margin-top: 5px;
-    width: 40px;
-    height: 40px;
-}
 /* 셀렉트 박스 */
 select{
     width: 100%;
@@ -307,7 +305,7 @@ select{
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 1rem;
     box-sizing: border-box;
-    font-size: clamp(1.6rem, 1.04vw, 2rem);
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
     appearance: none;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.6);
@@ -330,13 +328,15 @@ select.selected {
 select option:checked {
     color: #000;
 }
-.social-icon {
-    width: 100%;
-    height: 100%;
-}
 
 @media screen and (max-width: 767px) {
     .w_1280{
         padding: 20rem 1.5rem;
     }
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 5px;
 }

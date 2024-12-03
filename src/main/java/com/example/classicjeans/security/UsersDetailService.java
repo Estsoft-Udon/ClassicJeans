@@ -19,7 +19,7 @@ public class UsersDetailService implements UserDetailsService {
         Users user = usersRepository.findByLoginId(username);
 
         if (user == null || user.getIsDeleted()) {
-            throw new UsernameNotFoundException("헤당 사용자를 찾을 수 없습니다.: " + username);
+            throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다.: " + username);
         }
 
         // 로그인 성공 시 lastLoginAt update
@@ -29,12 +29,12 @@ public class UsersDetailService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByEmail(String email)  {
         // 이메일을 기준으로 사용자 조회
         Users user = usersRepository.findByEmail(email);
 
         if (user == null || user.getIsDeleted()) {
-            throw new UsernameNotFoundException("헤당 사용자를 찾을 수 없습니다.: " + email);
+            return null;
         }
 
         // 로그인 성공 시 lastLoginAt update
