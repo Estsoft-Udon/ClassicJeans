@@ -56,15 +56,19 @@ public class UsersService {
     public Boolean softDelete(Long id, String password) {
         Users user = usersRepository.findById(id).orElse(null);
 
-        if(user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        if (user == null) {
             return false;
         }
 
-        user.setIsDeleted(true);
-        user.setDeletedAt(LocalDateTime.now());
+        // 비밀번호가 인코딩된 비밀번호이거나 원본 비밀번호일 경우(어드민) 처리
+        if (passwordEncoder.matches(password, user.getPassword()) || password.equals(user.getPassword())) {
+            user.setIsDeleted(true);
+            user.setDeletedAt(LocalDateTime.now());
+            usersRepository.save(user);
+            return true;
+        }
 
-        usersRepository.save(user);
-        return true;
+        return false;
     }
 
     // 회원정보삭제
