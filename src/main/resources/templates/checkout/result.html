@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+  <link rel="stylesheet" href="/css/checkout/result.css">
+</head>
+<th:block layout:fragment="content">
+  <div class="wrap w_1280 questionnaire_result">
+    <!-- 로딩 화면 -->
+    <div id="loading-screen" class="loading-screen flex_box checkout">
+      <div class="tit">
+        <h1>답변을 기반으로<br>AI가 회원님의 건강을 분석 중입니다.</h1>
+      </div>
+      <div class="txt_box">
+        <p class="txt">
+          꼼꼼한 작성을 위해 <br>
+          최대 1분의 시간이 소요될 수 있습니다.<br>
+          양해부탁드립니다 ☺️
+        </p>
+      </div>
+      <p class="txt">로딩 중...</p>
+      <div class="spinner"></div>
+    </div>
+
+    <div id="content" style="display:none;">
+      <!-- 실제 페이지 내용 -->
+      <div class="tit">
+        <h1>기다려주셔서 감사합니다.<br>AI가 회원님의 건강을 분석했습니다.</h1>
+      </div>
+      <div class="container cont_wr">
+        <h2>분석 결과</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>성별</th>
+              <th>남성</th>
+              <th>남성</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>신장</td>
+              <td>175cm</td>
+              <td>175cm</td>
+            </tr>
+            <tr>
+              <td>체중</td>
+              <td>70kg</td>
+              <td>75kg</td>
+            </tr>
+            <tr>
+              <td>흡연 여부</td>
+              <td>비흡연</td>
+              <td>32.8% 흡연율 (출처42)</td>
+            </tr>
+            <tr>
+              <td>음주 빈도</td>
+              <td>주 1회</td>
+              <td>57.4% 음주율 (출처41)</td>
+            </tr>
+            <tr>
+              <td>운동 빈도</td>
+              <td>주 3회</td>
+              <td>47.9% 걷기실천율 (출처52)</td>
+            </tr>
+            <tr>
+              <td>주관적 건강 상태</td>
+              <td>좋음</td>
+              <td>53.8% 건강하다고 생각 (출처29)</td>
+            </tr>
+            <tr>
+              <td>복무 기간</td>
+              <td>21개월</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>복무 후 건강 상태</td>
+              <td>양호</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>병력</td>
+              <td>고혈압 없음, 당뇨병 없음</td>
+              <td>고혈압 유병률 32.8% (출처42), 당뇨병 유병률 13.7% (출처42)</td>
+            </tr>
+            <tr>
+              <td>기대수명</td>
+              <td>82.7세 (출처32)</td>
+              <td>82.7세 (출처32)</td>
+            </tr>
+            <tr>
+              <td>건강수명</td>
+              <td>72.5세 (출처40)</td>
+              <td>72.5세 (출처40)</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="txt_wr">
+          <div class="txt_box">
+            <h2>분석 결과</h2>
+            <ol>
+              <li>
+                1. 인지 기능 변화 :
+                <p class="dots">기억력 변화, 일상 생활에서의 혼란, 문제 해결 능력 변화, 언어 사용 변화가 가끔 발생하고 있습니다. 이는 초기 인지 기능 저하의 징후일 수 있습니다.</p>
+              </li>
+              <li>
+                2. 인지 기능 퍙가 :
+                <p class="dots">오늘의 날짜의 요일, 현재 위치, 최근 중요한 사건을 기억하고 있다는 점은 긍정적입니다. 그러나 반복적인 질문과 물건을 자주 잃어버리는 경우가 가끔 발생하는 것은 주의가 필요합니다.</p>
+              </li>
+              <li>
+                3. 일상 생활 능력 :
+                <p class="dots">일상적인 활동에 가끔 어려움이 있지만, 혼자 외출하였거나 금전 관리를 할 수 있는 능력은 유지되고 있습니다. 이는 일상 생활 능력이 크게 저하되지 않았음을 의미합니다.</p>
+              </li>
+            </ol>
+          </div>
+          <div class="txt_box">
+            <h2>종합 평가</h2>
+            <ul>
+              <li class="dots">현재 제공된 정보로 보았을 때, 초기 인지 기능 저하의 징후가 일부 나타나고 있습니다. 그러나 일상 생활 능력과 전반적인 인지 기능 평가에서 큰 문제는 발견되지 않았습니다.</li>
+              <li class="dots">만성 질환이 있는 점은 건강 관리에 주의가 필요하지만, 과거 뇌졸증이나 뇌손상이 없고 가족력도 없다는 점은 긍정적입니다.</li>
+            </ul>
+          </div>
+          <div class="txt_box">
+            <h2>개선 사항</h2>
+            <ul>
+              <li class="dots">정기적인 건강 검진과 인지 기능 검사를 통해 상태를 지속적으로 모니터링하는 것이 중요합니다.</li>
+              <li class="dots">기억력과 인지 기능을 유지하기 위한 뇌 운동(퍼즐, 독서 등)과 규칙적인 신체 활동을 권장합니다.</li>
+              <li class="dots">만성 질환 관리에 주의하고, 필요 시 전문가와 상담하여 적절한 조치를 취하는 것이 좋습니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="btn_wr">
+        <button type="button" class="btn">건강 분석표 다운받기</button>
+        <button type="button" class="btn">건강 검진 통계 확인하기</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.onload = function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const content = document.getElementById('content');
+
+      loadingScreen.style.display = 'none';
+      content.style.display = 'block';
+      // 임시로 시간 로딩 페이지 시간 늘리기
+      // setTimeout(function() {
+      //   loadingScreen.style.display = 'none';
+      //   content.style.display = 'block';
+      // }, 60000);
+    };
+  </script>
+</th:block>
+</html>
