@@ -6,6 +6,8 @@ import com.example.classicjeans.service.FamilyInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/family")
@@ -17,5 +19,11 @@ public class FamilyInfoController {
     @PostMapping("/{userId}")
     public FamilyInfoResponse saveFamily(@PathVariable Long userId, @RequestBody FamilyInfoRequest request) {
         return familyInfoService.saveFamily(userId, request);
+    }
+
+    // 가족 정보 조회 API
+    @GetMapping("/{userId}")
+    public List<FamilyInfoResponse> getFamilyByUserId(@PathVariable Long userId) {
+        return familyInfoService.findFamilyByUserId(userId);
     }
 }
