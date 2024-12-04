@@ -1,6 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
-* {
+*{
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     font-weight: 400;
     margin: 0;
@@ -25,14 +25,13 @@ time, mark, audio, video {
     border: 0;
     vertical-align: baseline;
 }
-
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
-html {
+html{
     font-size: 62.5%;
     /*overflow-x: hidden;*/
 }
@@ -43,7 +42,7 @@ body {
     overflow-x: hidden;
 }
 
-body.no-scroll {
+body.no-scroll{
     overflow: hidden;
 }
 
@@ -65,12 +64,12 @@ table {
     border-spacing: 0;
 }
 
-a {
+a{
     color: inherit;
     text-decoration: none;
 }
 
-input {
+input{
     border: none;
 }
 
@@ -78,25 +77,20 @@ input:focus {
     outline: none;
 }
 
-button {
+button{
     border: none;
     padding: 0;
     background: none;
 }
 
-button:hover {
+button:hover{
     cursor: pointer;
 }
 
-img {
+img{
     width: 100%;
     max-width: 100%;
     height: auto;
-}
-
-
-section {
-    padding: 0 3.2rem;
 }
 
 .logo {
@@ -115,6 +109,9 @@ section {
     align-items: center;
 }
 
+section{
+    padding: 0 3.2rem;
+}
 
 .w_1280 {
     width: 100%;
@@ -125,23 +122,23 @@ section {
 
 .default_btn {
     color: #fff;
-    background-color: rgba(0, 133, 249, 1);
+    background-color: rgba(0,133,249,1);
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
     }
 }
 
-.reversal_btn {
-    color: rgba(0, 133, 249, 1);
+.reversal_btn{
+    color: rgba(0,133,249,1);
     background-color: #fff;
     padding: 1.5rem 3.3rem 1.5rem 3.1rem;
     border-radius: 1rem;
-    font-size: clamp(1.4rem, 1.1vw, 1.6rem);
-    border: 1px solid rgba(0, 133, 249, 1);
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
+    border: 1px solid rgba(0,133,249,1);
 
     @media (max-width: 767px) {
         padding: 1.1rem 2.4rem;
@@ -175,8 +172,8 @@ dialog {
     border: none;
 }
 
-.def_c {
-    color: rgba(0, 133, 249, 1);
+.def_c{
+    color: rgba(0,133,249,1);
 }
 
 .dn {
@@ -298,6 +295,11 @@ dialog {
     cursor: not-allowed;
 }
 
+.social-btn {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+}
 /* 셀렉트 박스 */
 select{
     width: 100%;
@@ -328,15 +330,14 @@ select.selected {
 select option:checked {
     color: #000;
 }
+.social-icon {
+    width: 100%;
+    height: 100%;
+    margin-top: 5px;
+}
 
 @media screen and (max-width: 767px) {
     .w_1280{
         padding: 20rem 1.5rem;
     }
-}
-
-.social-icon {
-    width: 40px;
-    height: 40px;
-    margin-top: 5px;
 }
