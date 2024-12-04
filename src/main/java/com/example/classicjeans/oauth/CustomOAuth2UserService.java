@@ -21,15 +21,11 @@ import java.util.Collections;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UsersRepository usersRepository;
-    private final HttpSession httpSession;
-    private final HttpServletResponse response;  // HttpServletResponse를 주입
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-
         if (oAuth2User == null) {
             throw new OAuth2AuthenticationException("OAuth2 user data is null.");
         }
@@ -45,7 +41,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Users user = saveOrUpdate(attributes);
 
         // 세션에 사용자 정보 저장
-        httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getGrade())),

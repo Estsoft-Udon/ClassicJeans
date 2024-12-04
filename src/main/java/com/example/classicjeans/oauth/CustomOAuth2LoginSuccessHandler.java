@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -22,15 +23,31 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        // OAuth2AuthenticationToken에서 이메일을 가져오기
-
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-        String email = oauthToken.getPrincipal().getAttribute("email");  // 'email'은 OAuth2 제공자에 따라 다를 수 있음
 
-        System.out.println(email);
+        // 모든 속성 출력
+        Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+        String providerId = oauthToken.getAuthorizedClientRegistrationId();
+        String uniqueKey = null;
+
+        if ("google".equals(providerId)) {
+            request.getSession().setAttribute("providerId", "google");
+            uniqueKey = "G_" + attributes.get("sub");
+        } else if ("kakao".equals(providerId)) {
+            request.getSession().setAttribute("providerId", "kakao");
+            Long kakaoId = (Long) attributes.get("id");
+            uniqueKey = "K_" + kakaoId;
+        } else if ("naver".equals(providerId)) {
+            request.getSession().setAttribute("providerId", "naver");
+            uniqueKey = "N_" + attributes.get("id");
+        }
+
+        System.out.println("uniqueKey = " + uniqueKey);
+        request.getSession().setAttribute("providerId", uniqueKey);
+        request.getSession().setAttribute("uniqueKey", uniqueKey);
+
         // 이메일을 기준으로 기존 사용자 조회
-        UserDetails userDetails = usersDetailService.loadUserByEmail(email);
-        System.out.println(email);
+        UserDetails userDetails = usersDetailService.loadUserByUniqueKey(uniqueKey);
 
         if (userDetails != null) {
             // 기존 사용자라면 해당 사용자로 로그인 처리

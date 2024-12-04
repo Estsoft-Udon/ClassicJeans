@@ -31,6 +31,8 @@ public class UsersRequest {
 
     private Gender gender;
 
+    private String uniqueKey;
+
     public Users update(Users user) {
         if (password != null) {
             user.setPassword(password);

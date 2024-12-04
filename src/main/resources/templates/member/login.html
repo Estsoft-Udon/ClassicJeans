@@ -7,20 +7,6 @@
         <div class="w_1280">
             <section>
                 <form id="loginForm" th:action="@{/login}" th:method="post">
-                    <h1 class="tit">간편 로그인</h1>
-                    <div class="oauth2_btn_box">
-                        <ul>
-                            <li>
-                                <button onclick="#" class="social-btn kakao">카카오로 계속하기</button>
-                            </li>
-                            <li>
-                                <button onclick="#" class="social-btn naver">네이버로 계속하기</button>
-                            </li>
-                            <li>
-                                <button onclick="#" class="social-btn google">구글로 계속하기</button>
-                            </li>
-                        </ul>
-                    </div>
                     <h1 class="tit">회원 아이디 로그인</h1>
                     <label for="username"></label>
                     <input type="text" id="username" name="username" required placeholder="아이디를 입력해 주세요.">
@@ -40,20 +26,22 @@
                             <button type="button" class="find_pw_btn" onclick="location.href='find_pw'">비밀번호 찾기</button>
                         </div>
                     </div>
+                    <div class="oauth2_btn_box">
+                        <ul>
+                            <li>
+                                <button type="button" onclick="location.href='oauth2/authorization/kakao'" class="social-btn kakao">카카오로 계속하기</button>
+                            </li>
+                            <li>
+                                <button type="button" onclick="location.href='/oauth2/authorization/naver'" class="social-btn naver">네이버로 계속하기</button>
+                            </li>
+                            <li>
+                                <button type="button" onclick="location.href='/oauth2/authorization/google'" class="social-btn google">구글로 계속하기</button>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="btn_box">
                         <button type="submit" class="btn login_btn">로그인</button>
                         <button type="button" class="btn" onclick="location.href='signup'">회원가입</button>
-                    </div>
-                    <div class="oauth2_btn_box">
-                        <a href="#" class="social-btn">
-                            <img src="/img/kakao.png" class="social-icon">
-                        </a>
-                        <a href="#" class="social-btn">
-                            <img src="/img/naver.png" class="social-icon">
-                        </a>
-                        <a href="/oauth2/authorization/google" class="social-btn">
-                            <img src="/img/google.png" class="social-icon">
-                        </a>
                     </div>
                 </form>
             </section>

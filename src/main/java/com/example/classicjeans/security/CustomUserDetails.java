@@ -13,15 +13,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    // Ãß°¡ÀûÀ¸·Î ¿£Æ¼Æ¼ Á¢±Ù °¡´É
-    private final Users user; // Users ¿£Æ¼Æ¼
+    // ì¶”ê°€ì ìœ¼ë¡œ ì—”í‹°í‹° ì ‘ê·¼ ê°€ëŠ¥
+    private final Users user; // Users ì—”í‹°í‹°
 
     public Users getUser() {
         return user;
     }
 
     @Override
-    public String getUsername() { // getLogInId() ´ë½Å getUsername() »ç¿ë
+    public String getUsername() { // getLogInId() ëŒ€ì‹  getUsername() ì‚¬ìš©
         return user.getLoginId();
     }
 
@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return !user.getIsDeleted(); // È°¼ºÈ­ ¿©ºÎ
+        return !user.getIsDeleted(); // í™œì„±í™” ì—¬ë¶€
     }
 
     @Override
@@ -41,17 +41,17 @@ public class CustomUserDetails implements UserDetails {
     }
     @Override
     public boolean isAccountNonExpired() {
-        return true; // °èÁ¤ ¸¸·á ¿©ºÎ
+        return true; // ê³„ì • ë§Œë£Œ ì—¬ë¶€
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // °èÁ¤ Àá±İ ¿©ºÎ
+        return true; // ê³„ì • ì ê¸ˆ ì—¬ë¶€
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // ÀÚ°İ Áõ¸í ¸¸·á ¿©ºÎ
+        return true; // ìê²© ì¦ëª… ë§Œë£Œ ì—¬ë¶€
     }
 
     public String getNickname() {
