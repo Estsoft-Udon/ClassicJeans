@@ -93,15 +93,44 @@ document.querySelector('form').addEventListener('submit', (event) => {
         });
 });
 
-// 가족 정보 삭제 버튼 동작
+// 가족 정보 추가 리스트 삭제 버튼 동작
 function removeFamily(sectionId) {
-    const isConfirmed = confirm("등록된 가족 정보를 삭제하시겠습니까?");
+    const isConfirmed = confirm("가족 추가 리스트를 삭제하시겠습니까?");
     if (isConfirmed) {
         // 확인을 누르면 해당 섹션을 삭제
         const familySection = document.getElementById(sectionId);
         if (familySection) {
             familySection.remove();
         }
+    }
+}
+
+// 가족 정보 삭제 버튼 동작
+function deleteFamily(buttonElement) {
+    const familyId = buttonElement.getAttribute('data-id');
+    const isConfirmed = confirm("등록된 가족 정보를 삭제하시겠습니까?");
+    if (isConfirmed) {
+        fetch(`/api/family/${familyId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    const familySection = document.getElementById(`family-${familyId}`);
+                    if (familySection) {
+                        familySection.remove();
+                    }
+                    alert('가족 정보가 삭제되었습니다.');
+                } else {
+                    alert('가족 정보 삭제에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('가족 정보 삭제에 실패했습니다.');
+            });
     }
 }
 
