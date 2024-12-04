@@ -118,8 +118,7 @@ public class UsersService {
 
 
     public Users findById(Long userId) {
-        return usersRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+        return usersRepository.findByIdAndIsDeletedFalse(userId);
     }
 
     public void changePasswordAfterFind(String loginId, String newPassword) {
