@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 public class FamilyInfoResponse {
+    private Long id;
     private String name;
     private Gender gender;
     private LocalDate dateOfBirth;
@@ -15,6 +16,7 @@ public class FamilyInfoResponse {
 
     public static FamilyInfoResponse convertFamilyInfo(FamilyInfo familyInfo) {
         FamilyInfoResponse response = new FamilyInfoResponse();
+        response.setId(familyInfo.getId());
         response.setName(familyInfo.getName());
         response.setGender(familyInfo.getGender());
         response.setDateOfBirth(familyInfo.getDateOfBirth());

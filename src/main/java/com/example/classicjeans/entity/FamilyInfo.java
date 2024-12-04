@@ -1,6 +1,5 @@
 package com.example.classicjeans.entity;
 
-import com.example.classicjeans.dto.request.FamilyInfoRequest;
 import com.example.classicjeans.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
