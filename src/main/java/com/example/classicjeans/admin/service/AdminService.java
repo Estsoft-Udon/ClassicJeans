@@ -55,10 +55,16 @@ public class AdminService {
         }
     }
 
+    public void updateUserGrade(Long id, Grade grade) {
+        Users user = usersService.findById(id);
+        user.setGrade(grade);
+        usersRepository.save(user);
+    }
+
     private Sort determineSortOrder(String sortOption) {
         return switch (sortOption) {
             case "recent" -> Sort.by("createdAt").descending();
-            case "grade" -> Sort.by("grade").ascending();
+            case "abc" -> Sort.by("name").ascending();
             default -> Sort.unsorted();
         };
     }
