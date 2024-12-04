@@ -186,20 +186,20 @@ form{
 
 /*======================================================*/
 
-/* ¸ğ´Ş Ã¢ ¹è°æ */
+/* ëª¨ë‹¬ ì°½ ë°°ê²½ */
 .modal {
-    display: none; /* ±âº»ÀûÀ¸·Î ¼û°ÜÁü */
+    display: none; /* ê¸°ë³¸ì ìœ¼ë¡œ ìˆ¨ê²¨ì§ */
     position: fixed;
-    z-index: 1; /* È­¸é À§¿¡ º¸ÀÌµµ·Ï */
+    z-index: 1; /* í™”ë©´ ìœ„ì— ë³´ì´ë„ë¡ */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(0,0,0); /* ¹İÅõ¸í ¹è°æ */
-    background-color: rgba(0,0,0,0.4); /* Åõ¸íµµ */
+    background-color: rgb(0,0,0); /* ë°˜íˆ¬ëª… ë°°ê²½ */
+    background-color: rgba(0,0,0,0.4); /* íˆ¬ëª…ë„ */
 }
 
-/* ¸ğ´Ş Ã¢ ³»¿ë */
+/* ëª¨ë‹¬ ì°½ ë‚´ìš© */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -208,7 +208,7 @@ form{
     width: 80%;
 }
 
-/* ´İ±â ¹öÆ° */
+/* ë‹«ê¸° ë²„íŠ¼ */
 .close {
     color: #aaa;
     float: right;
@@ -224,7 +224,7 @@ form{
 }
 
 
-/* ÀÎÇ² ¹Ú½º */
+/* ì¸í’‹ ë°•ìŠ¤ */
 input{
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.2);

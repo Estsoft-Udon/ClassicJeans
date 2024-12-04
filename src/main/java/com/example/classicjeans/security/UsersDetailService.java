@@ -19,10 +19,10 @@ public class UsersDetailService implements UserDetailsService {
         Users user = usersRepository.findByLoginId(username);
 
         if (user == null || user.getIsDeleted()) {
-            throw new UsernameNotFoundException("ÇØ´ç »ç¿ëÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.: " + username);
+            throw new UsernameNotFoundException("í•´ë‹¹ ì‚¬ìš©ìë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.: " + username);
         }
 
-        // ·Î±×ÀÎ ¼º°ø ½Ã lastLoginAt update
+        // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ lastLoginAt update
         user.updateLastLoginAt();
         usersRepository.save(user);
 
@@ -30,14 +30,14 @@ public class UsersDetailService implements UserDetailsService {
     }
 
     public UserDetails loadUserByEmail(String email)  {
-        // ÀÌ¸ŞÀÏÀ» ±âÁØÀ¸·Î »ç¿ëÀÚ Á¶È¸
+        // ì´ë©”ì¼ì„ ê¸°ì¤€ìœ¼ë¡œ ì‚¬ìš©ì ì¡°íšŒ
         Users user = usersRepository.findByEmail(email);
 
         if (user == null || user.getIsDeleted()) {
             return null;
         }
 
-        // ·Î±×ÀÎ ¼º°ø ½Ã lastLoginAt update
+        // ë¡œê·¸ì¸ ì„±ê³µ ì‹œ lastLoginAt update
         user.updateLastLoginAt();
         usersRepository.save(user);
 
