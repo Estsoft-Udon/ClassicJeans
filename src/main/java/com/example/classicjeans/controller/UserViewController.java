@@ -2,7 +2,6 @@ package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
-import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.FamilyInfoService;
 import com.example.classicjeans.service.UsersService;

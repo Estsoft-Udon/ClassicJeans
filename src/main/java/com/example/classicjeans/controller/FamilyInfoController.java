@@ -17,7 +17,7 @@ public class FamilyInfoController {
 
     // 가족 정보 저장 API
     @PostMapping("/{userId}")
-    public FamilyInfoResponse saveFamily(@PathVariable Long userId, @RequestBody FamilyInfoRequest request) {
+    public List<FamilyInfoResponse> saveFamily(@PathVariable Long userId, @RequestBody List<FamilyInfoRequest> request) {
         return familyInfoService.saveFamily(userId, request);
     }
 

@@ -8,6 +8,7 @@ import com.example.classicjeans.repository.FamilyInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,12 +19,19 @@ public class FamilyInfoService {
     private final FamilyInfoRepository familyInfoRepository;
 
     // 가족 정보 저장
-    public FamilyInfoResponse saveFamily(Long userId, FamilyInfoRequest request) {
+    public List<FamilyInfoResponse> saveFamily(Long userId, List<FamilyInfoRequest> requests) {
         // 추후에 로그인 중인 유저 정보로 변경 필요
         Users user = usersService.findUserById(8L);
 
-        FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getRelationship()));
-        return FamilyInfoResponse.convertFamilyInfo(familyInfo);
+        List<FamilyInfo> familyInfoList = new ArrayList<>();
+        for (FamilyInfoRequest request : requests) {
+            FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getRelationship()));
+            familyInfoList.add(familyInfo);
+        }
+
+        return familyInfoList.stream()
+                .map(FamilyInfoResponse::convertFamilyInfo)
+                .toList();
     }
 
     // 가족 정보 조회
