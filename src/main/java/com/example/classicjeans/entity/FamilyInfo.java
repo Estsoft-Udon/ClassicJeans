@@ -1,5 +1,6 @@
 package com.example.classicjeans.entity;
 
+import com.example.classicjeans.dto.request.FamilyInfoRequest;
 import com.example.classicjeans.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,5 +42,13 @@ public class FamilyInfo {
             return 0;
         }
         return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
+    }
+
+    public FamilyInfo(Users userId, String name, Gender gender, LocalDate dateOfBirth, String relationship) {
+        this.userId = userId;
+        this.name = name;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.relationship = relationship;
     }
 }
