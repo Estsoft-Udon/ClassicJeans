@@ -1,6 +1,5 @@
 package com.example.classicjeans.oauth;
 
-import com.example.classicjeans.entity.Users;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,18 +21,51 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        return ofGoogle(userNameAttributeName, attributes);
-    }
-
-    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        System.out.println("registrationId = " + registrationId);
         for(Map.Entry<String, Object> entry : attributes.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
+        if ("google".equals(registrationId)) {
+            return ofGoogle(userNameAttributeName, attributes);
+        } else if ("naver".equals(registrationId)) {
+            return ofNaver(userNameAttributeName, attributes);
+        } else if ("kakao".equals(registrationId)) {
+            return ofKakao(userNameAttributeName, attributes);
+        }
+        throw new IllegalArgumentException("Unsupported registrationId: " + registrationId);
+    }
+
+    private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        String nameAttributeKey = "id";
+
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .attributes(response)
+                .nameAttributeKey(nameAttributeKey)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
+
+        return OAuthAttributes.builder()
+                .name((String) profile.get("nickname")) // 닉네임
+                .email((String) kakaoAccount.get("email")) // 이메일
+                .attributes(attributes) // 전체 정보를 저장하려면 원본 맵 사용
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }

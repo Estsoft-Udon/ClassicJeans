@@ -304,7 +304,7 @@ input:focus{
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     background-size: 3rem;
-    background-image: url("/img/google2.png");
+    background-image: url("/img/google.png");
 }
 
 .login .btn_box{

@@ -18,7 +18,8 @@ CREATE TABLE users
     updated_at    DATETIME              DEFAULT NULL,
     deleted_at    DATETIME              DEFAULT NULL,
     last_login    DATETIME              DEFAULT NULL,
-    is_deleted    BOOLEAN      NOT NULL DEFAULT FALSE
+    is_deleted    BOOLEAN      NOT NULL DEFAULT FALSE,
+    unique_key    VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE nursing_home_data

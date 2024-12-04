@@ -88,15 +88,23 @@ public class ViewController {
 
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute UsersRequest request,
-                         Model model) {
+    public String signup(@ModelAttribute UsersRequest request, HttpSession session, Model model) {
         try {
             if (!authService.isEmailVerified(request.getEmail())) {
                 model.addAttribute("error", "이메일 인증이 완료되지 않았습니다.");
                 return "member/signup";
             }
 
+            String uniqueKey = (String) session.getAttribute("uniqueKey");
+            if(uniqueKey != null) {
+                request.setUniqueKey(uniqueKey);
+            }
+
             usersService.register(request);
+
+            session.removeAttribute("uniqueKey");
+            session.removeAttribute("providerId");
+
             return "redirect:/success";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
