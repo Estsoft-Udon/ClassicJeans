@@ -23,7 +23,7 @@ public class UserViewController {
     // 회원 정보
     @GetMapping("/mypage")
     public String myPage(Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(8L);
         model.addAttribute("user", user);
@@ -34,7 +34,7 @@ public class UserViewController {
     // 회원 정보 수정
     @GetMapping("/edit-profile")
     public String editProfile(Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         model.addAttribute("user", user);
         return "/member/edit_profile";
@@ -42,7 +42,7 @@ public class UserViewController {
 
     @PostMapping("/edit-profile")
     public String editProfile(@ModelAttribute UsersRequest request, Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         usersService.update(user.getId(), request);
         return "redirect:/mypage";
@@ -51,7 +51,7 @@ public class UserViewController {
     // 가족정보수정
     @GetMapping("/edit_family")
     public String editFamily(Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(user.getId());
         model.addAttribute("user", user);

@@ -20,7 +20,7 @@ public class FamilyInfoService {
 
     // 가족 정보 저장
     public List<FamilyInfoResponse> saveFamily(Long userId, List<FamilyInfoRequest> requests) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
 
         List<FamilyInfo> familyInfoList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class FamilyInfoService {
 
     // 가족 정보 조회
     public List<FamilyInfoResponse> findFamilyByUserId(Long userId) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         List<FamilyInfo> familyList = familyInfoRepository.findByUserId(user);
 

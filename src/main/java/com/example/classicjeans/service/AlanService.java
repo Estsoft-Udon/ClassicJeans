@@ -88,7 +88,7 @@ public class AlanService {
 
     // 기본 검사 결과 저장
     private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
-        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        // TODO 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
         QuestionnaireData data = new QuestionnaireData(
                 request.getUser().getAge(),
                 request.getUser().getGender(),
@@ -131,7 +131,7 @@ public class AlanService {
 
     // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
-        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        // TODO 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
         DementiaData data = new DementiaData(
                 request.getMemoryChange(),
                 request.getDailyConfusion(),
