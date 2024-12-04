@@ -1,0 +1,50 @@
+header {
+    width: 20%;
+    background-color: rgb(25 43 59);
+    color: white;
+    padding: 3rem;
+    height: 100%;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.logo{
+    display: flex;
+    align-items: flex-end;
+}
+
+.logo span{
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.logo img{
+    width: 4rem;
+}
+
+header h1{
+    margin-bottom: 3rem;
+}
+
+header .wrap{
+    display: flex;
+    flex-direction: column;
+    gap: 10rem;
+}

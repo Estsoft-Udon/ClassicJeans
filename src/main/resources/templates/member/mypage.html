@@ -47,20 +47,14 @@
                             <p>가족 정보가 없습니다.</p>
                         </div>
 
-                        <div th:each="family : ${familyInfoList}">
-                            <div>
-                                <label for="parentName">성명</label>
-                                <span id="parentName" th:text="${family.name}">홍길동</span>
-                            </div>
-                            <div>
-                                <label for="parentBirthDate">생년월일</label>
-                                <span id="parentBirthDate" th:text="${family.dateOfBirth}">바지짱</span>
-                            </div>
-                            <div>
-                                <label for="parentGender">성별</label>
-                                <span id="parentGender" th:text="${family.gender.displayName}">여성</span>
-                            </div>
-                        </div>
+                        <table>
+                            <tbody>
+                            <tr th:each="family : ${familyInfoList}">
+                                <td th:text="${family.getRelationship}">관계</td>
+                                <td th:text="${family.name}">이름</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

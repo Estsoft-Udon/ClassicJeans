@@ -175,7 +175,7 @@ label{
 }
 
 .family_cont p{
-    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-size: clamp(1.5rem, 1.5vw, 2rem);
     margin-bottom: 1rem;
     font-weight: bold;
     padding: 1rem 0;
@@ -388,4 +388,30 @@ input:focus{
     width: 100%;
     padding: 1rem;
     border-radius: 1rem;
+}
+
+.family_cont table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: left;
+}
+
+.family_cont th, .family_cont td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.family_cont th {
+    font-weight: bold;
+    text-align: center;
+}
+
+.family_cont tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.family_cont tbody tr:hover {
+    background-color: #f5f5f5; /* 마우스 오버 시 배경색 */
 }

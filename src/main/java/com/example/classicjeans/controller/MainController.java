@@ -6,6 +6,7 @@ import com.example.classicjeans.service.AlanService;
 import com.example.classicjeans.service.UsersService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -37,6 +38,12 @@ public class MainController {
     @RequestMapping("/chat")
     public String chat() {
         return "chat/chat";
+    }
+
+    // 접근 제한
+    @RequestMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
     }
 
 }

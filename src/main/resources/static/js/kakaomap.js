@@ -13,11 +13,13 @@ const mapContainer = document.getElementById("map");
 // 모달 열기 함수
 function openModal() {
     modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
 
 // 모달 닫기 함수
 function closeModal() {
     modal.style.display = "none";
+    document.body.style.overflow = "auto";
 }
 
 // 지도 렌더링 함수
