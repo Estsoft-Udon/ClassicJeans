@@ -25,4 +25,15 @@ public class FamilyInfoService {
         FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getRelationship()));
         return FamilyInfoResponse.convertFamilyInfo(familyInfo);
     }
+
+    // 가족 정보 조회
+    public List<FamilyInfoResponse> findFamilyByUserId(Long userId) {
+        // 추후에 로그인 중인 유저 정보로 변경 필요
+        Users user = usersService.findUserById(8L);
+        List<FamilyInfo> familyList = familyInfoRepository.findByUserId(user);
+
+        return familyList.stream()
+                .map(FamilyInfoResponse::convertFamilyInfo)
+                .toList();
+    }
 }
