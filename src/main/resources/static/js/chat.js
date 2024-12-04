@@ -5,7 +5,7 @@ function appendMessage(content, isSent) {
     message.classList.add(isSent ? 'sent' : 'received');
 
     // 개행 문자를 <br> 태그로 변환
-    message.innerHTML = content.replace(/\n/g, "<br>");
+    message.innerHTML = content;
 
     chatContainer.appendChild(message);
     chatContainer.scrollTop = chatContainer.scrollHeight;

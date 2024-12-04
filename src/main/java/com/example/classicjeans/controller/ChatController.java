@@ -1,6 +1,9 @@
 package com.example.classicjeans.controller;
 
+import static com.example.classicjeans.util.MarkdownRenderer.*;
+
 import com.example.classicjeans.service.AlanSSEService;
+import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +44,16 @@ public class ChatController {
             try {
                 String response = alanSSEService.getChatResponse(content);
 
+                System.out.println("response = " + response);
                 // json 에서 content 필드 추출
                 String extractedContent = objectMapper.readTree(response).get("content").asText();
 
-                emitter.send(SseEmitter.event().name("message").data(extractedContent));
+                System.out.println("extractedContent = " + extractedContent);
+
+                // Markdown 언어 rendering
+                String result = convertMarkdownToHtml(extractedContent);
+                System.out.println("result = " + result);
+                emitter.send(SseEmitter.event().name("message").data(result));
             } catch (IOException e) {
                 emitters.remove(id);
             }
