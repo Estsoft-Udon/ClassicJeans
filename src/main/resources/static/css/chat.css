@@ -2,6 +2,10 @@
     margin-top: 5rem;
 }
 
+.w_1280.chat {
+    padding: 20rem 3rem;
+}
+
 .chat-container {
     height: 500px;
     border: 1px solid #ccc;
@@ -14,12 +18,38 @@
     margin-bottom: 1rem;
 }
 
+/* 챗봇 연결 종료 container*/
+.ex-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    margin-top: 10rem;
+}
+
 .chat-container .message.received strong {
+    font-size: clamp(1.8rem, 1.5417vw, 2.45rem);
     font-weight: bold;
 }
 
 .chat-container .message.received > p:first-of-type {
+    font-size: clamp(1.8rem, 1.5417vw, 2.45rem);
+}
+
+.chat-container .message.received ol {
+    list-style: decimal;
+    padding-left: 25px;
+}
+
+.chat-container .message.received ol li::marker {
+    list-style: decimal;
+    font-size: clamp(1.8rem, 1.5417vw, 2.45rem);
     font-weight: bold;
+}
+
+.chat-container .message.received ul {
+    list-style: disc;
+    font-size: clamp(1.8rem, 1.5417vw, 2.45rem);
+    padding-left: 20px;
 }
 
 .message {
@@ -27,6 +57,8 @@
     margin: 5px;
     border-radius: 10px;
     max-width: 80%;
+    line-height: clamp(3rem, 2.5vw, 4.8rem);
+    /*    list- 간격 ul li */
 }
 
 .message.sent {
@@ -85,13 +117,22 @@ input[type="text"] {
 .chat-container::-webkit-scrollbar {
     width: 6px; /* 스크롤바 너비 */
 }
+
 .chat-container::-webkit-scrollbar-thumb {
     background-color: #888; /* 스크롤바 색상 */
     border-radius: 10px; /* 스크롤바 둥글게 */
 }
+
 .chat-container::-webkit-scrollbar-thumb:hover {
     background-color: #555; /* 마우스 올릴 때 색상 변경 */
 }
+
 .chat-container::-webkit-scrollbar-track {
     background: #f1f1f1; /* 스크롤바 트랙 색상 */
+}
+
+@media screen and (max-width: 767px) {
+    .w_1280.chat {
+        padding: 20rem 1.5rem;
+    }
 }

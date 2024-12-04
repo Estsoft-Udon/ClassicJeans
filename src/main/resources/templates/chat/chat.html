@@ -11,21 +11,17 @@
             <h1>알려줘 앨런아!</h1>
             <p>앨런 AI 챗봇에게 궁금한 부분을 물어보세요</p>
         </div>
-        <P class="txt">
-            <span>질문 예시에요. 어떤 것이든 물어봐주세요!</span>
-            <br>
-            ➡️ 맥도날드 키오스크 사용법 알려줘,<br>
-            ➡️ 1968년생이 받을 수 있는 지원금 알려줘,<br>
-            ➡️ 갑자기 속이 쓰려 왜 그럴까?
-        </P>
+        <div class="ex-container">
+            <button type="button" onclick="closeConnection()" class="btn exit">연결 종료</button>
+        </div>
         <section>
             <div class="chat-container" id="chat-container"></div>
-            <div class="input-container">
+            <form class="input-container" onsubmit="sendMessage(); return false;">
                 <input type="text" id="chat-input" placeholder="메시지를 입력하세요..."/>
                 <button type="button" onclick="sendMessage()" class="btn">질문하기</button>
-            </div>
+            </form>
         </section>
     </div>
-        <script src="/js/chat.js"></script>
+    <script src="/js/chat.js"></script>
 </th:block>
 </html>
