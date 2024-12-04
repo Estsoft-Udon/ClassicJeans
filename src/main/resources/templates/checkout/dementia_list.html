@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/checkout/questionnaire.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap w_1280 dementia_wr">
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="steps">
+                <div class="step active" id="progress-step-0">
+                    <div class="circle"></div>
+                    <p>인지 기능</p>
+                </div>
+                <div class="step" id="progress-step-1">
+                    <div class="circle"></div>
+                    <p>인지 기능 평가</p>
+                </div>
+                <div class="step" id="progress-step-2">
+                    <div class="circle"></div>
+                    <p>일상 생활 <br> 능력 평가</p>
+                </div>
+                <div class="step" id="progress-step-3">
+                    <div class="circle"></div>
+                    <p>행동 및 심리 <br> 증상 평가</p>
+                </div>
+                <div class="step" id="progress-step-4">
+                    <div class="circle"></div>
+                    <p>건강 상태 및 병력</p>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="result" class="content">
+            <!-- 단계 1 -->
+            <section class="step-content" id="step-0">
+                <h2>인지 기능</h2>
+                <div class="question">
+                    <p>질문 1: 최근 기억력에 변화가 있나요?</p>
+                    <label><input type="radio" name="q1" onclick="handleRadioClick(event, this)"><span>변화 없음</span></label>
+                    <label><input type="radio" name="q1" onclick="handleRadioClick(event, this)"><span>가끔 최근 일을 기억하지 못함</span></label>
+                    <label><input type="radio" name="q1" onclick="handleRadioClick(event, this)"><span>자주 최근 일을 기억하지 못함</span></label>
+                </div>
+                <div class="question">
+                    <p>질문 2: 시간, 장소, 사람을 인식하는 데 어려움이 있나요?</p>
+                    <label><input type="radio" name="q2" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q2" onclick="handleRadioClick(event, this)"><span>가끔 헷갈림</span></label>
+                    <label><input type="radio" name="q2" onclick="handleRadioClick(event, this)"><span>자주 헷갈림</span></label>
+                </div>
+                <div class="question">
+                    <p>질문 3: 간단한 계산이나 계획 수립에 어려움이 있나요?</p>
+                    <label><input type="radio" name="q3" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q3" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q3" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+                <div class="question">
+                    <p>질문 4: 단어 선택이나 대화 중 반복이 있나요?</p>
+                    <label><input type="radio" name="q4" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q4" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q4" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+            </section>
+
+            <!-- 단계 2 -->
+            <section class="step-content" id="step-1">
+                <h2>인지 기능 평가</h2>
+                <div class="question">
+                    <p>질문 1: 오늘의 날짜와 요일을 알고 있나요?</p>
+                    <label><input type="radio" name="q5" onclick="handleRadioClick(event, this)"><span>알고 있음</span></label>
+                    <label><input type="radio" name="q5" onclick="handleRadioClick(event, this)"><span>헷갈리거나 잘 모름</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 2: 현재 위치를 알고 있나요?</p>
+                    <label><input type="radio" name="q6" onclick="handleRadioClick(event, this)"><span>알고 있음</span></label>
+                    <label><input type="radio" name="q6" onclick="handleRadioClick(event, this)"><span>헷갈리거나 잘 모름</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 3: 최근 중요한 사건을 기억하시나요?</p>
+                    <label><input type="radio" name="q7" onclick="handleRadioClick(event, this)"><span>기억함</span></label>
+                    <label><input type="radio" name="q7" onclick="handleRadioClick(event, this)"><span>헷갈리거나 기억하지 못함</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 4: 같은 질문을 반복하는 경우가 있나요?</p>
+                    <label><input type="radio" name="q8" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q8" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q8" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 5: 물건을 자주 잃어버리나요?</p>
+                    <label><input type="radio" name="q9" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q9" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q9" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+            </section>
+
+            <!-- 단계 3 -->
+            <section class="step-content" id="step-2">
+                <h2>일상 생활 능력 평가</h2>
+                <div class="question">
+                    <p>질문 1: 요리, 청소, 쇼핑 같은 활동에 어려움이 있나요?</p>
+                    <label><input type="radio" name="q10" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q10" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q10" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 2: 혼자 외출할 수 있나요?</p>
+                    <label><input type="radio" name="q11" onclick="handleRadioClick(event, this)"><span>가능함</span></label>
+                    <label><input type="radio" name="q11" onclick="handleRadioClick(event, this)"><span>가끔 어려움</span></label>
+                    <label><input type="radio" name="q11" onclick="handleRadioClick(event, this)"><span>전혀 불가능</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 3: 금전 관리를 제대로 할 수 있나요?</p>
+                    <label><input type="radio" name="q12" onclick="handleRadioClick(event, this)"><span>가능함</span></label>
+                    <label><input type="radio" name="q12" onclick="handleRadioClick(event, this)"><span>가끔 어려움</span></label>
+                    <label><input type="radio" name="q12" onclick="handleRadioClick(event, this)"><span>전혀 불가능</span></label>
+                </div>
+            </section>
+
+            <!-- 단계 4 -->
+            <section class="step-content" id="step-3">
+                <h2>행동 및 심리 증상 평가</h2>
+                <div class="question">
+                    <p>질문 1: 불안하거나 우울하거나 공격적인 행동을 보이시나요?</p>
+                    <label><input type="radio" name="q13" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q13" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q13" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 2: 환각이나 망상을 경험하신 적이 있나요?</p>
+                    <label><input type="radio" name="q14" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q14" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q14" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+
+                <div class="question">
+                    <p>질문 3: 수면 패턴에 변화가 있나요?</p>
+                    <label><input type="radio" name="q15" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q15" onclick="handleRadioClick(event, this)"><span>가끔 있음</span></label>
+                    <label><input type="radio" name="q15" onclick="handleRadioClick(event, this)"><span>자주 있음</span></label>
+                </div>
+            </section>
+
+            <!-- 단계 5 -->
+            <section class="step-content" id="step-4">
+                <h2>건강 상태 및 병력</h2>
+                <div class="question">
+                    <p>질문 1: 고혈압, 당뇨병 등의 만성 질환이 있나요?</p>
+                    <label><input type="radio" name="q16" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q16" onclick="handleRadioClick(event, this)"><span>있음</span></label>
+                </div>
+                <div class="question">
+                    <p>질문 2: 과거 뇌졸중이나 뇌손상을 입은 적이 있나요?</p>
+                    <label><input type="radio" name="q17" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q17" onclick="handleRadioClick(event, this)"><span>있음</span></label>
+                </div>
+                <div class="question">
+                    <p>질문 3: 가족 중 치매 환자가 있나요?</p>
+                    <label><input type="radio" name="q18" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="q18" onclick="handleRadioClick(event, this)"><span>있음</span></label>
+                </div>
+            </section>
+        </form>
+        <div class="questionnaire_btn">
+            <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
+            <button type="submit" class="btn submit_btn">분석 받아보기</button>
+        </div>
+    </div>
+
+    <script src="/js/questionnaire.js"></script>
+</th:block>
+</html>

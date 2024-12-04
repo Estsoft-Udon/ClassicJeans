@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/layout">
 <th:block layout:fragment="content">
-    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/css/member/member.css">
     <div class="wrap member">
         <div class="w_1280">
             <h1 class="tit">비밀번호 찾기</h1>
@@ -10,36 +10,39 @@
                 <form action="/find_pw" method="POST">
                     <!-- 로그인 아이디 입력 -->
                     <div class="top">
-                        <label for="loginId"></label>
+                        <label for="loginId" hidden></label>
                         <input type="text" id="loginId" name="loginId" required placeholder="아이디를 입력하세요">
                     </div>
 
                     <!-- 이메일 입력 -->
-                    <div class="top">
-                        <label for="email"></label>
+                    <div class="email_cont">
+                        <label for="email" hidden></label>
                         <input type="email" id="email" name="email" required placeholder="등록된 이메일을 입력하세요">
+                        <!-- 이메일 인증 버튼 -->
+                        <button type="button" onclick="checkEmail()" class="btn">이메일 인증</button>
                     </div>
 
-                    <!-- 이메일 인증 버튼 -->
-                    <div class="top">
-                        <button type="button" onclick="checkEmail()" class="reversal_btn">이메일 인증</button>
-                    </div>
+                    <div class="email_cont">
+                        <!-- 이메일 인증 코드 입력 -->
+                        <div class="top" id="authCodeSection">
+                            <label for="authCode"></label>
+                            <input type="text" id="authCode" name="authCode" placeholder="이메일로 전송된 인증 코드를 입력하세요">
+                        </div>
 
-                    <!-- 이메일 인증 코드 입력 -->
-                    <div class="top" id="authCodeSection">
-                        <label for="authCode"></label>
-                        <input type="text" id="authCode" name="authCode" placeholder="이메일로 전송된 인증 코드를 입력하세요">
+                        <!-- 이메일 인증 제출 폼 -->
+                        <div class="top" id="emailAuthFormSection">
+                            <button type="button" onclick="submitAuthCode()" class="btn">인증 코드 확인</button>
+                        </div>
                     </div>
-
-                    <!-- 이메일 인증 제출 폼 -->
-                    <div class="top" id="emailAuthFormSection">
-                        <button type="button" onclick="submitAuthCode()" class="default_btn">인증 코드 확인</button>
-                    </div>
-
 
                     <!-- 오류 메시지 표시 -->
                     <div class="error-message" th:if="${errorMessage != null}">
                         <span th:text="${errorMessage}"></span>
+                    </div>
+
+                    <div class="btn_box">
+                        <button type="button" onclick="window.location.href='/login'" class="btn">로그인하기</button>
+                        <button type="submit" class="btn">확인</button>
                     </div>
                 </form>
             </section>
