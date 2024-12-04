@@ -1,14 +1,15 @@
 package com.example.classicjeans.dto.request;
 
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.enums.questionnaire.*;
 import lombok.Data;
 
 @Data
 public class AlanQuestionnaireRequest {
-    private final Users user;
+    private Users user;
 
-    private String height;
-    private String weight;
+    private Double height;
+    private Double weight;
 
     // 건강 상태
     private ChronicDisease chronicDisease;  // 현재 앓고 있는 만성 질환
@@ -36,20 +37,6 @@ public class AlanQuestionnaireRequest {
     private WeightChange weightChange;  // 최근 체중 변화
     private boolean hasAllergy;  // 알레르기 여부
 
-    // Enum으로 선택지 정의
-    public enum ChronicDisease { NONE, DIABETES, HYPERTENSION, HEART_DISEASE }
-    public enum HospitalVisit { NONE, REGULAR_CHECKUP, DISEASE_TREATMENT, EMERGENCY }
-    public enum Medication { NONE, BLOOD_PRESSURE_MEDICINE, DIABETES_MEDICINE, HEART_MEDICINE }
-    public enum SmokingStatus { CURRENTLY_SMOKING, FORMER_SMOKER, NON_SMOKER }
-    public enum AlcoholConsumption { NONE, OCCASIONAL, REGULAR, FREQUENT }
-    public enum ExerciseFrequency { NONE, OCCASIONAL, REGULAR }
-    public enum DietPattern { REGULAR_3_MEALS, IRREGULAR_MEALS }
-    public enum MoodStatus { GOOD, OCCASIONALLY_ANXIOUS_OR_DEPRESSED, PERSISTENTLY_ANXIOUS_OR_DEPRESSED }
-    public enum SleepPattern { SUFFICIENT, INSUFFICIENT, IRREGULAR }
-    public enum IndependenceLevel { FULLY_INDEPENDENT, PARTIALLY_DEPENDENT, FULLY_DEPENDENT }
-    public enum SocialParticipation { NONE, OCCASIONAL, FREQUENT }
-    public enum WeightChange { NONE, WEIGHT_GAIN, WEIGHT_LOSS }
-
     @Override
     public String toString() {
         return "입력한 건강 정보와 한국인 평균 데이터 비교:\n" +
@@ -71,8 +58,7 @@ public class AlanQuestionnaireRequest {
                 "\n  유전 질환: " + hasGeneticDisease +
                 "\n  체중 변화: " + weightChange +
                 "\n  알레르기: " + hasAllergy +
-                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 자세한 설명을 아래와 같은 3가지 항목을 제공해줘" +
-                "\n  **건강 지수 (healthIndex)**: (건강지수: n.n점)" + " (한국인 평균 건강 지수: n.n점)" +
+                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 자세한 설명을 아래와 같은 2가지 항목을 제공해줘" +
                 "\n  **종합 평가 (summaryEvaluation)**: [이 값은 AI가 응답에서 제공]" +
                 "\n  **개선 방법 (improvementSuggestions)**: [이 값은 AI가 응답에서 제공]" +
                 "}";

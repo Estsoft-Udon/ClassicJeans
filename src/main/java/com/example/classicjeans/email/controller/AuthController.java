@@ -22,7 +22,7 @@ public class AuthController {
     public ResponseEntity<String> verifyAuthCode(@RequestParam String email, @RequestParam String authCode) {
         if (authService.validateAuthCode(email, authCode)) {
             authService.updateAuthStatus(email); // 인증 상태 업데이트
-            return ResponseEntity.ok("인증 성공!");
+            return ResponseEntity.ok("인증이 완료되었습니다.");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패: 인증번호가 올바르지 않거나 만료되었습니다.");
         }

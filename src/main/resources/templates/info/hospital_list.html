@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/info/list.css">
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43674e9fb7f4d940d2c3a46b585a4361&libraries=services"></script>
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap hospital w_1280">
+        <div class="tit">
+            <h1>공공의료기관찾기</h1>
+            <p>지역별로 검색하여 공공의료기관 정보를 확인해보세요!</p>
+        </div>
+        <div class="search_cont">
+            <form id="hospital_form" th:action="@{/hospital_list}" method="get" class="region_form">
+                <div class="province_cont">
+                    <label for="province">시/도 입력</label>
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
+                    <div id="province-list" class="autocomplete-list"></div>
+                </div>
+
+                <div class="district_cont">
+                    <label for="district">시/군/구 입력</label>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
+                    <div id="district-list" class="autocomplete-list"></div>
+                </div>
+
+                <button type="submit" class="btn" id="search-btn">지역별 병원 검색하기</button>
+            </form>
+            <form id="search_form" action="/hospital_list" method="GET">
+                <div class="search_box">
+                    <label for="facility_search"></label>
+                    <input type="text" id="facility_search" name="search" placeholder="병원 이름을 입력하세요"
+                           th:value="${search}">
+                    <button type="submit" class="btn">검색하기</button>
+                </div>
+            </form>
+            <div class="search_info">
+                <p id="location-display"></p>
+                <p id="search-display"></p>
+            </div>
+        </div>
+        <section class="list_section">
+            <!-- 병원 목록 테이블 -->
+            <table id="hospitalTable">
+                <thead>
+                <tr>
+                    <th>병원 이름</th>
+                    <th>전화번호</th>
+                    <th>주소</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="hospital : ${hospitals}">
+                    <td th:text="${hospital.name}"></td>
+                    <td th:text="${hospital.phone}"></td>
+                    <td class="show_map">
+                        <span th:text="${hospital.address}"></span>
+                        <button type="button" class="btn view-map" th:data-address="${hospital.address}">지도보기</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 지도 모달 -->
+            <div id="map-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </section>
+        <!-- 페이지네이션 -->
+        <ul class="pagination">
+            <li th:if="${currentPage > 0}">
+                <a th:if="${search != null}" th:href="@{'/hospital_list?search=' + ${search} + '&page=0'}">
+                    <button class="first-btn page_btn">첫 페이지</button>
+                </a>
+                <a th:if="${search == null and district != null}" th:href="@{'/hospital_list?city=' + ${city} + '&district=' + ${district} + '&page=0'}">
+                    <button class="first-btn page_btn">첫 페이지</button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/hospital_list?page=0'}">
+                    <button class="first-btn page_btn">첫 페이지</button>
+                </a>
+            </li>
+
+            <!-- 이전 버튼 -->
+            <li th:if="${currentPage > 0}">
+                <a th:if="${search != null}" th:href="@{'/hospital_list?search=' + ${search} + '&page=' + ${currentPage - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+                <a th:if="${search == null and district != null}" th:href="@{'/hospital_list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${currentPage - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/hospital_list?page=' + ${currentPage - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+            </li>
+
+            <!-- 페이지 숫자 버튼들 -->
+            <li th:unless="${noResults}" th:each="i : ${#numbers.sequence(currentPage - 2 > 0 ? currentPage - 2 : 0, currentPage + 2 < totalPages - 1 ? currentPage + 2 : totalPages - 1)}">
+                <!-- 페이지가 0인 경우를 숨기기 -->
+                <a th:if="${i >= 0}">
+                    <!-- search가 있을 때 -->
+                    <a th:if="${search != null}" th:href="@{'/hospital_list?search=' + ${search} + '&page=' + ${i}}">
+                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
+                    </a>
+
+                    <!-- search가 없고 district가 있을 때 -->
+                    <a th:if="${search == null and district != null}" th:href="@{'/hospital_list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${i}}">
+                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
+                    </a>
+
+                    <!-- search와 district가 없을 때, city 있을 때 -->
+                    <a th:if="${search == null and district == null and city != null}" th:href="@{'/hospital_list?city=' + ${city} + '&page=' + ${i}}">
+                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
+                    </a>
+
+                    <!-- search, district, city 모두 없을 때 -->
+                    <a th:if="${search == null and district == null and city == null}" th:href="@{'/hospital_list?page=' + ${i}}">
+                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
+                    </a>
+                </a>
+            </li>
+
+            <div th:if="${noResults}" class="search_empty">
+                검색 기준에 맞는 공공의료기관이 존재하지 않습니다.
+            </div>
+
+            <!-- 다음 버튼 -->
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:if="${search != null}" th:href="@{'/hospital_list?search=' + ${search} + '&page=' + ${currentPage + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+                <a th:if="${search == null and district != null}" th:href="@{'/hospital_list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${currentPage + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/hospital_list?page=' + ${currentPage + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+            </li>
+
+            <!-- 마지막 페이지 버튼 -->
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:if="${search != null}" th:href="@{'/hospital_list?search=' + ${search} + '&page=' + ${totalPages - 1}}">
+                    <button class="last-btn page_btn">마지막 페이지</button>
+                </a>
+                <a th:if="${search == null and district != null}" th:href="@{'/hospital_list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${totalPages - 1}}">
+                    <button class="last-btn page_btn">마지막 페이지</button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/hospital_list?page=' + ${totalPages - 1}}">
+                    <button class="last-btn page_btn">마지막 페이지</button>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    <script src="/js/list.js"></script>
+    <script src="/js/hospital.js"></script>
+    <script src="/js/kakaomap.js"></script>
+</th:block>
+</html>

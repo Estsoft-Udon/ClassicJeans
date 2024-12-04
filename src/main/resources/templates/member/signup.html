@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <meta charset="UTF-8">
+</head>
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member/member.css">
+    <div class="wrap member signup">
+        <div class="w_1280">
+            <div class="tit mw_50">
+                <h1>회원가입</h1>
+                <p>
+                    청바지 회원 가입 후 AI 건강 검진, 운세 정보 등 <br> 다양한 회원 혜택을 누려보세요!⭐
+                </p>
+            </div>
+            <section>
+                <form id="signupForm" action="/signup" method="post">
+                    <label for="name"></label>
+                    <input type="text" id="name" name="name" required placeholder="이름">
+
+                    <!-- 중복 확인 메시지 표시 -->
+                    <div id="idCheckMessage" class="id-check-message"></div>
+                    <div class="id_box">
+                        <label for="loginId" hidden></label>
+                        <input type="text" id="loginId" name="loginId" required placeholder="아이디">
+                        <button type="button" onclick="checkId()" class="btn">중복 확인</button>
+                    </div>
+
+                    <!-- 비밀번호 정규식 검증 메시지 -->
+                    <div id="passwordMessage"></div>
+                    <label for="password"></label>
+                    <input type="password" id="password" name="password" required placeholder="비밀번호 입력">
+                    <!-- 비밀번호 일치 여부 메시지 표시 -->
+                    <div id="passwordMatchMessage"></div>
+                    <label for="confirmPassword"></label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="비밀번호 확인">
+
+                    <!-- 닉네임 입력 및 중복 확인 -->
+                    <div id="nicknameCheckMessage" class="check-message"></div>
+                    <div class="id_box">
+                        <label for="nickname" hidden></label>
+                        <input type="text" id="nickname" name="nickname" required placeholder="닉네임">
+                        <button type="button" onclick="checkNickname()" class="btn">중복 확인</button>
+                    </div>
+
+                    <!-- 이메일 중복 확인 메시지 표시 -->
+                    <div id="emailCheckMessage" class="check-message"></div>
+                    <div class="id_box">
+                        <label for="email" hidden></label>
+                        <input type="email" id="email" name="email" required placeholder="이메일">
+                        <button type="button" id="emailAuthBtn" class="btn" disabled>이메일 인증</button>
+                    </div>
+
+                    <div class="birth_cont">
+                        <!-- 생일 입력 -->
+                        <div class="birth_box">
+                            <label for="dateOfBirth">생년월일</label>
+                            <input type="date" id="dateOfBirth" name="dateOfBirth" required placeholder="생년월일">
+                        </div>
+
+                        <!-- 음력 여부 선택 -->
+                        <div class="isLunar_box">
+                            <label for="isLunar" hidden>음력 여부</label>
+                            <select id="isLunar" name="isLunar">
+                                <option value="true">음력</option>
+                                <option value="false">양력</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 출생 시간 입력 -->
+                    <label for="hourOfBirth">출생 시간</label>
+                    <select id="hourOfBirth" name="hourOfBirth" required>
+                        <option value="">선택하세요</option>
+                    </select>
+
+                    <!-- 성별 선택 -->
+                    <label for="gender">성별</label>
+                    <select id="gender" name="gender" required>
+                        <option value="MALE">남성</option>
+                        <option value="FEMALE">여성</option>
+                        <option value="OTHER">기타</option>
+                    </select>
+                    <p>
+                        가족 정보 등록은 회원 가입 후 <br>
+                        <span class="req">마이페이지 -> 내 정보 수정 -> 가족 정보 수정</span>에서 <br>
+                        등록하실 수 있습니다.
+                    </p>
+                    <div class="btn_box">
+                        <button type="button" onclick="location.href='/login'" class="btn">취소</button>
+                        <button type="submit" class="btn">회원가입</button>
+                    </div>
+                </form>
+
+                <div id="emailAuthModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeEmailModal()">&times;</span>
+                        <p>입력하신 이메일로 인증번호가 발송되었습니다.</p>
+                        <form id="emailAuthForm">
+                            <input type="hidden" id="authEmail" name="email" value=""> <!-- 숨겨진 이메일 필드 -->
+                            <label for="emailAuthCode" hidden></label>
+                            <input type="text" id="emailAuthCode" name="authCode" required placeholder="인증번호를 입력해 주세요">
+                            <button type="submit" class="btn">인증번호 확인</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script>
+        const hourSelect = document.getElementById('hourOfBirth');
+        for (let i = 0; i <= 23; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `${i}시`;
+            hourSelect.appendChild(option);
+        }
+    </script>
+    <script src="/js/common.js"></script>
+    <script src="/js/signup.js"></script>
+    <script src="/js/password_check.js"></script>
+</th:block>
+</html>

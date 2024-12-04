@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<th:block layout:fragment="content">
+    <link rel="stylesheet" href="/css/member/member.css">
+    <div class="wrap member">
+        <div class="w_1280">
+            <div class="tit mw_50">
+                <h1>회원 탈퇴</h1>
+                <p>
+                    탈퇴 시 회원 정보와 AI 건강 검진의 정보 등이 삭제됩니다.
+                </p>
+            </div>
+            <section>
+                <p class="warning mw_50">정말로 회원 탈퇴를 하시겠습니까?🥲</p>
+                <form id="withdrawalForm">
+                    <label for="password"></label>
+                    <input type="password" id="password" name="password" required placeholder="비밀번호 입력">
+                    <div class="btn_box">
+                        <button type="button" onclick="location.href='/'" class="btn">취소하기</button>
+                        <!-- 비밀번호 일치 시 탈퇴 정상 처리 알럿이 노출됩니다. -->
+                        <button type="button" class="btn" id="withdrawal_btn">탈퇴하기</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <script src="/js/withdrawal.js"></script>
+</th:block>
+</html>

@@ -14,13 +14,13 @@ public class HospitalResponse {
     private String city;
     private String district;
 
-    public HospitalResponse(String name, String address, String phone, double latitude, double longitude, String city, String district) {
+    public HospitalResponse(String name, String phone, String address, Double latitude, Double longitude, String city, String district) {
         this.name = name;
-        this.address = address;
         this.phone = phone;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.district = district;
+        this.address = address;
+        this.latitude = latitude != null ? latitude : 0.0;
+        this.longitude = longitude != null ? longitude : 0.0;
         this.city = city;
+        this.district = district;
     }
 }

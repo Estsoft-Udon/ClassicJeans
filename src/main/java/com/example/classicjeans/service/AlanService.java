@@ -8,10 +8,18 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.Bazi;
+import com.example.classicjeans.repository.AlanBaziRepository;
+import com.example.classicjeans.repository.UsersRepository;
+import com.example.classicjeans.entity.DementiaData;
+import com.example.classicjeans.entity.QuestionnaireData;
+import com.example.classicjeans.repository.DementiaDataRepository;
+import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -20,6 +28,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,16 +41,28 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
+    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final AlanBaziRepository alanBaziRepository;
+    private final UsersRepository usersRepository;
+
+
+
+    private final QuestionnaireDataRepository questionnaireDataRepository;
+    private final DementiaDataRepository dementiaDataRepository;
 
 
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
+        this.questionnaireDataRepository = questionnaireDataRepository;
+        this.dementiaDataRepository = dementiaDataRepository;
+        this.alanBaziRepository = alanBaziRepository;
+        this.usersRepository = usersRepository;
+
     }
 
     // 앨런AI test - 추후 제거
@@ -60,14 +81,80 @@ public class AlanService {
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
-        return parseQuestionnaireResponse(responseBody);
+        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        saveQuestionnaireData(request, response);
+        return response;
+    }
+
+    // 기본 검사 결과 저장
+    private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        QuestionnaireData data = new QuestionnaireData(
+                request.getUser().getAge(),
+                request.getUser().getGender(),
+                request.getHeight(),
+                request.getWeight(),
+                request.getChronicDisease(),
+                request.getHospitalVisit(),
+                request.getCurrentMedication(),
+                request.getSmokingStatus(),
+                request.getAlcoholConsumption(),
+                request.getExerciseFrequency(),
+                request.getDietPattern(),
+                request.getMoodStatus(),
+                request.getSleepPattern(),
+                request.getIndependenceLevel(),
+                request.getSocialParticipation(),
+                request.isHasGeneticDisease(),
+                request.getWeightChange(),
+                request.isHasAllergy(),
+                response.getAgeGroup(),
+                response.getAverageHeight(),
+                response.getAverageWeight(),
+                response.getSmokingRate(),
+                response.getDrinkingRate(),
+                response.getExerciseRate(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        questionnaireDataRepository.save(data);
     }
 
     // 치매 문진표 AI 검사
     public AlanDementiaResponse fetchDementiaResponse(AlanDementiaRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
-        return parseAIResponse(responseBody);
+        AlanDementiaResponse response = parseAIResponse(responseBody);
+        saveDementiaData(request, response);
+        return response;
+    }
+
+    // 치매 검진 결과 저장
+    private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
+        // 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        DementiaData data = new DementiaData(
+                request.getMemoryChange(),
+                request.getDailyConfusion(),
+                request.getProblemSolvingChange(),
+                request.getLanguageChange(),
+                request.isKnowsDate(),
+                request.isKnowsLocation(),
+                request.isRemembersRecentEvents(),
+                request.getFrequencyOfRepetition(),
+                request.getLostItemsFrequency(),
+                request.getDailyActivityDifficulty(),
+                request.getGoingOutAlone(),
+                request.getFinancialManagementDifficulty(),
+                request.getAnxietyOrAggression(),
+                request.getHallucinationOrDelusion(),
+                request.getSleepPatternChange(),
+                request.isHasChronicDiseases(),
+                request.isHasStrokeHistory(),
+                request.isHasFamilyDementia(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        dementiaDataRepository.save(data);
     }
 
     // URI 생성과 요청 전송
@@ -138,18 +225,31 @@ public class AlanService {
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
 
-    // 사용자 건강 데이터 및 한국 평균 데이터 파싱
+    // 한국 평균 데이터 파싱
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        response.setUserHeight(extractDouble(content, HEIGHT_PATTERN));
         response.setAverageHeight(extractDouble(content, AVERAGE_HEIGHT_PATTERN));
-        response.setUserWeight(extractDouble(content, WEIGHT_PATTERN));
         response.setAverageWeight(extractDouble(content, AVERAGE_WEIGHT_PATTERN));
-
         response.setSmokingRate(extractDouble(content, SMOKING_RATE_PATTERN));
         response.setDrinkingRate(extractDouble(content, DRINKING_RATE_PATTERN));
         response.setExerciseRate(extractDouble(content, EXERCISE_RATE_PATTERN));
+
+        String ageGroup = extractAgeGroup(content);
+        if (ageGroup != null) {
+            response.setAgeGroup(ageGroup);
+        }
+    }
+
+    // 연령대 추출 함수
+    private String extractAgeGroup(String content) {
+        Pattern pattern = Pattern.compile(AGE_GROUP_PATTERN);
+        Matcher matcher = pattern.matcher(content);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     // 정규 표현식으로 숫자 추출
@@ -210,6 +310,7 @@ public class AlanService {
         return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 
+
     // 오늘의 운세
     public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
         // URI 생성
@@ -240,6 +341,22 @@ public class AlanService {
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
 
     }
+    public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
+        AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
+
+        Bazi bazi = new Bazi();
+        bazi.setUser(usersRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found")));
+        bazi.setDate(LocalDate.now()); // 오늘 날짜 저장
+        bazi.setContent(response.getContent()); // 운세 내용 저장
+
+        return alanBaziRepository.save(bazi);
+    }
+
+    public Bazi getBaziByUserId(Long userId) {
+        return alanBaziRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Bazi data not found"));
+    }
+
     // 운세 결과 텍스트 정리
     private String removeBaziContent(String text) {
         return text
