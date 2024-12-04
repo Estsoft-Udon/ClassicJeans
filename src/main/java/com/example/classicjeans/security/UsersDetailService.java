@@ -43,4 +43,14 @@ public class UsersDetailService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
+
+    public UserDetails loadUserByUniqueKey(String uniqueKey)  {
+        Users user = usersRepository.findByUniqueKeyAndIsDeletedFalse(uniqueKey);
+
+        if(user == null) {
+            return null;
+        }
+
+        return new CustomUserDetails(user);
+    }
 }
