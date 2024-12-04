@@ -35,7 +35,7 @@
     </nav>
     <div class="user_box">
         <!-- 로그인 전 -->
-        <ul sec:authorize="isAnonymous()" class="flex_box">
+        <ul sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
           <li>
             <a href="/login">로그인</a>
           </li>
@@ -44,7 +44,7 @@
           </li>
         </ul>
 <!--         로그인 후 -->
-        <ul sec:authorize="isAuthenticated()" class="flex_box">
+        <ul sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
           <li>
             <a href="/mypage">마이페이지</a>
           </li>
