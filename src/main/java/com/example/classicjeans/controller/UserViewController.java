@@ -1,7 +1,9 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.request.UsersRequest;
+import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.service.FamilyInfoService;
 import com.example.classicjeans.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,24 +12,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class UserViewController {
     private final UsersService usersService;
+    private final FamilyInfoService familyInfoService;
 
     // 회원 정보
     @GetMapping("/mypage")
     public String myPage(Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
+        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(8L);
         model.addAttribute("user", user);
+        model.addAttribute("familyInfoList", familyInfoList);
         return "/member/mypage";
     }
 
     // 회원 정보 수정
     @GetMapping("/edit-profile")
     public String editProfile(Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         model.addAttribute("user", user);
         return "/member/edit_profile";
@@ -35,7 +42,7 @@ public class UserViewController {
 
     @PostMapping("/edit-profile")
     public String editProfile(@ModelAttribute UsersRequest request, Model model) {
-        // 추후에 로그인 중인 유저 정보로 변경 필요
+        // TODO 로그인 중인 유저로 교체 필요
         Users user = usersService.findUserById(8L);
         usersService.update(user.getId(), request);
         return "redirect:/mypage";
@@ -43,7 +50,12 @@ public class UserViewController {
 
     // 가족정보수정
     @GetMapping("/edit_family")
-    public String editFamily() {
+    public String editFamily(Model model) {
+        // TODO 로그인 중인 유저로 교체 필요
+        Users user = usersService.findUserById(8L);
+        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(user.getId());
+        model.addAttribute("user", user);
+        model.addAttribute("familyInfoList", familyInfoList);
         return "/member/edit_family";
     }
 
