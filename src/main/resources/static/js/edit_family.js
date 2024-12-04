@@ -75,7 +75,7 @@ document.querySelector('form').addEventListener('submit', (event) => {
     });
 
     // TODO 로그인 중인 유저로 교체 필요
-    fetch(`/api/family/8`, {
+    fetch(`/api/family`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

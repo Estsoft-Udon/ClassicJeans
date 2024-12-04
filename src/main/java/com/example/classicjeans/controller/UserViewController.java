@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import static com.example.classicjeans.util.SecurityUtil.*;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -23,9 +25,10 @@ public class UserViewController {
     // 회원 정보
     @GetMapping("/mypage")
     public String myPage(Model model) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
-        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(8L);
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+
+        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(userId);
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfoList);
         return "/member/mypage";
@@ -34,16 +37,14 @@ public class UserViewController {
     // 회원 정보 수정
     @GetMapping("/edit-profile")
     public String editProfile(Model model) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
+        Users user = usersService.findUserById(getLoggedInUser().getId());
         model.addAttribute("user", user);
         return "/member/edit_profile";
     }
 
     @PostMapping("/edit-profile")
     public String editProfile(@ModelAttribute UsersRequest request, Model model) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
+        Users user = usersService.findUserById(getLoggedInUser().getId());
         usersService.update(user.getId(), request);
         return "redirect:/mypage";
     }
@@ -51,9 +52,8 @@ public class UserViewController {
     // 가족정보수정
     @GetMapping("/edit_family")
     public String editFamily(Model model) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
-        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(user.getId());
+        Users user = usersService.findUserById(getLoggedInUser().getId());
+        List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(null);
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfoList);
         return "/member/edit_family";
