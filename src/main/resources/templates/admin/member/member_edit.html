@@ -9,7 +9,11 @@
             <a href="/admin/member/list">
                 <button type="button" class="reversal_btn">목록으로</button>
             </a>
-            <button type="button" class="reversal_btn">회원 탈퇴</button>
+            <form th:action="@{/admin/member/delete/{id}(id=${user.id})}" method="POST" id="deleteForm">
+                <button type="button" class="reversal_btn"
+                        onclick="confirmDelete()"
+                        th:disabled="${user.grade.name == 'ADMIN'}">회원 탈퇴</button>
+            </form>
             <form th:action="@{/admin/member/edit/{id}(id=${user.id})}" method="post">
                 <input type="hidden" id="updateGrade" name="grade" th:value="${user.grade}"/>
                 <button type="submit" class="default_btn">저장하기</button>
@@ -52,6 +56,15 @@
             </div>
         </div>
     </section>
+    <script>
+        function confirmDelete() {
+            const userConfirmed = confirm("정말로 회원을 탈퇴시키겠습니까?");
+
+            if (userConfirmed) {
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
 </th:block>
 </body>
 </html>
