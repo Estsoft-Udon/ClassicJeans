@@ -3,26 +3,94 @@ const addFamilyButton = document.getElementById('add-family');
 
 let familyIndex = /*[[${families.size()}]]*/ 0; // 초기 인덱스는 서버에서 전달받은 가족 수
 
-// 가족 입력 섹션 추가
+// 가족 정보 추가 후 form을 서버로 전송
 addFamilyButton.addEventListener('click', () => {
     const familySection = document.createElement('div');
     familySection.className = 'family-section';
     familySection.id = `family-${familyIndex}`;
 
     familySection.innerHTML = `
-            <button type="button" onclick="removeFamily('${familySection.id}')" class="btn delete_btn">삭제</button>
-            <label for="relationship-${familyIndex}"><span class="req">*</span>가족 관계</label>
-            <input type="text" id="relationship-${familyIndex}" name="families[${familyIndex}].relation" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required>
-            <label for="family-name-${familyIndex}"><span class="req">*</span>이름</label> 
-            <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
-            <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
-            <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>
-            <label for="family-gender-${familyIndex}"><span class="req">*</span>성별</label>
-            <input type="text" id="family-gender-${familyIndex}" name="families[${familyIndex}].gender" placeholder="등록하실 가족의 성별을 입력해주세요" required>
-        `;
+        <button type="button" onclick="removeFamily('${familySection.id}')" class="btn delete_btn">삭제</button>
+        <label for="relationship-${familyIndex}"><span class="req">*</span>가족 관계</label>
+        <input type="text" id="relationship-${familyIndex}" name="families[${familyIndex}].relation" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required>
+        <label for="family-name-${familyIndex}"><span class="req">*</span>이름</label> 
+        <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
+        <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
+        <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>
+        <label for="family-gender-${familyIndex}"><span class="req">*</span>성별</label>
+        <select id="family-gender-${familyIndex}" name="families[${familyIndex}].gender" required>
+            <option value="">성별을 선택하세요</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
+        </select>
+    `;
 
     familyContainer.appendChild(familySection);
     familyIndex++;
+});
+
+// form을 제출할 때, 가족 정보를 JSON 형식으로 서버로 전송
+document.querySelector('form').addEventListener('submit', (event) => {
+    event.preventDefault(); // 기본 폼 제출 방지
+
+    const formData = new FormData(event.target);
+    const familiesData = [];
+
+    formData.forEach((value, key) => {
+        const match = key.match(/families\[(\d+)\]\.(\w+)/);
+        if (match) {
+            const familyIndex = parseInt(match[1]);
+            const field = match[2];
+
+            if (!familiesData[familyIndex]) {
+                familiesData[familyIndex] = {};
+            }
+
+            const keyMapping = {
+                name: "name",
+                gender: "gender",
+                birthDate: "dateOfBirth",
+                relation: "relationship",
+            };
+
+            const serverKey = keyMapping[field];
+
+            if (field === "birthDate") {
+                value = new Date(value).toISOString().split('T')[0];
+            }
+
+            if (field === "gender") {
+                // 성별 변환
+                const genderMapping = {
+                    "남성": "MALE",
+                    "여성": "FEMALE",
+                };
+                value = genderMapping[value] || value;
+            }
+
+            if (serverKey) {
+                familiesData[familyIndex][serverKey] = value;
+            }
+        }
+    });
+
+    // TODO 로그인 중인 유저로 교체 필요
+    fetch(`/api/family/8`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(familiesData),
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert('가족 정보가 저장되었습니다.');
+            location.href = '/edit_family';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('가족 정보 저장에 실패했습니다.');
+        });
 });
 
 // 가족 정보 삭제 버튼 동작
