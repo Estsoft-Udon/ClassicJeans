@@ -23,15 +23,15 @@
                             <button type="button" onclick="removeFamily()" class="btn delete_btn">삭제</button>
                             <div class="autocomplete_cont">
                                 <label for="relationship"><span class="req">*</span>가족 관계</label>
-                                <input type="text" id="relationship" th:value="${family.relationship}" autocomplete="off" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required>
+                                <input type="text" id="relationship" th:value="${family.relationship}" autocomplete="off" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required disabled>
                                 <div class="autocomplete_list" id="relation-autocomplete"></div>
                             </div>
                             <label for="family-name"><span class="req">*</span>이름</label>
-                            <input type="text" id="family-name" th:value="${family.name}" placeholder="등록하실 가족의 이름을 입력해주세요" required>
+                            <input type="text" id="family-name" th:value="${family.name}" placeholder="등록하실 가족의 이름을 입력해주세요" required disabled>
                             <label for="family-birth"><span class="req">*</span>생년월일</label>
-                            <input type="date" id="family-birth" th:value="${family.dateOfBirth}" required>
+                            <input type="date" id="family-birth" th:value="${family.dateOfBirth}" required disabled>
                             <label for="family-gender"><span class="req">*</span>성별</label>
-                            <input type="text" id="family-gender" th:value="${family.gender.displayName}" placeholder="등록하실 가족의 성별을 입력해주세요" required>
+                            <input type="text" id="family-gender" th:value="${family.gender.displayName}" placeholder="등록하실 가족의 성별을 입력해주세요" required disabled>
                         </div>
                     </div>
                     <button type="button" id="add-family" class="btn">+ 가족 정보 추가</button>
