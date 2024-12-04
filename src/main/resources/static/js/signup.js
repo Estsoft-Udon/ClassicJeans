@@ -166,7 +166,7 @@ function showEmailModal() {
         })
     })
     document.getElementById('authEmail').value = email; // 숨겨진 필드에 이메일 값 설정
-    modal.style.display = "block";  // 모달을 보이게 설정
+    modal.style.display = "flex";
 }
 
 // 모달 닫기
