@@ -1,6 +1,9 @@
 package com.example.classicjeans.controller;
 
+import static com.example.classicjeans.util.MarkdownRenderer.*;
+
 import com.example.classicjeans.service.AlanSSEService;
+import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +30,18 @@ public class ChatController {
 
         emitters.put(emitterId, emitter);
 
-        emitter.onCompletion(() -> emitters.remove(emitterId));
-        emitter.onTimeout(() -> emitters.remove(emitterId));
-        emitter.onError((ex) -> emitters.remove(emitterId));
+        emitter.onCompletion(() -> {
+            emitters.remove(emitterId);
+            System.out.println("SSE 연결 종료 (onCompletion): " + emitterId);
+        });
+        emitter.onTimeout(() -> {
+            emitters.remove(emitterId);
+            System.out.println("SSE 연결 종료 (onTimeout): " + emitterId);
+        });
+        emitter.onError((ex) -> {
+            emitters.remove(emitterId);
+            System.out.println("SSE 연결 종료 (onError): " + emitterId);
+        });
 
         return emitter;
     }
@@ -44,10 +56,27 @@ public class ChatController {
                 // json 에서 content 필드 추출
                 String extractedContent = objectMapper.readTree(response).get("content").asText();
 
-                emitter.send(SseEmitter.event().name("message").data(extractedContent));
+                // Markdown 언어 rendering
+                emitter.send(SseEmitter.event().name("message").data(convertMarkdownToHtml(extractedContent)));
             } catch (IOException e) {
                 emitters.remove(id);
             }
         });
+    }
+
+    // SSE 연결 종료
+    @PostMapping("/stream/close")
+    public void closeConnection(@RequestBody String emitterId) {
+        SseEmitter emitter = emitters.remove(emitterId);
+
+        if (emitter != null) {
+            try {
+                System.out.println(" 연결이 종료 되었습니다.");
+                emitter.complete();
+            } catch (Exception e) {
+                // 연결 종료 실패 처리
+                emitter.completeWithError(e);
+            }
+        }
     }
 }
