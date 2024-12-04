@@ -36,4 +36,11 @@ public class FamilyInfoService {
                 .map(FamilyInfoResponse::convertFamilyInfo)
                 .toList();
     }
+
+    // 가족 정보 삭제
+    public void deleteFamily(Long familyId) {
+        FamilyInfo familyInfo = familyInfoRepository.findById(familyId)
+                .orElseThrow(() -> new IllegalArgumentException("가족 정보를 찾을 수 없습니다. ID: " + familyId));
+        familyInfoRepository.delete(familyInfo);
+    }
 }
