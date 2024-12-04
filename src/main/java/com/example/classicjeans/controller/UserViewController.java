@@ -56,7 +56,7 @@ public class UserViewController {
 
     // 회원가입
     @GetMapping("/signup")
-    public String signup(Model model) {
+    public String signup() {
 
         return "member/signup";
     }
@@ -72,7 +72,7 @@ public class UserViewController {
     }
 
     @GetMapping("/find_pw")
-    public String findPw(Model model) {
+    public String findPw() {
 
         return "member/find_pw";
     }
