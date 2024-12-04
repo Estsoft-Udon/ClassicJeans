@@ -1,0 +1,50 @@
+/* Pagination styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination ul {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination li {
+    display: inline-block;
+}
+
+.pagination li a {
+    display: block;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.pagination li a:hover {
+    background-color: #ddd;
+}
+
+.pagination li.active a {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination li.disabled a {
+    background-color: #e9ecef;
+    color: #6c757d;
+    pointer-events: none;
+}
+
+table tbody tr td:last-child {
+    text-align: center;
+}
+
+table thead tr th:last-child {
+    text-align: center;
+}

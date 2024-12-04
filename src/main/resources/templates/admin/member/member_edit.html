@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="admin/layout/layout">
+<body>
+<th:block layout:fragment="content">
+    <section>
+        <h1>회원 수정</h1>
+        <div class="btn_box">
+            <a href="/admin/member/member_list">
+                <button type="button" class="reversal_btn">목록으로</button>
+            </a>
+            <button type="button" class="reversal_btn">회원 탈퇴</button>
+<!--            <form th:action="@{/admin/member/member_edit/{id}(id=${user.id})}" method="post">-->
+<!--                <input type="hidden" id="updateGrade" name="grade" th:value="${user.grade}"/>-->
+<!--                <button type="submit" class="default_btn">저장하기</button>-->
+<!--            </form>-->
+        </div>
+        <div class="info">
+            <div class="info_item">
+                <p class="info_label">회원 ID</p>
+<!--                <span th:text="${user.loginId}">회원 아이디</span>-->
+                <span>회원 아이디</span>
+            </div>
+            <div class="info_item">
+                <p class="info_label">이름</p>
+<!--                <span th:text="${user.name}">이름123</span>-->
+                <span>이름123</span>
+            </div>
+            <div class="info_item">
+                <p class="info_label">가입 일자</p>
+<!--                <span th:text="${user.createdAt}">가입 일자</span>-->
+                <span>가입 일자</span>
+            </div>
+            <div class="info_item">
+                <p class="info_label">최종 접속 시간</p>
+<!--                <span th:text="${user.lastLoginAt}">최종 접속 시간</span>-->
+                <span>최종 접속 시간</span>
+            </div>
+            <div class="info_item">
+                <p class="info_label">등급</p>
+<!--                <span th:text="${user.displayName}"></span>-->
+                <span>청바지</span>
+            </div>
+
+            <div class="info_item">
+                <p class="info_label">등급 관리</p>
+<!--                <label>-->
+<!--                    <select name="grade"-->
+<!--                            onchange="document.querySelector('#updateGrade').value = this.value;">-->
+<!--                        <option value="" disabled selected> 선택하세요</option>-->
+<!--                        <option th:each="grade : ${grades}"-->
+<!--                                th:value="${grade}"-->
+<!--                                th:text="${grade.displayName}"-->
+<!--                                th:selected="${user.grade.toString() == grade.toString()}"></option>-->
+<!--                    </select>-->
+<!--                </label>-->
+                <label>
+                    <select name="grade">
+                        <option value="" disabled selected> 선택하세요</option>
+                        <option>청바지</option>
+                        <option>관리자</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>
