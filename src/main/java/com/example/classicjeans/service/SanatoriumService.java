@@ -40,22 +40,21 @@ public class SanatoriumService {
         return repository.findAll();
     }
 
-    @Transactional(timeout = 3600)
     public void setSanatoriumDatas() throws Exception {
         for(String sidoCode : siDoCodes) {
             List<SanatoriumRequest> datas = new ArrayList<>();
             int totalCount = Math.min(calculateTotalCount(sidoCode), 1000);
             datas.addAll(parseJsonToDTOList(fetchSanatoriumData(sidoCode, totalCount)));
+            List<SanatoriumData> sanatoriumDatas = new ArrayList<>();
 
             for(SanatoriumRequest response : datas) {
                 if(repository.existsByName(response.getName())) {
                     continue;
                 }
 
-                SanatoriumData sanatoriumData = new SanatoriumData(response);
-
-                repository.save(sanatoriumData);
+                sanatoriumDatas.add(new SanatoriumData(response));
             }
+            repository.saveAll(sanatoriumDatas);
         }
     }
 
