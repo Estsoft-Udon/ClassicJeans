@@ -8,18 +8,18 @@
         <h1>회원 목록</h1>
         <div class="top">
             <div class="search">
-                <form id="search-form" method="get" action="/admin/member/member_list">
+                <form id="search-form" method="get" action="/admin/member/list">
                     <input type="text" id="search-input" name="keyword" placeholder="검색어를 입력하세요" class="search-input"/>
                     <button id="search-button" class="search-button">검색</button>
                     <input type="hidden" name="sortOption">
                 </form>
             </div>
             <div class="filter">
-                <form id="sort-form" action="/admin/member/member_list" method="get">
+                <form id="sort-form" action="/admin/member/list" method="get">
                     <select id="sortOption" name="sortOption" onchange="this.form.submit()">
                         <option value="all" th:selected="${sortOption == 'all'}">전체 목록</option>
                         <option value="recent" th:selected="${sortOption == 'recent'}">최신가입순</option>
-                        <option value="sort">가나다순</option>
+                        <option value="abc" th:selected="${sortOption == 'abc'}">가나다순</option>
                     </select>
                     <input type="hidden" name="keyword" th:value="${keyword}">
                 </form>
@@ -36,39 +36,37 @@
             </thead>
             <tbody id="user-table-body">
 <!--            게시물이 없을 때 -->
-            <tr>
+            <tr th:if="${allUser.empty}">
                 <td colspan="8" style="text-align: center;">검색된 결과가 없습니다.</td>
             </tr>
-            <tr>
+            <tr th:each="user : ${allUser}">
                 <td>
-                    <a href="/admin/member/member_edit">상세</a>
+                    <a th:href="@{/admin/member/edit/{id}(id = ${user.id})}"
+                       th:text="${user.loginId}"></a>
                 </td>
-                <td>테스트</td>
-                <td>test@test.com</td>
-                <td>2024-12-04</td>
-<!--                <td th:text="${user.createdAt}"></td>-->
-<!--                <td th:text="${user.displayName}"></td>-->
-<!--                <td th:text="${user.isPromotionRequested? 'O' : 'X'}"></td>-->
+                <td th:text="${user.name}">test@test.com</td>
+                <td th:text="${user.email}">2024-12-04</td>
+                <td th:text="${user.createdAt}"></td>
             </tr>
             </tbody>
         </table>
-<!--        <div class="pagination" th:if="${not allUser.empty}">-->
-<!--            <ul id="pagination-links">-->
-<!--                <li th:if="${allUser.hasPrevious()}" class="page-item">-->
-<!--                    <a th:href="@{/admin/member/member_list(page=${allUser.number - 1}, size=${allUser.size}, sortOption=${sortOption})}"-->
-<!--                       class="page-link">이전</a>-->
-<!--                </li>-->
-<!--                <li th:each="i : ${#numbers.sequence(0, allUser.totalPages - 1)}"-->
-<!--                    th:classappend="${i == allUser.number} ? 'active'">-->
-<!--                    <a th:href="@{/admin/member/member_list(page=${i}, size=${allUser.size}, sortOption=${sortOption})}"-->
-<!--                       th:text="${i + 1}" class="page-link">1</a>-->
-<!--                </li>-->
-<!--                <li th:if="${allUser.hasNext()}" class="page-item">-->
-<!--                    <a th:href="@{/admin/member/member_list(page=${allUser.number + 1}, size=${allUser.size}, sortOption=${sortOption})}"-->
-<!--                       class="page-link">다음</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
+        <div class="pagination" th:if="${not allUser.empty}">
+            <ul id="pagination-links">
+                <li th:if="${allUser.hasPrevious()}" class="page-item">
+                    <a th:href="@{/admin/member/list(page=${allUser.number - 1}, size=${allUser.size}, sortOption=${sortOption})}"
+                       class="page-link">이전</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, allUser.totalPages - 1)}"
+                    th:classappend="${i == allUser.number} ? 'active'">
+                    <a th:href="@{/admin/member/list(page=${i}, size=${allUser.size}, sortOption=${sortOption})}"
+                       th:text="${i + 1}" class="page-link">1</a>
+                </li>
+                <li th:if="${allUser.hasNext()}" class="page-item">
+                    <a th:href="@{/admin/member/list(page=${allUser.number + 1}, size=${allUser.size}, sortOption=${sortOption})}"
+                       class="page-link">다음</a>
+                </li>
+            </ul>
+        </div>
     </section>
 </th:block>
 </body>
