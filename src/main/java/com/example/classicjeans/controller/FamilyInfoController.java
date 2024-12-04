@@ -26,4 +26,11 @@ public class FamilyInfoController {
     public List<FamilyInfoResponse> getFamilyByUserId(@PathVariable Long userId) {
         return familyInfoService.findFamilyByUserId(userId);
     }
+
+    // 가족 정보 삭제 API
+    @DeleteMapping("/{familyId}")
+    public void deleteFamily(@PathVariable Long familyId) {
+        familyInfoService.deleteFamily(familyId);
+    }
+
 }
