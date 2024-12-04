@@ -19,8 +19,8 @@
                         <div th:if="${#lists.isEmpty(familyInfoList)}">
                             <p>등록된 가족 정보가 없습니다.</p>
                         </div>
-                        <div th:each="family : ${familyInfoList}" class="family-section">
-                            <button type="button" onclick="removeFamily()" class="btn delete_btn">삭제</button>
+                        <div th:each="family : ${familyInfoList}" class="family-section" th:id="'family-' + ${family.id}">
+                            <button type="button" onclick="deleteFamily(this)" class="btn delete_btn" th:data-id="${family.id}">삭제</button>
                             <div class="autocomplete_cont">
                                 <label for="relationship"><span class="req">*</span>가족 관계</label>
                                 <input type="text" id="relationship" th:value="${family.relationship}" autocomplete="off" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required disabled>
