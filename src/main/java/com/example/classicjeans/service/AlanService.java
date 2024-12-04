@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static com.example.classicjeans.util.SecurityUtil.*;
 
 import static com.example.classicjeans.util.RegexPatterns.*;
 
@@ -88,10 +89,13 @@ public class AlanService {
 
     // 기본 검사 결과 저장
     private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
-        // TODO 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        // TODO 수정했습니다. 확인부탁드립니다.
+        boolean isFamilyInfo = request.getFamily() != null;
         QuestionnaireData data = new QuestionnaireData(
-                request.getUser().getAge(),
-                request.getUser().getGender(),
+                getLoggedInUser(),
+                request.getFamily(),
+                isFamilyInfo ? request.getFamily().getAge() : getLoggedInUser().getAge(),
+                isFamilyInfo ? request.getFamily().getGender() : getLoggedInUser().getGender(),
                 request.getHeight(),
                 request.getWeight(),
                 request.getChronicDisease(),
@@ -131,8 +135,10 @@ public class AlanService {
 
     // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
-        // TODO 추후에 로그인 중인 유저의 아이디, 가족 정보 추가 해야 함.
+        // TODO 수정했습니다. 확인부탁드립니다.
         DementiaData data = new DementiaData(
+                getLoggedInUser(),
+                request.getFamily(),
                 request.getMemoryChange(),
                 request.getDailyConfusion(),
                 request.getProblemSolvingChange(),

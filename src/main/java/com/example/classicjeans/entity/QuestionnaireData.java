@@ -134,7 +134,7 @@ public class QuestionnaireData {
     }
 
     public QuestionnaireData(
-            /*Users userId, FamilyInfo familyId, */int age, Gender gender, Double height,
+            Users userId, FamilyInfo familyId, int age, Gender gender, Double height,
                                                    Double weight, ChronicDisease chronicDisease, HospitalVisit hospitalVisit,
                                                    Medication currentMedication, SmokingStatus smokingStatus, AlcoholConsumption alcoholConsumption,
                                                    ExerciseFrequency exerciseFrequency, DietPattern dietPattern, MoodStatus moodStatus,
@@ -142,8 +142,10 @@ public class QuestionnaireData {
                                                    boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
                                                    Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
                                                    Double exerciseRate, List<String> summaryEvaluation, List<String> improvementSuggestions) {
-//        this.userId = userId;
-//        this.familyId = familyId;
+        this.userId = userId;
+        if(familyId != null) {
+            this.familyId = familyId;
+        }
         this.age = age;
         this.gender = String.valueOf(gender);
         this.height = height;

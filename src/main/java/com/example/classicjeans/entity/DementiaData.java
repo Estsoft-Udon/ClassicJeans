@@ -105,15 +105,17 @@ public class DementiaData {
     }
 
     public DementiaData(
-            /*Users userId, FamilyInfo familyId, */MemoryChange memoryChange, CommonFrequency dailyConfusion,
+            Users userId, FamilyInfo familyId, MemoryChange memoryChange, CommonFrequency dailyConfusion,
                                                    CommonFrequency problemSolvingChange, CommonFrequency languageChange, boolean knowsDate, boolean knowsLocation,
                                                    boolean remembersRecentEvents, CommonFrequency frequencyOfRepetition, CommonFrequency lostItemsFrequency,
                                                    CommonFrequency dailyActivityDifficulty, CommonFrequency goingOutAlone, CommonFrequency financialManagementDifficulty,
                                                    CommonFrequency anxietyOrAggression, CommonFrequency hallucinationOrDelusion, CommonFrequency sleepPatternChange,
                                                    boolean hasChronicDiseases, boolean hasStrokeHistory, boolean hasFamilyDementia,
                                                    List<String> summaryEvaluation, List<String> improvementSuggestions) {
-//        this.userId = userId;
-//        this.familyId = familyId;
+        this.userId = userId;
+        if(familyId != null) {
+            this.familyId = familyId;
+        }
         this.memoryChange = memoryChange;
         this.dailyConfusion = dailyConfusion;
         this.problemSolvingChange = problemSolvingChange;
