@@ -41,17 +41,25 @@
                     </div>
                     <div class="family_cont">
                         <p>🏠 나의 가족 정보</p>
-                        <div>
-                            <label for="parentName">부모님 존함</label>
-                            <span id="parentName">홍길동</span>
+
+                        <!-- 가족 정보가 없을 경우 메시지 출력 -->
+                        <div th:if="${#lists.isEmpty(familyInfoList)}">
+                            <p>가족 정보가 없습니다.</p>
                         </div>
-                        <div>
-                            <label for="parentBirthDate">부모님 생년월일</label>
-                            <span id="parentBirthDate">바지짱</span>
-                        </div>
-                        <div>
-                            <label for="parentGender">부모님 성별</label>
-                            <span id="parentGender">여성</span>
+
+                        <div th:each="family : ${familyInfoList}">
+                            <div>
+                                <label for="parentName">성명</label>
+                                <span id="parentName" th:text="${family.name}">홍길동</span>
+                            </div>
+                            <div>
+                                <label for="parentBirthDate">생년월일</label>
+                                <span id="parentBirthDate" th:text="${family.dateOfBirth}">바지짱</span>
+                            </div>
+                            <div>
+                                <label for="parentGender">성별</label>
+                                <span id="parentGender" th:text="${family.gender.displayName}">여성</span>
+                            </div>
                         </div>
                     </div>
                 </div>
