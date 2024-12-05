@@ -50,7 +50,7 @@ document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click
                 console.log(data);
                 if (data.success) {
                     alert('분석이 완료되었습니다!');
-                    document.querySelector('form.content').submit();
+                    // document.querySelector('form.content').submit();
                 } else {
                     alert('분석 요청에 실패했습니다.');
                 }
