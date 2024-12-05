@@ -151,7 +151,7 @@ td.show_map{
     max-height: 60%;
 }
 
-.close {
+.close, .close_btn {
     position: absolute;
     top: 0px;
     right: 10px;
@@ -186,6 +186,74 @@ td.show_map{
 
 .search_cont{
     position: relative;
+}
+
+#reservationModal .modal-content{
+    width: 30%;
+    height: 100%;
+    padding: 5rem 2rem;
+    max-height: 70%;
+}
+
+#reservationModal h2{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5rem;
+}
+
+#reservationModal label{
+    display: block;
+    font-size: clamp(1rem, 1.0417vw, 2rem);
+    margin-bottom: 1rem;
+}
+
+#reservationModal span:not(.close_btn, .point){
+    display: block;
+    margin-bottom: 1rem;
+    font-size: clamp(1rem, 1.0417vw, 1.8rem);
+}
+
+#reservationModal .btn_box{
+    text-align: center;
+}
+
+#reservationModal .top{
+    overflow-y: auto;
+}
+
+#reservationModal form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+}
+
+#reservationModal form div{
+    margin-bottom: 2rem;
+}
+
+.reservation_btn{
+    background-color: #d12e92;
+}
+
+.reservation_btn:hover{
+    background-color: #912065;
+}
+
+.view-form.reservation_btn{
+    background-color: #fff;
+    border: 1px solid #d12e92;
+    color: #d12e92;
+}
+
+.view-form.reservation_btn:hover{
+    background-color: #d12e92;
+    color: #fff;
+}
+
+.point{
+    color: #d12e92;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 767px) {

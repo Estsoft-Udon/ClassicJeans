@@ -202,3 +202,50 @@ window.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("reservationModal");
+    const closeModalButton = document.querySelector(".modal .close_btn");
+    const cancelButton = document.querySelector(".modal .btn_box .cancel_btn");
+
+    document.querySelectorAll(".view-form").forEach(button => {
+        button.addEventListener("click", function () {
+            const hospitalName = button.getAttribute("data-name");
+            const hospitalPhone = button.getAttribute("data-phone");
+            const hospitalAddress = button.getAttribute("data-address");
+
+            // 병원 정보 채우기
+            document.getElementById("hospitalName").textContent = hospitalName;
+            document.getElementById("hospitalPhone").textContent = hospitalPhone;
+            document.getElementById("hospitalAddress").textContent = hospitalAddress;
+
+            // hidden 필드 채우기
+            document.getElementById("modalHospitalId").value = button.getAttribute("data-id");
+            document.getElementById("modalHospitalPhone").value = hospitalPhone;
+            document.getElementById("modalHospitalAddress").value = hospitalAddress;
+
+            // 모달 열기 및 스크롤 비활성화
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // 배경 스크롤 비활성화
+        });
+    });
+
+    closeModalButton.addEventListener("click", function () {
+        closeModal();
+    });
+
+    cancelButton.addEventListener("click", function () {
+        closeModal();
+    });
+
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = ""; // 배경 스크롤 활성화
+    }
+});
