@@ -129,7 +129,7 @@ public class AlanService {
     // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
         DementiaData data = new DementiaData(
-                getLoggedInUser(),
+                request.getUser(),
                 request.getFamily(),
                 request.getMemoryChange(),
                 request.getDailyConfusion(),
