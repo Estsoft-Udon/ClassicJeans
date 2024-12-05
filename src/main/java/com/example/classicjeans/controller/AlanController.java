@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.SourceVersion;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -49,7 +50,8 @@ public class AlanController {
 
     // 앨런 치매 문진표 질의
     @PostMapping("/api/analysis/dementia")
-    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@RequestBody AlanDementiaRequest request) throws JsonProcessingException {
+    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@ModelAttribute AlanDementiaRequest request) throws JsonProcessingException {
+        System.out.println("request = " + request);
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
