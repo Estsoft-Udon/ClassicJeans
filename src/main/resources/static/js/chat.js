@@ -18,22 +18,16 @@ function appendMessage(content, isSent) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
     return message;
 }
-function responseMessage(responseContent){
-    // chat-container 요소 선택
-    const chatContainer = document.getElementById('chat-container');
 
-    // 새로운 메시지 div 생성
-    const message = document.createElement('div');
-    message.classList.add('message', 'received'); // 'received' 클래스를 추가하여 받은 메시지 스타일 적용
+function responseMessage(responseContent) {
+    if (messageContainer) {
+        // 응답 내용을 업데이트
+        messageContainer.innerHTML = responseContent;
 
-    // 응답 내용 삽입
-    message.innerHTML = responseContent;
-
-    // 새로운 메시지를 chat-container에 추가
-    chatContainer.appendChild(message);
-
-    // 스크롤을 항상 아래로 이동
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+        // 스크롤을 항상 아래로 유지
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 }
 
 function sendMessage() {
@@ -41,8 +35,17 @@ function sendMessage() {
     const content = input.value;
 
     if (content.trim()) {
+        // 전송된 메세지를 화면에 추가
         appendMessage(content, true);
         input.value = '';
+
+        // 새로운 응답 메세지 요소 생성
+        const chatContainer = document.getElementById('chat-container');
+        const responseBox = document.createElement("div");
+        responseBox.classList.add('message', 'received');
+        responseBox.setAttribute("id", `responseBox-${Date.now()}`); // 고유 ID 부여
+        responseBox.innerHTML = "응답 대기 중..."; // 기본 텍스트 설정
+        chatContainer.appendChild(responseBox);
 
         // 메시지를 서버로 전송
         fetch('/chat/send', {
@@ -52,6 +55,12 @@ function sendMessage() {
             },
             body: JSON.stringify(content)
         }).catch((err) => console.error("메시지 전송 오류:", err));
+
+        // 스크롤을 가장 아래로 이동
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // 동적으로 생성된 responseBox를 전역 변수 또는 다른 함수에서 사용할 수 있음
+        messageContainer = responseBox;
     }
 
     // // 버튼을 눌렀을 때 새로운 element를 추가한다.
@@ -85,13 +94,17 @@ function listenForMessages() {
     eventSource.addEventListener('message', function (event) {
         currentMessageBuffer = event.data.trim();
 
-        // 기존 메시지 요소가 없으면 새로 생성
-        responseMessage(currentMessageBuffer);
+        // 지연 시간을 설정 (밀리초 단위)
+        const delay = 500; // 500ms = 0.5초
 
-        // 스크롤을 항상 아래로 유지
-        const chatContainer = document.getElementById('chat-container');
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        // 지연 시간 후에 메시지를 추가
+        setTimeout(() => {
+            responseMessage(currentMessageBuffer);
 
+            // 스크롤을 항상 아래로 유지
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, delay);
     });
 
     eventSource.onerror = function (event) {
@@ -103,6 +116,7 @@ function listenForMessages() {
 
     eventSource.addEventListener('completed', function () {
         // chatContainer에서 모든 메시지를 초기화
+
         currentMessageBuffer = null;
         console.log("메시지 초기화 완료");
     });
@@ -128,6 +142,7 @@ function closeConnection() {
                 message.classList.add('message', 'received');
                 message.innerHTML = '<strong>연결이 종료되었습니다.</strong>';
                 chatContainer.appendChild(message);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
 
                 // 입력 필드와 버튼을 비활성화 시킬 수 있습니다.
                 document.getElementById('chat-input').disabled = true;

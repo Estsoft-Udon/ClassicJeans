@@ -1,14 +1,13 @@
 package com.example.classicjeans.service;
 
-import static com.example.classicjeans.util.MarkdownRenderer.convertMarkdownToHtml;
 
-import com.example.classicjeans.util.MarkdownRenderer;
+import static com.example.classicjeans.util.MarkdownRenderer.*;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -60,18 +59,18 @@ public class AlanSSEService {
             StringBuilder fullContent = new StringBuilder();
 
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("data: ") && line.contains("complete")) {
+                if (line.startsWith("data: ")) {
 
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
                     System.out.println("json = " + json);
 
-                    // "complete"가 포함되면 스트리밍 종료 이벤트 전송
-//                    if (json.contains("complete")) {
-//                        emitter.send(SseEmitter.event().name("completed"));
-//                        System.out.println("메세지가 종료됩니다.");
-//                        break;
-//                    }
+//                     "complete"가 포함되면 스트리밍 종료 이벤트 전송
+                    if (json.contains("complete")) {
+                        emitter.send(SseEmitter.event().name("completed"));
+                        System.out.println("메세지가 종료됩니다.");
+                        break;
+                    }
 
                     try {
                         // JSON 파싱
@@ -84,7 +83,7 @@ public class AlanSSEService {
                         fullContent.append(contentText);
 
                         // 마크다운을 HTML로 변환
-                        String htmlContent = MarkdownRenderer.convertMarkdownToHtml(fullContent.toString());
+                        String htmlContent = convertMarkdownToHtml(fullContent.toString());
 
                         emitter.send(SseEmitter.event()
                                 .name("message")
