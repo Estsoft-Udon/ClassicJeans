@@ -200,8 +200,12 @@ public class AlanService {
         response.setContent(rootNode.path("content").asText());
 
         parseHealthData(response);
-        response.setSummaryEvaluation(extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN));
-        response.setImprovementSuggestions(extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN));
+        response.setSummaryEvaluation(
+                extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class)
+        );
+        response.setImprovementSuggestions(
+                extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class)
+        );
 
         return response;
     }
@@ -217,8 +221,8 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        List<String> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
-        List<String> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
+        List<SummaryEvaluation> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class);
+        List<ImprovementSuggestions> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
