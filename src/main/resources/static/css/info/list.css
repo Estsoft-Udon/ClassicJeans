@@ -116,6 +116,7 @@ td.show_map{
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 1rem;
+    margin-right: 1rem;
 }
 
 .sanatorium .btn,
