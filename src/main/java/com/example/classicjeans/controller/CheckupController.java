@@ -43,13 +43,7 @@ public class CheckupController {
     }
 
     @RequestMapping("/questionnaire_list")
-    public String questionnaireList(Model model, HttpSession session) {
-        String selectedUser = (String) model.getAttribute("selectedUser");
-
-        String selectedUserFromSession = (String) session.getAttribute("selectedUser");
-        System.out.println("Selected user from session: " + selectedUserFromSession);
-
-        model.addAttribute("selectedUser", selectedUser);
+    public String questionnaireList() {
         return "/checkout/questionnaire_list.html";
     }
 
