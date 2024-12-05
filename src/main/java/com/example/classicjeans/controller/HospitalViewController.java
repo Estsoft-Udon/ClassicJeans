@@ -1,7 +1,6 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
-import com.example.classicjeans.entity.HospitalData;
 import com.example.classicjeans.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,9 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
 
 @Controller
 public class HospitalViewController {
