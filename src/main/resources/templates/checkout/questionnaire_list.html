@@ -38,20 +38,16 @@
         </div>
 
         <form method="post" action="/api/analysis/questionnaire" class="content">
-            <!-- 단계 0 -->
+            <!-- 단계 1 -->
             <section class="step-content" id="step-0">
-                <h2>신장, 몸무게</h2>
+                <h2>건강 상태</h2>
                 <div class="question">
                     <p>질문 1: 현재 신장과 몸무게를 적어주세요.</p>
                     <div class="flex_box">
-                        <div class="flex_box"><input type="text" name="height" placeholder="신장을 적어주세요."><span>cm</span></div>
-                        <div class="flex_box"><input type="text" name="weight" placeholder="몸무게를 적어주세요."><span>kg</span></div>
+                        <div class="flex_box"><input type="text" name="height" value="" placeholder="신장을 적어주세요."><span>cm</span></div>
+                        <div class="flex_box"><input type="text" name="weight" value="" placeholder="몸무게를 적어주세요."><span>kg</span></div>
                     </div>
                 </div>
-            </section>
-            <!-- 단계 1 -->
-            <section class="step-content" id="step-1">
-                <h2>건강 상태</h2>
                 <div class="question">
                     <p>질문 1: 현재 앓고 있는 만성 질환이 있나요?</p>
                     <label><input type="radio" name="chronicDisease" value="NONE" onclick="handleRadioClick(event, this)"><span>없음</span></label>
@@ -76,7 +72,7 @@
             </section>
 
             <!-- 단계 2 -->
-            <section class="step-content" id="step-2">
+            <section class="step-content" id="step-1">
                 <h2>생활 습관</h2>
                 <div class="question">
                     <p>질문 1: 현재 흡연하시나요?</p>
@@ -108,7 +104,7 @@
             </section>
 
             <!-- 단계 3 -->
-            <section class="step-content" id="step-3">
+            <section class="step-content" id="step-2">
                 <h2>정신 건강</h2>
                 <div class="question">
                     <p>질문 1: 최근 2주간 기분은 어땠나요?</p>
@@ -126,7 +122,7 @@
             </section>
 
             <!-- 단계 4 -->
-            <section class="step-content" id="step-4">
+            <section class="step-content" id="step-3">
                 <h2>사회적 활동</h2>
                 <div class="question">
                     <p>질문 1: 일상 생활에서 자립적으로 활동하시나요?</p>
@@ -144,7 +140,7 @@
             </section>
 
             <!-- 단계 5 -->
-            <section class="step-content" id="step-5">
+            <section class="step-content" id="step-4">
                 <h2>가족력</h2>
                 <div class="question">
                     <p>질문 1: 가족 중 유전적 질환이 있나요?</p>
@@ -154,7 +150,7 @@
             </section>
 
             <!-- 단계 6 -->
-            <section class="step-content" id="step-6">
+            <section class="step-content" id="step-5">
                 <h2>추가 정보</h2>
                 <div class="question">
                     <p>질문 1: 최근 체중에 변화가 있었나요?</p>
