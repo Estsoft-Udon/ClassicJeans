@@ -38,6 +38,17 @@
         </div>
 
         <form method="post" action="/api/analysis/questionnaire" class="content">
+            <!-- 단계 0 -->
+            <section class="step-content" id="step-0">
+                <h2>신장, 몸무게</h2>
+                <div class="question">
+                    <p>질문 1: 현재 신장과 몸무게를 적어주세요.</p>
+                    <div class="flex_box">
+                        <div class="flex_box"><input type="text" name="height" placeholder="신장을 적어주세요."><span>cm</span></div>
+                        <div class="flex_box"><input type="text" name="weight" placeholder="몸무게를 적어주세요."><span>kg</span></div>
+                    </div>
+                </div>
+            </section>
             <!-- 단계 1 -->
             <section class="step-content" id="step-1">
                 <h2>건강 상태</h2>
