@@ -18,14 +18,18 @@
             <label for="user-select">검사 대상 선택</label>
             <select id="user-select" name="selectedUser" required onchange="checkSelection()">
               <option value="-1" disabled selected>검사 대상 선택</option>
-              <option th:value="${user.id}" th:selected="${selectedUser == user.id}">본인</option>
+              <option th:value="${user.id}" th:selected="${selectedUserId == user.id && selectedType == 'user'}" data-type="user">본인</option>
               <th:block th:each="family : ${familyInfoList}">
-                <option th:value="${family.id}" th:selected="${selectedUser == family.id}" th:text="${family.name}"></option>
+                <option th:value="${family.id}" th:selected="${selectedUserId == family.id && selectedType == 'family'}" th:text="${family.name}" data-type="family"></option>
               </th:block>
             </select>
           </div>
           <p id="warning-message" style="display: none;"></p>
-          <a href="/checkout/checkout_list" id="submit-button" class="btn" onclick="submitSelection()" disabled>건강 정보 분석 시작하기</a>
+          <form id="submit-form" method="get" action="/checkout/checkout_list">
+            <input type="hidden" id="selectedUser" name="selectedUser" value="">
+            <input type="hidden" id="selectedType" name="selectedType" value="">
+            <a href="javascript:void(0);" id="submit-button" class="btn" disabled>건강 정보 분석 시작하기</a>
+          </form>
         </div>
       </div>
   </div>
