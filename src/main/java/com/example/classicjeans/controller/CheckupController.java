@@ -52,20 +52,6 @@ public class CheckupController {
                 session.setAttribute("selectedType", "family");
             }
         }
-
-        // 세션에 저장된 selectedUser 값을 확인
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        if (selectedUserFromSession == null) {
-            System.out.println("No user selected in the session");
-        } else {
-            if (selectedUserFromSession instanceof Users) {
-                Users selectedUserObj = (Users) selectedUserFromSession;
-                System.out.println("Selected User from session: " + selectedUserObj.getId());
-            } else if (selectedUserFromSession instanceof FamilyInfo) {
-                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
-                System.out.println("Selected Family from session: " + selectedFamilyInfo.getName());
-            }
-        }
         return "/checkout/checkout_list.html";
     }
 
