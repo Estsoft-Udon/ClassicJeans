@@ -113,16 +113,12 @@ public class QuestionnaireData {
     private Double exerciseRate;        // 한국인 평균 운동 실천율
 
     // 종합 평가 내용
-    @ElementCollection
-    @CollectionTable(name = "summary_evaluation", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "evaluation", columnDefinition = "TEXT")
-    private List<String> summaryEvaluation;
+    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
-    @ElementCollection
-    @CollectionTable(name = "improvement_suggestions", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "suggestion", columnDefinition = "TEXT")
-    private List<String> improvementSuggestions;
+    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImprovementSuggestions> improvementSuggestions;
 
     @PrePersist
     public void setDate() {
@@ -141,7 +137,7 @@ public class QuestionnaireData {
             SleepPattern sleepPattern, IndependenceLevel independenceLevel, SocialParticipation socialParticipation,
             boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
             Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
-            Double exerciseRate, List<String> summaryEvaluation, List<String> improvementSuggestions) {
+            Double exerciseRate, List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions) {
         if (userId != null) {
             this.userId = userId;
         }
