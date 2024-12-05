@@ -18,8 +18,10 @@
             <label for="user-select">검사 대상 선택</label>
             <select id="user-select" name="user">
               <option value="">검사 대상 선택</option>
-              <option value="본인">본인</option>
-              <option value="가족">가족</option>
+              <option th:value="${user.id}" th:selected="${selectedUser == user.id}">본인</option>
+              <th:block th:each="family : ${familyInfoList}">
+                <option th:value="${family.id}" th:selected="${selectedUser == family.id}" th:text="${family.name}"></option>
+              </th:block>
             </select>
           </div>
           <a href="/checkout/checkout_list" class="btn">건강 정보 분석 시작하기</a>
