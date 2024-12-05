@@ -1,7 +1,7 @@
 package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
-import com.example.classicjeans.entity.Hospital;
+import com.example.classicjeans.entity.HospitalData;
 import com.example.classicjeans.repository.HospitalRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,45 +33,7 @@ public class HospitalService {
         this.hospitalRepository = hospitalRepository;
     }
 
-    // 전체 병원 목록 DB 저장
-    public void saveAllHospitals(int numOfRows) throws IOException, URISyntaxException {
-        int pageNo = 1;
-        boolean hasNextPage = true;
-
-        while (hasNextPage) {
-            // API에서 병원 목록을 가져옴
-            List<HospitalResponse> hospitalList = getHospitalList(pageNo, numOfRows);
-
-            if (hospitalList.isEmpty()) {
-                break;
-            }
-
-            // 병원 목록을 DB에 저장
-            for (HospitalResponse hospitalResponse : hospitalList) {
-                // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
-                boolean exists = hospitalRepository.existsByPhone(hospitalResponse.getPhone());
-                if (!exists) {
-                    // Hospital 엔티티로 변환하여 DB에 저장
-                    Hospital hospital = new Hospital(
-                            hospitalResponse.getName(),
-                            hospitalResponse.getAddress(),
-                            hospitalResponse.getPhone(),
-                            hospitalResponse.getLatitude(),
-                            hospitalResponse.getLongitude(),
-                            hospitalResponse.getCity(),
-                            hospitalResponse.getDistrict()
-                    );
-                    hospitalRepository.save(hospital);
-                }
-            }
-
-            // 다음 페이지가 있는지 확인
-            pageNo++;
-            hasNextPage = hospitalList.size() == numOfRows;
-        }
-    }
-
-    // 병원 목록 조회
+    // API
     public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
         String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
         String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
@@ -109,7 +71,7 @@ public class HospitalService {
                     boolean exists = hospitalRepository.existsByPhone(phone);
                     if (!exists) {
                         // Hospital 엔티티로 변환하여 DB에 저장
-                        Hospital hospital = new Hospital(name, address, phone, latitudeDouble, longitudeDouble, city, district);
+                        HospitalData hospital = new HospitalData(name, address, phone, latitudeDouble, longitudeDouble, city, district);
                         hospitalRepository.save(hospital);  // DB에 저장
                     }
 
@@ -126,46 +88,41 @@ public class HospitalService {
         }
     }
 
-    // 지역으로 필터링된 병원 목록 조회 (페이지네이션 적용)
-    public List<HospitalResponse> getFilteredHospitalList(String city, String district, int pageNo, int numOfRows) throws IOException, URISyntaxException {
-        List<HospitalResponse> allHospitals = getHospitalList(pageNo, numOfRows); // 페이지네이션 적용
-        List<HospitalResponse> filteredHospitals = new ArrayList<>();
+    // API 값 DB 저장
+    public void saveAllHospitals(int numOfRows) throws IOException, URISyntaxException {
+        int pageNo = 1;
+        boolean hasNextPage = true;
 
-        // 병원 데이터를 필터링하는 로직
-        for (HospitalResponse hospital : allHospitals) {
-            // city와 district가 null이 아니고, 정확하게 일치하는 경우에만 필터링
-            if ((hospital.getCity() != null && hospital.getCity().equals(city)) &&
-                    (hospital.getDistrict() != null && hospital.getDistrict().equals(district))) {
-                filteredHospitals.add(hospital);
+        while (hasNextPage) {
+            // API에서 병원 목록을 가져옴
+            List<HospitalResponse> hospitalList = getHospitalList(pageNo, numOfRows);
+
+            if (hospitalList.isEmpty()) {
+                break;
             }
-        }
-        return filteredHospitals;
-    }
 
-    // 총 페이지 수 계산
-    public int getTotalPages(int numOfRows) throws IOException, URISyntaxException {
-        String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
-        String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
-        String baseUrl = url +
-                "?serviceKey=" + serviceKey +
-                "&pageNo=1" +  // 첫 번째 페이지로 요청
-                "&numOfRows=" + numOfRows; // 한 페이지 항목 수
+            // 병원 목록을 DB에 저장
+            for (HospitalResponse hospitalResponse : hospitalList) {
+                // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
+                boolean exists = hospitalRepository.existsByPhone(hospitalResponse.getPhone());
+                if (!exists) {
+                    // Hospital 엔티티로 변환하여 DB에 저장
+                    HospitalData hospital = new HospitalData(
+                            hospitalResponse.getName(),
+                            hospitalResponse.getAddress(),
+                            hospitalResponse.getPhone(),
+                            hospitalResponse.getLatitude(),
+                            hospitalResponse.getLongitude(),
+                            hospitalResponse.getCity(),
+                            hospitalResponse.getDistrict()
+                    );
+                    hospitalRepository.save(hospital);
+                }
+            }
 
-        URI uri = new URI(baseUrl);
-
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
-        String response = responseEntity.getBody();
-
-        try {
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode totalCountNode = rootNode.path("response").path("body").path("totalCount");
-            int totalCount = totalCountNode.asInt();
-
-            // 총 페이지 수 계산
-            return (int) Math.ceil((double) totalCount / numOfRows);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0; // 오류 발생 시 0 반환
+            // 다음 페이지가 있는지 확인
+            pageNo++;
+            hasNextPage = hospitalList.size() == numOfRows;
         }
     }
 
@@ -176,12 +133,11 @@ public class HospitalService {
                 .map(this::convertToResponse);
     }
 
-
-    // city와 district로 병원 검색
+    // 지역으로 병원 검색
     public Page<HospitalResponse> searchHospitals(String city, String district, int page, int size) {
         Pageable pageable = PageRequest.of(page, 10);
 
-        Page<Hospital> hospitalPage;
+        Page<HospitalData> hospitalPage;
 
         if (city != null && district != null) {
             hospitalPage = hospitalRepository.findByCityAndDistrict(city, district, pageable);
@@ -201,12 +157,12 @@ public class HospitalService {
         Pageable pageable = PageRequest.of(page, size);
 
         // 병원명에 해당하는 병원 목록 검색
-        Page<Hospital> hospitalPage = hospitalRepository.findByNameContaining(name, pageable);
+        Page<HospitalData> hospitalPage = hospitalRepository.findByNameContaining(name, pageable);
 
         return hospitalPage.map(this::convertToResponse);
     }
 
-    private HospitalResponse convertToResponse(Hospital hospital) {
+    private HospitalResponse convertToResponse(HospitalData hospital) {
         return new HospitalResponse(
                 hospital.getName(),
                 hospital.getPhone(),
