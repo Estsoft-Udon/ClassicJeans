@@ -8,8 +8,11 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.FamilyInfo;
+import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +45,20 @@ public class AlanController {
 
     // 앨런 기본 문진표 질의
     @PostMapping("/api/analysis/questionnaire")
-    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request) throws JsonProcessingException {
+    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request, HttpSession session) throws JsonProcessingException {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+
+        // 세션에 저장된 객체가 null이 아니고, selectedType이 존재하는지 확인
+        if (selectedUserFromSession != null && selectedTypeFromSession != null) {
+            if ("user".equals(selectedTypeFromSession)) {
+                Users selectedUser = (Users) selectedUserFromSession;
+                request.setUser(selectedUser);
+            } else if ("family".equals(selectedTypeFromSession)) {
+                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
+                request.setFamily(selectedFamilyInfo);
+            }
+        }
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
         return ResponseEntity.ok(response);
     }
