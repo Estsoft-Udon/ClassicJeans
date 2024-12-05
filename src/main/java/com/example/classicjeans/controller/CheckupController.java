@@ -40,7 +40,9 @@ public class CheckupController {
     }
 
     @RequestMapping("/questionnaire_list")
-    public String questionnaireList() {
+    public String questionnaireList(Model model) {
+        String selectedUser = (String) model.getAttribute("selectedUser");
+        model.addAttribute("selectedUser", selectedUser);
         return "/checkout/questionnaire_list.html";
     }
 
