@@ -19,7 +19,7 @@
 
 .sec01{
     background-image: url("/img/sec01.png");
-    max-height: 84.3rem;
+    /*max-height: 84.3rem;*/
     color: #fff;
 }
 
@@ -260,7 +260,7 @@
 }
 .btn_wr .scr_top_btn {
     position: fixed;
-    bottom: 5rem;
+    bottom: 2rem;
     transform: translateX(-50%);
     left: 50%;
     padding: 0;

@@ -43,8 +43,8 @@
                         <p>🏠 나의 가족 정보</p>
 
                         <!-- 가족 정보가 없을 경우 메시지 출력 -->
-                        <div th:if="${#lists.isEmpty(familyInfoList)}">
-                            <p>가족 정보가 없습니다.</p>
+                        <div th:if="${#lists.isEmpty(familyInfoList)}" class="empty_family">
+                            <p>등록된 가족 정보가 없습니다.</p>
                         </div>
 
                         <table>

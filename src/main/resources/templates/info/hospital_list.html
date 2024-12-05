@@ -25,6 +25,7 @@
                 </div>
 
                 <button type="submit" class="btn" id="search-btn">지역별 병원 검색하기</button>
+                <button type="button" class="btn" id="search-cancel-btn" style="display:none;">지역 검색 취소</button>
             </form>
             <form id="search_form" action="/hospital_list" method="GET">
                 <div class="search_box">
@@ -32,6 +33,7 @@
                     <input type="text" id="facility_search" name="search" placeholder="병원 이름을 입력하세요"
                            th:value="${search}">
                     <button type="submit" class="btn">검색하기</button>
+                    <button type="button" class="btn" id="search-cancel-btn2" style="display:none;">검색 취소</button>
                 </div>
             </form>
             <div class="search_info">
@@ -47,19 +49,68 @@
                     <th>병원 이름</th>
                     <th>전화번호</th>
                     <th>주소</th>
+                    <th>예약</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="hospital : ${hospitals}">
                     <td th:text="${hospital.name}"></td>
-                    <td th:text="${hospital.phone}"></td>
+                    <td>
+                        <a th:href="'tel:' + ${hospital.phone}" th:text="${hospital.phone}"></a>
+                    </td>
                     <td class="show_map">
                         <span th:text="${hospital.address}"></span>
                         <button type="button" class="btn view-map" th:data-address="${hospital.address}">지도보기</button>
                     </td>
+                    <td>
+                        <button type="button" class="btn view-form reservation_btn"
+                                th:data-name="${hospital.name}"
+                                th:data-phone="${hospital.phone}"
+                                th:data-address="${hospital.address}">
+                            예약하기
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
+            <!-- 예약 모달-->
+            <div id="reservationModal" class="modal">
+                <div class="modal-content">
+                    <span class="close_btn">&times;</span>
+                    <h2>간단 예약</h2>
+                    <form method="post">
+                        <div class="top">
+                            <input type="hidden" id="modalHospitalId" name="hospitalId" />
+                            <input type="hidden" id="modalHospitalPhone" name="phone" />
+                            <input type="hidden" id="modalHospitalAddress" name="address" />
+                            <div>
+                                <label for="hospitalUser"><span class="point">*</span>예약자 성함</label>
+                                <input type="text" id="hospitalUser" name="hospitalUser" placeholder="성함을 입력하세요" required />
+                            </div>
+                            <div>
+                                <label for="hospitalName">병원명</label>
+                                <span id="hospitalName"></span>
+                            </div>
+                            <div>
+                                <label for="hospitalPhone">전화번호</label>
+                                <span id="hospitalPhone"></span>
+                            </div>
+                            <div>
+                                <label for="hospitalAddress">주소</label>
+                                <span id="hospitalAddress"></span>
+                            </div>
+                            <div>
+                                <label for="reservationDateTime"><span class="point">*</span>예약 날짜 및 시간</label>
+                                <input type="datetime-local" id="reservationDateTime" name="reservationDateTime" required />
+                            </div>
+                        </div>
+                        <div class="btn_box">
+                            <button type="button" class="btn cancel_btn">취소하기</button>
+                            <button type="submit" class="btn reservation_btn">예약 하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <!-- 지도 모달 -->
             <div id="map-modal" class="modal">
                 <div class="modal-content">
@@ -151,7 +202,6 @@
                 </a>
             </li>
         </ul>
-
     </div>
 
     <script src="/js/list.js"></script>

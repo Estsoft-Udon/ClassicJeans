@@ -16,7 +16,7 @@
                 <form>
                     <div id="family-container">
                         <!-- 등록된 가족 정보가 없을 때 dn 클래스는 display:none 입니다-->
-                        <div th:if="${#lists.isEmpty(familyInfoList)}">
+                        <div th:if="${#lists.isEmpty(familyInfoList)}" class="empty_family">
                             <p>등록된 가족 정보가 없습니다.</p>
                         </div>
                         <div th:each="family : ${familyInfoList}" class="family-section" th:id="'family-' + ${family.id}">

@@ -2,14 +2,14 @@ package com.example.classicjeans.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(name = "hospital_data")
 @Getter
 @Setter
-@Entity
-@NoArgsConstructor
 public class HospitalData {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,18 +20,28 @@ public class HospitalData {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
-    private String phone;
-
-    @Column()
     private Double latitude;
 
-    @Column()
     private Double longitude;
 
-    @Column(nullable = false)
-    private String region;
+    private String phone;
 
-    @Column(name = "sub_region", nullable = false)
-    private String subRegion;
+    @Column(name = "region")
+    private String city;
+
+    @Column(name = "sub_region")
+    private String district;
+
+
+    public HospitalData() {}
+
+    public HospitalData(String name, String address, String phone, Double latitude, Double longitude, String city, String district) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.city = city;
+        this.district = district;
+    }
 }

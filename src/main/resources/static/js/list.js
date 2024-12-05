@@ -139,22 +139,113 @@ window.addEventListener("DOMContentLoaded", function () {
     const district = urlParams.get("district");
     const searchQuery = urlParams.get("search");
 
-    console.log("Province or City:", province);
-    console.log("District:", district);
-    console.log("Search Query:", searchQuery);
-
     const locationDisplay = document.getElementById("location-display");
     const searchDisplay = document.getElementById("search-display");
+    const searchCancelButton = document.getElementById("search-cancel-btn");
+    const searchCancelBtn2 = document.getElementById("search-cancel-btn2");
 
     // 지역 정보 출력
     if (province && district) {
-        locationDisplay.textContent = `검색하신 지역 "${province} ${district}" 에 대한 검색 결과입니다.`;
+        locationDisplay.innerHTML = `검색하신 지역 "<span class="search_txt" style="color:#013E8B; font-weight: bold;">${province} ${district}</span>" 에 대한 검색 결과입니다.`;
+        // 검색 취소 버튼 표시
+        if (searchCancelButton) {
+            searchCancelButton.style.display = 'inline';  // 버튼을 보여줍니다.
+        }
     } else if (province) {
-        locationDisplay.textContent = `검색하신 지역"${province}" 에 대한 검색 결과입니다.`;
+        locationDisplay.innerHTML = `검색하신 지역 "<span class="search_txt" style="color:#013E8B; font-weight: bold;">${province}</span>" 에 대한 검색 결과입니다.`;
+        // 검색 취소 버튼 표시
+        if (searchCancelButton) {
+            searchCancelButton.style.display = 'inline';  // 버튼을 보여줍니다.
+        }
     }
 
     // 검색어 정보 출력
     if (searchQuery) {
-        searchDisplay.textContent = `검색하신 "${searchQuery}" 에 대한 검색 결과입니다.`;
+        searchDisplay.innerHTML = `검색하신 "<span class="search_txt" style="color:#013E8B; font-weight: bold;">${searchQuery}</span>" 에 대한 검색 결과입니다.`;
+        // 검색 취소 버튼 표시
+        if (searchCancelBtn2) {
+            searchCancelBtn2.style.display = 'inline';  // 버튼을 보여줍니다.
+        }
+    }
+
+    // 검색 취소 버튼 클릭 시
+    if (searchCancelButton) {
+        searchCancelButton.addEventListener('click', function () {
+            // searchQuery, province, district 파라미터 삭제
+            urlParams.delete('city');
+            urlParams.delete('district');
+            urlParams.delete('page');
+            urlParams.delete('size');
+
+            // 새로 변경된 URL
+            const newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+
+            // URL을 업데이트하고 페이지 새로고침
+            window.history.pushState({}, '', newUrl);
+            location.reload();  // 페이지를 새로 고칩니다
+        });
+    }
+
+    // 병원 검색 취소 버튼 클릭 시
+    if (searchCancelBtn2) {
+        searchCancelBtn2.addEventListener('click', function () {
+            // searchQuery 파라미터 삭제
+            urlParams.delete('search');
+            urlParams.delete('page');
+
+            // 새로 변경된 URL
+            const newUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+
+            // URL을 업데이트하고 페이지 새로고침
+            window.history.pushState({}, '', newUrl);
+            location.reload();  // 페이지를 새로 고칩니다
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("reservationModal");
+    const closeModalButton = document.querySelector(".modal .close_btn");
+    const cancelButton = document.querySelector(".modal .btn_box .cancel_btn");
+
+    document.querySelectorAll(".view-form").forEach(button => {
+        button.addEventListener("click", function () {
+            const hospitalName = button.getAttribute("data-name");
+            const hospitalPhone = button.getAttribute("data-phone");
+            const hospitalAddress = button.getAttribute("data-address");
+
+            // 병원 정보 채우기
+            document.getElementById("hospitalName").textContent = hospitalName;
+            document.getElementById("hospitalPhone").textContent = hospitalPhone;
+            document.getElementById("hospitalAddress").textContent = hospitalAddress;
+
+            // hidden 필드 채우기
+            document.getElementById("modalHospitalId").value = button.getAttribute("data-id");
+            document.getElementById("modalHospitalPhone").value = hospitalPhone;
+            document.getElementById("modalHospitalAddress").value = hospitalAddress;
+
+            // 모달 열기 및 스크롤 비활성화
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // 배경 스크롤 비활성화
+        });
+    });
+
+    closeModalButton.addEventListener("click", function () {
+        closeModal();
+    });
+
+    cancelButton.addEventListener("click", function () {
+        closeModal();
+    });
+
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.style.display = "none";
+        document.body.style.overflow = ""; // 배경 스크롤 활성화
     }
 });
