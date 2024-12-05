@@ -89,10 +89,9 @@ public class AlanService {
 
     // 기본 검사 결과 저장
     private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
-        // TODO 수정했습니다. 확인부탁드립니다.
         boolean isFamilyInfo = request.getFamily() != null;
         QuestionnaireData data = new QuestionnaireData(
-                getLoggedInUser(),
+                request.getUser(),
                 request.getFamily(),
                 isFamilyInfo ? request.getFamily().getAge() : getLoggedInUser().getAge(),
                 isFamilyInfo ? request.getFamily().getGender() : getLoggedInUser().getGender(),
