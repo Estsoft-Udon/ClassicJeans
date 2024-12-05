@@ -8,11 +8,9 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.entity.Bazi;
+import com.example.classicjeans.entity.*;
 import com.example.classicjeans.repository.AlanBaziRepository;
 import com.example.classicjeans.repository.UsersRepository;
-import com.example.classicjeans.entity.DementiaData;
-import com.example.classicjeans.entity.QuestionnaireData;
 import com.example.classicjeans.repository.DementiaDataRepository;
 import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,14 +44,11 @@ public class AlanService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
     private final AlanBaziRepository alanBaziRepository;
     private final UsersRepository usersRepository;
-
-
-
     private final QuestionnaireDataRepository questionnaireDataRepository;
     private final DementiaDataRepository dementiaDataRepository;
-
 
     @Autowired
     public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
@@ -63,7 +58,6 @@ public class AlanService {
         this.dementiaDataRepository = dementiaDataRepository;
         this.alanBaziRepository = alanBaziRepository;
         this.usersRepository = usersRepository;
-
     }
 
     // 앨런AI test - 추후 제거
@@ -134,7 +128,6 @@ public class AlanService {
 
     // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
-        // TODO 수정했습니다. 확인부탁드립니다.
         DementiaData data = new DementiaData(
                 getLoggedInUser(),
                 request.getFamily(),
@@ -289,6 +282,20 @@ public class AlanService {
         }
 
         return results;
+    }
+
+    // 문자열 데이터를 받아 지정된 클래스 타입의 엔티티 객체를 생성
+    private <T> T createEntity(String content, Class<T> targetClass) throws Exception {
+        if (targetClass == SummaryEvaluation.class) {
+            SummaryEvaluation evaluation = new SummaryEvaluation();
+            evaluation.setEvaluation(content);
+            return targetClass.cast(evaluation);
+        } else if (targetClass == ImprovementSuggestions.class) {
+            ImprovementSuggestions suggestion = new ImprovementSuggestions();
+            suggestion.setSuggestion(content);
+            return targetClass.cast(suggestion);
+        }
+        throw new IllegalArgumentException("Unsupported target class: " + targetClass.getName());
     }
 
     // 출처 링크 제거
