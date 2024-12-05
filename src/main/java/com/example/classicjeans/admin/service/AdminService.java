@@ -12,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -44,28 +42,4 @@ public class AdminService {
             default -> Sort.unsorted();
         };
     }
-
-//    // 관리자 로그인
-//    public Users adminLogin(String loginId, String password) {
-//        Users adminUser = usersService.findByLoginId(loginId);
-//        if (adminUser == null || !adminUser.getPassword().equals(password) || !adminUser.getGrade()
-//                .equals(Grade.ADMIN)) {
-//            throw new IllegalArgumentException("관리자가 아님");
-//        }
-//        return adminUser;
-//    }
-//
-//    // 회원 관리 리스트
-//    public List<UsersResponse> getAllUsers() {
-//        List<Users> users = usersService.getUsers();
-//        return users.stream()
-//                .map(UsersResponse::new)
-//                .toList();
-//    }
-//
-//    // 회원 이름으로 검색 (동명이인 가능), 이름에 포함된 글자도 출력가능
-//    public Page<Users> getUsersSearchName(String search, int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return usersRepository.findByNameContainingAndIsDeletedFalse(search, pageable);
-//    }
 }
