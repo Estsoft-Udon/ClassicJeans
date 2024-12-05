@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="footerFragment">
     <footer>
+        <button type="button" id="scrollToTopBtn" class="scroll-to-top-btn" style="display:none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
+            <span class="scr_txt">맨 위로</span>
+        </button>
         <div class="inner">
             <div class="default_layout">
                 <a href="/">
