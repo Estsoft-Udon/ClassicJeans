@@ -37,8 +37,7 @@
             </div>
         </div>
 
-        <form method="post" action="/api/analysis/questionnaire" class="content">
-            <input type="hidden" name="selectedUser" th:value="${selectedUser}">
+        <form method="post" action="result" class="content">
             <!-- 단계 1 -->
             <section class="step-content" id="step-0">
                 <h2>건강 상태</h2>
@@ -50,21 +49,21 @@
                     </div>
                 </div>
                 <div class="question">
-                    <p>질문 1: 현재 앓고 있는 만성 질환이 있나요?</p>
+                    <p>질문 2: 현재 앓고 있는 만성 질환이 있나요?</p>
                     <label><input type="radio" name="chronicDisease" value="NONE" onclick="handleRadioClick(event, this)"><span>없음</span></label>
                     <label><input type="radio" name="chronicDisease" value="DIABETES" onclick="handleRadioClick(event, this)"><span>당뇨병</span></label>
                     <label><input type="radio" name="chronicDisease" value="HYPERTENSION" onclick="handleRadioClick(event, this)"><span>고혈압</span></label>
                     <label><input type="radio" name="chronicDisease" value="HEART_DISEASE" onclick="handleRadioClick(event, this)"><span>심장질환</span></label>
                 </div>
                 <div class="question">
-                    <p>질문 2: 최근 6개월 내 병원에 방문한 적이 있나요?</p>
+                    <p>질문 3: 최근 6개월 내 병원에 방문한 적이 있나요?</p>
                     <label><input type="radio" name="hospitalVisit" value="NONE" onclick="handleRadioClick(event, this)"><span>방문한 적 없음</span></label>
                     <label><input type="radio" name="hospitalVisit" value="REGULAR_CHECKUP" onclick="handleRadioClick(event, this)"><span>정기 건강 검진</span></label>
                     <label><input type="radio" name="hospitalVisit" value="DISEASE_TREATMENT" onclick="handleRadioClick(event, this)"><span>질환 치료</span></label>
                     <label><input type="radio" name="hospitalVisit" value="EMERGENCY" onclick="handleRadioClick(event, this)"><span>응급 상황</span></label>
                 </div>
                 <div class="question">
-                    <p>질문 3: 현재 복용 중인 약물이 있나요?</p>
+                    <p>질문 4: 현재 복용 중인 약물이 있나요?</p>
                     <label><input type="radio" name="currentMedication" value="NONE" onclick="handleRadioClick(event, this)"><span>복용 약물 없음</span></label>
                     <label><input type="radio" name="currentMedication" value="BLOOD_PRESSURE_MEDICINE" onclick="handleRadioClick(event, this)"><span>혈압약</span></label>
                     <label><input type="radio" name="currentMedication" value="DIABETES_MEDICINE" onclick="handleRadioClick(event, this)"><span>당뇨병 약</span></label>
@@ -173,6 +172,6 @@
         </div>
     </div>
 
-<script src="/js/questionnaire.js"></script>
+    <script src="/js/questionnaire.js"></script>
 </th:block>
 </html>
