@@ -268,9 +268,9 @@ input:focus{
 /* 로그인 */
 
 .oauth2_btn_box{
+    margin-top: 1rem;
     margin-bottom: 4rem;
     padding-bottom: 4rem;
-    border-bottom: 1px solid #ddd;
 }
 
 .oauth2_btn_box ul li{

@@ -16,14 +16,13 @@ import java.io.IOException;
 public class AddressCodeService {
     private final AddressCodeRepository repository;
 
-    @Transactional(timeout = 3600)
     public void readCsvAndSave(String filePath) throws IOException {
         CSVParser csvParser = CsvReader.readCsvFile(filePath);
 
         for (CSVRecord record : csvParser) {
-            AddressCode entity = new AddressCode(record.get("col1"), record.get("col2"));
-
             if(!repository.existsByCode(record.get("col1"))) {
+                AddressCode entity = new AddressCode(record.get("col1"), record.get("col2"));
+
                 repository.save(entity);
             }
         }

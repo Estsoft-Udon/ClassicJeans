@@ -1,5 +1,6 @@
 package com.example.classicjeans.dto.request;
 
+import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.questionnaire.*;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 @Data
 public class AlanQuestionnaireRequest {
     private Users user;
+    private FamilyInfo family;
 
     private Double height;
     private Double weight;

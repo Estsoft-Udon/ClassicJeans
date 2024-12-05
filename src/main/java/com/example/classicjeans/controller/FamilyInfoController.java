@@ -16,14 +16,14 @@ public class FamilyInfoController {
     private final FamilyInfoService familyInfoService;
 
     // 가족 정보 저장 API
-    @PostMapping("/{userId}")
-    public List<FamilyInfoResponse> saveFamily(@PathVariable Long userId, @RequestBody List<FamilyInfoRequest> request) {
-        return familyInfoService.saveFamily(userId, request);
+    @PostMapping
+    public List<FamilyInfoResponse> saveFamily(@RequestBody List<FamilyInfoRequest> request) {
+        return familyInfoService.saveFamily(null, request);
     }
 
     // 가족 정보 조회 API
-    @GetMapping("/{userId}")
-    public List<FamilyInfoResponse> getFamilyByUserId(@PathVariable Long userId) {
+    @GetMapping
+    public List<FamilyInfoResponse> getFamilyByUserId(Long userId) {
         return familyInfoService.findFamilyByUserId(userId);
     }
 

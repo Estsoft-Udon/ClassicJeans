@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
+
 @Service
 @RequiredArgsConstructor
 public class FamilyInfoService {
@@ -20,8 +22,13 @@ public class FamilyInfoService {
 
     // 가족 정보 저장
     public List<FamilyInfoResponse> saveFamily(Long userId, List<FamilyInfoRequest> requests) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
+        Users user = null;
+
+        if(userId != null) {
+            user = usersService.findUserById(userId);
+        } else {
+            user = usersService.findUserById(getLoggedInUser().getId());
+        }
 
         List<FamilyInfo> familyInfoList = new ArrayList<>();
         for (FamilyInfoRequest request : requests) {
@@ -36,8 +43,14 @@ public class FamilyInfoService {
 
     // 가족 정보 조회
     public List<FamilyInfoResponse> findFamilyByUserId(Long userId) {
-        // TODO 로그인 중인 유저로 교체 필요
-        Users user = usersService.findUserById(8L);
+        Users user = null;
+
+        if(userId != null) {
+            user = usersService.findUserById(userId);
+        } else {
+            user = usersService.findUserById(getLoggedInUser().getId());
+        }
+
         List<FamilyInfo> familyList = familyInfoRepository.findByUserId(user);
 
         return familyList.stream()

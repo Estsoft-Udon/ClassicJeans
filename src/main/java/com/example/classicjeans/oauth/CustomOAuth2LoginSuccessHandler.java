@@ -54,7 +54,7 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
             Authentication userAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userAuth);
         } else {
-            String redirectURL = UriComponentsBuilder.fromUriString("http://localhost:8080/signup")
+            String redirectURL = UriComponentsBuilder.fromUriString("/signup")
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();

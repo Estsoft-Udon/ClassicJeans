@@ -46,12 +46,14 @@
                 <thead>
                 <tr>
                     <th>복지시설 이름</th>
+                    <th>전화번호</th>
                     <th>주소</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="nursinghome : ${nursinghomes}">
                     <td th:text="${nursinghome.name}">365경희한의원</td>
+                    <td th:text="${nursinghome.phone}"></td>
                     <td class="show_map">
                         <span th:text="${nursinghome.address}">경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
                         <button type="button" class="btn view-map"

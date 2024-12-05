@@ -1,5 +1,6 @@
 package com.example.classicjeans.dto.request;
 
+import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.enums.questionnaire.MemoryChange;
 import com.example.classicjeans.enums.questionnaire.CommonFrequency;
 
@@ -7,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class AlanDementiaRequest {
+    private FamilyInfo family; // 가족 정보(nullable)
     // 인지 기능
     private MemoryChange memoryChange;  // 기억력 변화
     private CommonFrequency dailyConfusion;  // 일상 생활에서의 혼란

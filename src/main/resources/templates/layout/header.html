@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="headerFragment">
   <head>
     <title>chungbaji</title>
@@ -35,7 +35,7 @@
     </nav>
     <div class="user_box">
         <!-- 로그인 전 -->
-        <ul class="flex_box">
+        <ul sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
           <li>
             <a href="/login">로그인</a>
           </li>
@@ -44,7 +44,7 @@
           </li>
         </ul>
 <!--         로그인 후 -->
-        <ul class="flex_box">
+        <ul sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
           <li>
             <a href="/mypage">마이페이지</a>
           </li>
