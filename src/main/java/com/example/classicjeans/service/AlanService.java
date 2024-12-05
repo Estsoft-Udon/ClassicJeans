@@ -261,24 +261,34 @@ public class AlanService {
     }
 
     // 종합 평가, 개선 방법 추출 메서드
-    private List<String> extractContent(String content, String patternString) {
+    private <T> List<T> extractContent(String content, String patternString, Class<T> targetClass) {
         Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(content);
-        List<String> results = new ArrayList<>();
+        List<T> results = new ArrayList<>();
 
         while (matcher.find()) {
             String matchedContent = matcher.group(1).trim();
             String[] items = matchedContent.split("\n");
             for (String item : items) {
-                if (item.startsWith("-")) {
-                    results.add(removeSourceLinks(item.trim()));
-                } else if (item.matches("^\\d+\\.\\s.*")) {
-                    results.add(removeSourceLinks(item.trim()));
+                if (item.startsWith("-") || item.matches("^\\d+\\.\\s.*")) {
+                    String cleanedItem = removeSourceLinks(item.trim());
+                    try {
+                        T entity = createEntity(cleanedItem, targetClass);
+                        results.add(entity);
+                    } catch (Exception e) {
+                        System.err.println("Failed to create entity: " + e.getMessage());
+                    }
                 }
             }
         }
+
         if (results.isEmpty()) {
-            results.add("정보가 없습니다.");
+            try {
+                T emptyEntity = createEntity("정보가 없습니다.", targetClass);
+                results.add(emptyEntity);
+            } catch (Exception e) {
+                System.err.println("Failed to create empty entity: " + e.getMessage());
+            }
         }
 
         return results;
