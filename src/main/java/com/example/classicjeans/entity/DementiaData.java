@@ -84,11 +84,11 @@ public class DementiaData {
     private boolean hasFamilyDementia; // 치매 가족력 여부
 
     // 종합 평가 내용
-    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dementiaData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
-    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dementiaData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImprovementSuggestions> improvementSuggestions;
 
     @PrePersist
