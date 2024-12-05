@@ -1,6 +1,5 @@
 package com.example.classicjeans.admin.service;
 
-import com.example.classicjeans.dto.response.UsersResponse;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Grade;
 import com.example.classicjeans.repository.UsersRepository;

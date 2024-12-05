@@ -155,4 +155,14 @@ CREATE TABLE address_code
     address VARCHAR(255) NOT NULL
 
 );
+
+CREATE TABLE reservation
+(
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id       BIGINT NOT NULL,
+    hospital_id   BIGINT NOT NULL,
+    time DATETIME NOT NULL,
+    FOREIGN KEY (user_id)   REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (hospital_id) REFERENCES hospital_data (id) ON DELETE CASCADE
+);
 ```
