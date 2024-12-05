@@ -1,6 +1,7 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
+import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.FamilyInfoService;
 import com.example.classicjeans.service.UsersService;
@@ -33,12 +34,38 @@ public class CheckupController {
     }
 
     @RequestMapping("/checkout_list")
-    public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser, HttpSession session) {
-        if (selectedUser != null) {
-            session.setAttribute("selectedUser", selectedUser);
+    public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
+                              @RequestParam(value = "selectedType", required = false) String selectedType,
+                              HttpSession session) {
+
+        if (selectedUser != null && selectedType != null) {
+            if ("user".equals(selectedType)) {
+                Long userId = getLoggedInUser().getId();
+                Users selectedUserObj = usersService.findUserById(userId);
+                System.out.println("Selected User (User Object): " + selectedUserObj);
+                session.setAttribute("selectedUser", selectedUserObj);
+                session.setAttribute("selectedType", "user");
+            } else if ("family".equals(selectedType)) {
+                Long familyId = Long.parseLong(selectedUser);
+                FamilyInfo selectedFamilyInfo = familyInfoService.findFamily(familyId);
+                session.setAttribute("selectedUser", selectedFamilyInfo);
+                session.setAttribute("selectedType", "family");
+            }
         }
-        String selectedUserFromSession = (String) session.getAttribute("selectedUser");
-        System.out.println("Selected user from session: " + selectedUserFromSession);
+
+        // 세션에 저장된 selectedUser 값을 확인
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        if (selectedUserFromSession == null) {
+            System.out.println("No user selected in the session");
+        } else {
+            if (selectedUserFromSession instanceof Users) {
+                Users selectedUserObj = (Users) selectedUserFromSession;
+                System.out.println("Selected User from session: " + selectedUserObj.getId());
+            } else if (selectedUserFromSession instanceof FamilyInfo) {
+                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
+                System.out.println("Selected Family from session: " + selectedFamilyInfo.getName());
+            }
+        }
         return "/checkout/checkout_list.html";
     }
 
