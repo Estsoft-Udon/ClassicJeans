@@ -41,10 +41,13 @@ public class AlanQuestionnaireRequest {
 
     @Override
     public String toString() {
-        int age = user.getAge();
-        String gender = user.getGender().toString();
+        int age = 0;
+        String gender = "UNKNOWN";
 
-        if (family != null) {
+        if (user != null) {
+            age = user.getAge();
+            gender = user.getGender().toString();
+        } else if (family != null) {
             age = family.getAge();
             gender = family.getGender().toString();
         }
