@@ -38,6 +38,7 @@
         </div>
 
         <form method="post" action="/api/analysis/questionnaire" class="content">
+            <input type="hidden" name="selectedUser" th:value="${selectedUser}">
             <!-- 단계 1 -->
             <section class="step-content" id="step-0">
                 <h2>건강 상태</h2>
@@ -64,10 +65,10 @@
                 </div>
                 <div class="question">
                     <p>질문 3: 현재 복용 중인 약물이 있나요?</p>
-                    <label><input type="radio" name="medication" value="NONE" onclick="handleRadioClick(event, this)"><span>복용 약물 없음</span></label>
-                    <label><input type="radio" name="medication" value="BLOOD_PRESSURE_MEDICINE" onclick="handleRadioClick(event, this)"><span>혈압약</span></label>
-                    <label><input type="radio" name="medication" value="DIABETES_MEDICINE" onclick="handleRadioClick(event, this)"><span>당뇨병 약</span></label>
-                    <label><input type="radio" name="medication" value="HEART_MEDICINE" onclick="handleRadioClick(event, this)"><span>심장 관련 약물</span></label>
+                    <label><input type="radio" name="currentMedication" value="NONE" onclick="handleRadioClick(event, this)"><span>복용 약물 없음</span></label>
+                    <label><input type="radio" name="currentMedication" value="BLOOD_PRESSURE_MEDICINE" onclick="handleRadioClick(event, this)"><span>혈압약</span></label>
+                    <label><input type="radio" name="currentMedication" value="DIABETES_MEDICINE" onclick="handleRadioClick(event, this)"><span>당뇨병 약</span></label>
+                    <label><input type="radio" name="currentMedication" value="HEART_MEDICINE" onclick="handleRadioClick(event, this)"><span>심장 관련 약물</span></label>
                 </div>
             </section>
 
