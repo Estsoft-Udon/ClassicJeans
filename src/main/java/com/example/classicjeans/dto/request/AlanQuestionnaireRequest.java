@@ -41,9 +41,16 @@ public class AlanQuestionnaireRequest {
 
     @Override
     public String toString() {
+        int age = user.getAge();
+        String gender = user.getGender().toString();
+
+        if (family != null) {
+            age = family.getAge();
+            gender = family.getGender().toString();
+        }
         return "입력한 건강 정보와 한국인 평균 데이터 비교:\n" +
-                "1. **연령**: " + user.getAge() + " (연령대: n0대)\n" +
-                "2. **성별**: " + user.getGender() + " (성별: Gender)\n" +
+                "1. **연령**: " + age + " (연령대: n0대)\n" +
+                "2. **성별**: " + gender + " (성별: Gender)\n" +
                 "3. **키**: " + height + " (한국인 남성 평균: cm)\n" +
                 "4. **체중**: " + weight + " (한국인 남성 평균: kg)\n" +
                 "5. **흡연 상태**: " + smokingStatus + " (한국인 흡연율: 약 %)\n" +
