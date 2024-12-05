@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/checkout")
+@SessionAttributes("selectedUser")
 public class CheckupController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
