@@ -14,19 +14,25 @@ function checkSelection() {
 document.getElementById("submit-button").addEventListener("click", function(event) {
     const selectBox = document.getElementById("user-select");
     const warningMessage = document.getElementById("warning-message");
-    console.log("Selected user ID on submit: ", selectBox.value);
+
     if (selectBox.value === "-1") {
         event.preventDefault();
         warningMessage.textContent = "대상을 선택하세요.";
         warningMessage.style.color = 'red';
         warningMessage.style.display = "block";
-    }
-    // 선택된 값을 세션 스토리지에 저장
-    sessionStorage.setItem("selectedUser", selectBox.value);
+    } else {
+        // 선택된 사용자 값과 타입을 form에 설정
+        const selectedUser = selectBox.value;
+        const selectedOption = selectBox.options[selectBox.selectedIndex]; // 선택된 <option> 요소
+        const selectedType = selectedOption.getAttribute("data-type"); // data-type 속성에서 타입을 가져옴
 
-    // 서버로 이동 (선택된 값 포함)
-    const nextUrl = `/checkout/checkout_list?selectedUser=${selectBox.value}`;
-    window.location.href = nextUrl;
+        // 설정된 값들을 hidden input에 넣기
+        document.getElementById("selectedUser").value = selectedUser;
+        document.getElementById("selectedType").value = selectedType;
+
+        // 폼을 제출하여 서버로 전송
+        document.getElementById("submit-form").submit();
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {
