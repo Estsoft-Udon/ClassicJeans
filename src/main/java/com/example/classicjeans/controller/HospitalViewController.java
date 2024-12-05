@@ -1,7 +1,7 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
-import com.example.classicjeans.entity.Hospital;
+import com.example.classicjeans.entity.HospitalData;
 import com.example.classicjeans.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
