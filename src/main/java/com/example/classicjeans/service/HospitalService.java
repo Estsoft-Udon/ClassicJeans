@@ -32,14 +32,11 @@ public class HospitalService {
         this.hospitalRepository = hospitalRepository;
     }
 
-    // API
+    // API에서 병원 목록을 가져오는 메소드 (저장 로직 제외)
     public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
         String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
         String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
-        String baseUrl = url +
-                "?serviceKey=" + serviceKey +
-                "&pageNo=" + pageNo +  // 페이지 번호
-                "&numOfRows=" + numOfRows; // 한 페이지 항목 수
+        String baseUrl = url + "?serviceKey=" + serviceKey + "&pageNo=" + pageNo + "&numOfRows=" + numOfRows;
 
         URI uri = new URI(baseUrl);
 
@@ -53,29 +50,18 @@ public class HospitalService {
             List<HospitalResponse> hospitalList = new ArrayList<>();
             if (itemsNode.isArray()) {
                 for (JsonNode itemNode : itemsNode) {
-                    String name = itemNode.path("dutyName").asText("");  // 병원 이름
-                    String address = itemNode.path("dutyAddr").asText("");  // 상세 주소
-                    String phone = itemNode.path("dutyTel1").asText("");  // 전화번호
-                    String latitude = String.valueOf(itemNode.path("wgs84Lat").asDouble(0.0));  // 위도
-                    String longitude = String.valueOf(itemNode.path("wgs84Lon").asDouble(0.0));  // 경도
-
-                    Double latitudeDouble = Double.parseDouble(latitude);
-                    Double longitudeDouble = Double.parseDouble(longitude);
+                    String name = itemNode.path("dutyName").asText("");
+                    String address = itemNode.path("dutyAddr").asText("");
+                    String phone = itemNode.path("dutyTel1").asText("");
+                    Double latitude = itemNode.path("wgs84Lat").asDouble(0.0);
+                    Double longitude = itemNode.path("wgs84Lon").asDouble(0.0);
 
                     String[] addressParts = address.split(" ");
                     String city = addressParts.length > 0 ? addressParts[0] : "";
                     String district = addressParts.length > 1 ? addressParts[1] : "";
 
-                    // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
-                    boolean exists = hospitalRepository.existsByPhone(phone);
-                    if (!exists) {
-                        // Hospital 엔티티로 변환하여 DB에 저장
-                        HospitalData hospital = new HospitalData(name, address, phone, latitudeDouble, longitudeDouble, city, district);
-                        hospitalRepository.save(hospital);  // DB에 저장
-                    }
-
-                    // HospitalResponse 객체 추가
-                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitudeDouble, longitudeDouble, city, district);
+                    // HospitalResponse 객체 생성
+                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitude, longitude, city, district);
                     hospitalList.add(hospitalResponse);
                 }
             }
@@ -87,7 +73,7 @@ public class HospitalService {
         }
     }
 
-    // API 값 DB 저장
+    // API에서 병원 목록을 가져오고 DB에 저장하는 메소드 (중복 체크 포함)
     public void saveAllHospitals(int numOfRows) throws IOException, URISyntaxException {
         int pageNo = 1;
         boolean hasNextPage = true;
@@ -100,12 +86,11 @@ public class HospitalService {
                 break;
             }
 
-            // 병원 목록을 DB에 저장
+            // 병원 목록을 DB에 저장 (중복 체크 포함)
             for (HospitalResponse hospitalResponse : hospitalList) {
-                // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
+                // 중복 체크: 전화번호를 기준으로 이미 DB에 존재하는지 확인
                 boolean exists = hospitalRepository.existsByPhone(hospitalResponse.getPhone());
                 if (!exists) {
-                    // Hospital 엔티티로 변환하여 DB에 저장
                     HospitalData hospital = new HospitalData(
                             hospitalResponse.getName(),
                             hospitalResponse.getAddress(),
