@@ -70,7 +70,10 @@
                    <pre class="txt ani_load" th:text="${content}">오늘의 운세는 운수대통입니다. 행복하시겠어요~</pre>
                </div>
                <div class="btn_box ani_load">
-                   <button type="button" class="btn bazi_btn main_btn">오늘의 운세 보기 -></button>
+                   <!-- 로그인 전-->
+                   <button type="button" class="btn main_btn" sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" onclick="location.href='/login'">로그인 하기 -></button>
+                   <!-- 운세 확인 -->
+                   <button type="button" class="btn bazi_btn main_btn" sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">오늘의 운세 보기 -></button>
                </div>
            </div>
         </article>
