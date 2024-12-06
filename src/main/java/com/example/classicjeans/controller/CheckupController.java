@@ -1,17 +1,18 @@
 package com.example.classicjeans.controller;
 
+import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.FamilyInfoService;
+import com.example.classicjeans.service.SessionUserService;
 import com.example.classicjeans.service.UsersService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 public class CheckupController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
+    private final SessionUserService sessionUserService;
 
     @RequestMapping("/checkout")
     public String checkout(Model model) {
@@ -59,6 +61,15 @@ public class CheckupController {
     @GetMapping("/questionnaire_list")
     public String questionnaireList() {
         return "checkout/questionnaire_list";
+    }
+
+    @PostMapping("/questionnaire_list")
+    public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session) {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        return "redirect:/checkout/result";
     }
 
     @RequestMapping("/dementia_list")
