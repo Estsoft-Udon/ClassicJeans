@@ -1,12 +1,15 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
+import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.service.AlanService;
 import com.example.classicjeans.service.FamilyInfoService;
 import com.example.classicjeans.service.SessionUserService;
 import com.example.classicjeans.service.UsersService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ public class CheckupController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
+    private final AlanService alenService;
 
     @RequestMapping("/checkout")
     public String checkout(Model model) {
@@ -80,7 +84,10 @@ public class CheckupController {
     }
 
     @GetMapping("/result")
-    public String result() {
+    public String result(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
+        model.addAttribute("request", request);
+        AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
+        model.addAttribute("response", response);
         return "checkout/result";
     }
 }
