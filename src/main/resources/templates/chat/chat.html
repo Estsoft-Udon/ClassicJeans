@@ -9,7 +9,9 @@
     <div class="wrap w_1280 chat">
         <div class="tit">
             <h1>알려줘 앨런아!</h1>
-            <p>앨런 AI 챗봇에게 궁금한 부분을 물어보세요</p>
+            <p>
+                일상 생활 속 생기는 사소한 궁금증을 앨런이에게 물어보세요!
+            </p>
         </div>
         <div class="ex-container">
             <button type="button" onclick="closeConnection()" class="btn exit">연결 종료</button>
@@ -17,9 +19,10 @@
         <section>
             <div class="chat-container" id="chat-container"></div>
             <form class="input-container" onsubmit="sendMessage(); return false;">
-                <input type="text" id="chat-input" placeholder="메시지를 입력하세요..."/>
-                <button type="button" onclick="sendMessage()" class="btn">질문하기</button>
+                <input type="text" id="chat-input" placeholder="질문을 입력 후 질문하기 버튼을 눌러주세요."/>
+                <button type="button" onclick="sendMessage()" id="askButton" class="btn">질문하기</button>
             </form>
+            <div id="charCount">0 / 1000 자</div>
         </section>
     </div>
     <script src="/js/chat.js"></script>
