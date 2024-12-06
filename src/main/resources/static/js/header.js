@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleReadStatus(event.target);
         } else if (event.target.tagName === 'LI') {
             // 알림 클릭 시
-            event.target.remove(); // 알림 클릭 시 삭제
             updateNotificationCount();
         }
     });
