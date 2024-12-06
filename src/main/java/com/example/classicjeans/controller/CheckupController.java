@@ -64,11 +64,13 @@ public class CheckupController {
     }
 
     @PostMapping("/questionnaire_list")
-    public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session) {
+    public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
+                                    RedirectAttributes redirectAttributes) {
         Object selectedUserFromSession = session.getAttribute("selectedUser");
         String selectedTypeFromSession = (String) session.getAttribute("selectedType");
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        redirectAttributes.addFlashAttribute("request", request);
         return "redirect:/checkout/result";
     }
 
