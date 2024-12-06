@@ -2,6 +2,7 @@ package com.example.classicjeans.config;
 
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
+import com.example.classicjeans.security.CustomAuthenticationSuccessHandler;
 import com.example.classicjeans.security.UsersDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ public class SecurityConfig {
     private final CustomAuthFailureHandler customAuthFailureHandler;
     private final UsersDetailService usersDetailService;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
 
     @Bean
@@ -55,6 +57,7 @@ public class SecurityConfig {
                 .formLogin(custom -> {
                     custom.loginPage("/login")
                             .defaultSuccessUrl("/", true) // 로그인 성공 시 이동 경로
+                            .successHandler(customAuthenticationSuccessHandler)
                             .failureHandler(customAuthFailureHandler);
                 })
                 .logout(custom -> custom.logoutUrl("/logout").logoutSuccessUrl("/"))
