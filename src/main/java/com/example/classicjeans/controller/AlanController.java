@@ -11,6 +11,7 @@ import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanService;
+import com.example.classicjeans.service.SessionUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.Optional;
 public class AlanController {
 
     private final AlanService alenService;
+    private final SessionUserService sessionUserService;
 
     // 앨런 기본 질의
     @GetMapping("/alan/basic")
@@ -50,16 +52,8 @@ public class AlanController {
         Object selectedUserFromSession = session.getAttribute("selectedUser");
         String selectedTypeFromSession = (String) session.getAttribute("selectedType");
 
-        // 세션에 저장된 객체가 null이 아니고, selectedType이 존재하는지 확인
-        if (selectedUserFromSession != null && selectedTypeFromSession != null) {
-            if ("user".equals(selectedTypeFromSession)) {
-                Users selectedUser = (Users) selectedUserFromSession;
-                request.setUser(selectedUser);
-            } else if ("family".equals(selectedTypeFromSession)) {
-                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
-                request.setFamily(selectedFamilyInfo);
-            }
-        }
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
         return ResponseEntity.ok(response);
     }
@@ -70,16 +64,8 @@ public class AlanController {
         Object selectedUserFromSession = session.getAttribute("selectedUser");
         String selectedTypeFromSession = (String) session.getAttribute("selectedType");
 
-        // 세션에 저장된 객체가 null이 아니고, selectedType이 존재하는지 확인
-        if (selectedUserFromSession != null && selectedTypeFromSession != null) {
-            if ("user".equals(selectedTypeFromSession)) {
-                Users selectedUser = (Users) selectedUserFromSession;
-                request.setUser(selectedUser);
-            } else if ("family".equals(selectedTypeFromSession)) {
-                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
-                request.setFamily(selectedFamilyInfo);
-            }
-        }
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
