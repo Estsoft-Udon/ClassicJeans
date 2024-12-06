@@ -27,10 +27,10 @@ public class MainController {
         Long userId = 3L;  // 예시로 사용자 ID를 3로 설정 (실제로는 동적으로 설정)
 
         Users user = usersService.findById(userId);
-//        Bazi bazi = alanService.getBaziByUserId(userId);
+        Bazi bazi = alanService.getBaziByUserId(userId);
 
         // 모델에 데이터를 추가
-//        model.addAttribute("content", bazi.getContent());
+        model.addAttribute("content", bazi.getContent());
         model.addAttribute("nickname", user.getNickname());
         return "index";
     }
