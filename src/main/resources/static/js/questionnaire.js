@@ -1,3 +1,43 @@
+// 분석받기 버튼 스크립트
+document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click', function (event) {
+    event.preventDefault(); // 기본 제출 방지
+    const sections = document.querySelectorAll('.step-content');
+    let isValid = true;
+    let firstInvalidInput = null;
+
+    sections.forEach(section => {
+        const questions = section.querySelectorAll('.question');
+        questions.forEach(question => {
+            const radios = question.querySelectorAll('input[type="radio"]');
+            const textInputs = question.querySelectorAll('input[type="text"]');
+
+            const isRadioChecked = Array.from(radios).some(radio => radio.checked);
+            const isTextFilled = Array.from(textInputs).every(input => input.value.trim() !== '');
+
+            // 라디오 또는 텍스트 입력이 비어있을 경우 비어있는 요소에 포커스 설정
+            if (!isRadioChecked && radios.length > 0 && !firstInvalidInput) {
+                firstInvalidInput = radios[0]; // 첫 번째 라디오에 포커스
+            }
+
+            if (!isTextFilled && textInputs.length > 0 && !firstInvalidInput) {
+                firstInvalidInput = Array.from(textInputs).find(input => input.value.trim() === '');
+            }
+
+            if ((!isRadioChecked && radios.length > 0) || (!isTextFilled && textInputs.length > 0)) {
+                isValid = false;
+            }
+        });
+    });
+
+    if (isValid) {
+        document.querySelector('form.content').submit(); // 폼 제출
+    } else {
+        firstInvalidInput.closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidInput.focus({ preventScroll: true }); // 포커스 시 스크롤 방지
+        setTimeout(() => alert('해당 질문에 답변해 주세요.'), 300);
+    }
+});
+
 document.addEventListener('scroll', handleScroll);
 
 // 모든 라디오 버튼에 클릭 이벤트 리스너 추가
