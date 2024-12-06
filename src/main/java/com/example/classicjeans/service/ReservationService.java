@@ -10,14 +10,15 @@ import com.example.classicjeans.dto.request.ReservationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
     private final ReservationQueue reservationQueue;
     private final ReservationRepository reservationRepository;
-    private final UsersService usersService;
     private final HospitalRepository hospitalRepository;
 
     public List<Reservation> findAll() {
@@ -34,7 +35,10 @@ public class ReservationService {
     }
 
     public Reservation addReservation(ReservationRequest request) {
-        Users user = usersService.findById(request.getUserId());
+        if(getLoggedInUser() == null) {
+            return null;
+        }
+        Users user = getLoggedInUser();
         HospitalData hospital = hospitalRepository.findById(request.getHospitalId())
                 .orElse(null);
 
@@ -59,5 +63,20 @@ public class ReservationService {
     public int getQueueSize() {
         System.out.println("reservationQueue = " + reservationQueue.getQueueSize());
         return reservationQueue.getQueueSize();
+    }
+
+    public String formatString(Reservation reservation) {
+        String message = "%s님, %s월 %s일 %s시 %s분,<br>" +
+                "%s에 예약이 확정되었습니다! <br>" +
+                "잊지 말고 일정에 맞춰 방문해 주세요!😊";
+        String reserverName = reservation.getReserverName();;
+        LocalDateTime reservationTime = reservation.getTime();
+        String month = String.valueOf(reservationTime.getMonthValue());
+        String day = String.valueOf(reservationTime.getDayOfMonth());
+        String hour = String.valueOf(reservationTime.getHour());
+        String minute = String.valueOf(reservationTime.getMinute());
+        String place = reservation.getHospital().getName();
+
+        return String.format(message, reserverName, month, day, hour, minute, place);
     }
 }

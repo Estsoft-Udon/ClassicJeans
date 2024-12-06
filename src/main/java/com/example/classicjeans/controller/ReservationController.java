@@ -23,8 +23,8 @@ public class ReservationController {
 
     @PostMapping("/api/reservation")
     public ResponseEntity<Reservation> reserve(@RequestBody ReservationRequest request) {
-        if(getLoggedInUser() != null) {
-            request.setUserId(getLoggedInUser().getId());
+        if(getLoggedInUser() == null) {
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.ok(reservationService.addReservation(request));
@@ -36,7 +36,6 @@ public class ReservationController {
         // 구독 처리: userId에 해당하는 emitter를 관리
         if(getLoggedInUser() != null) {
             Long userId = getLoggedInUser().getId();
-            System.out.println("userId = " + userId);
             emitter = notificationService.subscribe(userId);
         }
 
@@ -55,8 +54,10 @@ public class ReservationController {
                 // 예약시간이 현재 시간의 하루전보다 이전이면 알림 후 삭제
                 if (reservation.getTime().isBefore(oneDayAfter)) {
                     // 여기서 알림 전송
-                    System.out.println("알림 전송");
-                    notificationService.sendNotification(reservation.getUser().getId(), "알림입니다");
+                    String message = reservationService.formatString(reservation);
+                    System.out.println("message = " + message);
+
+                    notificationService.sendNotification(reservation.getUser().getId(), message);
                     reservationService.deleteReservation(reservation);
                 } else {
                     reservationService.addReservationToQueue(reservation);
