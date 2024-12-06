@@ -3,24 +3,12 @@
 <th:block th:fragment="headerFragment">
   <head>
     <title>chungbaji</title>
-    <style>
-      #notificationModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        border-radius: 10px;
-      }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="/js/common.js"></script>
   </head>
   <header>
@@ -59,8 +47,49 @@
             <a href="/signup">회원가입</a>
           </li>
         </ul>
-<!--         로그인 후 -->
+        <!-- 로그인 후 -->
         <ul sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
+          <!-- 알람 -->
+          <li>
+            <div class="notification-container">
+              <div class="bell-icon">
+                <i class="fa fa-bell"></i>
+                <!-- 알람 수 -->
+                <span class="notification-count"></span>
+              </div>
+              <ul class="notification-list hidden">
+                <!-- 알람 수가 0개 일 때 문구입니다. dis-no 클래스 지워주세요-->
+                <li class="empty_alarm dis-no">받으신 알림이 없습니다.</li>
+                <!-- 알람 내용-->
+                <li class="notification-item unread">
+                  <div class="alarm_txt">
+                    <span class="imp">홍길동</span>님,
+                    <span class="imp">12월 09일 13시 50분 <br></span>
+                    <span class="imp">삼성병원</span>
+                    <span>
+                      진료 예약이 확정되었습니다! <br>
+                      잊지 말고 일정에 맞춰 방문해 주세요☺️
+                    </span>
+                  </div>
+                  <button class="mark-read-btn" onclick="markAsRead(this)">읽음 처리</button>
+                </li>
+                <!-- // 알람 내용 -->
+                <li class="notification-item unread">
+                  <div class="alarm_txt">
+                    <span class="imp">김철수</span>님,
+                    <span class="imp">12월 10일 15시 30분 <br></span>
+                    <span class="imp">한양대학교병원</span>
+                    <span>
+                        진료 예약이 확정되었습니다! <br>
+                        잊지 말고 일정에 맞춰 방문해 주세요☺️
+                    </span>
+                  </div>
+                  <button class="mark-read-btn" onclick="markAsRead(this)">읽음 처리</button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <!-- // 알람 -->
           <li>
             <a href="/mypage">마이페이지</a>
           </li>
@@ -105,5 +134,6 @@
       // }, 5000);
     };
   </script>
+  <script src="/js/header.js"></script>
 </th:block>
 </html>
