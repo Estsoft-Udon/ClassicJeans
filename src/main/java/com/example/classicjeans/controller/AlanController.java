@@ -66,8 +66,20 @@ public class AlanController {
 
     // 앨런 치매 문진표 질의
     @PostMapping("/api/analysis/dementia")
-    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@ModelAttribute AlanDementiaRequest request) throws JsonProcessingException {
-        System.out.println("request = " + request);
+    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@ModelAttribute AlanDementiaRequest request, HttpSession session) throws JsonProcessingException {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+
+        // 세션에 저장된 객체가 null이 아니고, selectedType이 존재하는지 확인
+        if (selectedUserFromSession != null && selectedTypeFromSession != null) {
+            if ("user".equals(selectedTypeFromSession)) {
+                Users selectedUser = (Users) selectedUserFromSession;
+                request.setUser(selectedUser);
+            } else if ("family".equals(selectedTypeFromSession)) {
+                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
+                request.setFamily(selectedFamilyInfo);
+            }
+        }
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
