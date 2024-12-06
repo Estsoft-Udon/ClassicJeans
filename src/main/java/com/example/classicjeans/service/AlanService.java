@@ -30,7 +30,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static com.example.classicjeans.util.SecurityUtil.*;
@@ -42,12 +44,10 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
+    private static final String CLIENT_ID = "49c03662-63c7-4cb3-9dda-8b0279982686";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private final AlanBaziRepository alanBaziRepository;
-    private final UsersRepository usersRepository;
 
 
 
@@ -56,13 +56,11 @@ public class AlanService {
 
 
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.questionnaireDataRepository = questionnaireDataRepository;
         this.dementiaDataRepository = dementiaDataRepository;
-        this.alanBaziRepository = alanBaziRepository;
-        this.usersRepository = usersRepository;
 
     }
 
@@ -296,84 +294,5 @@ public class AlanService {
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
 //        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
-    }
-
-    // 오늘의 운세
-    public AlanBasicResponse fetchBazi() throws JsonProcessingException {
-        String CLIENT_ID = "1a06fccc-d4f6-44ff-8daf-8dab60c82b93";
-
-        //request -> response
-        String s = "1999년 11월 13일 오늘의 운세 알려줘";
-        String uri = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("content", s)
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
-
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        System.out.println(response.getBody());
-
-        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
-    }
-
-
-    // 오늘의 운세
-    public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
-        // URI 생성
-        String uri = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("content", request)  // AlanBaziRequest.toString() 호출
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
-
-        // API 호출
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        String responseBody = response.getBody();
-
-        // JSON 파싱
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode contentNode = rootNode.path("content");
-
-        if (contentNode.isTextual()) {
-            String cleanedContent = removeBaziContent(contentNode.asText()); // 정리된 텍스트 처리
-
-            // JSON 수정
-            ((ObjectNode) rootNode).put("content", cleanedContent);
-        }
-
-        // System.out.println("Cleaned content: " + rootNode.toString());  // 처리된 텍스트 출력
-
-        // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
-        return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
-
-    }
-    public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
-        AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
-
-        Bazi bazi = new Bazi();
-        bazi.setUser(usersRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found")));
-        bazi.setDate(LocalDate.now()); // 오늘 날짜 저장
-        bazi.setContent(response.getContent()); // 운세 내용 저장
-
-        return alanBaziRepository.save(bazi);
-    }
-
-    public Bazi getBaziByUserId(Long userId) {
-        return alanBaziRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Bazi data not found"));
-    }
-
-    // 운세 결과 텍스트 정리
-    private String removeBaziContent(String text) {
-        return text
-                .replaceAll(URL_PATTERN, "")
-                .replaceAll("\\d{4}년 \\d{1,2}월 \\d{1,2}일에 태어난 (남성|여성)의\\s*", "") // 0000년 00월 00일에 태어난 남성/여성" 제거
-                .replaceAll("\\[.*?]\\(.*?\\)", "")
-                .replaceAll("\\d{4}년생은\\s*", "")
-                .replaceAll("이 외에도.*", "")
-                .replaceAll("다른 띠의 내용은 포함하지 않았습니다\\.?", "")
-                .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
-                .replaceAll(":\\s*:\\s*:", "") // ': : :' 제거
-                .trim();
     }
 }

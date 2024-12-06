@@ -1,6 +1,5 @@
 package com.example.classicjeans.config;
 
-import com.example.classicjeans.oauth.CustomOAuth2LoginSuccessHandler;
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
 import com.example.classicjeans.security.UsersDetailService;
@@ -32,20 +31,34 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        custom -> custom.requestMatchers("/**").permitAll()
+//                        custom -> custom.requestMatchers("/**").permitAll()
+//                )
+//                .formLogin(custom -> {
+//                    custom.loginPage("/login")
+//                            .failureHandler(customAuthFailureHandler);
+//                })
+////                .oauth2Login(oauth2 ->
+////                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
+////                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
+////                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
+////                                .userInfoEndpoint(userInfo ->
+////                                        userInfo.userService(customOAuth2UserService))
+////                )
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .build();
+
+                        custom ->
+                                custom
+                                        .requestMatchers("/api/alan/bazi").authenticated() // 인증 필요
+                                        .anyRequest().permitAll() // 나머지는 허용
                 )
                 .formLogin(custom -> {
                     custom.loginPage("/login")
+                            .defaultSuccessUrl("/", true) // 로그인 성공 시 이동 경로
                             .failureHandler(customAuthFailureHandler);
                 })
-//                .oauth2Login(oauth2 ->
-//                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
-//                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
-//                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
-//                                .userInfoEndpoint(userInfo ->
-//                                        userInfo.userService(customOAuth2UserService))
-//                )
-                .csrf(AbstractHttpConfigurer::disable)
+                .logout(custom -> custom.logoutUrl("/logout").logoutSuccessUrl("/"))
+                .csrf(AbstractHttpConfigurer::disable) // CSRF 비활성화
                 .build();
     }
 

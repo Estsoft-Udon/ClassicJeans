@@ -3,8 +3,8 @@ package com.example.classicjeans.repository;
 import com.example.classicjeans.entity.Bazi;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface AlanBaziRepository extends JpaRepository<Bazi, Long> {
-    Optional<Bazi> findByUserId(Long userId);
+    List<Bazi> findByUserId(Long userId);
 }
