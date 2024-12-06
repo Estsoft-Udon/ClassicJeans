@@ -64,6 +64,7 @@
                     </td>
                     <td>
                         <button type="button" class="btn view-form reservation_btn"
+                                th:data-id="${hospital.id}"
                                 th:data-name="${hospital.name}"
                                 th:data-phone="${hospital.phone}"
                                 th:data-address="${hospital.address}">
@@ -78,14 +79,17 @@
                 <div class="modal-content">
                     <span class="close_btn">&times;</span>
                     <h2>간단 예약</h2>
-                    <form method="post">
+                    <form id="reservationForm">
                         <div class="top">
                             <input type="hidden" id="modalHospitalId" name="hospitalId" />
                             <input type="hidden" id="modalHospitalPhone" name="phone" />
                             <input type="hidden" id="modalHospitalAddress" name="address" />
                             <div>
                                 <label for="hospitalUser"><span class="point">*</span>예약자 성함</label>
-                                <input type="text" id="hospitalUser" name="hospitalUser" placeholder="성함을 입력하세요" required />
+                                <input type="text" id="hospitalUser" name="reserverName" placeholder="성함을 입력하세요" required />
+                            </div>
+                            <div>
+                                <span id="hospitalId"></span>
                             </div>
                             <div>
                                 <label for="hospitalName">병원명</label>
@@ -101,7 +105,7 @@
                             </div>
                             <div>
                                 <label for="reservationDateTime"><span class="point">*</span>예약 날짜 및 시간</label>
-                                <input type="datetime-local" id="reservationDateTime" name="reservationDateTime" required />
+                                <input type="datetime-local" id="reservationDateTime" name="time" required />
                             </div>
                         </div>
                         <div class="btn_box">
@@ -207,5 +211,44 @@
     <script src="/js/list.js"></script>
     <script src="/js/hospital.js"></script>
     <script src="/js/kakaomap.js"></script>
+
+    <script>
+        document.getElementById("reservationForm").addEventListener("submit", async function (e) {
+            e.preventDefault(); // 기본 제출 방지
+
+            const formData = new FormData(e.target);
+            const formObject = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/api/reservation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formObject),
+                });
+
+                if (response.ok) {
+                    alert('예약이 완료되었습니다!');
+                } else {
+                    alert('예약에 실패했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('서버와 통신 중 문제가 발생했습니다.');
+            }
+        });
+
+        // 현재 날짜 및 시간으로 `min` 속성 설정
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+        const date = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const minDateTime = `${year}-${month}-${date}T${hours}:${minutes}`;
+        document.getElementById("reservationDateTime").setAttribute("min", minDateTime);
+    </script>
 </th:block>
 </html>
