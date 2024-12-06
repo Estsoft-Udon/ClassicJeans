@@ -211,44 +211,5 @@
     <script src="/js/list.js"></script>
     <script src="/js/hospital.js"></script>
     <script src="/js/kakaomap.js"></script>
-
-    <script>
-        document.getElementById("reservationForm").addEventListener("submit", async function (e) {
-            e.preventDefault(); // 기본 제출 방지
-
-            const formData = new FormData(e.target);
-            const formObject = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('/api/reservation', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formObject),
-                });
-
-                if (response.ok) {
-                    alert('예약이 완료되었습니다!');
-                } else {
-                    alert('예약에 실패했습니다. 다시 시도해주세요.');
-                }
-            } catch (error) {
-                console.error(error);
-                alert('서버와 통신 중 문제가 발생했습니다.');
-            }
-        });
-
-        // 현재 날짜 및 시간으로 `min` 속성 설정
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-        const date = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-
-        const minDateTime = `${year}-${month}-${date}T${hours}:${minutes}`;
-        document.getElementById("reservationDateTime").setAttribute("min", minDateTime);
-    </script>
 </th:block>
 </html>
