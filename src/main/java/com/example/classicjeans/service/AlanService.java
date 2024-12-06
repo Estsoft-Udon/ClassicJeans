@@ -77,7 +77,7 @@ public class AlanService {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
-//        saveQuestionnaireData(request, response);
+        saveQuestionnaireData(request, response);
         return response;
     }
 
@@ -114,6 +114,12 @@ public class AlanService {
                 response.getSummaryEvaluation(),
                 response.getImprovementSuggestions()
         );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setQuestionnaireData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setQuestionnaireData(data);
+        }
         questionnaireDataRepository.save(data);
     }
 
@@ -122,7 +128,7 @@ public class AlanService {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanDementiaResponse response = parseAIResponse(responseBody);
-//        saveDementiaData(request, response);
+        saveDementiaData(request, response);
         return response;
     }
 
@@ -152,6 +158,12 @@ public class AlanService {
                 response.getSummaryEvaluation(),
                 response.getImprovementSuggestions()
         );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setDementiaData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setDementiaData(data);
+        }
         dementiaDataRepository.save(data);
     }
 
