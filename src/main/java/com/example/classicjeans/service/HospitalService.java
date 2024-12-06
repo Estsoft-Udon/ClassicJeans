@@ -147,7 +147,7 @@ public class HospitalService {
     }
 
     private HospitalResponse convertToResponse(HospitalData hospital) {
-        return new HospitalResponse(
+        HospitalResponse response =  new HospitalResponse(
                 hospital.getName(),
                 hospital.getPhone(),
                 hospital.getAddress(),
@@ -156,5 +156,8 @@ public class HospitalService {
                 hospital.getCity(),
                 hospital.getDistrict()
         );
+        response.setId(hospital.getId());
+
+        return response;
     }
 }
