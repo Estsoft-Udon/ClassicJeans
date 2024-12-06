@@ -8,11 +8,9 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.entity.Bazi;
+import com.example.classicjeans.entity.*;
 import com.example.classicjeans.repository.AlanBaziRepository;
 import com.example.classicjeans.repository.UsersRepository;
-import com.example.classicjeans.entity.DementiaData;
-import com.example.classicjeans.entity.QuestionnaireData;
 import com.example.classicjeans.repository.DementiaDataRepository;
 import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,14 +44,11 @@ public class AlanService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
     private final AlanBaziRepository alanBaziRepository;
     private final UsersRepository usersRepository;
-
-
-
     private final QuestionnaireDataRepository questionnaireDataRepository;
     private final DementiaDataRepository dementiaDataRepository;
-
 
     @Autowired
     public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
@@ -63,7 +58,6 @@ public class AlanService {
         this.dementiaDataRepository = dementiaDataRepository;
         this.alanBaziRepository = alanBaziRepository;
         this.usersRepository = usersRepository;
-
     }
 
     // 앨런AI test - 추후 제거
@@ -89,10 +83,9 @@ public class AlanService {
 
     // 기본 검사 결과 저장
     private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
-        // TODO 수정했습니다. 확인부탁드립니다.
         boolean isFamilyInfo = request.getFamily() != null;
         QuestionnaireData data = new QuestionnaireData(
-                getLoggedInUser(),
+                request.getUser(),
                 request.getFamily(),
                 isFamilyInfo ? request.getFamily().getAge() : getLoggedInUser().getAge(),
                 isFamilyInfo ? request.getFamily().getGender() : getLoggedInUser().getGender(),
@@ -135,9 +128,8 @@ public class AlanService {
 
     // 치매 검진 결과 저장
     private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
-        // TODO 수정했습니다. 확인부탁드립니다.
         DementiaData data = new DementiaData(
-                getLoggedInUser(),
+                request.getUser(),
                 request.getFamily(),
                 request.getMemoryChange(),
                 request.getDailyConfusion(),
@@ -208,8 +200,12 @@ public class AlanService {
         response.setContent(rootNode.path("content").asText());
 
         parseHealthData(response);
-        response.setSummaryEvaluation(extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN));
-        response.setImprovementSuggestions(extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN));
+        response.setSummaryEvaluation(
+                extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class)
+        );
+        response.setImprovementSuggestions(
+                extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class)
+        );
 
         return response;
     }
@@ -225,8 +221,8 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        List<String> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
-        List<String> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
+        List<SummaryEvaluation> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class);
+        List<ImprovementSuggestions> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
@@ -269,27 +265,51 @@ public class AlanService {
     }
 
     // 종합 평가, 개선 방법 추출 메서드
-    private List<String> extractContent(String content, String patternString) {
+    private <T> List<T> extractContent(String content, String patternString, Class<T> targetClass) {
         Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(content);
-        List<String> results = new ArrayList<>();
+        List<T> results = new ArrayList<>();
 
         while (matcher.find()) {
             String matchedContent = matcher.group(1).trim();
             String[] items = matchedContent.split("\n");
             for (String item : items) {
-                if (item.startsWith("-")) {
-                    results.add(removeSourceLinks(item.trim()));
-                } else if (item.matches("^\\d+\\.\\s.*")) {
-                    results.add(removeSourceLinks(item.trim()));
+                if (item.startsWith("-") || item.matches("^\\d+\\.\\s.*")) {
+                    String cleanedItem = removeSourceLinks(item.trim());
+                    try {
+                        T entity = createEntity(cleanedItem, targetClass);
+                        results.add(entity);
+                    } catch (Exception e) {
+                        System.err.println("Failed to create entity: " + e.getMessage());
+                    }
                 }
             }
         }
+
         if (results.isEmpty()) {
-            results.add("정보가 없습니다.");
+            try {
+                T emptyEntity = createEntity("정보가 없습니다.", targetClass);
+                results.add(emptyEntity);
+            } catch (Exception e) {
+                System.err.println("Failed to create empty entity: " + e.getMessage());
+            }
         }
 
         return results;
+    }
+
+    // 문자열 데이터를 받아 지정된 클래스 타입의 엔티티 객체를 생성
+    private <T> T createEntity(String content, Class<T> targetClass) throws Exception {
+        if (targetClass == SummaryEvaluation.class) {
+            SummaryEvaluation evaluation = new SummaryEvaluation();
+            evaluation.setEvaluation(content);
+            return targetClass.cast(evaluation);
+        } else if (targetClass == ImprovementSuggestions.class) {
+            ImprovementSuggestions suggestion = new ImprovementSuggestions();
+            suggestion.setSuggestion(content);
+            return targetClass.cast(suggestion);
+        }
+        throw new IllegalArgumentException("Unsupported target class: " + targetClass.getName());
     }
 
     // 출처 링크 제거

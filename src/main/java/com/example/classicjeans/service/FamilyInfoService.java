@@ -58,6 +58,11 @@ public class FamilyInfoService {
                 .toList();
     }
 
+    // 가족 정보 단건 조회
+    public FamilyInfo findFamily(Long familyId) {
+        return familyInfoRepository.findById(familyId).orElse(null);
+    }
+
     // 가족 정보 삭제
     public void deleteFamily(Long familyId) {
         FamilyInfo familyInfo = familyInfoRepository.findById(familyId)

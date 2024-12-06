@@ -76,7 +76,7 @@ CREATE TABLE hospital_data
 CREATE TABLE dementia_data
 (
     id                        BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id                   BIGINT NOT NULL,
+    user_id                   BIGINT,
     family_id                 BIGINT,
     date                      DATE NOT NULL,                           -- 검사 날짜
     memory_change             VARCHAR(255),                             -- 기억력 변화 (ENUM 값으로 관리 가능)
@@ -97,8 +97,6 @@ CREATE TABLE dementia_data
     has_chronic_diseases      BOOLEAN NOT NULL,                         -- 만성 질환 여부
     has_stroke_history        BOOLEAN NOT NULL,                         -- 뇌졸중 병력 여부
     has_family_dementia       BOOLEAN NOT NULL,                         -- 치매 가족력 여부
-    summary_evaluation        TEXT,                                     -- 종합 평가 내용 (TEXT 컬럼)
-    improvement_suggestions   TEXT,                                     -- 개선 방법 (TEXT 컬럼)
     FOREIGN KEY (user_id)     REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (family_id)   REFERENCES family_info (id) ON DELETE CASCADE
 );
@@ -106,7 +104,7 @@ CREATE TABLE dementia_data
 CREATE TABLE questionnaire_data
 (
     id                      BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id                 BIGINT NOT NULL,
+    user_id                 BIGINT,
     family_id               BIGINT,
     date                    DATE NOT NULL,                     -- 설문지 작성 날짜
     age                     INT NOT NULL,                      -- 나이
@@ -133,10 +131,26 @@ CREATE TABLE questionnaire_data
     smoking_rate            DOUBLE NOT NULL,                   -- 한국인 평균 흡연율
     drinking_rate           DOUBLE NOT NULL,                   -- 한국인 평균 음주율
     exercise_rate           DOUBLE NOT NULL,                   -- 한국인 평균 운동 실천율
-    summary_evaluation      TEXT,                              -- 종합 평가 내용 (TEXT)
-    improvement_suggestions TEXT,                              -- 개선 방법 (TEXT)
     FOREIGN KEY (user_id)   REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
+);
+
+CREATE TABLE summary_evaluation (
+                                    id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- 고유 ID
+                                    dementia_data_id BIGINT,              -- dementia_data와 관계
+                                    questionnaire_data_id BIGINT,         -- questionnaire_data와 관계
+                                    evaluation TEXT,                      -- 저장할 내용
+                                    FOREIGN KEY (dementia_data_id) REFERENCES dementia_data(id) ON DELETE CASCADE,
+                                    FOREIGN KEY (questionnaire_data_id) REFERENCES questionnaire_data(id) ON DELETE CASCADE
+);
+
+CREATE TABLE improvement_suggestions (
+                                         id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- 고유 ID
+                                         dementia_data_id BIGINT,              -- dementia_data와 관계
+                                         questionnaire_data_id BIGINT,         -- questionnaire_data와 관계
+                                         suggestion TEXT,                      -- 저장할 내용
+                                         FOREIGN KEY (dementia_data_id) REFERENCES dementia_data(id) ON DELETE CASCADE,
+                                         FOREIGN KEY (questionnaire_data_id) REFERENCES questionnaire_data(id) ON DELETE CASCADE
 );
 
 CREATE TABLE sanatorium_data
