@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <form method="post" action="result" class="content">
+        <form method="post" action="/checkout/questionnaire_list" class="content">
             <!-- 단계 1 -->
             <section class="step-content" id="step-0">
                 <h2>건강 상태</h2>
@@ -165,11 +165,12 @@
                     <label><input type="radio" name="hasAllergy" value="false" onclick="handleRadioClick(event, this)"><span>없음</span></label>
                 </div>
             </section>
+
+            <div class="questionnaire_btn">
+                <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
+                <button type="submit" class="btn submit_btn">분석 받아보기</button>
+            </div>
         </form>
-        <div class="questionnaire_btn">
-            <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
-            <button type="submit" class="btn submit_btn">분석 받아보기</button>
-        </div>
     </div>
     <script src="/js/questionnaire.js"></script>
 </th:block>
