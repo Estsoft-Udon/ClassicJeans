@@ -24,23 +24,10 @@ public class AlanSSEService {
 
     @Value("${openai.api.key}")
     private String CLIENT_ID;
-    private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String SSE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question/sse-streaming";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
 
-    private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-
-    public String getChatResponse(String content) {
-        // 요청 데이터 생성
-        String uri = UriComponentsBuilder
-                .fromUriString(BASE_URL)
-                .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
-
-        return restTemplate.getForObject(uri, String.class);
-    }
 
     public void streamChatResponse(String content, SseEmitter emitter) throws IOException {
         // 요청 데이터 생성
@@ -63,9 +50,8 @@ public class AlanSSEService {
 
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
-                    System.out.println("json = " + json);
 
-//                     "complete"가 포함되면 스트리밍 종료 이벤트 전송
+                    // "complete"가 포함되면 스트리밍 종료 이벤트 전송
                     if (json.contains("complete")) {
                         emitter.send(SseEmitter.event().name("completed"));
                         System.out.println("메세지가 종료됩니다.");
@@ -102,6 +88,17 @@ public class AlanSSEService {
         }
     }
 
+
+    // delete api 사용하는 방법
+    public String resetChat(String content) {
+        // 요청 데이터 생성
+        String uri = UriComponentsBuilder
+                .fromUriString(DELETE_URL)
+                .toUriString();
+
+        return null;
+    }
+
     private void handleJsonParsingError(Exception e) {
         // JSON 파싱 예외 처리
         System.err.println("JSON 파싱 에러: " + e.getMessage());
@@ -116,18 +113,5 @@ public class AlanSSEService {
             System.err.println("Error reading error response: " + ioException.getMessage());
         }
         System.err.println("스트리밍 처리 중 에러: " + e.getMessage());
-    }
-
-
-    // delete api 사용하는 방법
-    public String resetChat(String content) {
-        // 요청 데이터 생성
-        String uri = UriComponentsBuilder
-                .fromUriString(DELETE_URL)
-                .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
-
-        return null;
     }
 }
