@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,7 +31,7 @@ public class CheckupController {
         List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfo);
-        return "/checkout/checkout.html";
+        return "checkout/checkout";
     }
 
     @RequestMapping("/checkout_list")
@@ -52,21 +53,21 @@ public class CheckupController {
                 session.setAttribute("selectedType", "family");
             }
         }
-        return "/checkout/checkout_list.html";
+        return "checkout/checkout_list";
     }
 
-    @RequestMapping("/questionnaire_list")
+    @GetMapping("/questionnaire_list")
     public String questionnaireList() {
-        return "/checkout/questionnaire_list.html";
+        return "checkout/questionnaire_list";
     }
 
     @RequestMapping("/dementia_list")
     public String dementiaList() {
-        return "/checkout/dementia_list.html";
+        return "checkout/dementia_list";
     }
 
     @RequestMapping("/result")
     public String result() {
-        return "/checkout/result.html";
+        return "checkout/result";
     }
 }
