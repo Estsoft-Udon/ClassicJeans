@@ -1,11 +1,7 @@
 package com.example.classicjeans.controller;
 
-import static com.example.classicjeans.util.MarkdownRenderer.*;
 
 import com.example.classicjeans.service.AlanSSEService;
-import com.example.classicjeans.util.MarkdownRenderer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -20,7 +16,6 @@ public class ChatController {
 
     private final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final AlanSSEService alanSSEService;
-    private final ObjectMapper objectMapper;
 
     // SSE 연결 설정
     @GetMapping("/stream")
