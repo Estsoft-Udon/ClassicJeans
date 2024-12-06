@@ -84,16 +84,12 @@ public class DementiaData {
     private boolean hasFamilyDementia; // 치매 가족력 여부
 
     // 종합 평가 내용
-    @ElementCollection
-    @CollectionTable(name = "summary_evaluation", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "evaluation", columnDefinition = "TEXT")
-    private List<String> summaryEvaluation;
+    @OneToMany(mappedBy = "dementiaData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
-    @ElementCollection
-    @CollectionTable(name = "improvement_suggestions", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "suggestion", columnDefinition = "TEXT")
-    private List<String> improvementSuggestions;
+    @OneToMany(mappedBy = "dementiaData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImprovementSuggestions> improvementSuggestions;
 
     @PrePersist
     public void setDate() {
@@ -111,7 +107,7 @@ public class DementiaData {
                                                    CommonFrequency dailyActivityDifficulty, CommonFrequency goingOutAlone, CommonFrequency financialManagementDifficulty,
                                                    CommonFrequency anxietyOrAggression, CommonFrequency hallucinationOrDelusion, CommonFrequency sleepPatternChange,
                                                    boolean hasChronicDiseases, boolean hasStrokeHistory, boolean hasFamilyDementia,
-                                                   List<String> summaryEvaluation, List<String> improvementSuggestions) {
+                                                   List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions) {
         this.userId = userId;
         if(familyId != null) {
             this.familyId = familyId;

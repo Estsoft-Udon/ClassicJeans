@@ -1,5 +1,7 @@
 package com.example.classicjeans.dto.response;
 
+import com.example.classicjeans.entity.ImprovementSuggestions;
+import com.example.classicjeans.entity.SummaryEvaluation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +31,11 @@ public class AlanQuestionnaireResponse {
 
     // 종합 평가 내용
     @JsonProperty(value = "summaryEvaluation")
-    private List<String> summaryEvaluation;
+    private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
     @JsonProperty(value = "improvementSuggestions")
-    private List<String> improvementSuggestions;
+    private List<ImprovementSuggestions> improvementSuggestions;
 
     // Action 서브 클래스 정의
     @Data
