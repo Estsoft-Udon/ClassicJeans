@@ -74,12 +74,12 @@ public class CheckupController {
         return "redirect:/checkout/result";
     }
 
-    @RequestMapping("/dementia_list")
+    @GetMapping("/dementia_list")
     public String dementiaList() {
         return "checkout/dementia_list";
     }
 
-    @RequestMapping("/result")
+    @GetMapping("/result")
     public String result() {
         return "checkout/result";
     }
