@@ -8,8 +8,6 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.entity.FamilyInfo;
-import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanService;
 import com.example.classicjeans.service.SessionUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.lang.model.SourceVersion;
 import java.time.LocalDate;
 import java.util.Optional;
 
