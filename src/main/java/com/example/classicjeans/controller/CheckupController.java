@@ -1,5 +1,6 @@
 package com.example.classicjeans.controller;
 
+import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
@@ -84,6 +85,17 @@ public class CheckupController {
     @GetMapping("/dementia_list")
     public String dementiaList() {
         return "checkout/dementia_list";
+    }
+
+    @PostMapping("/dementia_list")
+    public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
+                               RedirectAttributes redirectAttributes) {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        redirectAttributes.addFlashAttribute("request", request);
+        return "redirect:/checkout/result";
     }
 
     @GetMapping("/result")
