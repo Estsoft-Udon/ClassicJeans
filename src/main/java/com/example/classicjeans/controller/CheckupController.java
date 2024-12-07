@@ -4,11 +4,14 @@ import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.entity.FamilyInfo;
+import com.example.classicjeans.entity.ImprovementSuggestions;
+import com.example.classicjeans.entity.SummaryEvaluation;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanService;
 import com.example.classicjeans.service.FamilyInfoService;
 import com.example.classicjeans.service.SessionUserService;
 import com.example.classicjeans.service.UsersService;
+import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -87,6 +90,13 @@ public class CheckupController {
     public String result(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
         model.addAttribute("request", request);
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
+
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
+        }
         model.addAttribute("response", response);
         return "checkout/result";
     }
