@@ -1,6 +1,5 @@
 package com.example.classicjeans.entity;
 
-import com.example.classicjeans.dto.request.QuestionnaireDataRequest;
 import com.example.classicjeans.enums.questionnaire.*;
 import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.util.DateFormatUtil;
