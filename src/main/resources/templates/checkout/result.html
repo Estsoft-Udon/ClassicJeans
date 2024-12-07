@@ -94,13 +94,13 @@
           <div class="txt_box">
             <h2>종합 평가</h2>
             <ul>
-              <li class="dots" th:each="evaluation : ${response.summaryEvaluation}" th:text="${evaluation.evaluation}"></li>
+              <li class="dots" th:each="evaluation : ${response.summaryEvaluation}" th:utext="${evaluation.evaluation}"></li>
             </ul>
           </div>
           <div class="txt_box">
             <h2>개선 사항</h2>
             <ul>
-              <li class="dots" th:each="suggestion : ${response.improvementSuggestions}" th:text="${suggestion.suggestion}"></li>
+              <li class="dots" th:each="suggestion : ${response.improvementSuggestions}" th:utext="${suggestion.suggestion}"></li>
             </ul>
           </div>
         </div>
