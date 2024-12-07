@@ -30,11 +30,15 @@ document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click
     });
 
     if (isValid) {
-        document.querySelector('form.content').submit(); // 폼 제출
+        const loadingScreen = document.getElementById('loading-screen');
+
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        loadingScreen.style.display = 'flex';
+        document.querySelector('form.content').submit();
     } else {
-        firstInvalidInput.closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstInvalidInput.focus({ preventScroll: true }); // 포커스 시 스크롤 방지
-        setTimeout(() => alert('해당 질문에 답변해 주세요.'), 300);
+        firstInvalidQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidQuestion.querySelector('input[type="radio"]').focus();
+        alert('해당 질문에 답변해 주세요.');
     }
 });
 
