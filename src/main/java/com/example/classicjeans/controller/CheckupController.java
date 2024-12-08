@@ -36,7 +36,7 @@ public class CheckupController {
     private final AlanService alenService;
 
     // 건강 검진 메인
-    @RequestMapping("/checkout")
+    @GetMapping("/checkout")
     public String checkout(Model model) {
         Long userId = getLoggedInUser().getId();
         Users user = usersService.findUserById(userId);
@@ -47,7 +47,7 @@ public class CheckupController {
     }
 
     // 건강 검진 대상 선택
-    @RequestMapping("/checkout_list")
+    @GetMapping("/checkout_list")
     public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
                               @RequestParam(value = "selectedType", required = false) String selectedType,
                               HttpSession session) {
