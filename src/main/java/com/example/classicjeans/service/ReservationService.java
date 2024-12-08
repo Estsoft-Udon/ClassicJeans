@@ -7,7 +7,11 @@ import com.example.classicjeans.entity.Reservation;
 import com.example.classicjeans.entity.ReservationQueue;
 import com.example.classicjeans.repository.ReservationRepository;
 import com.example.classicjeans.dto.request.ReservationRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,13 +24,15 @@ public class ReservationService {
     private final ReservationQueue reservationQueue;
     private final ReservationRepository reservationRepository;
     private final HospitalRepository hospitalRepository;
+    private final ObjectMapper objectMapper;
+    private final ReservationNotificationService notificationService;
 
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
     }
 
     public List<Reservation> findAllByUserId(Long userId) {
-        return reservationRepository.findAllByUserId(userId);
+        return reservationRepository.findAllByUserIdAndIsNotificatedTrue(userId);
     }
 
     // 큐와 DB에 예약 추가
@@ -52,12 +58,18 @@ public class ReservationService {
         return reservationQueue.getNextReservation();
     }
 
-    public void deleteReservation(Reservation reservation) {
-        reservationRepository.delete(reservation);
+    public Reservation notifyReservation(Reservation reservation) {
+        reservation.setIsNotificated(true);
+        return reservationRepository.save(reservation);
     }
 
+    public void deleteReservationById(Long id) {
+        reservationRepository.deleteById(id);
+    }
+
+    @PostConstruct
     public void addReservationWhenConstruct() {
-        reservationQueue.addReservations(reservationRepository.findAll());
+        reservationQueue.addReservations(reservationRepository.findByIsNotificatedFalse());
     }
 
     public int getQueueSize() {
@@ -65,18 +77,43 @@ public class ReservationService {
         return reservationQueue.getQueueSize();
     }
 
-    public String formatString(Reservation reservation) {
-        String message = "%s님, %s월 %s일 %s시 %s분,<br>" +
-                "%s에 예약이 확정되었습니다! <br>" +
-                "잊지 말고 일정에 맞춰 방문해 주세요!😊";
-        String reserverName = reservation.getReserverName();;
-        LocalDateTime reservationTime = reservation.getTime();
-        String month = String.valueOf(reservationTime.getMonthValue());
-        String day = String.valueOf(reservationTime.getDayOfMonth());
-        String hour = String.valueOf(reservationTime.getHour());
-        String minute = String.valueOf(reservationTime.getMinute());
-        String place = reservation.getHospital().getName();
+    public Reservation setReadTrue(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+        reservation.setIsRead(true);
+        return reservationRepository.save(reservation);
+    }
 
-        return String.format(message, reserverName, month, day, hour, minute, place);
+    public Reservation setReadFalse(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+        reservation.setIsRead(false);
+        return reservationRepository.save(reservation);
+    }
+
+    @Scheduled(fixedRate = 60000) // 1분(60,000ms)마다 실행
+    public void sendNotificationScheduling() throws JsonProcessingException {
+        LocalDateTime oneDayAfter = LocalDateTime.now().plusDays(1);
+        System.out.println("scheduled job executed");
+
+        boolean processing = true;
+        while (processing) {
+            Reservation reservation = getNextReservation();
+            if (reservation != null) {
+                // 예약시간이 현재 시간의 하루전보다 이전이면 알림 후 알림 여부 true로
+                if (reservation.getTime().isBefore(oneDayAfter)) {
+                    // 여기서 알림 전송
+                    String message = objectMapper.writeValueAsString(reservation);
+
+                    System.out.println("message = " + message);
+
+                    notificationService.sendNotification(reservation.getUser().getId(), message);
+                    notifyReservation(reservation);
+                } else {
+                    addReservationToQueue(reservation);
+                    processing = false; // 종료 조건 설정
+                }
+            } else {
+                processing = false; // null일 때 종료
+            }
+        }
     }
 }
