@@ -86,6 +86,7 @@ public class CheckupController {
     @GetMapping("/result-questionnaire")
     public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
         model.addAttribute("request", request);
+        model.addAttribute("type", "questionnaire");
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
 
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
@@ -117,6 +118,7 @@ public class CheckupController {
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model) throws JsonProcessingException {
         model.addAttribute("request", request);
+        model.addAttribute("type", "dementia");
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
 
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
