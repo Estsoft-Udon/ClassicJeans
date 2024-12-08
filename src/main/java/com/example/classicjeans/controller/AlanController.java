@@ -43,14 +43,9 @@ public class AlanController {
         return ResponseEntity.ok(response);
     }
 
-    // 앨런 기본 문진표 질의
+    // 앨런 기본 문진표 질의 (CLIENT_ID 바뀜에 따라 응답 값 확인)
     @PostMapping("/api/analysis/questionnaire")
-    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request, HttpSession session) throws JsonProcessingException {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
-
+    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request) throws JsonProcessingException {
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
         return ResponseEntity.ok(response);
     }
