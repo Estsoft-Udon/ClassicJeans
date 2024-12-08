@@ -80,11 +80,11 @@ public class CheckupController {
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("request", request);
-        return "redirect:/checkout/result";
+        return "redirect:/checkout/result-questionnaire";
     }
 
-    @GetMapping("/result")
-    public String result(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
+    @GetMapping("/result-questionnaire")
+    public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
         model.addAttribute("request", request);
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
 
@@ -111,10 +111,10 @@ public class CheckupController {
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
-        return "redirect:/checkout/result";
+        return "redirect:/checkout/result-dementia";
     }
 
-    @GetMapping("/result")
+    @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model) throws JsonProcessingException {
         model.addAttribute("request", request);
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
