@@ -13,7 +13,7 @@
       </div>
       <div class="container cont_wr">
         <h2>분석 결과</h2>
-        <table>
+        <table th:if="${type == 'questionnaire'}">
           <thead>
           <tr>
             <th>항목</th>
@@ -22,45 +22,45 @@
           </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>성별</td>
-              <td th:text="${request.user != null ? request.user.gender.displayName : request.family.gender.displayName}">남성</td>
-              <td th:text="${request.user != null ? request.user.gender.displayName : request.family.gender.displayName}">남성</td>
-            </tr>
-            <tr>
-              <td>나이</td>
-              <td th:text="${request.user != null ? request.user.getAge() : request.family.getAge()}"></td>
-              <td th:text="${response.ageGroup}"></td>
-            </tr>
-            <tr>
-              <td>신장</td>
-              <td th:text="${request.height} + 'cm'">175cm</td>
-              <td th:text="${response.averageHeight} + 'cm'">175cm</td>
-            </tr>
-            <tr>
-              <td>체중</td>
-              <td th:text="${request.weight} + 'kg'">70kg</td>
-              <td th:text="${response.averageWeight} + 'kg'">75kg</td>
-            </tr>
-            <tr>
-              <td>흡연 여부</td>
-              <td th:text="${request.smokingStatus.displayName}">비흡연</td>
-              <td th:text="${response.smokingRate} + '% 흡연율'">32.8% 흡연율 (출처42)</td>
-            </tr>
-            <tr>
-              <td>음주 빈도</td>
-              <td th:text="${request.alcoholConsumption.displayName}">주 1회</td>
-              <td th:text="${response.drinkingRate} + ' % 음주율'">57.4% 음주율 (출처41)</td>
-            </tr>
-            <tr>
-              <td>운동 빈도</td>
-              <td th:text="${request.exerciseFrequency.displayName}">주 3회</td>
-              <td th:text="${response.exerciseRate} + ' % 규칙적 운동 비율'">47.9% 걷기실천율 (출처52)</td>
-            </tr>
+          <tr>
+            <td>성별</td>
+            <td th:text="${request.user != null ? request.user.gender.displayName : request.family.gender.displayName}">남성</td>
+            <td th:text="${request.user != null ? request.user.gender.displayName : request.family.gender.displayName}">남성</td>
+          </tr>
+          <tr>
+            <td>나이</td>
+            <td th:text="${request.user != null ? request.user.getAge() : request.family.getAge()}"></td>
+            <td th:text="${response.ageGroup}"></td>
+          </tr>
+          <tr>
+            <td>신장</td>
+            <td th:text="${request.height} + 'cm'">175cm</td>
+            <td th:text="${response.averageHeight} + 'cm'">175cm</td>
+          </tr>
+          <tr>
+            <td>체중</td>
+            <td th:text="${request.weight} + 'kg'">70kg</td>
+            <td th:text="${response.averageWeight} + 'kg'">75kg</td>
+          </tr>
+          <tr>
+            <td>흡연 여부</td>
+            <td th:text="${request.smokingStatus.displayName}">비흡연</td>
+            <td th:text="${response.smokingRate} + '% 흡연율'">32.8% 흡연율 (출처42)</td>
+          </tr>
+          <tr>
+            <td>음주 빈도</td>
+            <td th:text="${request.alcoholConsumption.displayName}">주 1회</td>
+            <td th:text="${response.drinkingRate} + ' % 음주율'">57.4% 음주율 (출처41)</td>
+          </tr>
+          <tr>
+            <td>운동 빈도</td>
+            <td th:text="${request.exerciseFrequency.displayName}">주 3회</td>
+            <td th:text="${response.exerciseRate} + ' % 규칙적 운동 비율'">47.9% 걷기실천율 (출처52)</td>
+          </tr>
           </tbody>
         </table>
         <div class="txt_wr">
-          <div class="txt_box">
+          <div class="txt_box" th:if="${type == 'questionnaire'}">
             <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
             <ul>
               <li class="dots" th:text="'현재 앓고 있는 만성질환 여부: ' + ${request.chronicDisease.displayName}"></li>
@@ -77,7 +77,7 @@
             </ul>
           </div>
 
-          <div class="txt_box">
+          <div class="txt_box" th:if="${type == 'dementia'}">
             <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
             <ul>
               <li class="dots" th:text="'나이: ' + ${dementiaRequest.user != null ? dementiaRequest.user.getAge() : dementiaRequest.family.getAge()}"></li>
