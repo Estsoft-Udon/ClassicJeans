@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="layout/layout">
 <head>
   <link rel="stylesheet" href="/css/checkout/result.css">
 </head>
@@ -60,7 +61,7 @@
         </table>
         <div class="txt_wr">
           <div class="txt_box">
-            <h3>* 문진표 추가 정보</h3>
+            <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
             <ul>
               <li class="dots" th:text="'현재 앓고 있는 만성질환 여부: ' + ${request.chronicDisease.displayName}"></li>
               <li class="dots" th:text="'최근 6개월 내 병원에 방문 여부: ' + ${request.hospitalVisit.displayName}"></li>
@@ -75,6 +76,32 @@
               <li class="dots" th:text="'알레르기 여부: ' + (${request.hasAllergy} ? '있음' : '없음')"></li>
             </ul>
           </div>
+
+          <div class="txt_box">
+            <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
+            <ul>
+              <li class="dots" th:text="'나이: ' + ${dementiaRequest.user != null ? dementiaRequest.user.getAge() : dementiaRequest.family.getAge()}"></li>
+              <li class="dots" th:text="'성별: ' + ${dementiaRequest.user != null ? dementiaRequest.user.gender.displayName : dementiaRequest.family.gender.displayName}"></li>
+              <li class="dots" th:text="'기억력 변화: ' + ${dementiaRequest.memoryChange.displayName}"></li>
+              <li class="dots" th:text="'일상 생활에서의 혼란 정도: ' + ${dementiaRequest.dailyConfusion.displayName}"></li>
+              <li class="dots" th:text="'문제 해결 능력 변화: ' + ${dementiaRequest.problemSolvingChange.displayName}"></li>
+              <li class="dots" th:text="'날짜 요일: ' + (${dementiaRequest.knowsDate} ? '알고 있음' : '헷갈리거나 잘 모름')"></li>
+              <li class="dots" th:text="'현재 위치: ' + (${dementiaRequest.knowsLocation} ? '알고 있음' : '헷갈리거나 잘 모름')"></li>
+              <li class="dots" th:text="'최근 사건 기억: ' + (${dementiaRequest.remembersRecentEvents} ? '기억함' : '헷갈리거나 기억하지 못함')"></li>
+              <li class="dots" th:text="'질문 반복: ' + ${dementiaRequest.frequencyOfRepetition.displayName}"></li>
+              <li class="dots" th:text="'물건 분실 빈도: ' + ${dementiaRequest.lostItemsFrequency.displayName}"></li>
+              <li class="dots" th:text="'일상 생활 활동 어려움: ' + ${dementiaRequest.dailyActivityDifficulty.displayName}"></li>
+              <li class="dots" th:text="'혼자 외출: ' + ${dementiaRequest.goingOutAlone.displayName}"></li>
+              <li class="dots" th:text="'금전 관리: ' + ${dementiaRequest.financialManagementDifficulty.displayName}"></li>
+              <li class="dots" th:text="'불안하거나 우울하거나 공격적인 행동: ' + ${dementiaRequest.anxietyOrAggression.displayName}"></li>
+              <li class="dots" th:text="'환각이나 망상 경험: ' + ${dementiaRequest.hallucinationOrDelusion.displayName}"></li>
+              <li class="dots" th:text="'수면 패턴 변화: ' + ${dementiaRequest.sleepPatternChange.displayName}"></li>
+              <li class="dots" th:text="'고혈압, 당뇨병 등의 질환 여부: ' + (${dementiaRequest.hasChronicDiseases} ? '있음' : '없음')"></li>
+              <li class="dots" th:text="'과거 뇌졸중이나 뇌손상을 입은 적: ' + (${dementiaRequest.hasStrokeHistory} ? '있음' : '없음')"></li>
+              <li class="dots" th:text="'가족 중 치매 환자 여부: ' + (${dementiaRequest.hasFamilyDementia} ? '있음' : '없음')"></li>
+            </ul>
+          </div>
+
           <div class="txt_box">
             <h2>종합 평가</h2>
             <ul>
