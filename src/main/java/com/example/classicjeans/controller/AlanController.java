@@ -8,9 +8,8 @@ import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.entity.FamilyInfo;
-import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanService;
+import com.example.classicjeans.service.SessionUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.lang.model.SourceVersion;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -27,6 +25,7 @@ import java.util.Optional;
 public class AlanController {
 
     private final AlanService alenService;
+    private final SessionUserService sessionUserService;
 
     // 앨런 기본 질의
     @GetMapping("/alan/basic")
@@ -44,30 +43,16 @@ public class AlanController {
         return ResponseEntity.ok(response);
     }
 
-    // 앨런 기본 문진표 질의
+    // 앨런 기본 문진표 질의 (CLIENT_ID 바뀜에 따라 응답 값 확인)
     @PostMapping("/api/analysis/questionnaire")
-    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request, HttpSession session) throws JsonProcessingException {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        // 세션에 저장된 객체가 null이 아니고, selectedType이 존재하는지 확인
-        if (selectedUserFromSession != null && selectedTypeFromSession != null) {
-            if ("user".equals(selectedTypeFromSession)) {
-                Users selectedUser = (Users) selectedUserFromSession;
-                request.setUser(selectedUser);
-            } else if ("family".equals(selectedTypeFromSession)) {
-                FamilyInfo selectedFamilyInfo = (FamilyInfo) selectedUserFromSession;
-                request.setFamily(selectedFamilyInfo);
-            }
-        }
+    public ResponseEntity<AlanQuestionnaireResponse> getQuestionnaireResponse(@RequestBody AlanQuestionnaireRequest request) throws JsonProcessingException {
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
         return ResponseEntity.ok(response);
     }
 
-    // 앨런 치매 문진표 질의
+    // 앨런 치매 문진표 질의 (CLIENT_ID 바뀜에 따라 응답 값 확인)
     @PostMapping("/api/analysis/dementia")
-    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@ModelAttribute AlanDementiaRequest request) throws JsonProcessingException {
-        System.out.println("request = " + request);
+    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@RequestBody AlanDementiaRequest request) throws JsonProcessingException {
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
