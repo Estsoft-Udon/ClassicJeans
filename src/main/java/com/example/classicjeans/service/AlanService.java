@@ -40,7 +40,7 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
+    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -352,7 +352,6 @@ public class AlanService {
         return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 
-
     // 오늘의 운세
     public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
         // URI 생성
@@ -381,8 +380,8 @@ public class AlanService {
 
         // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
-
     }
+
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
         AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
 
