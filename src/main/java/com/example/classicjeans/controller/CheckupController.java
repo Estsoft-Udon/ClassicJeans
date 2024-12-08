@@ -2,6 +2,7 @@ package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
+import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.entity.FamilyInfo;
@@ -111,5 +112,20 @@ public class CheckupController {
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
         return "redirect:/checkout/result";
+    }
+
+    @GetMapping("/result")
+    public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model) throws JsonProcessingException {
+        model.addAttribute("request", request);
+        AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
+
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
+        }
+        model.addAttribute("response", response);
+        return "checkout/result";
     }
 }
