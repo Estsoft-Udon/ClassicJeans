@@ -35,6 +35,7 @@ public class CheckupController {
     private final SessionUserService sessionUserService;
     private final AlanService alenService;
 
+    // 건강 검진 메인
     @RequestMapping("/checkout")
     public String checkout(Model model) {
         Long userId = getLoggedInUser().getId();
@@ -45,6 +46,7 @@ public class CheckupController {
         return "checkout/checkout";
     }
 
+    // 건강 검진 대상 선택
     @RequestMapping("/checkout_list")
     public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
                               @RequestParam(value = "selectedType", required = false) String selectedType,
@@ -67,11 +69,13 @@ public class CheckupController {
         return "checkout/checkout_list";
     }
 
+    // 기본 검사 페이지
     @GetMapping("/questionnaire_list")
     public String questionnaireList() {
         return "checkout/questionnaire_list";
     }
 
+    // 기본 검사 요청 기능
     @PostMapping("/questionnaire_list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
@@ -83,6 +87,7 @@ public class CheckupController {
         return "redirect:/checkout/result-questionnaire";
     }
 
+    // 기본 검사 결과 페이지
     @GetMapping("/result-questionnaire")
     public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model, HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
@@ -102,11 +107,13 @@ public class CheckupController {
         return "checkout/result";
     }
 
+    // 치매 검사 페이지
     @GetMapping("/dementia_list")
     public String dementiaList() {
         return "checkout/dementia_list";
     }
 
+    // 치매 검사 요청 기능
     @PostMapping("/dementia_list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
@@ -118,6 +125,7 @@ public class CheckupController {
         return "redirect:/checkout/result-dementia";
     }
 
+    // 치매 검사 결과 페이지
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model, HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
