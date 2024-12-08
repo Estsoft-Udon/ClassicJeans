@@ -67,7 +67,8 @@
                                 th:data-id="${hospital.id}"
                                 th:data-name="${hospital.name}"
                                 th:data-phone="${hospital.phone}"
-                                th:data-address="${hospital.address}">
+                                th:data-address="${hospital.address}"
+                                th:disabled="${loginUser == null}">
                             예약하기
                         </button>
                     </td>
