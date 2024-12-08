@@ -1,7 +1,9 @@
 package com.example.classicjeans.controller;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
+import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.HospitalService;
+import com.example.classicjeans.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -48,6 +50,11 @@ public class HospitalViewController {
         model.addAttribute("district", district);
         model.addAttribute("size", size);
         model.addAttribute("search", search);
+
+        Users user = SecurityUtil.getLoggedInUser();
+        if(user != null) {
+            model.addAttribute("loginUser", user);
+        }
 
         return "/info/hospital_list";
     }
