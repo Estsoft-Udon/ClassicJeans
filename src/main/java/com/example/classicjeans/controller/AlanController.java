@@ -50,14 +50,9 @@ public class AlanController {
         return ResponseEntity.ok(response);
     }
 
-    // 앨런 치매 문진표 질의
+    // 앨런 치매 문진표 질의 (CLIENT_ID 바뀜에 따라 응답 값 확인)
     @PostMapping("/api/analysis/dementia")
-    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@ModelAttribute AlanDementiaRequest request, HttpSession session) throws JsonProcessingException {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
-
+    public ResponseEntity<AlanDementiaResponse> getDementiaResponse(@RequestBody AlanDementiaRequest request) throws JsonProcessingException {
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
