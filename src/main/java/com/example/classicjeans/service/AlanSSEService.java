@@ -14,7 +14,6 @@ import java.net.URL;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -48,8 +47,10 @@ public class AlanSSEService {
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("data: ")) {
 
+                    // 출력값이 "data: {
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
+                    System.out.println("json = " + json);
 
                     // "complete"가 포함되면 스트리밍 종료 이벤트 전송
                     if (json.contains("complete")) {
@@ -66,6 +67,7 @@ public class AlanSSEService {
 
                         String contentText = extractedContent.asText();
 
+                        // StringBuilder에 저장된 값들 추가
                         fullContent.append(contentText);
 
                         // 마크다운을 HTML로 변환
@@ -88,13 +90,14 @@ public class AlanSSEService {
         }
     }
 
-
     // delete api 사용하는 방법
-    public String resetChat(String content) {
+    public String resetChat(String clientId) {
         // 요청 데이터 생성
         String uri = UriComponentsBuilder
                 .fromUriString(DELETE_URL)
                 .toUriString();
+
+
 
         return null;
     }
