@@ -82,6 +82,21 @@ public class CheckupController {
         return "redirect:/checkout/result";
     }
 
+    @GetMapping("/result")
+    public String result(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
+        model.addAttribute("request", request);
+        AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
+
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
+        }
+        model.addAttribute("response", response);
+        return "checkout/result";
+    }
+
     @GetMapping("/dementia_list")
     public String dementiaList() {
         return "checkout/dementia_list";
@@ -96,20 +111,5 @@ public class CheckupController {
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("request", request);
         return "redirect:/checkout/result";
-    }
-
-    @GetMapping("/result")
-    public String result(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model) throws JsonProcessingException {
-        model.addAttribute("request", request);
-        AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
-
-        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
-            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-        }
-        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
-            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-        }
-        model.addAttribute("response", response);
-        return "checkout/result";
     }
 }
