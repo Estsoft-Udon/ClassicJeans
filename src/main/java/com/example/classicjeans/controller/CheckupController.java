@@ -109,7 +109,7 @@ public class CheckupController {
         String selectedTypeFromSession = (String) session.getAttribute("selectedType");
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
-        redirectAttributes.addFlashAttribute("request", request);
+        redirectAttributes.addFlashAttribute("dementiaRequest", request);
         return "redirect:/checkout/result";
     }
 }
