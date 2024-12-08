@@ -56,7 +56,6 @@ public class CheckupController {
             if ("user".equals(selectedType)) {
                 Long userId = getLoggedInUser().getId();
                 Users selectedUserObj = usersService.findUserById(userId);
-                System.out.println("Selected User (User Object): " + selectedUserObj);
                 session.setAttribute("selectedUser", selectedUserObj);
                 session.setAttribute("selectedType", "user");
             } else if ("family".equals(selectedType)) {
