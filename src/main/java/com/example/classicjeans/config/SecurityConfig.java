@@ -32,7 +32,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        custom -> custom.requestMatchers("/**").permitAll()
+                        custom -> custom
+                                .requestMatchers("/", "/login", "/signup", "/find_id", "/find_pw",
+                                        "/success", "/change_pw_find", "/send-email").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
                 .formLogin(custom -> {
                     custom.loginPage("/login")
