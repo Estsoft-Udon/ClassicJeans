@@ -3,6 +3,7 @@ package com.example.classicjeans.service;
 import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.entity.Bazi;
+import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.repository.AlanBaziRepository;
 import com.example.classicjeans.repository.UsersRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -98,11 +99,42 @@ public class AlanBaziService {
         return recentBazi.orElse(null);  // 해당하는 레코드가 없으면 null 반환
     }
 
-    // 운세 결과 텍스트 정리
+    public Boolean GetExistsByUserAndDate (Users user, LocalDate date) {
+        return alanBaziRepository.existsByUserAndDate(user, date);
+    }
+
+    public AlanBaziResponse getOrCreateBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
+        // DB에서 오늘 날짜의 운세가 있는지 확인
+        Users user = usersRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // 이미 오늘 날짜의 운세가 존재하면 가져오기
+        if (GetExistsByUserAndDate(user, LocalDate.now())) {
+            Bazi existingBazi = getMostRecentBaziByUserId(userId);
+            AlanBaziResponse response = new AlanBaziResponse();
+
+            // 기존 운세의 내용을 정리 (필요한 내용을 제거)
+            String cleanedContent = removeBaziContent(existingBazi.getContent());
+            response.setContent(cleanedContent);
+            return response;
+        }
+
+        // 오늘 날짜의 운세가 없으면 새 운세 생성 및 저장
+        AlanBaziResponse newResponse = fetchBazi(request);
+
+        // 새로 받아온 운세 내용도 정리
+        String cleanedContent = removeBaziContent(newResponse.getContent());
+        newResponse.setContent(cleanedContent);
+
+        // DB에 새로운 운세 저장
+        saveBazi(userId, request);
+        return newResponse;
+    }
+
     private String removeBaziContent(String text) {
         return text
                 .replaceAll(URL_PATTERN, "")
-                .replaceAll("\\d{4}년 \\d{1,2}월 \\d{1,2}일생 (남성|여성)의\\s*", "") // "0000년 00월 00일에 태어난 남성/여성" 제거
+                .replaceAll("\\d{4}년 \\d{1,2}월 \\d{1,2}일생 (남성|여성)\\d의", "") // "0000년 00월 00일에 태어난 남성/여성" 제거
                 .replaceAll("\\[.*?]\\(.*?\\)", "") // 마크다운 링크 제거
                 .replaceAll("\\d{4}년생은\\s*", "")
                 .replaceAll("이 외에도.*", "")
@@ -112,4 +144,5 @@ public class AlanBaziService {
                 .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
                 .trim();
     }
+
 }

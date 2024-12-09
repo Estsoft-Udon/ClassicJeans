@@ -46,19 +46,12 @@ public class MainController {
 
                     // 운세 존재 여부 확인
                     if (bazi != null) {
-                        model.addAttribute("content", bazi.getContent());
                         model.addAttribute("nickname", users.getNickname());
                     } else {
-                        model.addAttribute("content", "오늘의 운세가 없습니다.");
                         model.addAttribute("nickname", users.getNickname());
                     }
-                } else {
-                    model.addAttribute("content", "사용자를 찾을 수 없습니다.");
                 }
             }
-        } else {
-            // 인증되지 않은 사용자에 대한 처리
-            model.addAttribute("content", "로그인 후 다시 시도해주세요.");
         }
 
         return "index";
