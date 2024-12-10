@@ -48,11 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const notificationItem = button.closest('.notification-item');
         const url = `/api/reservation/read/${id}`;
         const isUnread = notificationItem.classList.contains('unread');
-        const method = isUnread ? 'POST' : 'DELETE'; // 읽음 처리(POST) 또는 읽음 취소 처리(DELETE)
 
         // API 호출
         fetch(url, {
-            method: method,
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -69,12 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     notificationItem.classList.remove('unread');
                     notificationItem.classList.add('read');
                     button.textContent = '읽음 취소';
-                    console.log('읽음 취소');
                 } else {
                     notificationItem.classList.remove('read');
                     notificationItem.classList.add('unread');
                     button.textContent = '읽음 처리';
-                    console.log('읽음 처리');
                 }
 
                 // 알림 갯수 업데이트
@@ -144,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function addNotification(id, text) {
-        console.log(text);
         const listItem = document.createElement("li");
         listItem.classList.add("notification-item");
         listItem.classList.add("unread");
