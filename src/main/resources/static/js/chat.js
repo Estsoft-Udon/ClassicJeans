@@ -1,6 +1,6 @@
 let eventSource = null; // 전역변수로 설정
 let currentMessageBuffer = ""; // 메시지 누적 버퍼
-let emitterId = null; // 전역 변수로 설정
+let userId = null; // 전역 변수로 설정
 let messageContainer = null;
 
 const chatContainer = document.getElementById('chat-container');
@@ -50,7 +50,7 @@ function sendMessage() {
         chatContainer.appendChild(responseBox);
 
         // 메시지를 서버로 전송
-        fetch('/chat/send', {
+        fetch('api/chat/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -87,11 +87,11 @@ function listenForMessages() {
         eventSource.close();// 기존 연결 닫기
     }
 
-    eventSource = new EventSource('/chat/stream');
+    eventSource = new EventSource('api/chat/stream');
 
-    // 서버로부터 emitterId 수신
-    eventSource.addEventListener('emitterId', function (event) {
-        emitterId = event.data; // 서버에서 받은 emitterId 저장
+    // 서버로부터 userId 수신
+    eventSource.addEventListener('userId', function (event) {
+        userId = event.data; // 서버에서 받은 userId 저장
     });
 
     // 현재 메세지를 추가할 요소
@@ -103,13 +103,6 @@ function listenForMessages() {
         scroll();
     });
 
-    eventSource.onerror = function (event) {
-        console.error("SSE 연결 오류:", event);
-        if (eventSource.readyState === EventSource.CLOSED) {
-            console.log("SSE 연결이 종료되었습니다.");
-        }
-    };
-
     eventSource.addEventListener('completed', function () {
         currentMessageBuffer = null;
         console.log("메시지 초기화 완료");
@@ -117,16 +110,15 @@ function listenForMessages() {
 }
 
 function closeConnection() {
-    if (!emitterId) {
-        console.error("emitterId를 찾을 수 없습니다!");
+    if (!userId) {
+        console.error("userId를 찾을 수 없습니다!");
         return;
     }
 
     // SSE 연결 종료 API 호출
-    fetch('/chat/stream/close', {
+    fetch(`api/chat/stream/close?userId=${userId}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({emitterId}) // emitterId 필요
     })
         .then(response => {
             if (response.ok) {
@@ -166,7 +158,7 @@ function scroll() {
 
 const inputText = document.getElementById('chat-input');
 const charCount = document.getElementById('charCount');
-const askButton  = document.getElementById('askButton');
+const askButton = document.getElementById('askButton');
 const maxLength = 1000;
 
 // 글자 수 제한 및 실시간 카운트 업데이트

@@ -1,8 +1,8 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
 import com.example.classicjeans.service.HospitalService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,21 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/hospitals")
+@RequiredArgsConstructor
 public class HospitalController {
 
-    @Autowired
-    private HospitalService hospitalService;
-
-    // 전체 병원 목록 저장
-    @GetMapping("/saveAll")
-    public ResponseEntity<String> saveAllHospitals() {
-        try {
-            hospitalService.saveAllHospitals(100);
-            return ResponseEntity.ok("병원 목록이 DB에 저장되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
-        }
-    }
+    private final HospitalService hospitalService;
 
     // 병원 목록 조회 (검색 및 페이지네이션 포함)
     @GetMapping
@@ -39,6 +28,17 @@ public class HospitalController {
             return ResponseEntity.ok(hospitals);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // 전체 병원 목록 저장
+    @PostMapping
+    public ResponseEntity<String> saveAllHospitals() {
+        try {
+            hospitalService.saveAllHospitals();
+            return ResponseEntity.ok("병원 목록이 DB에 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
         }
     }
 

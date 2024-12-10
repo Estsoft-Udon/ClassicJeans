@@ -1,57 +1,62 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 
+import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanSSEService;
+import com.example.classicjeans.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-@RequestMapping("/chat")
+@RequestMapping("api/chat")
 @RestController
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final AlanSSEService alanSSEService;
 
     // SSE 연결 설정
     @GetMapping("/stream")
-    public SseEmitter connect() {
+    public ResponseEntity<SseEmitter> connect() {
         SseEmitter emitter = new SseEmitter(0L); // 무제한 타임아웃
-        String emitterId = String.valueOf(emitter.hashCode());
+        Users user = SecurityUtil.getLoggedInUser();
+        Long userId = user.getId();
 
-        System.out.println("SSE 연결 시작 : " + emitterId);
-        emitters.put(emitterId, emitter);
+        System.out.println("SSE 연결 시작 연결된 userId: " + userId);
+        emitters.put(userId, emitter);
 
         // 클라이언트에 emitterId 전송
         try {
-            emitter.send(SseEmitter.event().name("emitterId").data(emitterId));
+            emitter.send(SseEmitter.event().name("userId").data(userId));
         } catch (IOException e) {
-            emitters.remove(emitterId);
+            emitters.remove(userId);
+            return ResponseEntity.status(500).body(null); // 오류 응답
         }
 
         emitter.onCompletion(() -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onCompletion): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onCompletion): " + userId);
         });
         emitter.onTimeout(() -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onTimeout): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onTimeout): " + userId);
         });
         emitter.onError((ex) -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onError): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onError): " + userId);
         });
 
-        return emitter;
+        return ResponseEntity.ok(emitter);
     }
 
     // 메시지 전송 및 브로드캐스트
     @PostMapping("/send")
-    public void sendMessage(@RequestBody String content) {
+    public ResponseEntity<Void> sendMessage(@RequestBody String content) {
         emitters.forEach((id, emitter) -> {
             try {
                 // SSE를 통해 OpenAI API 스트리밍 응답 받기
@@ -61,13 +66,14 @@ public class ChatController {
                 emitters.remove(id);
             }
         });
+        return ResponseEntity.ok().build();
     }
 
     // SSE 연결 종료
     @PostMapping("/stream/close")
-    public void closeConnection(@RequestBody String emitterId) {
-        SseEmitter emitter = emitters.remove(emitterId);
-        System.out.println("SSE 연결 종료 " + emitterId);
+    public ResponseEntity<Void> closeConnection(@RequestParam Long userId) {
+        SseEmitter emitter = emitters.remove(userId);
+        System.out.println("SSE 연결 종료 " + userId);
 
         if (emitter != null) {
             try {
@@ -76,7 +82,9 @@ public class ChatController {
             } catch (Exception e) {
                 // 연결 종료 실패 처리
                 emitter.completeWithError(e);
+                return ResponseEntity.status(500).build();
             }
         }
+        return ResponseEntity.ok().build();
     }
 }

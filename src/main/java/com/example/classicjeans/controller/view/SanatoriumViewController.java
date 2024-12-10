@@ -1,6 +1,5 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.view;
 
-import com.example.classicjeans.dto.response.NursingHomeResponse;
 import com.example.classicjeans.dto.response.SanatoriumResponse;
 import com.example.classicjeans.service.SanatoriumService;
 import lombok.RequiredArgsConstructor;

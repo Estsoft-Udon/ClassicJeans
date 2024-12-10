@@ -31,7 +31,7 @@ document.getElementById('baziButton').addEventListener('click', function () {
     const button = this;
     const loadingMessage = document.getElementById('loadingMessage');
     const resultContainer = document.querySelector('.cont_wr');
-
+ 
     this.classList.add('dn');
     document.querySelector('.log_off_txt').classList.add('dn');
     document.querySelector('.log_on_txt').classList.remove('dn');

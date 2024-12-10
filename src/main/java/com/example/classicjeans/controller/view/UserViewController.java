@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.view;
 
 import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
@@ -98,11 +98,5 @@ public class UserViewController {
     public String findPw() {
 
         return "member/find_pw";
-    }
-
-    // 접근 제한
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "access-denied";
     }
 }
