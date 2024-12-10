@@ -1,19 +1,16 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.response.AlanBaziResponse;
-import com.example.classicjeans.entity.Bazi;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanBaziService;
 import com.example.classicjeans.util.SecurityUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-
 @RestController
+@RequestMapping("api")
 public class AlanBaziController {
     private final AlanBaziService alanBaziService;
 
@@ -21,21 +18,8 @@ public class AlanBaziController {
         this.alanBaziService = alanBaziService;
     }
 
-    @PostMapping("/api/bazi/save")
-    public Bazi saveBazi(
-            @RequestParam Long userId,
-            @RequestParam String birthDate, // LocalDate -> String 처리
-            @RequestParam String gender) throws JsonProcessingException {
-
-        AlanBaziRequest request = new AlanBaziRequest();
-        request.setBirthDate(LocalDate.parse(birthDate));
-        request.setGender(gender);
-
-        return alanBaziService.saveBazi(userId, request);
-    }
-
     // 앨런 오늘의 운세
-    @GetMapping("/api/alan/bazi")
+    @GetMapping("/bazi")
     public ResponseEntity<AlanBaziResponse> getOrCreateBaziResponse() {
         Users user = SecurityUtil.getLoggedInUser();
         Long userId = user.getId();
@@ -55,7 +39,5 @@ public class AlanBaziController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-
-
 }
 

@@ -1,9 +1,10 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.view;
 
 import com.example.classicjeans.entity.Bazi;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanBaziService;
 import com.example.classicjeans.service.UsersService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,16 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
-
-
+    
     private final AlanBaziService alanBaziService;
     private final UsersService usersService;
-
-    public MainController(AlanBaziService alanBaziService, UsersService usersService) {
-        this.alanBaziService = alanBaziService;
-        this.usersService = usersService;
-    }
 
     @RequestMapping("/")
     public String main(Model model) {
@@ -57,17 +53,9 @@ public class MainController {
         return "index";
     }
 
-
-
-    @RequestMapping("/chat")
-    public String chat() {
-        return "chat/chat";
-    }
-
     // 접근 제한
     @RequestMapping("/access-denied")
     public String accessDenied() {
         return "access-denied";
     }
-
 }

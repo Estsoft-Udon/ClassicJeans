@@ -4,7 +4,7 @@ window.onload = function() {
         event.preventDefault(); // 기본 동작 방지 (폼 제출을 막음)
 
         if (confirm("정말 탈퇴하시겠습니까?")) {
-            fetch('/api/withdrawal', {
+            fetch('/api/users/withdrawal', {
                 method: 'POST',  // 탈퇴 처리
                 headers: {
                     'Content-Type': 'application/json'

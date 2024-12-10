@@ -47,10 +47,8 @@ public class AlanSSEService {
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("data: ")) {
 
-                    // 출력값이 "data: {
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
-                    System.out.println("json = " + json);
 
                     // "complete"가 포함되면 스트리밍 종료 이벤트 전송
                     if (json.contains("complete")) {
@@ -96,8 +94,6 @@ public class AlanSSEService {
         String uri = UriComponentsBuilder
                 .fromUriString(DELETE_URL)
                 .toUriString();
-
-
 
         return null;
     }

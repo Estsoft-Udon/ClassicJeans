@@ -1,9 +1,8 @@
 package com.example.classicjeans.controller;
 
-import com.example.classicjeans.dto.request.AlanBaziRequest;
+import com.example.classicjeans.controller.rest.AlanController;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
-import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.enums.questionnaire.*;
@@ -18,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.when;

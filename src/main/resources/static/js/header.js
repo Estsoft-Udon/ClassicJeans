@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const eventSource = new EventSource(`/sse/connection`);
+    const eventSource = new EventSource(`api/reservation/stream`);
 
-    eventSource.onopen = function() {
+    eventSource.onopen = function () {
         console.log('SSE 연결 성공');
     };
 
-    eventSource.onmessage = function(event) {
+    eventSource.onmessage = function (event) {
         console.log('새로운 메시지:', event.data);
     };
 
-    eventSource.onerror = function(error) {
+    eventSource.onerror = function (error) {
         console.error('SSE 오류:', error);
     };
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bellIcon = document.querySelector('.bell-icon');
     const notificationCount = document.querySelector('.notification-count');
 
-    eventSource.onmessage = function(event) {
+    eventSource.onmessage = function (event) {
         // 서버로부터 수신한 데이터를 파싱
         const notification = JSON.parse(event.data);
 

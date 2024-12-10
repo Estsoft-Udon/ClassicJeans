@@ -150,5 +150,4 @@ public class AlanBaziService {
                 .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
                 .trim();
     }
-
 }

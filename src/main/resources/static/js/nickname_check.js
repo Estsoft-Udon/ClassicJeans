@@ -25,7 +25,7 @@ async function checkNickname() {
     }
 
     try {
-        const response = await fetch('/api/checkNickname', {
+        const response = await fetch('/api/users/checkNickname', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
