@@ -20,4 +20,7 @@ public interface QuestionnaireDataRepository extends JpaRepository<Questionnaire
 
     // 본인 목록 조회
     Page<QuestionnaireData> findByUserId(Users user, Pageable pageable);
+
+    // 해당 가족 조회
+    Page<QuestionnaireData> findByFamilyId(FamilyInfo familyInfo, Pageable pageable);
 }
