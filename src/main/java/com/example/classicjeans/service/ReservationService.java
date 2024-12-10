@@ -67,21 +67,19 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
+    public Reservation toggleReadStatus(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+
+        // 예약의 읽음 상태를 토글
+        boolean currentStatus = reservation.getIsRead();
+        reservation.setIsRead(!currentStatus);
+
+        return reservationRepository.save(reservation);
+    }
+
     @PostConstruct
     public void addReservationWhenConstruct() {
         reservationQueue.addReservations(reservationRepository.findByIsNotificatedFalse());
-    }
-
-    public Reservation setReadTrue(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        reservation.setIsRead(true);
-        return reservationRepository.save(reservation);
-    }
-
-    public Reservation setReadFalse(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        reservation.setIsRead(false);
-        return reservationRepository.save(reservation);
     }
 
     @Scheduled(fixedRate = 60000) // 1분(60,000ms)마다 실행
