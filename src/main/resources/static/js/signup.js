@@ -21,7 +21,7 @@ function checkId() {
         return Promise.resolve(false);
     }
 
-    return fetch('/api/checkId', {
+    return fetch('/api/users/checkId', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ async function checkNickname() {
     }
 
     try {
-        const response = await fetch('/api/checkNickname', {
+        const response = await fetch('/api/users/checkNickname', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ document.getElementById('email').addEventListener('input', function() {
     }
 
     // 이메일 중복 확인 API 호출
-    fetch('/api/checkEmail', {
+    fetch('/api/users/checkEmail', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

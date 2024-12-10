@@ -8,7 +8,7 @@ async function checkEmail() {
 
     try {
         // 첫 번째 API 호출: 이메일과 로그인 ID 확인
-        const response = await fetch('/api/checkEmailAndLoginId', {
+        const response = await fetch('/api/users/checkEmailAndLoginId', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

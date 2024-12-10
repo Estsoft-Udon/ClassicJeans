@@ -50,7 +50,7 @@ function sendMessage() {
         chatContainer.appendChild(responseBox);
 
         // 메시지를 서버로 전송
-        fetch('/chat/send', {
+        fetch('api/chat/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ function closeConnection() {
     }
 
     // SSE 연결 종료 API 호출
-    fetch(`/chat/stream/close?userId=${userId}`, {
+    fetch(`api/chat/stream/close?userId=${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     })

@@ -91,7 +91,7 @@
         loadingMessage.style.display = 'block';
         button.disabled = true; // 버튼 비활성화
 
-        fetch('/api/alan/bazi')
+        fetch('/api/bazi')
             .then(response => {
                 if (response.ok) {
                     return response.json();
