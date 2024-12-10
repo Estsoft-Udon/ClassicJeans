@@ -38,7 +38,8 @@ public class AlanBaziService {
     private final UsersRepository usersRepository;
 
     @Autowired
-    public AlanBaziService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
+    public AlanBaziService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper,
+                           AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.alanBaziRepository = alanBaziRepository;
@@ -75,6 +76,7 @@ public class AlanBaziService {
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
 
     }
+
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
         AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
 
@@ -99,7 +101,7 @@ public class AlanBaziService {
         return recentBazi.orElse(null);  // 해당하는 레코드가 없으면 null 반환
     }
 
-    public Boolean GetExistsByUserAndDate (Users user, LocalDate date) {
+    public Boolean GetExistsByUserAndDate(Users user, LocalDate date) {
         return alanBaziRepository.existsByUserAndDate(user, date);
     }
 
@@ -144,5 +146,4 @@ public class AlanBaziService {
                 .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
                 .trim();
     }
-
 }
