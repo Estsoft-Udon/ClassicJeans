@@ -29,7 +29,7 @@ import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/checkout")
-public class CheckupController {
+public class CheckupViewController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
