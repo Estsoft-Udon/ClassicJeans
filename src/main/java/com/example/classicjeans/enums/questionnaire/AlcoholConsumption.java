@@ -8,9 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AlcoholConsumption {
     NONE("없음", 0),
-    OCCASIONAL("가끔", 1),
-    REGULAR("정기적", 4),
-    FREQUENT("자주", 6);
+    OCCASIONAL("가끔", -1),
+    REGULAR("정기적", -4),
+    FREQUENT("자주", -6);
 
     private final String displayName;
     private final int impactScore;

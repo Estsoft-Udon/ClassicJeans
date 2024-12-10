@@ -8,9 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum HospitalVisit {
     NONE("없음", 0),
-    REGULAR_CHECKUP("정기 검사", 1),
-    DISEASE_TREATMENT("질병 치료", 2),
-    EMERGENCY("응급 치료", 3);
+    REGULAR_CHECKUP("정기 검사", 2),
+    DISEASE_TREATMENT("질병 치료", -2),
+    EMERGENCY("응급 치료", -3);
 
     private final String displayName;
     private final int impactScore;
