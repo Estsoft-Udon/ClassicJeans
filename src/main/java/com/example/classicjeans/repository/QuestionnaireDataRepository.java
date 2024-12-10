@@ -14,6 +14,10 @@ import java.util.Collection;
 @Repository
 public interface QuestionnaireDataRepository extends JpaRepository<QuestionnaireData, Long> {
 
+    // 기본 전체 목록 조회
     @Query("SELECT q FROM QuestionnaireData q WHERE (q.userId = :user AND q.familyId IS NULL) OR (q.familyId IN :familyInfos AND q.userId IS NULL)")
     Page<QuestionnaireData> findByUserOrFamily(Users user, Collection<FamilyInfo> familyInfos, Pageable pageable);
+
+    // 본인 목록 조회
+    Page<QuestionnaireData> findByUserId(Users user, Pageable pageable);
 }
