@@ -118,7 +118,20 @@
 
 .log_on_txt pre{
     white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
+.log_on_txt pre ul,
+.log_on_txt pre ol {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+.log_on_txt pre strong {
+    font-weight: bold;
+}
+
 
 .username span{
     color: #013E8B;
