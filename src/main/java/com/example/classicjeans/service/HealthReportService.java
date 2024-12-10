@@ -61,4 +61,15 @@ public class HealthReportService {
 
         return summaries;
     }
+
+    // 단건 검사 기록 조회
+    public Object getHealthReportById(Long reportId, String reportType) {
+        return switch (reportType.toLowerCase()) {
+            case "questionnaire" -> questionnaireDataRepository.findById(reportId)
+                    .orElseThrow(() -> new RuntimeException("없는 검사 기록"));
+            case "dementia" -> dementiaDataRepository.findById(reportId)
+                    .orElseThrow(() -> new RuntimeException("없는 검사 기록"));
+            default -> throw new IllegalArgumentException("제공하지 않은 검사 유형");
+        };
+    }
 }
