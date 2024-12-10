@@ -22,6 +22,9 @@
     gap: 2rem;
     margin-top: 5rem;
 }
+.checkout .btn_wr form .btn {
+    display: block;
+}
 .checkout_list {
     height: 100vh;
     text-align: center;
