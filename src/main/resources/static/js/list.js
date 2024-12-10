@@ -221,8 +221,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // hidden 필드 채우기
             document.getElementById("modalHospitalId").value = button.getAttribute("data-id");
-            document.getElementById("modalHospitalPhone").value = hospitalPhone;
-            document.getElementById("modalHospitalAddress").value = hospitalAddress;
 
             // 모달 열기 및 스크롤 비활성화
             modal.style.display = "flex";
