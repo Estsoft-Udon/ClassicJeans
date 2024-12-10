@@ -69,6 +69,9 @@ public class ReservationService {
 
     public Reservation toggleReadStatus(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
+        if(reservation == null) {
+            return null;
+        }
 
         // 예약의 읽음 상태를 토글
         boolean currentStatus = reservation.getIsRead();
