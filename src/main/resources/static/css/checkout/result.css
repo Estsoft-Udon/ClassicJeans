@@ -171,7 +171,8 @@ input{
 }
 
 #myChart{
-    margin-top: 10rem;
+    margin: 0 auto 5rem;
+    max-width: 90rem;
 }
 
 .empty_checkout div{

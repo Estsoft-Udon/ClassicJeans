@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" href="/css/checkout/result.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <th:block layout:fragment="content">
     <div class="wrap w_1280 questionnaire_result">
@@ -30,8 +31,8 @@
                         한눈에 볼 수 있도록 통합 및 분석했습니다.
                     </h1>
                 </div>
-                <canvas id="myChart" width="400" height="200"></canvas>
                 <div class="container cont_wr">
+                    <canvas id="myChart" width="1120" height="560"></canvas>
                     <h2>통계 분석 결과</h2>
                     <table>
                         <thead>
@@ -123,24 +124,60 @@
                         <div class="txt_box">
                             <h2>종합 평가</h2>
                             <ul>
-                                <li class="dots"></li>
+                                <li class="dots">건강</li>
                             </ul>
                         </div>
                         <div class="txt_box">
                             <h2>개선 사항</h2>
                             <ul>
-                                <li class="dots"></li>
+                                <li class="dots">건강</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="btn_wr">
-                    <button type="button" class="btn">건강 분석표 다운받기</button>
+                    <button type="button" class="btn" id="download-pdf">건강 분석표 다운받기</button>
                     <button type="button" class="btn" onclick="location.href='/checkout/result-list'">검사 결과 목록 보기</button>
                 </div>
             </section>
         </div>
     </div>
     <script src="/js/chart.js"></script>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            const content = document.querySelector('.container'); // PDF로 변환할 HTML 요소 선택
+
+            const options = {
+                margin: [20, 20, 20, 20], // 여백 조정 (상, 우, 하, 좌)
+                filename: '건강_분석표.pdf', // PDF 파일 이름
+                image: { type: 'jpeg', quality: 0.98 }, // 이미지 품질 설정
+                html2canvas: {
+                    scale: 3, // 해상도 높이기 (2~3 추천)
+                    useCORS: true, // CORS 이슈 방지
+                    logging: true // 디버깅용 로그 활성화
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4', // A4 페이지 크기
+                    orientation: 'landscape' // 가로 방향 설정
+                }
+            };
+
+            // HTML을 PDF로 변환
+            html2pdf()
+                .set(options)
+                .from(content)
+                .toPdf()
+                .get('pdf')
+                .then(function (pdf) {
+                    // 여러 페이지에 걸쳐 출력되는 경우 페이지 크기 조정
+                    const totalPages = pdf.internal.getNumberOfPages();
+                    for (let i = 1; i <= totalPages; i++) {
+                        pdf.setPage(i); // 페이지가 바뀔 때마다 새 페이지 설정
+                    }
+                })
+                .save(); // PDF 저장
+        });
+    </script>
 </th:block>
 </html>
