@@ -319,6 +319,90 @@ public class AlanService {
         return text.replaceAll(URL_PATTERN, "").trim();
     }
 
+    // 건강 지수 계산
+    public Double calculateHealthIndex(AlanQuestionnaireRequest request) {
+        double score = 100.0;
+        double bmi = calculateBMI(request.getHeight(), request.getWeight());
+        if (bmi < 18.5) {
+            score -= 7.5;
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            score += 3.5;
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            score -= 4.5;
+        } else {
+            score -= 8.5;
+        }
+
+        // 만성 질환 상태
+        if (request.getChronicDisease() != null) {
+            score -= request.getChronicDisease().getImpactScore() * 2.5;
+        }
+
+        // 병원 방문 여부
+        if (request.getHospitalVisit() != null) {
+            score += request.getHospitalVisit().getImpactScore();
+        }
+
+        // 약물 영향
+        if (request.getCurrentMedication() != null) {
+            score -= request.getCurrentMedication().getImpactScore() * 0.8;
+        }
+
+        // 흡연 여부
+        if (request.getSmokingStatus() != null) {
+            score += request.getSmokingStatus().getImpactScore();
+        }
+
+        // 음주 빈도
+        if (request.getAlcoholConsumption() != null) {
+            score += request.getAlcoholConsumption().getImpactScore();
+        }
+
+        // 운동 빈도
+        if (request.getExerciseFrequency() != null) {
+            score += request.getExerciseFrequency().getImpactScore();
+        }
+
+        // 식습관
+        if (request.getDietPattern() != null) {
+            score += request.getDietPattern().getImpactScore();
+        }
+
+        // 정신 건강
+        if (request.getMoodStatus() != null) {
+            score += request.getMoodStatus().getImpactScore();
+        }
+        if (request.getSleepPattern() != null) {
+            score += request.getSleepPattern().getImpactScore();
+        }
+
+        // 사회적 활동
+        if (request.getIndependenceLevel() != null) {
+            score += request.getIndependenceLevel().getImpactScore();
+        }
+        if (request.getSocialParticipation() != null) {
+            score += request.getSocialParticipation().getImpactScore();
+        }
+
+        // 가족력
+        if (request.isHasGeneticDisease()) {
+            score -= 7.5;
+        }
+
+        // 체중 변화
+        if (request.getWeightChange() != null) {
+            score += request.getWeightChange().getImpactScore();
+        }
+
+        // 알레르기 여부
+        if (request.isHasAllergy()) {
+            score -= 3.5;
+        }
+
+        // 점수 제한 (최소 0, 최대 100)
+        return Math.round(Math.max(0, Math.min(100, score)) * 100.0) / 100.0;
+    }
+    
     // BMI 계산
     private double calculateBMI(double height, double weight) {
         return weight / Math.pow(height / 100, 2);
