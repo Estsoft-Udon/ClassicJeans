@@ -65,6 +65,7 @@ public class AlanService {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        response.setHealthIndex(calculateHealthIndex(request));
         saveQuestionnaireData(request, response);
         return response;
     }
@@ -100,7 +101,8 @@ public class AlanService {
                 response.getDrinkingRate(),
                 response.getExerciseRate(),
                 response.getSummaryEvaluation(),
-                response.getImprovementSuggestions()
+                response.getImprovementSuggestions(),
+                response.getHealthIndex()
         );
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
             evaluation.setQuestionnaireData(data);
