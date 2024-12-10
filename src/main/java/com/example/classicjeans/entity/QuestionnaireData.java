@@ -36,8 +36,8 @@ public class QuestionnaireData {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(nullable = false)
     private Double height;
@@ -145,7 +145,7 @@ public class QuestionnaireData {
             this.familyId = familyId;
         }
         this.age = age;
-        this.gender = String.valueOf(gender);
+        this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.chronicDisease = chronicDisease;

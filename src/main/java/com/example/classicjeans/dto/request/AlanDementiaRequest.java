@@ -60,7 +60,7 @@ public class AlanDementiaRequest {
                 ", \n  hasChronicDiseases=" + hasChronicDiseases +
                 ", \n  hasStrokeHistory=" + hasStrokeHistory +
                 ", \n  hasFamilyDementia=" + hasFamilyDementia +
-                "\n  종합평가, 개선방법 상세히 알려줘" +
+                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 설명을 상세하게 아래와 같은 2가지 항목을 List로 제공해줘" +
                 "\n  **종합 평가 (summaryEvaluation)**: [이 값은 AI가 응답에서 제공]" +
                 "\n  **개선 방법 (improvementSuggestions)**: [이 값은 AI가 응답에서 제공]" +
                 "}";

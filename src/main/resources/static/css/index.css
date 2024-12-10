@@ -310,6 +310,23 @@
     border-radius: 2rem;
     white-space: nowrap;
 }
+#loadingMessage .spinner {
+    border: 8px solid #fff;
+    border-top: 8px solid #013E8B;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    margin-top: 2rem;
+    display: inline-block;
+    vertical-align: inherit;
+    margin-left: 2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 @keyframes scr_down {
     0% {

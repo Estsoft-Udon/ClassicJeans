@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <form method="post" action="result" class="content">
+        <form method="post" action="/checkout/questionnaire_list" class="content">
             <!-- 단계 1 -->
             <section class="step-content" id="step-0">
                 <h2>건강 상태</h2>
@@ -165,13 +165,28 @@
                     <label><input type="radio" name="hasAllergy" value="false" onclick="handleRadioClick(event, this)"><span>없음</span></label>
                 </div>
             </section>
+
+            <div class="questionnaire_btn">
+                <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
+                <button type="submit" class="btn submit_btn">분석 받아보기</button>
+            </div>
         </form>
-        <div class="questionnaire_btn">
-            <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
-            <button type="submit" class="btn submit_btn">분석 받아보기</button>
-        </div>
     </div>
 
+    <div id="loading-screen" class="loading-screen flex_box checkout">
+        <div class="tit">
+            <h1>답변을 기반으로<br>AI가 회원님의 건강을 분석 중입니다.</h1>
+        </div>
+        <div class="txt_box">
+            <p class="txt">
+                꼼꼼한 작성을 위해 <br>
+                최대 1분의 시간이 소요될 수 있습니다.<br>
+                양해부탁드립니다 ☺️
+            </p>
+        </div>
+        <p class="txt">로딩 중...</p>
+        <div class="spinner"></div>
+    </div>
     <script src="/js/questionnaire.js"></script>
 </th:block>
 </html>

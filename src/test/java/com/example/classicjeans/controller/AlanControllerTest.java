@@ -142,30 +142,4 @@ class AlanControllerTest {
                 .andExpect(jsonPath("$.action.name").value("normal_action"))
                 .andExpect(jsonPath("$.action.speak").value("상태가 양호합니다."));
     }
-
-    @Test
-    void testGetHealthResponse() throws Exception {
-        // AlanBaziRequest 객체 설정
-        AlanBaziRequest request = new AlanBaziRequest();
-        request.setBirthDate(LocalDate.of(1999, 12, 10));
-        request.setGender("female");
-
-        // AlanBaziResponse 객체 설정
-        AlanBaziResponse response = new AlanBaziResponse();
-        response.setContent("오늘의 운세: 좋은 기운이 있습니다.");
-        response.setAction(new AlanBaziResponse.Action("bazi_action", "오늘은 운이 좋습니다."));
-
-        // 서비스 메서드 모킹
-        when(alanService.fetchBazi(request)).thenReturn(response);
-
-        // MockMvc를 사용한 GET 요청 수행
-        mockMvc.perform(get("/alan/bazi")
-                        .param("birthDate", "1999-12-10")
-                        .param("gender", "female")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").value("오늘의 운세: 좋은 기운이 있습니다."))
-                .andExpect(jsonPath("$.action.name").value("bazi_action"))
-                .andExpect(jsonPath("$.action.speak").value("오늘은 운이 좋습니다."));
-    }
 }

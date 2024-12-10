@@ -2,11 +2,13 @@ package com.example.classicjeans.security;
 
 
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.enums.Gender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -59,5 +61,12 @@ public class CustomUserDetails implements UserDetails {
     }
     public String getGrade(){
         return user.getGrade().name();
+    }
+
+    public LocalDate getBirthDate() {return user.getDateOfBirth();}
+    public Gender getGender() {return user.getGender();}
+
+    public Long getUserId() {
+        return user.getId();
     }
 }

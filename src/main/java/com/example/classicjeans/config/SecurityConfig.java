@@ -1,6 +1,5 @@
 package com.example.classicjeans.config;
 
-import com.example.classicjeans.oauth.CustomOAuth2LoginSuccessHandler;
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
 import com.example.classicjeans.security.UsersDetailService;
@@ -19,8 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomAuthFailureHandler customAuthFailureHandler;
-    private final UsersDetailService usersDetailService;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
 
     @Bean

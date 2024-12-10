@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/index.css">
 </head>
@@ -63,18 +63,66 @@
             <h2 class="tit ani_load">오늘의 운세는</h2>
            <div class="bazi_cont">
                <!-- 로그인 전-->
-               <p class="txt log_off_txt ani_load">로그인 후 오늘의 운세를 확인해보세요.</p>
+               <p class="txt log_off_txt ani_load" sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">로그인 후 오늘의 운세를 확인해보세요.</p>
+               <p class="txt log_off_txt ani_load" sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">오늘의 운세를 확인해보세요.</p>
                <!-- 운세 확인 -->
                <div class="cont_wr log_on_txt dn">
                    <p class="txt ani_load username"><span th:text="${nickname}">유저 이름</span>님</p>
-                   <pre class="txt ani_load" th:text="${content}">오늘의 운세는 운수대통입니다. 행복하시겠어요~</pre>
+                   <div id="loadingMessage" style="display: none" class="txt">잠시만 기다려 주세요. <br> 운세 확인은 1~2분 가량 소요 됩니다.<div class="spinner"></div></div>
+                   <pre class="txt ani_load" th:utext="${content}" id="baziResult">오늘의 운세는 운수대통입니다. 행복하시겠어요~</pre>
                </div>
                <div class="btn_box ani_load">
-                   <button type="button" class="btn bazi_btn main_btn">오늘의 운세 보기 -></button>
+                   <!-- 로그인 전-->
+                   <button type="button" class="btn main_btn" sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" onclick="location.href='/login'">로그인 하기 -></button>
+                   <!-- 운세 확인 -->
+                    <button type="submit" class="btn bazi_btn main_btn" id="baziButton" sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">오늘의 운세 보기 -></button>
                </div>
            </div>
         </article>
     </div>
+
+<script>
+    document.getElementById('baziButton').addEventListener('click', function () {
+        const button = this;
+        const loadingMessage = document.getElementById('loadingMessage');
+        const resultContainer = document.querySelector('.cont_wr');
+
+        // 로딩 메시지 표시
+        loadingMessage.style.display = 'block';
+        button.disabled = true; // 버튼 비활성화
+
+        fetch('/api/alan/bazi')
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("서버 오류: " + response.statusText);
+                }
+            })
+            .then(data => {
+                if (data && data.content) {
+                    // 결과 표시
+                    resultContainer.classList.remove('dn');
+                    resultContainer.querySelector('pre').innerText = data.content;
+
+                    // 로딩 메시지 숨기기
+                    loadingMessage.style.display = 'none';
+                } else {
+                    throw new Error("운세 데이터가 비어 있습니다.");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                // alert("운세를 가져오는 중 문제가 발생했습니다.");
+                loadingMessage.style.display = 'none'; // 로딩 메시지 숨김
+            })
+            .finally(() => {
+                button.disabled = false; // 버튼 활성화
+            });
+    });
+
+
+</script>
 
 <script src="/js/index.js"></script>
 </th:block>
