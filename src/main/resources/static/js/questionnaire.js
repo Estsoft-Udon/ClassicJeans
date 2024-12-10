@@ -36,8 +36,8 @@ document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click
         loadingScreen.style.display = 'flex';
         document.querySelector('form.content').submit();
     } else {
-        firstInvalidQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstInvalidQuestion.querySelector('input[type="radio"]').focus();
+        firstInvalidInput.closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidInput.focus({ preventScroll: true }); // 포커스 시 스크롤 방지
         alert('해당 질문에 답변해 주세요.');
     }
 });
