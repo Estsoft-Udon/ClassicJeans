@@ -14,6 +14,10 @@ import java.util.Collection;
 @Repository
 public interface DementiaDataRepository extends JpaRepository<DementiaData, Long> {
 
+    // 기본 전체 목록 조회
     @Query("SELECT d FROM DementiaData d WHERE (d.userId = :user AND d.familyId IS NULL) OR (d.familyId IN :familyInfos AND d.userId IS NULL)")
     Page<DementiaData> findByUserOrFamily(Users user, Collection<FamilyInfo> familyInfos, Pageable pageable);
+
+    // 본인 목록 조회
+    Page<DementiaData> findByUserId(Users user, Pageable pageable);
 }
