@@ -143,4 +143,21 @@ public class CheckupController {
         session.removeAttribute("selectedType");
         return "checkout/result";
     }
+
+    // 검사 결과 통계 페이지
+    @GetMapping("/result-statistics")
+    public String resultStatistics() {
+        return "checkout/result_statistics";
+    }
+    // 검사 결과 목록 페이지
+    @GetMapping("/result-list")
+    public String resultList() {
+        return "checkout/result_list";
+    }
+
+    // 검사 결과 상세 페이지(목록에서)
+    @GetMapping("/result-detail")
+    public String resultDetail(){
+        return "checkout/result_detail";
+    }
 }
