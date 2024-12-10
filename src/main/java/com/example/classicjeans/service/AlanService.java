@@ -40,7 +40,7 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
+    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -114,6 +114,12 @@ public class AlanService {
                 response.getSummaryEvaluation(),
                 response.getImprovementSuggestions()
         );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setQuestionnaireData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setQuestionnaireData(data);
+        }
         questionnaireDataRepository.save(data);
     }
 
@@ -152,6 +158,12 @@ public class AlanService {
                 response.getSummaryEvaluation(),
                 response.getImprovementSuggestions()
         );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setDementiaData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setDementiaData(data);
+        }
         dementiaDataRepository.save(data);
     }
 
@@ -259,7 +271,7 @@ public class AlanService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
-            return Double.parseDouble(matcher.group(1));
+            return Double.parseDouble(matcher.group(2));
         }
         return null;
     }
@@ -272,10 +284,14 @@ public class AlanService {
 
         while (matcher.find()) {
             String matchedContent = matcher.group(1).trim();
-            String[] items = matchedContent.split("\n");
-            for (String item : items) {
-                if (item.startsWith("-") || item.matches("^\\d+\\.\\s.*")) {
+            if (!matchedContent.isEmpty()) {
+                String[] items = matchedContent.split("\n");
+                for (String item : items) {
                     String cleanedItem = removeSourceLinks(item.trim());
+                    if (cleanedItem.isEmpty() || cleanedItem.startsWith(":") || cleanedItem.startsWith("이 정보를 바탕으로")
+                            || cleanedItem.startsWith("### 참고 자료") || cleanedItem.startsWith("- **")) {
+                        continue;
+                    }
                     try {
                         T entity = createEntity(cleanedItem, targetClass);
                         results.add(entity);
@@ -336,7 +352,6 @@ public class AlanService {
         return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 
-
     // 오늘의 운세
     public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
         // URI 생성
@@ -365,8 +380,8 @@ public class AlanService {
 
         // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
-
     }
+
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
         AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
 

@@ -108,8 +108,10 @@ public class DementiaData {
                                                    CommonFrequency anxietyOrAggression, CommonFrequency hallucinationOrDelusion, CommonFrequency sleepPatternChange,
                                                    boolean hasChronicDiseases, boolean hasStrokeHistory, boolean hasFamilyDementia,
                                                    List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions) {
-        this.userId = userId;
-        if(familyId != null) {
+        if (userId != null) {
+            this.userId = userId;
+        }
+        if (familyId != null) {
             this.familyId = familyId;
         }
         this.memoryChange = memoryChange;

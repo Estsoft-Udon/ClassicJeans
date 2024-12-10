@@ -30,39 +30,15 @@ document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click
     });
 
     if (isValid) {
-        // 폼 데이터 수집
-        const formData = new FormData(document.querySelector('form.content'));
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+        const loadingScreen = document.getElementById('loading-screen');
 
-        // AJAX 요청
-        fetch('/api/analysis/questionnaire', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.success) {
-                    alert('분석이 완료되었습니다!');
-                    // document.querySelector('form.content').submit();
-                } else {
-                    alert('분석 요청에 실패했습니다.');
-                }
-            })
-            .catch(error => {
-                console.error('오류 발생:', error);
-                alert('서버와의 통신에 오류가 발생했습니다.');
-            });
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        loadingScreen.style.display = 'flex';
+        document.querySelector('form.content').submit();
     } else {
-        firstInvalidInput.closest('.question').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstInvalidInput.focus({ preventScroll: true });
-        setTimeout(() => alert('해당 질문에 답변해 주세요.'), 300);
+        firstInvalidQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidQuestion.querySelector('input[type="radio"]').focus();
+        alert('해당 질문에 답변해 주세요.');
     }
 });
 
