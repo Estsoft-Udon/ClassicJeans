@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/checkout/result.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap w_1280 questionnaire_result">
+        <div id="content">
+            <!-- 실제 페이지 내용 -->
+            <div class="tit">
+                <h1>
+                    회원님의
+                    <span >2024년 12월 10일</span>
+                    검사 결과 입니다.
+                </h1>
+            </div>
+            <div class="container cont_wr">
+                <h2>분석 결과</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>문진표 데이터</th>
+                        <th>한국 평균 데이터</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>성별</td>
+                        <td>남성</td>
+                        <td>남성</td>
+                    </tr>
+                    <tr>
+                        <td>나이</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>신장</td>
+                        <td>175cm</td>
+                        <td>175cm</td>
+                    </tr>
+                    <tr>
+                        <td>체중</td>
+                        <td>70kg</td>
+                        <td>75kg</td>
+                    </tr>
+                    <tr>
+                        <td>흡연 여부</td>
+                        <td>비흡연</td>
+                        <td>32.8% 흡연율 (출처42)</td>
+                    </tr>
+                    <tr>
+                        <td>음주 빈도</td>
+                        <td>주 1회</td>
+                        <td>57.4% 음주율 (출처41)</td>
+                    </tr>
+                    <tr>
+                        <td>운동 빈도</td>
+                        <td>주 3회</td>
+                        <td>47.9% 걷기실천율 (출처52)</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="txt_wr">
+                    <div class="txt_box">
+                        <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
+                        <ul>
+                            <li class="dots">현재 앓고 있는 만성질환 여부: </li>
+                            <li class="dots">최근 6개월 내 병원에 방문 여부: </li>
+                            <li class="dots">복용 중인 약물: </li>
+                            <li class="dots">식사: </li>
+                            <li class="dots">최근 2주간 기분: </li>
+                            <li class="dots">평소 수면 패턴: </li>
+                            <li class="dots">일상에서 자립적으로 활동 여부: </li>
+                            <li class="dots">사회적 활동 참여 여부: </li>
+                            <li class="dots">유전적 질환 여부: </li>
+                            <li class="dots">체중에 변화 여부: </li>
+                            <li class="dots">알레르기 여부: </li>
+                        </ul>
+                    </div>
+                    <div class="txt_box">
+                        <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
+                        <ul>
+                            <li class="dots">나이: </li>
+                            <li class="dots">성별: </li>
+                            <li class="dots">기억력 변화: </li>
+                            <li class="dots">일상 생활에서의 혼란 정도: </li>
+                            <li class="dots">문제 해결 능력 변화: </li>
+                            <li class="dots">날짜 요일: </li>
+                            <li class="dots">현재 위치: </li>
+                            <li class="dots">최근 사건 기억: </li>
+                            <li class="dots">질문 반복: </li>
+                            <li class="dots">물건 분실 빈도: </li>
+                            <li class="dots">일상 생활 활동 어려움: </li>
+                            <li class="dots">혼자 외출: </li>
+                            <li class="dots">금전 관리: </li>
+                            <li class="dots">불안하거나 우울하거나 공격적인 행동: </li>
+                            <li class="dots">환각이나 망상 경험: </li>
+                            <li class="dots">수면 패턴 변화: </li>
+                            <li class="dots">고혈압, 당뇨병 등의 질환 여부: </li>
+                            <li class="dots">과거 뇌졸중이나 뇌손상을 입은 적: </li>
+                            <li class="dots">가족 중 치매 환자 여부: </li>
+                        </ul>
+                    </div>
+                    <div class="txt_box">
+                        <h2>종합 평가</h2>
+                        <ul>
+                            <li class="dots">건강</li>
+                        </ul>
+                    </div>
+                    <div class="txt_box">
+                        <h2>개선 사항</h2>
+                        <ul>
+                            <li class="dots">건강</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_wr">
+                <button type="button" class="btn" id="download-pdf">건강 분석표 다운받기</button>
+                <button type="button" class="btn" onclick="location.href='/checkout/result-list'">목록으로</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('download-pdf').addEventListener('click', function () {
+            // HTML 요소 선택
+            const content = document.querySelector('.container');
+
+            // PDF 옵션 설정
+            const options = {
+                margin: 11, // 페이지 여백
+                filename: '건강_분석표.pdf', // PDF 파일 이름
+                image: { type: 'jpeg', quality: 0.98 }, // 이미지 품질
+                html2canvas: { scale: 2 }, // 해상도 설정
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // PDF 포맷 및 방향
+            };
+
+            // HTML을 PDF로 변환
+            html2pdf().set(options).from(content).save();
+        });
+    </script>
+</th:block>
+</html>

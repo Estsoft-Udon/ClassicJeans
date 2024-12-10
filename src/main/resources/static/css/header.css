@@ -41,13 +41,13 @@ header nav ul li a:hover,
 header .user_box ul li a:hover{
     font-weight: bold;
 }
-header nav ul .dept {
+header .dept {
     position: relative;
 }
-header nav ul .dept a {
+header .dept a {
     padding-bottom: 1rem;
 }
-header nav ul .dept div {
+header .dept div {
     position: absolute;
     width: max-content;
     display: flex;
@@ -60,7 +60,7 @@ header nav ul .dept div {
     left: -1rem;
     background: #fff;
 }
-header nav ul .dept:hover div {
+header .dept:hover div {
     height: auto;
     padding: 2rem 1rem 1rem;
     border: 1px solid #000;
@@ -248,4 +248,8 @@ header .user_box ul {
 .read .mark-read-btn{
     background-color: #d12e92;
     color: #fff;
+}
+
+.mypage_dept{
+    margin-right: 2rem;
 }
