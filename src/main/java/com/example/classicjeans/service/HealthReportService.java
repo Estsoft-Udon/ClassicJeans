@@ -26,24 +26,42 @@ public class HealthReportService {
     private final DementiaDataRepository dementiaDataRepository;
     private final UsersService usersService;
     private final FamilyInfoRepository familyInfoRepository;
+    private final FamilyInfoService familyInfoService;
 
     @Autowired
-    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, UsersService usersService, FamilyInfoRepository familyInfoRepository) {
+    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, UsersService usersService, FamilyInfoRepository familyInfoRepository, FamilyInfoService familyInfoService) {
         this.questionnaireDataRepository = questionnaireDataRepository;
         this.dementiaDataRepository = dementiaDataRepository;
         this.usersService = usersService;
         this.familyInfoRepository = familyInfoRepository;
+        this.familyInfoService = familyInfoService;
     }
 
     // 접속 중인 유저(본인 + 가족)의 검사 결과 목록 조회
-    public Page<HealthReportResponse> getHealthReportList(Pageable pageable) {
+    public Page<HealthReportResponse> getHealthReportList(Pageable pageable, String target) {
         Long userId = getLoggedInUser().getId();
         Users user = usersService.findUserById(userId);
         List<FamilyInfo> familyInfos = familyInfoRepository.findByUserId(user);
 
         // 본인 및 가족의 모든 QuestionnaireData 및 DementiaData 조회 (페이지네이션 적용)
-        Page<QuestionnaireData> questionnaireDataPage = questionnaireDataRepository.findByUserOrFamily(user, familyInfos, pageable);
-        Page<DementiaData> dementiaDataPage = dementiaDataRepository.findByUserOrFamily(user, familyInfos, pageable);
+        Page<QuestionnaireData> questionnaireDataPage;
+        Page<DementiaData> dementiaDataPage;
+        switch (target) {
+            case "user" -> {
+                questionnaireDataPage = questionnaireDataRepository.findByUserId(user, pageable);
+                dementiaDataPage = dementiaDataRepository.findByUserId(user, pageable);
+            }
+            case "family" -> {
+                Long familyId = Long.parseLong(target);
+                FamilyInfo selectedFamilyInfo = familyInfoService.findFamily(familyId);
+                questionnaireDataPage = questionnaireDataRepository.findByFamilyId(selectedFamilyInfo, pageable);
+                dementiaDataPage = dementiaDataRepository.findByFamilyId(selectedFamilyInfo, pageable);
+            }
+            default -> {
+                questionnaireDataPage = questionnaireDataRepository.findByUserOrFamily(user, familyInfos, pageable);
+                dementiaDataPage = dementiaDataRepository.findByUserOrFamily(user, familyInfos, pageable);
+            }
+        }
 
         // HealthReportResponse로 변환
         List<HealthReportResponse> summaries = Stream.concat(
