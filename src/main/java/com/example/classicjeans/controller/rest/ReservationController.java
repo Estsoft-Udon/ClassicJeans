@@ -26,6 +26,19 @@ public class ReservationController {
     private final ReservationNotificationService notificationService;
     private final ObjectMapper objectMapper;
 
+    @GetMapping("/reservation/stream")
+    public ResponseEntity<SseEmitter> connect() {
+        SseEmitter emitter = new SseEmitter();
+
+        // 구독 처리: userId에 해당하는 emitter를 관리
+        if (getLoggedInUser() != null) {
+            Long userId = getLoggedInUser().getId();
+            emitter = notificationService.subscribe(userId);
+        }
+
+        return ResponseEntity.ok(emitter);
+    }
+
     @PostMapping("/reservation")
     public ResponseEntity<Reservation> reserve(@RequestBody ReservationRequest request) {
         if (getLoggedInUser() == null) {
@@ -33,18 +46,6 @@ public class ReservationController {
         }
 
         return ResponseEntity.ok(reservationService.addReservation(request));
-    }
-
-    @GetMapping("/sse/connection")
-    public SseEmitter connectToSse() {
-        SseEmitter emitter = new SseEmitter();
-        // 구독 처리: userId에 해당하는 emitter를 관리
-        if (getLoggedInUser() != null) {
-            Long userId = getLoggedInUser().getId();
-            emitter = notificationService.subscribe(userId);
-        }
-
-        return emitter;
     }
 
     @GetMapping("/reservation")

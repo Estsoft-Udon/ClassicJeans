@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const eventSource = new EventSource(`api/sse/connection`);
+    const eventSource = new EventSource(`api/reservation/stream`);
 
     eventSource.onopen = function () {
         console.log('SSE 연결 성공');

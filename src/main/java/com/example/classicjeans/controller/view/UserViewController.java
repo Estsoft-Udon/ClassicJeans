@@ -99,10 +99,4 @@ public class UserViewController {
 
         return "member/find_pw";
     }
-
-    // 접근 제한
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "access-denied";
-    }
 }
