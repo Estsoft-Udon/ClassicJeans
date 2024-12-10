@@ -118,8 +118,8 @@ public class AlanBaziService {
 
             // 기존 운세의 내용을 정리 (필요한 내용을 제거)
             String cleanedContent = removeBaziContent(existingBazi.getContent());
-
-            String html = MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
+            String html =  MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
+          
             response.setContent(html);
             return response;
         }
