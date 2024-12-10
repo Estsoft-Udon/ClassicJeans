@@ -70,40 +70,40 @@
         </ul>
     </div>
   </header>
-  <script>
-    // SSE 연결 (서버의 /api/notification/connect 경로를 통해 연결)
-    const eventSource = new EventSource(`/sse/connection`);
+<!--  <script>-->
+<!--    // SSE 연결 (서버의 /api/notification/connect 경로를 통해 연결)-->
+<!--    const eventSource = new EventSource(`/sse/connection`);-->
 
-    eventSource.onopen = function() {
-      console.log('SSE 연결 성공');
-    };
+<!--    eventSource.onopen = function() {-->
+<!--      console.log('SSE 연결 성공');-->
+<!--    };-->
 
-    eventSource.onmessage = function(event) {
-      console.log('새로운 메시지:', event.data);
-    };
+<!--    eventSource.onmessage = function(event) {-->
+<!--      console.log('새로운 메시지:', event.data);-->
+<!--    };-->
 
-    eventSource.onerror = function(error) {
-      console.error('SSE 오류:', error);
-    };
+<!--    eventSource.onerror = function(error) {-->
+<!--      console.error('SSE 오류:', error);-->
+<!--    };-->
 
-    // 메시지가 수신되면 모달 창에 알림을 표시
-    eventSource.onmessage = function(event) {
-      const notificationMessage = event.data;
+<!--    // 메시지가 수신되면 모달 창에 알림을 표시-->
+<!--    eventSource.onmessage = function(event) {-->
+<!--      const notificationMessage = event.data;-->
 
-      // 알림을 모달 창에 표시
-      const notificationModal = document.getElementById('notificationModal');
-      const messageSpan = document.getElementById('notificationMessage');
-      messageSpan.textContent = notificationMessage;
-      console.log(messageSpan.textContent);
+<!--      // 알림을 모달 창에 표시-->
+<!--      const notificationModal = document.getElementById('notificationModal');-->
+<!--      const messageSpan = document.getElementById('notificationMessage');-->
+<!--      messageSpan.textContent = notificationMessage;-->
+<!--      console.log(messageSpan.textContent);-->
 
-      // 모달을 화면에 표시
-      notificationModal.style.display = 'block';
+<!--      // 모달을 화면에 표시-->
+<!--      notificationModal.style.display = 'block';-->
 
-      // 5초 후 모달 닫기
-      // setTimeout(() => {
-      //   notificationModal.style.display = 'none';
-      // }, 5000);
-    };
-  </script>
+<!--      // 5초 후 모달 닫기-->
+<!--      // setTimeout(() => {-->
+<!--      //   notificationModal.style.display = 'none';-->
+<!--      // }, 5000);-->
+<!--    };-->
+<!--  </script>-->
 </th:block>
 </html>
