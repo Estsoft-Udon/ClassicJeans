@@ -13,7 +13,7 @@ scrTopBtn.addEventListener('click', function () {
         behavior: 'smooth'  // 부드러운 스크롤 효과
     });
 });
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     if (window.scrollY > 0) {
         scrTopBtn.classList.add("act");
     } else {
@@ -31,7 +31,7 @@ document.getElementById('baziButton').addEventListener('click', function () {
     const button = this;
     const loadingMessage = document.getElementById('loadingMessage');
     const resultContainer = document.querySelector('.cont_wr');
- 
+
     this.classList.add('dn');
     document.querySelector('.log_off_txt').classList.add('dn');
     document.querySelector('.log_on_txt').classList.remove('dn');
@@ -40,7 +40,7 @@ document.getElementById('baziButton').addEventListener('click', function () {
     loadingMessage.style.display = 'block';
     button.disabled = true; // 버튼 비활성화
 
-    fetch('/api/alan/bazi')
+    fetch('/api/bazi')
         .then(response => {
             if (response.ok) {
                 return response.json();
