@@ -79,7 +79,7 @@ public class AlanService {
     }
 
     // 기본 검사 결과 저장
-    private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+    public void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
         boolean isFamilyInfo = request.getFamily() != null;
         QuestionnaireData data = new QuestionnaireData(
                 request.getUser(),
