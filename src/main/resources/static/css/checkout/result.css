@@ -12,12 +12,12 @@
     border: 1px solid #e8e8e8;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.container h2 {
+.container h2,
+.container h3{
     font-weight: bold;
     font-size: clamp(1.8rem, 1.56vw, 3rem);
     margin-bottom: 2rem;
 }
-
 
 table {
     width: 100%;

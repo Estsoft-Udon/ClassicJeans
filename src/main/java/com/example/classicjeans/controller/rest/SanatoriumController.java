@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.response.SanatoriumResponse;
 import com.example.classicjeans.entity.SanatoriumData;
@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/sanatorium")
 public class SanatoriumController {
+
     private final SanatoriumService service;
 
     @GetMapping

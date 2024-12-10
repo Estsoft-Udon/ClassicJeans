@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/member/member.css">
 </head>
@@ -14,7 +15,8 @@
             <section>
                 <form id="changePasswordForm" method="POST" action="/change_pw">
                     <label for="currentPassword"></label>
-                    <input type="password" id="currentPassword" name="currentPassword" required placeholder="현재 비밀번호를 입력하세요">
+                    <input type="password" id="currentPassword" name="currentPassword" required
+                           placeholder="현재 비밀번호를 입력하세요">
 
                     <div id="passwordMessage"></div>
                     <label for="newPassword"></label>
@@ -22,7 +24,8 @@
 
                     <div id="passwordMatchMessage"></div>
                     <label for="confirmPassword"></label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="변경할 비밀번호 확인">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                           placeholder="변경할 비밀번호 확인">
 
                     <div class="btn_box">
                         <button onclick="location.href='/login'" class="btn" th:if="${user != null}">취소하기</button>

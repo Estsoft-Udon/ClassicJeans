@@ -48,18 +48,6 @@ public class AlanService {
         this.dementiaDataRepository = dementiaDataRepository;
     }
 
-    // 앨런AI test - 추후 제거
-    public AlanBasicResponse fetchBasicResponse(String content) throws JsonProcessingException {
-        String responseBody = fetchResponse(content);
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
-    }
-
-    // 앨런AI test2 - 추후 제거
-    public AlanBasicResponse fetchHealthResponse(AlanHealthRequest request) throws JsonProcessingException {
-        String responseBody = fetchResponse(request.toString());
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
-    }
-
     // 기본 문진표 AI 검사
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();

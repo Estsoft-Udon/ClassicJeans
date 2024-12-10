@@ -12,7 +12,7 @@
         <h1>기다려주셔서 감사합니다.<br>AI가 회원님의 건강을 분석했습니다.</h1>
       </div>
       <div class="container cont_wr">
-        <h2>분석 결과</h2>
+        <h2 th:if="${type == 'questionnaire'}">분석 결과</h2>
         <table th:if="${type == 'questionnaire'}">
           <thead>
           <tr>
@@ -61,8 +61,7 @@
         </table>
         <div class="txt_wr">
           <div class="txt_box" th:if="${type == 'questionnaire'}">
-            <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
-            <br>
+            <h3>문진표 추가 정보</h3>
             <ul>
               <li class="dots" th:text="'현재 앓고 있는 만성질환 여부: ' + ${request.chronicDisease.displayName}"></li>
               <li class="dots" th:text="'최근 6개월 내 병원에 방문 여부: ' + ${request.hospitalVisit.displayName}"></li>
@@ -79,8 +78,7 @@
           </div>
 
           <div class="txt_box" th:if="${type == 'dementia'}">
-            <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
-            <br>
+            <h3>문진표 입력 정보</h3>
             <ul>
               <li class="dots" th:text="'나이: ' + ${dementiaRequest.user != null ? dementiaRequest.user.getAge() : dementiaRequest.family.getAge()}"></li>
               <li class="dots" th:text="'성별: ' + ${dementiaRequest.user != null ? dementiaRequest.user.gender.displayName : dementiaRequest.family.gender.displayName}"></li>
