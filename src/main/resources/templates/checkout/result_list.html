@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/checkout/result.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap result result_list w_1280">
+        <div class="tit">
+            <h1>다시 확인하고 싶은 검사 결과가 있으신가요?</h1>
+            <p>아래의 목록에서 검사 결과 재확인이 가능합니다.</p>
+        </div>
+        <div class="search_cont">
+            <form id="result-form" method="GET">
+                <div class="search_box">
+                    <label for="date_search"></label>
+                    <input type="date" id="date_search" name="date" placeholder="날짜를 선택하세요" th:value="${date}">
+                    <button type="submit" class="btn">검색하기</button>
+                    <button type="button" class="btn" id="search-cancel-btn2" style="display:none;">검색 취소</button>
+                </div>
+            </form>
+        </div>
+        <section class="list_section">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">날짜</th>
+                        <th style="width: 70%;">제목</th>
+                        <th style="width: 15%;">검사 타입</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2024.12.10</td>
+                    <td>
+                        <a href="/result-detail">검사 결과</a>
+                    </td>
+                    <td>치매</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <!-- 페이지네이션 -->
+        <ul class="pagination">
+            <li>
+                <a href="/hospital_list?page=0">
+                    <button class="first-btn page_btn">첫 페이지</button>
+                </a>
+            </li>
+
+            <!-- 이전 버튼 -->
+            <li>
+                <a href="/hospital_list?page={previousPage}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+            </li>
+
+            <!-- 페이지 숫자 버튼들 -->
+            <li>
+                <a href="/hospital_list?page={page}">
+                    <button type="button" class="{activeClass}">1</button>
+                </a>
+            </li>
+
+            <!-- 검색 결과 없을 때 노출됩니다. dis-no 클래스 삭제해주세요 -->
+            <div class="search_empty dis-no">
+                검색하신 날짜에 맞는 검사 결과가 존재하지 않습니다.
+            </div>
+
+            <!-- 다음 버튼 -->
+            <li>
+                <a href="/hospital_list?page={nextPage}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+            </li>
+
+            <!-- 마지막 페이지 버튼 -->
+            <li>
+                <a href="/hospital_list?page={lastPage}">
+                    <button class="last-btn page_btn">마지막 페이지</button>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+</th:block>
+</html>

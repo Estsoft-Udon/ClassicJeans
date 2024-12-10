@@ -91,3 +91,57 @@ table tr:nth-child(even) {
         padding: 3rem;
     }
 }
+
+/* 검사 결과 통계 */
+
+.search_cont{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10rem 0 1rem;
+}
+
+input{
+    padding: 1rem;
+    font-size: clamp(1rem, 1.0417vw, 1.8rem);
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    box-sizing: border-box;
+}
+
+.result_list section{
+    padding: 0;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 8px;
+}
+
+table th{
+    border-right: 0;
+    word-break: keep-all;
+    padding: 1rem;
+    font-size: clamp(1rem, 1vw, 1.8rem);
+    font-weight: 600;
+    background: #F4F4F4;
+    vertical-align: middle;
+    text-align: Center;
+    white-space: nowrap;
+}
+
+table td{
+    border-right: 0;
+    font-weight: 400;
+    padding: 0 1rem;
+    height: 4rem;
+    vertical-align: middle;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    line-height: 2.6rem;
+    word-break: keep-all;
+    border-bottom: 1px solid #E4E4E4;
+}
