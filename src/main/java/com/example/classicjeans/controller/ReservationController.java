@@ -59,8 +59,6 @@ public class ReservationController {
                     // 여기서 알림 전송
                     String message = objectMapper.writeValueAsString(reservation);
 
-                    System.out.println("message = " + message);
-
                     notificationService.sendNotification(reservation.getUser().getId(), message);
                     reservationService.notifyReservation(reservation);
                 } else {
@@ -88,7 +86,6 @@ public class ReservationController {
         }
 
         List<Reservation> notifications = reservationService.findAllByUserId(user.getId());
-        System.out.println("notifications.size() = " + notifications.size());
 
         return ResponseEntity.ok(notifications);    
     }
@@ -102,14 +99,12 @@ public class ReservationController {
 
     @PostMapping("/api/reservation/read/{id}")
     public ResponseEntity<Reservation> setReservationRead(@PathVariable Long id) {
-        System.out.println("setReadTrue 읽음 처리");
 
         return ResponseEntity.ok(reservationService.setReadTrue(id));
     }
 
     @DeleteMapping("/api/reservation/read/{id}")
     public ResponseEntity<Reservation> setReservationUnRead(@PathVariable Long id) {
-        System.out.println("setReadFalse 읽음 처리 취소");
 
         return ResponseEntity.ok(reservationService.setReadFalse(id));
     }
