@@ -26,7 +26,8 @@ table {
     font-size: clamp(1.2rem, 1.04vw, 1.8rem);
 }
 
-table th, table td {
+.questionnaire_result table th,
+.questionnaire_result table td {
     border: 1px solid #ddd;
     padding: 1rem;
     text-align: center;
@@ -113,7 +114,7 @@ input{
     padding: 0;
 }
 
-table{
+.result_list table{
     border-collapse: collapse;
     width: 100%;
     height: auto;
@@ -122,10 +123,10 @@ table{
     margin-bottom: 8px;
 }
 
-table th{
+.result_list table th{
     border-right: 0;
     word-break: keep-all;
-    padding: 1rem;
+    padding: 2rem;
     font-size: clamp(1rem, 1vw, 1.8rem);
     font-weight: 600;
     background: #F4F4F4;
@@ -134,7 +135,7 @@ table th{
     white-space: nowrap;
 }
 
-table td{
+.result_list table td{
     border-right: 0;
     font-weight: 400;
     padding: 0 1rem;
@@ -144,6 +145,11 @@ table td{
     line-height: 2.6rem;
     word-break: keep-all;
     border-bottom: 1px solid #E4E4E4;
+    text-align: center;
+}
+
+.result_list table tr:nth-child(even){
+    background-color: #fff;
 }
 
 .tit span{
@@ -179,4 +185,15 @@ table td{
 .empty_checkout div button{
     margin-top: 10rem;
     width: 100%;
+}
+
+#result-form .search_box{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+#result-form .search_box select{
+    padding: 1rem 3rem 1rem 2rem;
 }

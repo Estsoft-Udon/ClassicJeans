@@ -12,10 +12,11 @@
         <div class="search_cont">
             <form id="result-form" method="GET">
                 <div class="search_box">
-                    <label for="date_search"></label>
-                    <input type="date" id="date_search" name="date" placeholder="날짜를 선택하세요" th:value="${date}">
-                    <button type="submit" class="btn">검색하기</button>
-                    <button type="button" class="btn" id="search-cancel-btn2" style="display:none;">검색 취소</button>
+                    <select id="filter_search" name="filter">
+                        <option value="">전체</option> <!-- 기본값: 모든 검사 -->
+                        <option value="dementia">치매 검사</option>
+                        <option value="basic">기본 검사</option>
+                    </select>
                 </div>
             </form>
         </div>
@@ -23,18 +24,18 @@
             <table>
                 <thead>
                     <tr>
+                        <th style="width: 15%;">이름</th>
+                        <th style="width: 70%;">검사 유형</th>
                         <th style="width: 15%;">날짜</th>
-                        <th style="width: 70%;">제목</th>
-                        <th style="width: 15%;">검사 타입</th>
                     </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>2024.12.10</td>
+                    <td>홍길동</td>
                     <td>
-                        <a href="/checkout/result-detail">검사 결과</a>
+                        <a href="/checkout/result-detail">치매 검사 결과</a>
                     </td>
-                    <td>치매</td>
+                    <td>2024.12.10</td>
                 </tr>
                 </tbody>
             </table>
@@ -80,8 +81,12 @@
                 </a>
             </li>
         </ul>
-
     </div>
-
+    <script>
+        // 필터를 선택하면 폼 자동 제출
+        document.getElementById('filter_search').addEventListener('change', function () {
+            document.getElementById('result-form').submit();
+        });
+    </script>
 </th:block>
 </html>
