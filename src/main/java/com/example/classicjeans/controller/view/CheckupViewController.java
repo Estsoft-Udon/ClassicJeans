@@ -88,7 +88,8 @@ public class CheckupViewController {
 
     // 기본 검사 결과 페이지
     @GetMapping("/result-questionnaire")
-    public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model, HttpSession session) throws JsonProcessingException {
+    public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model,
+                                      HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
         model.addAttribute("type", "questionnaire");
         AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
@@ -126,7 +127,8 @@ public class CheckupViewController {
 
     // 치매 검사 결과 페이지
     @GetMapping("/result-dementia")
-    public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model, HttpSession session) throws JsonProcessingException {
+    public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model,
+                                 HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
         model.addAttribute("type", "dementia");
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
@@ -142,5 +144,24 @@ public class CheckupViewController {
         session.removeAttribute("selectedUser");
         session.removeAttribute("selectedType");
         return "checkout/result";
+    }
+
+
+    // 검사 결과 통계 페이지
+    @GetMapping("/result-statistics")
+    public String resultStatistics() {
+        return "checkout/result_statistics";
+    }
+
+    // 검사 결과 목록 페이지
+    @GetMapping("/result-list")
+    public String resultList() {
+        return "checkout/result_list";
+    }
+
+    // 검사 결과 상세 페이지(목록에서)
+    @GetMapping("/result-detail")
+    public String resultDetail() {
+        return "checkout/result_detail";
     }
 }
