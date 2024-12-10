@@ -118,10 +118,29 @@
         </div>
       </div>
       <div class="btn_wr">
-        <button type="button" class="btn">건강 분석표 다운받기</button>
+        <button type="button" class="btn" id="download-pdf">건강 분석표 다운받기</button>
         <button type="button" class="btn" onclick="location.href='/checkout/result-statistics'">건강 검진 통계 확인하기</button>
       </div>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script>
+    document.getElementById('download-pdf').addEventListener('click', function () {
+      // HTML 요소 선택
+      const content = document.querySelector('.container');
+
+      // PDF 옵션 설정
+      const options = {
+        margin: 11, // 페이지 여백
+        filename: '건강_분석표.pdf', // PDF 파일 이름
+        image: { type: 'jpeg', quality: 0.98 }, // 이미지 품질
+        html2canvas: { scale: 2 }, // 해상도 설정
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // PDF 포맷 및 방향
+      };
+
+      // HTML을 PDF로 변환
+      html2pdf().set(options).from(content).save();
+    });
+  </script>
 </th:block>
 </html>
