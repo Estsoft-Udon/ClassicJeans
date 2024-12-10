@@ -1,18 +1,16 @@
 package com.example.classicjeans.enums.questionnaire;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 // 운동 빈도
+@Getter
+@AllArgsConstructor
 public enum ExerciseFrequency {
-    NONE("없음"),
-    OCCASIONAL("가끔"),
-    REGULAR("정기적");
+    NONE("없음", -5),
+    OCCASIONAL("가끔", 2),
+    REGULAR("정기적", 5);
 
     private final String displayName;
-
-    ExerciseFrequency(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
+    private final int impactScore;
 }

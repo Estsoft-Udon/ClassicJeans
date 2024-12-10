@@ -1,18 +1,16 @@
 package com.example.classicjeans.enums.questionnaire;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 // 사회적 활동 참여 빈도
+@Getter
+@AllArgsConstructor
 public enum SocialParticipation {
-    NONE("없음"),
-    OCCASIONAL("가끔"),
-    FREQUENT("자주");
+    NONE("없음", -5),
+    OCCASIONAL("가끔", 2),
+    FREQUENT("자주", 5);
 
     private final String displayName;
-
-    SocialParticipation(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
+    private final int impactScore;
 }

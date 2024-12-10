@@ -20,9 +20,11 @@ public class AlanQuestionnaireResponse {
     @JsonProperty(value = "content")
     private String content;
 
-    private String ageGroup;            // 연령대
+    // 건강 지수
+    private Double healthIndex;
 
     // 한국 평균 데이터 추가
+    private String ageGroup;            // 연령대
     private Double averageHeight;       // 한국인 평균 키
     private Double averageWeight;       // 한국인 평균 체중
     private Double smokingRate;         // 한국인 평균 흡연율
