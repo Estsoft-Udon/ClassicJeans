@@ -1,11 +1,7 @@
 package com.example.classicjeans.controller;
 
-import static com.example.classicjeans.util.MarkdownRenderer.*;
 
 import com.example.classicjeans.service.AlanSSEService;
-import com.example.classicjeans.util.MarkdownRenderer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -20,7 +16,6 @@ public class ChatController {
 
     private final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final AlanSSEService alanSSEService;
-    private final ObjectMapper objectMapper;
 
     // SSE 연결 설정
     @GetMapping("/stream")
@@ -28,7 +23,15 @@ public class ChatController {
         SseEmitter emitter = new SseEmitter(0L); // 무제한 타임아웃
         String emitterId = String.valueOf(emitter.hashCode());
 
+        System.out.println("SSE 연결 시작 : " + emitterId);
         emitters.put(emitterId, emitter);
+
+        // 클라이언트에 emitterId 전송
+        try {
+            emitter.send(SseEmitter.event().name("emitterId").data(emitterId));
+        } catch (IOException e) {
+            emitters.remove(emitterId);
+        }
 
         emitter.onCompletion(() -> {
             emitters.remove(emitterId);
@@ -51,13 +54,9 @@ public class ChatController {
     public void sendMessage(@RequestBody String content) {
         emitters.forEach((id, emitter) -> {
             try {
-                String response = alanSSEService.getChatResponse(content);
+                // SSE를 통해 OpenAI API 스트리밍 응답 받기
+                alanSSEService.streamChatResponse(content, emitter);
 
-                // json 에서 content 필드 추출
-                String extractedContent = objectMapper.readTree(response).get("content").asText();
-
-                // Markdown 언어 rendering
-                emitter.send(SseEmitter.event().name("message").data(convertMarkdownToHtml(extractedContent)));
             } catch (IOException e) {
                 emitters.remove(id);
             }
@@ -68,6 +67,7 @@ public class ChatController {
     @PostMapping("/stream/close")
     public void closeConnection(@RequestBody String emitterId) {
         SseEmitter emitter = emitters.remove(emitterId);
+        System.out.println("SSE 연결 종료 " + emitterId);
 
         if (emitter != null) {
             try {

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="/js/common.js"></script>
   </head>
   <header>
@@ -25,7 +26,7 @@
         <li class="dept">
           <a href="javascript:void(0)">정보 마당</a>
           <div>
-            <a href="/hospital_list">공공의료기관찾기</a>
+            <a href="/hospital_list">공공의료기관 찾기</a>
             <a href="/sanatorium_list">요양원 찾기</a>
             <a href="/nursing_list">복지시설 찾기</a>
           </div>
@@ -33,6 +34,9 @@
         <li><a href="/chat">알려줘 앨런아!</a></li>
       </ul>
     </nav>
+    <div id="notificationModal">
+      <span id="notificationMessage"></span>
+    </div>
     <div class="user_box">
         <!-- 로그인 전 -->
         <ul sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
@@ -43,8 +47,49 @@
             <a href="/signup">회원가입</a>
           </li>
         </ul>
-<!--         로그인 후 -->
+        <!-- 로그인 후 -->
         <ul sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
+          <!-- 알람 -->
+          <li>
+            <div class="notification-container">
+              <div class="bell-icon">
+                <i class="fa fa-bell"></i>
+                <!-- 알람 수 -->
+                <span class="notification-count"></span>
+              </div>
+              <ul class="notification-list hidden">
+                <!-- 알람 수가 0개 일 때 문구입니다. dis-no 클래스 지워주세요-->
+                <li class="empty_alarm dis-no">받으신 알림이 없습니다.</li>
+                <!-- 알람 내용-->
+                <li class="notification-item unread">
+                  <div class="alarm_txt">
+                    <span class="imp">홍길동</span>님,
+                    <span class="imp">12월 09일 13시 50분 <br></span>
+                    <span class="imp">삼성병원</span>
+                    <span>
+                      진료 예약이 확정되었습니다! <br>
+                      잊지 말고 일정에 맞춰 방문해 주세요☺️
+                    </span>
+                  </div>
+                  <button class="mark-read-btn" onclick="markAsRead(this)">읽음 처리</button>
+                </li>
+                <!-- // 알람 내용 -->
+                <li class="notification-item unread">
+                  <div class="alarm_txt">
+                    <span class="imp">김철수</span>님,
+                    <span class="imp">12월 10일 15시 30분 <br></span>
+                    <span class="imp">한양대학교병원</span>
+                    <span>
+                        진료 예약이 확정되었습니다! <br>
+                        잊지 말고 일정에 맞춰 방문해 주세요☺️
+                    </span>
+                  </div>
+                  <button class="mark-read-btn" onclick="markAsRead(this)">읽음 처리</button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <!-- // 알람 -->
           <li>
             <a href="/mypage">마이페이지</a>
           </li>
@@ -54,5 +99,41 @@
         </ul>
     </div>
   </header>
+  <script>
+    // SSE 연결 (서버의 /api/notification/connect 경로를 통해 연결)
+    const eventSource = new EventSource(`/sse/connection`);
+
+    eventSource.onopen = function() {
+      console.log('SSE 연결 성공');
+    };
+
+    eventSource.onmessage = function(event) {
+      console.log('새로운 메시지:', event.data);
+    };
+
+    eventSource.onerror = function(error) {
+      console.error('SSE 오류:', error);
+    };
+
+    // 메시지가 수신되면 모달 창에 알림을 표시
+    eventSource.onmessage = function(event) {
+      const notificationMessage = event.data;
+
+      // 알림을 모달 창에 표시
+      const notificationModal = document.getElementById('notificationModal');
+      const messageSpan = document.getElementById('notificationMessage');
+      messageSpan.textContent = notificationMessage;
+      console.log(messageSpan.textContent);
+
+      // 모달을 화면에 표시
+      notificationModal.style.display = 'block';
+
+      // 5초 후 모달 닫기
+      // setTimeout(() => {
+      //   notificationModal.style.display = 'none';
+      // }, 5000);
+    };
+  </script>
+  <script src="/js/header.js"></script>
 </th:block>
 </html>

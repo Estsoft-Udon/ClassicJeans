@@ -41,14 +41,25 @@ public class AlanQuestionnaireRequest {
 
     @Override
     public String toString() {
-        return "입력한 건강 정보와 한국인 평균 데이터 비교:\n" +
-                "1. **연령**: " + user.getAge() + " (연령대: n0대)\n" +
-                "2. **성별**: " + user.getGender() + " (성별: Gender)\n" +
+        int age = 0;
+        String gender = "UNKNOWN";
+
+        if (user != null) {
+            age = user.getAge();
+            gender = user.getGender().toString();
+        } else if (family != null) {
+            age = family.getAge();
+            gender = family.getGender().toString();
+        }
+        return "입력한 건강 정보(1~7 항목)와 한국인 평균 데이터 비교하고, \n" +
+                "1. **연령**: " + age + " (연령대: n0대)\n" +
+                "2. **성별**: " + gender + " (성별: Gender)\n" +
                 "3. **키**: " + height + " (한국인 남성 평균: cm)\n" +
                 "4. **체중**: " + weight + " (한국인 남성 평균: kg)\n" +
                 "5. **흡연 상태**: " + smokingStatus + " (한국인 흡연율: 약 %)\n" +
                 "6. **음주 빈도**: " + alcoholConsumption + " (한국인 음주율: 약 %)\n" +
                 "7. **운동 빈도**: " + exerciseFrequency + " (한국인 운동 빈도: 약 %)\n" +
+                "\n  아래는 추가 정보" +
                 "\n  만성 질환: " + chronicDisease +
                 "\n  병원 방문: " + hospitalVisit +
                 "\n  현재 복용 약물: " + currentMedication +
@@ -60,7 +71,7 @@ public class AlanQuestionnaireRequest {
                 "\n  유전 질환: " + hasGeneticDisease +
                 "\n  체중 변화: " + weightChange +
                 "\n  알레르기: " + hasAllergy +
-                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 자세한 설명을 아래와 같은 2가지 항목을 제공해줘" +
+                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 설명을 상세하게 아래와 같은 2가지 항목을 List로 제공해줘" +
                 "\n  **종합 평가 (summaryEvaluation)**: [이 값은 AI가 응답에서 제공]" +
                 "\n  **개선 방법 (improvementSuggestions)**: [이 값은 AI가 응답에서 제공]" +
                 "}";

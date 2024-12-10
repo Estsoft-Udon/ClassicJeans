@@ -36,8 +36,8 @@ public class QuestionnaireData {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(nullable = false)
     private Double height;
@@ -113,16 +113,12 @@ public class QuestionnaireData {
     private Double exerciseRate;        // 한국인 평균 운동 실천율
 
     // 종합 평가 내용
-    @ElementCollection
-    @CollectionTable(name = "summary_evaluation", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "evaluation", columnDefinition = "TEXT")
-    private List<String> summaryEvaluation;
+    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
-    @ElementCollection
-    @CollectionTable(name = "improvement_suggestions", joinColumns = @JoinColumn(name = "dementia_data_id"))
-    @Column(name = "suggestion", columnDefinition = "TEXT")
-    private List<String> improvementSuggestions;
+    @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImprovementSuggestions> improvementSuggestions;
 
     @PrePersist
     public void setDate() {
@@ -135,19 +131,21 @@ public class QuestionnaireData {
 
     public QuestionnaireData(
             Users userId, FamilyInfo familyId, int age, Gender gender, Double height,
-                                                   Double weight, ChronicDisease chronicDisease, HospitalVisit hospitalVisit,
-                                                   Medication currentMedication, SmokingStatus smokingStatus, AlcoholConsumption alcoholConsumption,
-                                                   ExerciseFrequency exerciseFrequency, DietPattern dietPattern, MoodStatus moodStatus,
-                                                   SleepPattern sleepPattern, IndependenceLevel independenceLevel, SocialParticipation socialParticipation,
-                                                   boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
-                                                   Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
-                                                   Double exerciseRate, List<String> summaryEvaluation, List<String> improvementSuggestions) {
-        this.userId = userId;
-        if(familyId != null) {
+            Double weight, ChronicDisease chronicDisease, HospitalVisit hospitalVisit,
+            Medication currentMedication, SmokingStatus smokingStatus, AlcoholConsumption alcoholConsumption,
+            ExerciseFrequency exerciseFrequency, DietPattern dietPattern, MoodStatus moodStatus,
+            SleepPattern sleepPattern, IndependenceLevel independenceLevel, SocialParticipation socialParticipation,
+            boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
+            Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
+            Double exerciseRate, List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions) {
+        if (userId != null) {
+            this.userId = userId;
+        }
+        if (familyId != null) {
             this.familyId = familyId;
         }
         this.age = age;
-        this.gender = String.valueOf(gender);
+        this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.chronicDisease = chronicDisease;

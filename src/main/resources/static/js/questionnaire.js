@@ -1,27 +1,40 @@
-
 // 분석받기 버튼 스크립트
 document.querySelector('.questionnaire_btn .submit_btn').addEventListener('click', function (event) {
     event.preventDefault(); // 기본 제출 방지
     const sections = document.querySelectorAll('.step-content');
     let isValid = true;
-    let firstInvalidQuestion = null;
+    let firstInvalidInput = null;
 
-    // 각 섹션의 라디오 그룹을 확인
     sections.forEach(section => {
         const questions = section.querySelectorAll('.question');
         questions.forEach(question => {
             const radios = question.querySelectorAll('input[type="radio"]');
-            const isChecked = Array.from(radios).some(radio => radio.checked);
+            const textInputs = question.querySelectorAll('input[type="text"]');
 
-            if (!isChecked && !firstInvalidQuestion) {
+            const isRadioChecked = Array.from(radios).some(radio => radio.checked);
+            const isTextFilled = Array.from(textInputs).every(input => input.value.trim() !== '');
+
+            // 라디오 또는 텍스트 입력이 비어있을 경우 비어있는 요소에 포커스 설정
+            if (!isRadioChecked && radios.length > 0 && !firstInvalidInput) {
+                firstInvalidInput = radios[0]; // 첫 번째 라디오에 포커스
+            }
+
+            if (!isTextFilled && textInputs.length > 0 && !firstInvalidInput) {
+                firstInvalidInput = Array.from(textInputs).find(input => input.value.trim() === '');
+            }
+
+            if ((!isRadioChecked && radios.length > 0) || (!isTextFilled && textInputs.length > 0)) {
                 isValid = false;
-                firstInvalidQuestion = question;
             }
         });
     });
 
     if (isValid) {
-        document.querySelector('form.content').submit(); // 폼 제출
+        const loadingScreen = document.getElementById('loading-screen');
+
+        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        loadingScreen.style.display = 'flex';
+        document.querySelector('form.content').submit();
     } else {
         firstInvalidQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
         firstInvalidQuestion.querySelector('input[type="radio"]').focus();
@@ -64,7 +77,6 @@ function handleStepButtonClick(event) {
         console.error('해당 스텝을 찾을 수 없습니다.');
     }
 }
-
 
 // 프로그래스바 스크립트
 function handleScroll() {
@@ -134,8 +146,6 @@ function handleRadioClick(event, radio) {
         scrollToQuestion(nextQuestion);
     }
 }
-
-
 
 // 라디오 버튼이 속한 질문으로 스크롤
 function scrollToQuestion(question) {

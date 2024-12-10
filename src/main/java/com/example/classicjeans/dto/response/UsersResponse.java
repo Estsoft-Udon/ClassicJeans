@@ -29,6 +29,7 @@ public class UsersResponse {
     private String createdAt;
     private String updatedAt;
     private String lastLoginAt;
+    private Grade grade;
 
     public UsersResponse(Users user) {
         this.id = user.getId();
@@ -44,6 +45,9 @@ public class UsersResponse {
         this.updatedAt = user.getUpdatedAt().format(DateFormatUtil.formatter);
         if(user.getLastLoginAt() != null) {
             this.lastLoginAt = user.getLastLoginAt().format(DateFormatUtil.formatter);
+        }
+        if(user.getGrade() != null) {
+            this.grade = user.getGrade();
         }
     }
 }

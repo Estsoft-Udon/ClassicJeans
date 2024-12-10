@@ -1,7 +1,7 @@
 package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
-import com.example.classicjeans.entity.Hospital;
+import com.example.classicjeans.entity.HospitalData;
 import com.example.classicjeans.repository.HospitalRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -33,7 +32,48 @@ public class HospitalService {
         this.hospitalRepository = hospitalRepository;
     }
 
-    // 전체 병원 목록 DB 저장
+    // API에서 병원 목록을 가져오는 메소드 (저장 로직 제외)
+    public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
+        String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
+        String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
+        String baseUrl = url + "?serviceKey=" + serviceKey + "&pageNo=" + pageNo + "&numOfRows=" + numOfRows;
+
+        URI uri = new URI(baseUrl);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+        String response = responseEntity.getBody();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(response);
+            JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
+
+            List<HospitalResponse> hospitalList = new ArrayList<>();
+            if (itemsNode.isArray()) {
+                for (JsonNode itemNode : itemsNode) {
+                    String name = itemNode.path("dutyName").asText("");
+                    String address = itemNode.path("dutyAddr").asText("");
+                    String phone = itemNode.path("dutyTel1").asText("");
+                    Double latitude = itemNode.path("wgs84Lat").asDouble(0.0);
+                    Double longitude = itemNode.path("wgs84Lon").asDouble(0.0);
+
+                    String[] addressParts = address.split(" ");
+                    String city = addressParts.length > 0 ? addressParts[0] : "";
+                    String district = addressParts.length > 1 ? addressParts[1] : "";
+
+                    // HospitalResponse 객체 생성
+                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitude, longitude, city, district);
+                    hospitalList.add(hospitalResponse);
+                }
+            }
+
+            return hospitalList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    // API에서 병원 목록을 가져오고 DB에 저장하는 메소드 (중복 체크 포함)
     public void saveAllHospitals(int numOfRows) throws IOException, URISyntaxException {
         int pageNo = 1;
         boolean hasNextPage = true;
@@ -46,13 +86,12 @@ public class HospitalService {
                 break;
             }
 
-            // 병원 목록을 DB에 저장
+            // 병원 목록을 DB에 저장 (중복 체크 포함)
             for (HospitalResponse hospitalResponse : hospitalList) {
-                // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
+                // 중복 체크: 전화번호를 기준으로 이미 DB에 존재하는지 확인
                 boolean exists = hospitalRepository.existsByPhone(hospitalResponse.getPhone());
                 if (!exists) {
-                    // Hospital 엔티티로 변환하여 DB에 저장
-                    Hospital hospital = new Hospital(
+                    HospitalData hospital = new HospitalData(
                             hospitalResponse.getName(),
                             hospitalResponse.getAddress(),
                             hospitalResponse.getPhone(),
@@ -71,104 +110,6 @@ public class HospitalService {
         }
     }
 
-    // 병원 목록 조회
-    public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
-        String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
-        String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
-        String baseUrl = url +
-                "?serviceKey=" + serviceKey +
-                "&pageNo=" + pageNo +  // 페이지 번호
-                "&numOfRows=" + numOfRows; // 한 페이지 항목 수
-
-        URI uri = new URI(baseUrl);
-
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
-        String response = responseEntity.getBody();
-
-        try {
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode itemsNode = rootNode.path("response").path("body").path("items").path("item");
-
-            List<HospitalResponse> hospitalList = new ArrayList<>();
-            if (itemsNode.isArray()) {
-                for (JsonNode itemNode : itemsNode) {
-                    String name = itemNode.path("dutyName").asText("");  // 병원 이름
-                    String address = itemNode.path("dutyAddr").asText("");  // 상세 주소
-                    String phone = itemNode.path("dutyTel1").asText("");  // 전화번호
-                    String latitude = String.valueOf(itemNode.path("wgs84Lat").asDouble(0.0));  // 위도
-                    String longitude = String.valueOf(itemNode.path("wgs84Lon").asDouble(0.0));  // 경도
-
-                    Double latitudeDouble = Double.parseDouble(latitude);
-                    Double longitudeDouble = Double.parseDouble(longitude);
-
-                    String[] addressParts = address.split(" ");
-                    String city = addressParts.length > 0 ? addressParts[0] : "";
-                    String district = addressParts.length > 1 ? addressParts[1] : "";
-
-                    // 병원이 이미 존재하는지 확인 (병원 이름 기준으로 중복 체크)
-                    boolean exists = hospitalRepository.existsByPhone(phone);
-                    if (!exists) {
-                        // Hospital 엔티티로 변환하여 DB에 저장
-                        Hospital hospital = new Hospital(name, address, phone, latitudeDouble, longitudeDouble, city, district);
-                        hospitalRepository.save(hospital);  // DB에 저장
-                    }
-
-                    // HospitalResponse 객체 추가
-                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitudeDouble, longitudeDouble, city, district);
-                    hospitalList.add(hospitalResponse);
-                }
-            }
-
-            return hospitalList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
-    // 지역으로 필터링된 병원 목록 조회 (페이지네이션 적용)
-    public List<HospitalResponse> getFilteredHospitalList(String city, String district, int pageNo, int numOfRows) throws IOException, URISyntaxException {
-        List<HospitalResponse> allHospitals = getHospitalList(pageNo, numOfRows); // 페이지네이션 적용
-        List<HospitalResponse> filteredHospitals = new ArrayList<>();
-
-        // 병원 데이터를 필터링하는 로직
-        for (HospitalResponse hospital : allHospitals) {
-            // city와 district가 null이 아니고, 정확하게 일치하는 경우에만 필터링
-            if ((hospital.getCity() != null && hospital.getCity().equals(city)) &&
-                    (hospital.getDistrict() != null && hospital.getDistrict().equals(district))) {
-                filteredHospitals.add(hospital);
-            }
-        }
-        return filteredHospitals;
-    }
-
-    // 총 페이지 수 계산
-    public int getTotalPages(int numOfRows) throws IOException, URISyntaxException {
-        String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
-        String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
-        String baseUrl = url +
-                "?serviceKey=" + serviceKey +
-                "&pageNo=1" +  // 첫 번째 페이지로 요청
-                "&numOfRows=" + numOfRows; // 한 페이지 항목 수
-
-        URI uri = new URI(baseUrl);
-
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
-        String response = responseEntity.getBody();
-
-        try {
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode totalCountNode = rootNode.path("response").path("body").path("totalCount");
-            int totalCount = totalCountNode.asInt();
-
-            // 총 페이지 수 계산
-            return (int) Math.ceil((double) totalCount / numOfRows);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0; // 오류 발생 시 0 반환
-        }
-    }
-
     // 모든 병원 목록 조회
     public Page<HospitalResponse> getAllHospitals(int page, int size) {
         Pageable pageable = PageRequest.of(page, 10);
@@ -176,12 +117,11 @@ public class HospitalService {
                 .map(this::convertToResponse);
     }
 
-
-    // city와 district로 병원 검색
+    // 지역으로 병원 검색
     public Page<HospitalResponse> searchHospitals(String city, String district, int page, int size) {
         Pageable pageable = PageRequest.of(page, 10);
 
-        Page<Hospital> hospitalPage;
+        Page<HospitalData> hospitalPage;
 
         if (city != null && district != null) {
             hospitalPage = hospitalRepository.findByCityAndDistrict(city, district, pageable);
@@ -201,13 +141,13 @@ public class HospitalService {
         Pageable pageable = PageRequest.of(page, size);
 
         // 병원명에 해당하는 병원 목록 검색
-        Page<Hospital> hospitalPage = hospitalRepository.findByNameContaining(name, pageable);
+        Page<HospitalData> hospitalPage = hospitalRepository.findByNameContaining(name, pageable);
 
         return hospitalPage.map(this::convertToResponse);
     }
 
-    private HospitalResponse convertToResponse(Hospital hospital) {
-        return new HospitalResponse(
+    private HospitalResponse convertToResponse(HospitalData hospital) {
+        HospitalResponse response =  new HospitalResponse(
                 hospital.getName(),
                 hospital.getPhone(),
                 hospital.getAddress(),
@@ -216,5 +156,8 @@ public class HospitalService {
                 hospital.getCity(),
                 hospital.getDistrict()
         );
+        response.setId(hospital.getId());
+
+        return response;
     }
 }
