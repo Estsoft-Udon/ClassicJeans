@@ -12,7 +12,7 @@
         <h1>기다려주셔서 감사합니다.<br>AI가 회원님의 건강을 분석했습니다.</h1>
       </div>
       <div class="container cont_wr">
-        <h2>분석 결과</h2>
+        <h2 th:if="${type == 'questionnaire'}">분석 결과</h2>
         <table th:if="${type == 'questionnaire'}">
           <thead>
           <tr>
@@ -50,18 +50,18 @@
           <tr>
             <td>음주 빈도</td>
             <td th:text="${request.alcoholConsumption.displayName}">주 1회</td>
-            <td th:text="${response.drinkingRate} + ' % 음주율'">57.4% 음주율 (출처41)</td>
+            <td th:text="${response.drinkingRate} + '% 음주율'">57.4% 음주율 (출처41)</td>
           </tr>
           <tr>
             <td>운동 빈도</td>
             <td th:text="${request.exerciseFrequency.displayName}">주 3회</td>
-            <td th:text="${response.exerciseRate} + ' % 규칙적 운동 비율'">47.9% 걷기실천율 (출처52)</td>
+            <td th:text="${response.exerciseRate} + '% 규칙적 운동 비율'">47.9% 걷기실천율 (출처52)</td>
           </tr>
           </tbody>
         </table>
         <div class="txt_wr">
           <div class="txt_box" th:if="${type == 'questionnaire'}">
-            <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
+            <h3>문진표 추가 정보</h3>
             <ul>
               <li class="dots" th:text="'현재 앓고 있는 만성질환 여부: ' + ${request.chronicDisease.displayName}"></li>
               <li class="dots" th:text="'최근 6개월 내 병원에 방문 여부: ' + ${request.hospitalVisit.displayName}"></li>
@@ -78,7 +78,7 @@
           </div>
 
           <div class="txt_box" th:if="${type == 'dementia'}">
-            <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
+            <h3>문진표 입력 정보</h3>
             <ul>
               <li class="dots" th:text="'나이: ' + ${dementiaRequest.user != null ? dementiaRequest.user.getAge() : dementiaRequest.family.getAge()}"></li>
               <li class="dots" th:text="'성별: ' + ${dementiaRequest.user != null ? dementiaRequest.user.gender.displayName : dementiaRequest.family.gender.displayName}"></li>
@@ -105,6 +105,7 @@
           <div class="txt_box">
             <h2>종합 평가</h2>
             <ul>
+              <li class="dots" th:if="${type == 'questionnaire'}" th:text="'건강 지수: ' + ${response.getHealthIndex()} + '점'"></li>
               <li class="dots" th:each="evaluation : ${response.summaryEvaluation}" th:utext="${evaluation.evaluation}"></li>
             </ul>
           </div>
@@ -117,10 +118,29 @@
         </div>
       </div>
       <div class="btn_wr">
-        <button type="button" class="btn">건강 분석표 다운받기</button>
-        <button type="button" class="btn">건강 검진 통계 확인하기</button>
+        <button type="button" class="btn" id="download-pdf">건강 분석표 다운받기</button>
+        <button type="button" class="btn" onclick="location.href='/checkout/result-statistics'">건강 검진 통계 확인하기</button>
       </div>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script>
+    document.getElementById('download-pdf').addEventListener('click', function () {
+      // HTML 요소 선택
+      const content = document.querySelector('.container');
+
+      // PDF 옵션 설정
+      const options = {
+        margin: 11, // 페이지 여백
+        filename: '건강_분석표.pdf', // PDF 파일 이름
+        image: { type: 'jpeg', quality: 0.98 }, // 이미지 품질
+        html2canvas: { scale: 2 }, // 해상도 설정
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // PDF 포맷 및 방향
+      };
+
+      // HTML을 PDF로 변환
+      html2pdf().set(options).from(content).save();
+    });
+  </script>
 </th:block>
 </html>

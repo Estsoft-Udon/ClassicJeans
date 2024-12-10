@@ -332,3 +332,7 @@ select option:checked {
         padding: 20rem 1.5rem;
     }
 }
+
+.dis-no{
+    display: none;
+}

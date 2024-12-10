@@ -6,6 +6,7 @@ import com.example.classicjeans.entity.Bazi;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.repository.AlanBaziRepository;
 import com.example.classicjeans.repository.UsersRepository;
+import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,8 @@ public class AlanBaziService {
     private final UsersRepository usersRepository;
 
     @Autowired
-    public AlanBaziService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
+    public AlanBaziService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper,
+                           AlanBaziRepository alanBaziRepository, UsersRepository usersRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.alanBaziRepository = alanBaziRepository;
@@ -75,6 +77,7 @@ public class AlanBaziService {
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
 
     }
+
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
         AlanBaziResponse response = fetchBazi(request);  // fetchBazi 호출
 
@@ -99,7 +102,7 @@ public class AlanBaziService {
         return recentBazi.orElse(null);  // 해당하는 레코드가 없으면 null 반환
     }
 
-    public Boolean GetExistsByUserAndDate (Users user, LocalDate date) {
+    public Boolean GetExistsByUserAndDate(Users user, LocalDate date) {
         return alanBaziRepository.existsByUserAndDate(user, date);
     }
 
@@ -115,7 +118,9 @@ public class AlanBaziService {
 
             // 기존 운세의 내용을 정리 (필요한 내용을 제거)
             String cleanedContent = removeBaziContent(existingBazi.getContent());
-            response.setContent(cleanedContent);
+            String html =  MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
+          
+            response.setContent(html);
             return response;
         }
 
@@ -124,7 +129,8 @@ public class AlanBaziService {
 
         // 새로 받아온 운세 내용도 정리
         String cleanedContent = removeBaziContent(newResponse.getContent());
-        newResponse.setContent(cleanedContent);
+        String html = MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
+        newResponse.setContent(html);
 
         // DB에 새로운 운세 저장
         saveBazi(userId, request);
@@ -144,5 +150,4 @@ public class AlanBaziService {
                 .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
                 .trim();
     }
-
 }

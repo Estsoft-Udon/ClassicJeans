@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.response.NursingHomeResponse;
 import com.example.classicjeans.entity.NursingHomeData;
@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/nursing")
 public class NursingHomeController {
+
     private final NursingHomeService service;
 
     @GetMapping

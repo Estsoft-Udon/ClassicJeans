@@ -1,23 +1,17 @@
 package com.example.classicjeans.service;
 
-import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
-import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.entity.*;
-import com.example.classicjeans.repository.AlanBaziRepository;
-import com.example.classicjeans.repository.UsersRepository;
 import com.example.classicjeans.repository.DementiaDataRepository;
 import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -26,11 +20,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static com.example.classicjeans.util.SecurityUtil.*;
@@ -57,23 +48,12 @@ public class AlanService {
         this.dementiaDataRepository = dementiaDataRepository;
     }
 
-    // 앨런AI test - 추후 제거
-    public AlanBasicResponse fetchBasicResponse(String content) throws JsonProcessingException {
-        String responseBody = fetchResponse(content);
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
-    }
-
-    // 앨런AI test2 - 추후 제거
-    public AlanBasicResponse fetchHealthResponse(AlanHealthRequest request) throws JsonProcessingException {
-        String responseBody = fetchResponse(request.toString());
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
-    }
-
     // 기본 문진표 AI 검사
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        response.setHealthIndex(calculateHealthIndex(request));
         saveQuestionnaireData(request, response);
         return response;
     }
@@ -109,7 +89,8 @@ public class AlanService {
                 response.getDrinkingRate(),
                 response.getExerciseRate(),
                 response.getSummaryEvaluation(),
-                response.getImprovementSuggestions()
+                response.getImprovementSuggestions(),
+                response.getHealthIndex()
         );
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
             evaluation.setQuestionnaireData(data);
@@ -298,7 +279,6 @@ public class AlanService {
                 }
             }
         }
-
         if (results.isEmpty()) {
             try {
                 T emptyEntity = createEntity("정보가 없습니다.", targetClass);
@@ -307,7 +287,6 @@ public class AlanService {
                 System.err.println("Failed to create empty entity: " + e.getMessage());
             }
         }
-
         return results;
     }
 
@@ -328,6 +307,94 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
-//        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
+    }
+
+    // 건강 지수 계산
+    private Double calculateHealthIndex(AlanQuestionnaireRequest request) {
+        double score = 100.0;
+        double bmi = calculateBMI(request.getHeight(), request.getWeight());
+        if (bmi < 18.5) {
+            score -= 7.5;
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            score += 3.5;
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            score -= 4.5;
+        } else {
+            score -= 8.5;
+        }
+
+        // 만성 질환 상태
+        if (request.getChronicDisease() != null) {
+            score -= request.getChronicDisease().getImpactScore() * 2.5;
+        }
+
+        // 병원 방문 여부
+        if (request.getHospitalVisit() != null) {
+            score += request.getHospitalVisit().getImpactScore();
+        }
+
+        // 약물 영향
+        if (request.getCurrentMedication() != null) {
+            score -= request.getCurrentMedication().getImpactScore() * 0.8;
+        }
+
+        // 흡연 여부
+        if (request.getSmokingStatus() != null) {
+            score += request.getSmokingStatus().getImpactScore();
+        }
+
+        // 음주 빈도
+        if (request.getAlcoholConsumption() != null) {
+            score += request.getAlcoholConsumption().getImpactScore();
+        }
+
+        // 운동 빈도
+        if (request.getExerciseFrequency() != null) {
+            score += request.getExerciseFrequency().getImpactScore();
+        }
+
+        // 식습관
+        if (request.getDietPattern() != null) {
+            score += request.getDietPattern().getImpactScore();
+        }
+
+        // 정신 건강
+        if (request.getMoodStatus() != null) {
+            score += request.getMoodStatus().getImpactScore();
+        }
+        if (request.getSleepPattern() != null) {
+            score += request.getSleepPattern().getImpactScore();
+        }
+
+        // 사회적 활동
+        if (request.getIndependenceLevel() != null) {
+            score += request.getIndependenceLevel().getImpactScore();
+        }
+        if (request.getSocialParticipation() != null) {
+            score += request.getSocialParticipation().getImpactScore();
+        }
+
+        // 가족력
+        if (request.isHasGeneticDisease()) {
+            score -= 7.5;
+        }
+
+        // 체중 변화
+        if (request.getWeightChange() != null) {
+            score += request.getWeightChange().getImpactScore();
+        }
+
+        // 알레르기 여부
+        if (request.isHasAllergy()) {
+            score -= 3.5;
+        }
+
+        // 점수 제한 (최소 0, 최대 100)
+        return Math.round(Math.max(0, Math.min(100, score)) * 100.0) / 100.0;
+    }
+    
+    // BMI 계산
+    private double calculateBMI(double height, double weight) {
+        return weight / Math.pow(height / 100, 2);
     }
 }

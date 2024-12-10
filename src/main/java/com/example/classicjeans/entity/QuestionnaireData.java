@@ -120,6 +120,10 @@ public class QuestionnaireData {
     @OneToMany(mappedBy = "questionnaireData", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImprovementSuggestions> improvementSuggestions;
 
+    // 건강지수
+    @Column
+    private Double healthIndex;
+
     @PrePersist
     public void setDate() {
         this.date = LocalDate.now();
@@ -137,7 +141,7 @@ public class QuestionnaireData {
             SleepPattern sleepPattern, IndependenceLevel independenceLevel, SocialParticipation socialParticipation,
             boolean hasGeneticDisease, WeightChange weightChange, boolean hasAllergy, String ageGroup,
             Double averageHeight, Double averageWeight, Double smokingRate, Double drinkingRate,
-            Double exerciseRate, List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions) {
+            Double exerciseRate, List<SummaryEvaluation> summaryEvaluation, List<ImprovementSuggestions> improvementSuggestions, Double healthIndex) {
         if (userId != null) {
             this.userId = userId;
         }
@@ -170,5 +174,6 @@ public class QuestionnaireData {
         this.exerciseRate = exerciseRate;
         this.summaryEvaluation = summaryEvaluation;
         this.improvementSuggestions = improvementSuggestions;
+        this.healthIndex = healthIndex;
     }
 }

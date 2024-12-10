@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="headerFragment">
     <head>
-        <title>chungbaji</title>
+        <title>청바지</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="/css/reset.css">
@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="/css/footer.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <script src="/js/common.js"></script>
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     </head>
     <header>
         <h1 class="logo_box">
@@ -22,7 +23,7 @@
         </h1>
         <nav>
             <ul>
-                <li><a href="/checkout/checkout">AI 건강 검진</a></li>
+                <li><a href="/checkout">AI 건강 검진</a></li>
                 <li class="dept">
                     <a href="javascript:void(0)">정보 마당</a>
                     <div>
@@ -59,8 +60,11 @@
                     </div>
                 </li>
                 <!-- // 알람 -->
-                <li>
+                <li class="dept mypage_dept">
                     <a href="/mypage">마이페이지</a>
+                    <div>
+                        <a href="/checkout/result-statistics">내 건강 검진 통계</a>
+                    </div>
                 </li>
                 <li>
                     <a href="/logout">로그아웃</a>

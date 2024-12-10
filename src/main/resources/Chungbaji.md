@@ -131,6 +131,7 @@ CREATE TABLE questionnaire_data
     smoking_rate         DOUBLE       NOT NULL, -- 한국인 평균 흡연율
     drinking_rate        DOUBLE       NOT NULL, -- 한국인 평균 음주율
     exercise_rate        DOUBLE       NOT NULL, -- 한국인 평균 운동 실천율
+    health_index         DOUBLE,                -- 건강 지수
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (family_id) REFERENCES family_info (id) ON DELETE CASCADE
 );
