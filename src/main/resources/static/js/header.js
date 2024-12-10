@@ -2,23 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const eventSource = new EventSource(`/sse/connection`);
 
-    eventSource.onopen = function() {
+    eventSource.onopen = function () {
         console.log('SSE 연결 성공');
     };
 
-    eventSource.onmessage = function(event) {
+    eventSource.onmessage = function (event) {
         console.log('새로운 메시지:', event.data);
-    };
-
-    eventSource.onerror = function(error) {
-        console.error('SSE 오류:', error);
     };
 
     const notificationList = document.querySelector(".notification-list");
     const bellIcon = document.querySelector('.bell-icon');
     const notificationCount = document.querySelector('.notification-count');
 
-    eventSource.onmessage = function(event) {
+    eventSource.onmessage = function (event) {
         // 서버로부터 수신한 데이터를 파싱
         const notification = JSON.parse(event.data);
 
@@ -98,17 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateNotificationCount() {
         const remainingNotifications = notificationList.querySelectorAll('.notification-item.unread').length;
         notificationCount.textContent = remainingNotifications;
-
-        // 알림이 없으면 카운트 숨기기
         if (remainingNotifications === 0) {
-            notificationCount.style.display = 'none';
+            notificationCount.textContent = '0';
         } else {
-            notificationCount.style.display = 'inline-block';
-
-            const emptyMessage = document.querySelector(".empty_alarm");
-            if (emptyMessage) {
-                emptyMessage.remove();
-            }
+            notificationCount.textContent = remainingNotifications;
         }
     }
 

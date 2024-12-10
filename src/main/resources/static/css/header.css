@@ -124,13 +124,15 @@ header .user_box ul {
 }
 
 .notification-count {
+    width: 1.8rem;
+    height: 1.8rem;
     position: absolute;
     top: -5px;
     right: -5px;
     background-color: red;
     color: white;
     font-size: 1.2rem;
-    padding: 2px 5px;
+    padding: 3px 5px;
     border-radius: 50%;
     min-width: 18px;
     text-align: center;
