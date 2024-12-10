@@ -87,7 +87,7 @@ function listenForMessages() {
         eventSource.close();// 기존 연결 닫기
     }
 
-    eventSource = new EventSource('/chat/stream');
+    eventSource = new EventSource('api/chat/stream');
 
     // 서버로부터 userId 수신
     eventSource.addEventListener('userId', function (event) {
@@ -102,13 +102,6 @@ function listenForMessages() {
 
         scroll();
     });
-
-    // eventSource.onerror = function (event) {
-    //     console.error("SSE 연결 오류:", event);
-    //     if (eventSource.readyState === EventSource.CLOSED) {
-    //         console.log("SSE 연결이 종료되었습니다.");
-    //     }
-    // };
 
     eventSource.addEventListener('completed', function () {
         currentMessageBuffer = null;
@@ -125,7 +118,7 @@ function closeConnection() {
     // SSE 연결 종료 API 호출
     fetch(`api/chat/stream/close?userId=${userId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
     })
         .then(response => {
             if (response.ok) {
@@ -165,7 +158,7 @@ function scroll() {
 
 const inputText = document.getElementById('chat-input');
 const charCount = document.getElementById('charCount');
-const askButton  = document.getElementById('askButton');
+const askButton = document.getElementById('askButton');
 const maxLength = 1000;
 
 // 글자 수 제한 및 실시간 카운트 업데이트
