@@ -74,8 +74,9 @@ public class HospitalService {
     }
 
     // API에서 병원 목록을 가져오고 DB에 저장하는 메소드 (중복 체크 포함)
-    public void saveAllHospitals(int numOfRows) throws IOException, URISyntaxException {
+    public void saveAllHospitals() throws IOException, URISyntaxException {
         int pageNo = 1;
+        int numOfRows = 100;
         boolean hasNextPage = true;
 
         while (hasNextPage) {

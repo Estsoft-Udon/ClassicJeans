@@ -32,19 +32,17 @@ public class HospitalController {
     }
 
     // 전체 병원 목록 저장
-    @GetMapping("/saveAll")
+    @PostMapping
     public ResponseEntity<String> saveAllHospitals() {
         try {
-            hospitalService.saveAllHospitals(100);
+            hospitalService.saveAllHospitals();
             return ResponseEntity.ok("병원 목록이 DB에 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생: " + e.getMessage());
         }
     }
 
-
-
-    // 병원 명으로 병원 검색
+    // 병원명으로 병원 검색
     @GetMapping("/search")
     public Page<HospitalResponse> searchHospitalsByName(
             @RequestParam String name,
