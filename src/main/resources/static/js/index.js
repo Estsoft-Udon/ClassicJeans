@@ -21,11 +21,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-
-function goToChat() {
-    window.location.href = '/chat';
-};
-
 // 운세 확인 버튼
 document.querySelector('.bazi_btn').addEventListener('click', function() {
     this.classList.add('dn');
