@@ -318,4 +318,9 @@ public class AlanService {
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
     }
+
+    // BMI 계산
+    private double calculateBMI(double height, double weight) {
+        return weight / Math.pow(height / 100, 2);
+    }
 }
