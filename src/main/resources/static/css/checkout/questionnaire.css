@@ -177,7 +177,6 @@ input[type="text"]::placeholder {
     font-size: clamp(1.5rem, 1.04vw, 1.8rem);
 }
 
-
 /* 치매 검진 리스트 */
 .dementia_wr .progress-bar {
     left: 49%;
