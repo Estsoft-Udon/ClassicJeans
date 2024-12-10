@@ -29,14 +29,14 @@ import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/checkout")
-public class CheckupController {
+public class CheckupViewController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
     private final AlanService alenService;
 
     // 건강 검진 메인
-    @GetMapping("/checkout")
+    @GetMapping
     public String checkout(Model model) {
         Long userId = getLoggedInUser().getId();
         Users user = usersService.findUserById(userId);
