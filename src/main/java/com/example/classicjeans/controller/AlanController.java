@@ -56,25 +56,4 @@ public class AlanController {
         AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
         return ResponseEntity.ok(response);
     }
-
-    // 앨런 오늘의 운세
-    @GetMapping("/alan/bazi")
-    public ResponseEntity<AlanBaziResponse> getHealthResponse(
-            @RequestParam(value = "birthDate", required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> birthDate,
-            @RequestParam(value = "gender", required = false) Optional<String> gender) throws JsonProcessingException {
-
-        // 임의의 기본값 설정 - 추후 삭제
-        LocalDate finalBirthDate = birthDate.orElse(LocalDate.of(1999, 12, 10));
-        String finalGender = gender.orElse("female"); // 기본값 설정
-
-        // AlanBaziRequest 객체 생성 및 설정
-        AlanBaziRequest request = new AlanBaziRequest();
-        request.setBirthDate(finalBirthDate);
-        request.setGender(finalGender);
-
-        // 운세 조회
-        AlanBaziResponse response = alenService.fetchBazi(request);
-        return ResponseEntity.ok(response);
-    }
 }
