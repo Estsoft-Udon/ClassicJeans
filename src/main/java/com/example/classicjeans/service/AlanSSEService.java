@@ -50,14 +50,13 @@ public class AlanSSEService {
                     // 출력값이 "data: {
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
-                    System.out.println("json = " + json);
 
-                    // "complete"가 포함되면 스트리밍 종료 이벤트 전송
-                    if (json.contains("complete")) {
-                        emitter.send(SseEmitter.event().name("completed"));
-                        System.out.println("메세지가 종료됩니다.");
-                        break;
-                    }
+//                    // "complete"가 포함되면 스트리밍 종료 이벤트 전송
+//                    if (json.contains("complete")) {
+//                        emitter.send(SseEmitter.event().name("completed"));
+//                        System.out.println("메세지가 종료됩니다.");
+//                        break;
+//                    }
 
                     try {
                         // JSON 파싱

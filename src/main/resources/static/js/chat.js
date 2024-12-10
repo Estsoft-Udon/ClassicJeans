@@ -1,6 +1,6 @@
 let eventSource = null; // 전역변수로 설정
 let currentMessageBuffer = ""; // 메시지 누적 버퍼
-let emitterId = null; // 전역 변수로 설정
+let userId = null; // 전역 변수로 설정
 let messageContainer = null;
 
 const chatContainer = document.getElementById('chat-container');
@@ -89,9 +89,9 @@ function listenForMessages() {
 
     eventSource = new EventSource('/chat/stream');
 
-    // 서버로부터 emitterId 수신
-    eventSource.addEventListener('emitterId', function (event) {
-        emitterId = event.data; // 서버에서 받은 emitterId 저장
+    // 서버로부터 userId 수신
+    eventSource.addEventListener('userId', function (event) {
+        userId = event.data; // 서버에서 받은 userId 저장
     });
 
     // 현재 메세지를 추가할 요소
@@ -103,12 +103,12 @@ function listenForMessages() {
         scroll();
     });
 
-    eventSource.onerror = function (event) {
-        console.error("SSE 연결 오류:", event);
-        if (eventSource.readyState === EventSource.CLOSED) {
-            console.log("SSE 연결이 종료되었습니다.");
-        }
-    };
+    // eventSource.onerror = function (event) {
+    //     console.error("SSE 연결 오류:", event);
+    //     if (eventSource.readyState === EventSource.CLOSED) {
+    //         console.log("SSE 연결이 종료되었습니다.");
+    //     }
+    // };
 
     eventSource.addEventListener('completed', function () {
         currentMessageBuffer = null;
@@ -117,16 +117,15 @@ function listenForMessages() {
 }
 
 function closeConnection() {
-    if (!emitterId) {
-        console.error("emitterId를 찾을 수 없습니다!");
+    if (!userId) {
+        console.error("userId를 찾을 수 없습니다!");
         return;
     }
 
     // SSE 연결 종료 API 호출
-    fetch('/chat/stream/close', {
+    fetch(`/chat/stream/close?userId=${userId}`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({emitterId}) // emitterId 필요
+        headers: { 'Content-Type': 'application/json' },
     })
         .then(response => {
             if (response.ok) {

@@ -1,7 +1,9 @@
 package com.example.classicjeans.controller;
 
 
+import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanSSEService;
+import com.example.classicjeans.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -14,36 +16,37 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Long, SseEmitter> emitters = new ConcurrentHashMap<>();
     private final AlanSSEService alanSSEService;
 
     // SSE 연결 설정
     @GetMapping("/stream")
     public SseEmitter connect() {
         SseEmitter emitter = new SseEmitter(0L); // 무제한 타임아웃
-        String emitterId = String.valueOf(emitter.hashCode());
+        Users user = SecurityUtil.getLoggedInUser();
+        Long userId = user.getId();
 
-        System.out.println("SSE 연결 시작 : " + emitterId);
-        emitters.put(emitterId, emitter);
+        System.out.println("SSE 연결 시작 연결된 userId: " + userId);
+        emitters.put(userId, emitter);
 
         // 클라이언트에 emitterId 전송
         try {
-            emitter.send(SseEmitter.event().name("emitterId").data(emitterId));
+            emitter.send(SseEmitter.event().name("userId").data(userId));
         } catch (IOException e) {
-            emitters.remove(emitterId);
+            emitters.remove(userId);
         }
 
         emitter.onCompletion(() -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onCompletion): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onCompletion): " + userId);
         });
         emitter.onTimeout(() -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onTimeout): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onTimeout): " + userId);
         });
         emitter.onError((ex) -> {
-            emitters.remove(emitterId);
-            System.out.println("SSE 연결 종료 (onError): " + emitterId);
+            emitters.remove(userId);
+            System.out.println("SSE 연결 종료 (onError): " + userId);
         });
 
         return emitter;
@@ -65,9 +68,12 @@ public class ChatController {
 
     // SSE 연결 종료
     @PostMapping("/stream/close")
-    public void closeConnection(@RequestBody String emitterId) {
-        SseEmitter emitter = emitters.remove(emitterId);
-        System.out.println("SSE 연결 종료 " + emitterId);
+    public void closeConnection(@RequestParam Long userId) {
+
+        // @RequestBody를 내가 Long으로 바꿨는데 그게 문제가 될까?
+
+        SseEmitter emitter = emitters.remove(userId);
+        System.out.println("SSE 연결 종료 " + userId);
 
         if (emitter != null) {
             try {
