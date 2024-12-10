@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.request.FamilyInfoRequest;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;

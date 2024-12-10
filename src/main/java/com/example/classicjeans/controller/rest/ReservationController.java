@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.request.ReservationRequest;
 import com.example.classicjeans.dto.response.ReservationResponse;
@@ -19,15 +19,16 @@ import java.util.List;
 import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
     private final ReservationNotificationService notificationService;
     private final ObjectMapper objectMapper;
 
-    @PostMapping("/api/reservation")
+    @PostMapping("/reservation")
     public ResponseEntity<Reservation> reserve(@RequestBody ReservationRequest request) {
-        if(getLoggedInUser() == null) {
+        if (getLoggedInUser() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -38,7 +39,7 @@ public class ReservationController {
     public SseEmitter connectToSse() {
         SseEmitter emitter = new SseEmitter();
         // 구독 처리: userId에 해당하는 emitter를 관리
-        if(getLoggedInUser() != null) {
+        if (getLoggedInUser() != null) {
             Long userId = getLoggedInUser().getId();
             emitter = notificationService.subscribe(userId);
         }
@@ -46,7 +47,7 @@ public class ReservationController {
         return emitter;
     }
 
-    @GetMapping("/api/reservation")
+    @GetMapping("/reservation")
     public void sendNotification() throws JsonProcessingException {
         LocalDateTime oneDayAfter = LocalDateTime.now().plusDays(1);
 
@@ -73,41 +74,41 @@ public class ReservationController {
         }
     }
 
-    @GetMapping("/api/reservations")
+    @GetMapping("/reservations")
     public ResponseEntity<List<ReservationResponse>> getReservations() {
         List<ReservationResponse> reservations =
                 reservationService.findAll().stream().map(ReservationResponse::new).toList();
         return ResponseEntity.ok(reservations);
     }
 
-    @GetMapping("/api/notifications")
+    @GetMapping("/notifications")
     public ResponseEntity<List<Reservation>> getNotifications() {
         Users user = getLoggedInUser();
-        if(user == null) {
+        if (user == null) {
             return ResponseEntity.badRequest().build();
         }
 
         List<Reservation> notifications = reservationService.findAllByUserId(user.getId());
         System.out.println("notifications.size() = " + notifications.size());
 
-        return ResponseEntity.ok(notifications);    
+        return ResponseEntity.ok(notifications);
     }
 
-    @DeleteMapping("/api/reservation/{id}")
+    @DeleteMapping("/reservation/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {
         reservationService.deleteReservationById(id);
 
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/api/reservation/read/{id}")
+    @PostMapping("/reservation/read/{id}")
     public ResponseEntity<Reservation> setReservationRead(@PathVariable Long id) {
         System.out.println("setReadTrue 읽음 처리");
 
         return ResponseEntity.ok(reservationService.setReadTrue(id));
     }
 
-    @DeleteMapping("/api/reservation/read/{id}")
+    @DeleteMapping("/reservation/read/{id}")
     public ResponseEntity<Reservation> setReservationUnRead(@PathVariable Long id) {
         System.out.println("setReadFalse 읽음 처리 취소");
 

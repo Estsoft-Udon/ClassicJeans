@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.UsersResponse;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.example.classicjeans.util.SecurityUtil.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor

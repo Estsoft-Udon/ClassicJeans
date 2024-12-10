@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.view;
 
 
 import com.example.classicjeans.dto.request.UsersRequest;
@@ -96,7 +96,7 @@ public class ViewController {
             }
 
             String uniqueKey = (String) session.getAttribute("uniqueKey");
-            if(uniqueKey != null) {
+            if (uniqueKey != null) {
                 request.setUniqueKey(uniqueKey);
             }
 
@@ -110,5 +110,10 @@ public class ViewController {
             model.addAttribute("error", e.getMessage());
             return "member/signup";
         }
+    }
+
+    @GetMapping("chat")
+    public String chat() {
+        return "chat/chat";
     }
 }

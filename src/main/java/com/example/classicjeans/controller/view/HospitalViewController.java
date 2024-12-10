@@ -1,4 +1,4 @@
-package com.example.classicjeans.controller;
+package com.example.classicjeans.controller.view;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
 import com.example.classicjeans.entity.Users;
