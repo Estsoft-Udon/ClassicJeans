@@ -1,23 +1,17 @@
 package com.example.classicjeans.service;
 
-import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanBasicResponse;
-import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.entity.*;
-import com.example.classicjeans.repository.AlanBaziRepository;
-import com.example.classicjeans.repository.UsersRepository;
 import com.example.classicjeans.repository.DementiaDataRepository;
 import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -26,11 +20,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static com.example.classicjeans.util.SecurityUtil.*;
@@ -298,7 +289,6 @@ public class AlanService {
                 }
             }
         }
-
         if (results.isEmpty()) {
             try {
                 T emptyEntity = createEntity("정보가 없습니다.", targetClass);
@@ -307,7 +297,6 @@ public class AlanService {
                 System.err.println("Failed to create empty entity: " + e.getMessage());
             }
         }
-
         return results;
     }
 
@@ -328,6 +317,5 @@ public class AlanService {
     // 출처 링크 제거
     private String removeSourceLinks(String text) {
         return text.replaceAll(URL_PATTERN, "").trim();
-//        return objectMapper.readValue(response.getBody(), AlanBasicResponse.class);
     }
 }
