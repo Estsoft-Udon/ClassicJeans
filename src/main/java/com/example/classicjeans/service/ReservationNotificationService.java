@@ -39,8 +39,7 @@ public class ReservationNotificationService {
         SseEmitter emitter = emitters.get(userId);
         if (emitter != null) {
             try {
-                emitter.send(message, MediaType.TEXT_EVENT_STREAM);
-                System.out.println(message);
+                emitter.send(message, MediaType.APPLICATION_JSON);
             } catch (IOException e) {
                 emitters.remove(userId); // 전송 실패 시 제거
             }

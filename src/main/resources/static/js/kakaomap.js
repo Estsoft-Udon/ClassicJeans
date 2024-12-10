@@ -29,11 +29,8 @@ function renderMap(address) {
 
         if (status === kakao.maps.services.Status.OK) {
             coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            console.log('주소 검색 성공:', coords);
-            console.log('입력된 주소:' + address);
         } else {
             coords = new kakao.maps.LatLng(37.5665, 126.9780); // 기본 좌표
-            console.warn('주소 검색 실패. 기본 좌표를 사용합니다.');
         }
 
         // 지도 옵션 설정

@@ -1,6 +1,5 @@
 package com.example.classicjeans.config;
 
-import com.example.classicjeans.oauth.CustomOAuth2LoginSuccessHandler;
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
 import com.example.classicjeans.security.UsersDetailService;
@@ -19,8 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomAuthFailureHandler customAuthFailureHandler;
-    private final UsersDetailService usersDetailService;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
 
     @Bean
@@ -32,7 +29,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        custom -> custom.requestMatchers("/**").permitAll()
+                        custom -> custom
+                                .requestMatchers("/", "/login", "/signup", "/find_id", "/find_pw",
+                                        "/success", "/change_pw_find", "/send-email").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
                 .formLogin(custom -> {
                     custom.loginPage("/login")

@@ -31,6 +31,12 @@ public class Reservation {
     @Column(name = "time", nullable = false)
     private LocalDateTime time;  // 예약 시간
 
+    @Column(name = "is_notificated")
+    private Boolean isNotificated = false;  // 알림 여부
+
+    @Column(name = "is_read")
+    private Boolean isRead = false;  // 읽음 여부
+
     public Reservation(Users user, String reserverName, HospitalData hospital, LocalDateTime time) {
         this.user = user;
         this.reserverName = reserverName;

@@ -16,15 +16,17 @@ public class AppConfig {
         return new RestTemplate();
     }
 
-    // SSE-Streaming Json parse 추가
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // Java 8 시간 API 모듈 등록
         objectMapper.registerModule(new JavaTimeModule());
 
+        // 타임스탬프 대신 ISO 형식 사용
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
+        // Single quote 허용
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 
         return objectMapper;
