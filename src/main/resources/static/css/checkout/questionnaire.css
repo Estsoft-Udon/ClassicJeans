@@ -89,9 +89,14 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
     border: 0.8rem solid #efefef;
 }
-
-.step.active .circle {
+.step:hover .circle,
+.step.active .circle,
+.step.valid .circle{
     background-color: #013E8B;
+    transform: scale(1.2);
+}
+.step.invalid:not(.active) .circle {
+    background-color: #d12e92;
     transform: scale(1.2);
 }
 
@@ -99,6 +104,7 @@
     margin-top: 1.5rem;
     font-size: clamp(1.5rem, 1.04vw, 1.8rem);
 }
+.step:hover p,
 .step.active p {
     font-weight: bold;
 }
