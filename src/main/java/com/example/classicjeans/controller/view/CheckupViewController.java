@@ -151,7 +151,7 @@ public class CheckupViewController {
     // 검사 결과 목록 페이지
     @GetMapping("/result-list")
     public String resultList(@RequestParam(defaultValue = "0") int page,
-                             @RequestParam(defaultValue = "7") int size,
+                             @RequestParam(defaultValue = "5") int size,
                              @RequestParam(defaultValue = "all") String choiceUser,
                              Model model) {
         Long userId = getLoggedInUser().getId();
