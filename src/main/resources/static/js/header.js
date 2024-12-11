@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(() => {
                 // UI 업데이트
                 if (isUnread) {
                     notificationItem.classList.remove('unread');

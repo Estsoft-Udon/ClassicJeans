@@ -198,8 +198,6 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         } else {
             alert('아이디, 닉네임, 이메일을 확인 해주세요');
         }
-
-        return;  // 폼 제출을 막고, 이후 코드 실행을 중단
     }
 });
 
