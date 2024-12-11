@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class SanatoriumViewController {
     private final SanatoriumService service;
 
-    @GetMapping("/sanatorium_list")
+    @GetMapping("/sanatorium-list")
     public String getSanatoriumList(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
                                     @RequestParam(required = false) String province,
@@ -25,10 +25,9 @@ public class SanatoriumViewController {
         Pageable pageable = PageRequest.of(page, size);
         Page<SanatoriumResponse> sanatoriums;
 
-        if(search != null) {
+        if (search != null) {
             sanatoriums = service.searchSanatoriumByName(pageable, search);
-        }
-        else if (province != null && district != null) {
+        } else if (province != null && district != null) {
             sanatoriums = service.getSanatoriumBySubregion(pageable, province, district);
         } else {
             sanatoriums = service.getSanatoriumList(pageable);

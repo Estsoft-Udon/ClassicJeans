@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/checkout/questionnaire.css">
 </head>
@@ -36,7 +37,12 @@
                 </div>
             </div>
         </div>
-
+        <div class="tit questionnaire_tit">
+            <p>
+                <span>기본 건강 검진</span>을 시작합니다. <br>
+                현재 상태에 맞추어 문진표 작성을 진행해주세요☺️
+            </p>
+        </div>
         <form method="post" action="/checkout/questionnaire_list" class="content">
             <!-- 단계 1 -->
             <section class="step-content" id="step-0">
@@ -44,30 +50,44 @@
                 <div class="question">
                     <p>질문 1: 현재 신장과 몸무게를 적어주세요.</p>
                     <div class="flex_box">
-                        <div class="flex_box"><input type="text" name="height" value="" placeholder="신장을 적어주세요."><span>cm</span></div>
-                        <div class="flex_box"><input type="text" name="weight" value="" placeholder="몸무게를 적어주세요."><span>kg</span></div>
+                        <div class="flex_box"><input type="text" name="height" value="" placeholder="신장을 적어주세요."><span>cm</span>
+                        </div>
+                        <div class="flex_box"><input type="text" name="weight" value="" placeholder="몸무게를 적어주세요."><span>kg</span>
+                        </div>
                     </div>
                 </div>
                 <div class="question">
                     <p>질문 2: 현재 앓고 있는 만성 질환이 있나요?</p>
-                    <label><input type="radio" name="chronicDisease" value="NONE" onclick="handleRadioClick(event, this)"><span>없음</span></label>
-                    <label><input type="radio" name="chronicDisease" value="DIABETES" onclick="handleRadioClick(event, this)"><span>당뇨병</span></label>
-                    <label><input type="radio" name="chronicDisease" value="HYPERTENSION" onclick="handleRadioClick(event, this)"><span>고혈압</span></label>
-                    <label><input type="radio" name="chronicDisease" value="HEART_DISEASE" onclick="handleRadioClick(event, this)"><span>심장질환</span></label>
+                    <label><input type="radio" name="chronicDisease" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="chronicDisease" value="DIABETES"
+                                  onclick="handleRadioClick(event, this)"><span>당뇨병</span></label>
+                    <label><input type="radio" name="chronicDisease" value="HYPERTENSION"
+                                  onclick="handleRadioClick(event, this)"><span>고혈압</span></label>
+                    <label><input type="radio" name="chronicDisease" value="HEART_DISEASE"
+                                  onclick="handleRadioClick(event, this)"><span>심장질환</span></label>
                 </div>
                 <div class="question">
                     <p>질문 3: 최근 6개월 내 병원에 방문한 적이 있나요?</p>
-                    <label><input type="radio" name="hospitalVisit" value="NONE" onclick="handleRadioClick(event, this)"><span>방문한 적 없음</span></label>
-                    <label><input type="radio" name="hospitalVisit" value="REGULAR_CHECKUP" onclick="handleRadioClick(event, this)"><span>정기 건강 검진</span></label>
-                    <label><input type="radio" name="hospitalVisit" value="DISEASE_TREATMENT" onclick="handleRadioClick(event, this)"><span>질환 치료</span></label>
-                    <label><input type="radio" name="hospitalVisit" value="EMERGENCY" onclick="handleRadioClick(event, this)"><span>응급 상황</span></label>
+                    <label><input type="radio" name="hospitalVisit" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>방문한 적 없음</span></label>
+                    <label><input type="radio" name="hospitalVisit" value="REGULAR_CHECKUP"
+                                  onclick="handleRadioClick(event, this)"><span>정기 건강 검진</span></label>
+                    <label><input type="radio" name="hospitalVisit" value="DISEASE_TREATMENT"
+                                  onclick="handleRadioClick(event, this)"><span>질환 치료</span></label>
+                    <label><input type="radio" name="hospitalVisit" value="EMERGENCY"
+                                  onclick="handleRadioClick(event, this)"><span>응급 상황</span></label>
                 </div>
                 <div class="question">
                     <p>질문 4: 현재 복용 중인 약물이 있나요?</p>
-                    <label><input type="radio" name="currentMedication" value="NONE" onclick="handleRadioClick(event, this)"><span>복용 약물 없음</span></label>
-                    <label><input type="radio" name="currentMedication" value="BLOOD_PRESSURE_MEDICINE" onclick="handleRadioClick(event, this)"><span>혈압약</span></label>
-                    <label><input type="radio" name="currentMedication" value="DIABETES_MEDICINE" onclick="handleRadioClick(event, this)"><span>당뇨병 약</span></label>
-                    <label><input type="radio" name="currentMedication" value="HEART_MEDICINE" onclick="handleRadioClick(event, this)"><span>심장 관련 약물</span></label>
+                    <label><input type="radio" name="currentMedication" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>복용 약물 없음</span></label>
+                    <label><input type="radio" name="currentMedication" value="BLOOD_PRESSURE_MEDICINE"
+                                  onclick="handleRadioClick(event, this)"><span>혈압약</span></label>
+                    <label><input type="radio" name="currentMedication" value="DIABETES_MEDICINE"
+                                  onclick="handleRadioClick(event, this)"><span>당뇨병 약</span></label>
+                    <label><input type="radio" name="currentMedication" value="HEART_MEDICINE"
+                                  onclick="handleRadioClick(event, this)"><span>심장 관련 약물</span></label>
                 </div>
             </section>
 
@@ -76,30 +96,42 @@
                 <h2>생활 습관</h2>
                 <div class="question">
                     <p>질문 1: 현재 흡연하시나요?</p>
-                    <label><input type="radio" name="smokingStatus" value="CURRENTLY_SMOKING" onclick="handleRadioClick(event, this)"><span>현재 흡연 중</span></label>
-                    <label><input type="radio" name="smokingStatus" value="FORMER_SMOKER" onclick="handleRadioClick(event, this)"><span>과거에 흡연했으나 현재는 금연</span></label>
-                    <label><input type="radio" name="smokingStatus" value="NON_SMOKER" onclick="handleRadioClick(event, this)"><span>비흡연</span></label>
+                    <label><input type="radio" name="smokingStatus" value="CURRENTLY_SMOKING"
+                                  onclick="handleRadioClick(event, this)"><span>현재 흡연 중</span></label>
+                    <label><input type="radio" name="smokingStatus" value="FORMER_SMOKER"
+                                  onclick="handleRadioClick(event, this)"><span>과거에 흡연했으나 현재는 금연</span></label>
+                    <label><input type="radio" name="smokingStatus" value="NON_SMOKER"
+                                  onclick="handleRadioClick(event, this)"><span>비흡연</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 2: 평소 음주를 하시나요?</p>
-                    <label><input type="radio" name="alcoholConsumption" value="NONE" onclick="handleRadioClick(event, this)"><span>하지 않음</span></label>
-                    <label><input type="radio" name="alcoholConsumption" value="OCCASIONAL" onclick="handleRadioClick(event, this)"><span>가끔 (월 1~2회)</span></label>
-                    <label><input type="radio" name="alcoholConsumption" value="REGULAR" onclick="handleRadioClick(event, this)"><span>보통 (주 1~2회)</span></label>
-                    <label><input type="radio" name="alcoholConsumption" value="FREQUENT" onclick="handleRadioClick(event, this)"><span>자주 (주 3회 이상)</span></label>
+                    <label><input type="radio" name="alcoholConsumption" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>하지 않음</span></label>
+                    <label><input type="radio" name="alcoholConsumption" value="OCCASIONAL"
+                                  onclick="handleRadioClick(event, this)"><span>가끔 (월 1~2회)</span></label>
+                    <label><input type="radio" name="alcoholConsumption" value="REGULAR"
+                                  onclick="handleRadioClick(event, this)"><span>보통 (주 1~2회)</span></label>
+                    <label><input type="radio" name="alcoholConsumption" value="FREQUENT"
+                                  onclick="handleRadioClick(event, this)"><span>자주 (주 3회 이상)</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 3: 평소 운동을 얼마나 자주 하시나요?</p>
-                    <label><input type="radio" name="exerciseFrequency" value="NONE" onclick="handleRadioClick(event, this)"><span>운동하지 않음</span></label>
-                    <label><input type="radio" name="exerciseFrequency" value="OCCASIONAL" onclick="handleRadioClick(event, this)"><span>가끔 (주 1~2회)</span></label>
-                    <label><input type="radio" name="exerciseFrequency" value="REGULAR" onclick="handleRadioClick(event, this)"><span>규칙적으로 (주 3회 이상)</span></label>
+                    <label><input type="radio" name="exerciseFrequency" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>운동하지 않음</span></label>
+                    <label><input type="radio" name="exerciseFrequency" value="OCCASIONAL"
+                                  onclick="handleRadioClick(event, this)"><span>가끔 (주 1~2회)</span></label>
+                    <label><input type="radio" name="exerciseFrequency" value="REGULAR"
+                                  onclick="handleRadioClick(event, this)"><span>규칙적으로 (주 3회 이상)</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 4: 평소 식사는 규칙적인가요?</p>
-                    <label><input type="radio" name="dietPattern" value="REGULAR_3_MEALS" onclick="handleRadioClick(event, this)"><span>규칙적으로 3끼 섭취</span></label>
-                    <label><input type="radio" name="dietPattern" value="IRREGULAR_MEALS" onclick="handleRadioClick(event, this)"><span>불규칙한 식사</span></label>
+                    <label><input type="radio" name="dietPattern" value="REGULAR_3_MEALS"
+                                  onclick="handleRadioClick(event, this)"><span>규칙적으로 3끼 섭취</span></label>
+                    <label><input type="radio" name="dietPattern" value="IRREGULAR_MEALS"
+                                  onclick="handleRadioClick(event, this)"><span>불규칙한 식사</span></label>
                 </div>
             </section>
 
@@ -108,16 +140,22 @@
                 <h2>정신 건강</h2>
                 <div class="question">
                     <p>질문 1: 최근 2주간 기분은 어땠나요?</p>
-                    <label><input type="radio" name="moodStatus" value="GOOD" onclick="handleRadioClick(event, this)"><span>좋음</span></label>
-                    <label><input type="radio" name="moodStatus" value="OCCASIONALLY_ANXIOUS_OR_DEPRESSED" onclick="handleRadioClick(event, this)"><span>가끔 우울하거나 불안했음</span></label>
-                    <label><input type="radio" name="moodStatus" value="PERSISTENTLY_ANXIOUS_OR_DEPRESSED" onclick="handleRadioClick(event, this)"><span>지속적으로 우울하거나 불안했음</span></label>
+                    <label><input type="radio" name="moodStatus" value="GOOD"
+                                  onclick="handleRadioClick(event, this)"><span>좋음</span></label>
+                    <label><input type="radio" name="moodStatus" value="OCCASIONALLY_ANXIOUS_OR_DEPRESSED"
+                                  onclick="handleRadioClick(event, this)"><span>가끔 우울하거나 불안했음</span></label>
+                    <label><input type="radio" name="moodStatus" value="PERSISTENTLY_ANXIOUS_OR_DEPRESSED"
+                                  onclick="handleRadioClick(event, this)"><span>지속적으로 우울하거나 불안했음</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 2: 평소 수면 패턴은 어떠신가요?</p>
-                    <label><input type="radio" name="sleepPattern" value="SUFFICIENT" onclick="handleRadioClick(event, this)"><span>충분한 수면 (6~8시간)</span></label>
-                    <label><input type="radio" name="sleepPattern" value="INSUFFICIENT" onclick="handleRadioClick(event, this)"><span>부족한 수면 (6시간 미만)</span></label>
-                    <label><input type="radio" name="sleepPattern" value="IRREGULAR" onclick="handleRadioClick(event, this)"><span>불규칙하거나 수면 질이 낮음</span></label>
+                    <label><input type="radio" name="sleepPattern" value="SUFFICIENT"
+                                  onclick="handleRadioClick(event, this)"><span>충분한 수면 (6~8시간)</span></label>
+                    <label><input type="radio" name="sleepPattern" value="INSUFFICIENT"
+                                  onclick="handleRadioClick(event, this)"><span>부족한 수면 (6시간 미만)</span></label>
+                    <label><input type="radio" name="sleepPattern" value="IRREGULAR"
+                                  onclick="handleRadioClick(event, this)"><span>불규칙하거나 수면 질이 낮음</span></label>
                 </div>
             </section>
 
@@ -126,16 +164,22 @@
                 <h2>사회적 활동</h2>
                 <div class="question">
                     <p>질문 1: 일상 생활에서 자립적으로 활동하시나요?</p>
-                    <label><input type="radio" name="independenceLevel" value="FULLY_INDEPENDENT" onclick="handleRadioClick(event, this)"><span>완전히 자립적</span></label>
-                    <label><input type="radio" name="independenceLevel" value="PARTIALLY_DEPENDENT" onclick="handleRadioClick(event, this)"><span>부분적으로 도움 필요</span></label>
-                    <label><input type="radio" name="independenceLevel" value="FULLY_DEPENDENT" onclick="handleRadioClick(event, this)"><span>완전한 도움 필요</span></label>
+                    <label><input type="radio" name="independenceLevel" value="FULLY_INDEPENDENT"
+                                  onclick="handleRadioClick(event, this)"><span>완전히 자립적</span></label>
+                    <label><input type="radio" name="independenceLevel" value="PARTIALLY_DEPENDENT"
+                                  onclick="handleRadioClick(event, this)"><span>부분적으로 도움 필요</span></label>
+                    <label><input type="radio" name="independenceLevel" value="FULLY_DEPENDENT"
+                                  onclick="handleRadioClick(event, this)"><span>완전한 도움 필요</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 2: 사회적 활동에 참여하시나요?</p>
-                    <label><input type="radio" name="socialParticipation" value="NONE" onclick="handleRadioClick(event, this)"><span>참여하지 않음</span></label>
-                    <label><input type="radio" name="socialParticipation" value="OCCASIONAL" onclick="handleRadioClick(event, this)"><span>가끔 참여</span></label>
-                    <label><input type="radio" name="socialParticipation" value="FREQUENT" onclick="handleRadioClick(event, this)"><span>자주 참여</span></label>
+                    <label><input type="radio" name="socialParticipation" value="NONE"
+                                  onclick="handleRadioClick(event, this)"><span>참여하지 않음</span></label>
+                    <label><input type="radio" name="socialParticipation" value="OCCASIONAL"
+                                  onclick="handleRadioClick(event, this)"><span>가끔 참여</span></label>
+                    <label><input type="radio" name="socialParticipation" value="FREQUENT"
+                                  onclick="handleRadioClick(event, this)"><span>자주 참여</span></label>
                 </div>
             </section>
 
@@ -144,8 +188,10 @@
                 <h2>가족력</h2>
                 <div class="question">
                     <p>질문 1: 가족 중 유전적 질환이 있나요?</p>
-                    <label><input type="radio" name="hasGeneticDisease" value="true" onclick="handleRadioClick(event, this)"><span>있음</span></label>
-                    <label><input type="radio" name="hasGeneticDisease" value="false" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="hasGeneticDisease" value="true"
+                                  onclick="handleRadioClick(event, this)"><span>있음</span></label>
+                    <label><input type="radio" name="hasGeneticDisease" value="false"
+                                  onclick="handleRadioClick(event, this)"><span>없음</span></label>
                 </div>
             </section>
 
@@ -155,14 +201,18 @@
                 <div class="question">
                     <p>질문 1: 최근 체중에 변화가 있었나요?</p>
                     <label><input type="radio" name="weightChange" value="NONE" onclick="handleRadioClick(event, this)"><span>변화 없음</span></label>
-                    <label><input type="radio" name="weightChange" value="WEIGHT_GAIN" onclick="handleRadioClick(event, this)"><span>체중 증가</span></label>
-                    <label><input type="radio" name="weightChange" value="WEIGHT_LOSS" onclick="handleRadioClick(event, this)"><span>체중 감소</span></label>
+                    <label><input type="radio" name="weightChange" value="WEIGHT_GAIN"
+                                  onclick="handleRadioClick(event, this)"><span>체중 증가</span></label>
+                    <label><input type="radio" name="weightChange" value="WEIGHT_LOSS"
+                                  onclick="handleRadioClick(event, this)"><span>체중 감소</span></label>
                 </div>
 
                 <div class="question">
                     <p>질문 2: 알레르기가 있나요?</p>
-                    <label><input type="radio" name="hasAllergy" value="true" onclick="handleRadioClick(event, this)"><span>있음</span></label>
-                    <label><input type="radio" name="hasAllergy" value="false" onclick="handleRadioClick(event, this)"><span>없음</span></label>
+                    <label><input type="radio" name="hasAllergy" value="true"
+                                  onclick="handleRadioClick(event, this)"><span>있음</span></label>
+                    <label><input type="radio" name="hasAllergy" value="false"
+                                  onclick="handleRadioClick(event, this)"><span>없음</span></label>
                 </div>
             </section>
 

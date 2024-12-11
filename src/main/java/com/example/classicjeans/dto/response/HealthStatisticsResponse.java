@@ -9,9 +9,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HealthReportResponse {
-    private String type;
-    private Long id;
-    private String name;
+public class HealthStatisticsResponse {
+    private Double bmi;
+    private Double healthIndex;
     private LocalDate date;
 }

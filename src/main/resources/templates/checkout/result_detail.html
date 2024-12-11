@@ -12,13 +12,13 @@
             <div class="tit">
                 <h1>
                     회원님의
-                    <span >2024년 12월 10일</span>
+                    <span th:text="${healthReport.date}">2024년 12월 10일</span>
                     검사 결과 입니다.
                 </h1>
             </div>
             <div class="container cont_wr">
-                <h2>분석 결과</h2>
-                <table>
+                <h2 th:if="${reportType.toLowerCase() == 'questionnaire'}">분석 결과</h2>
+                <table th:if="${reportType.toLowerCase() == 'questionnaire'}">
                     <thead>
                     <tr>
                         <th>항목</th>
@@ -29,92 +29,93 @@
                     <tbody>
                     <tr>
                         <td>성별</td>
-                        <td>남성</td>
-                        <td>남성</td>
+                        <td th:text="${healthReport.gender.displayName}">남성</td>
+                        <td th:text="${healthReport.gender.displayName}">남성</td>
                     </tr>
                     <tr>
                         <td>나이</td>
-                        <td></td>
-                        <td></td>
+                        <td th:text="${healthReport.age}"></td>
+                        <td th:text="${healthReport.ageGroup}"></td>
                     </tr>
                     <tr>
                         <td>신장</td>
-                        <td>175cm</td>
-                        <td>175cm</td>
+                        <td th:text="${healthReport.height} + 'cm'">175cm</td>
+                        <td th:text="${healthReport.averageHeight} + 'cm'">175cm</td>
                     </tr>
                     <tr>
                         <td>체중</td>
-                        <td>70kg</td>
-                        <td>75kg</td>
+                        <td th:text="${healthReport.weight} + 'kg'">70kg</td>
+                        <td th:text="${healthReport.averageWeight} + 'kg'">75kg</td>
                     </tr>
                     <tr>
                         <td>흡연 여부</td>
-                        <td>비흡연</td>
-                        <td>32.8% 흡연율 (출처42)</td>
+                        <td th:text="${healthReport.smokingStatus.displayName}">비흡연</td>
+                        <td th:text="${healthReport.smokingRate} + '% 흡연율'">32.8% 흡연율 (출처42)</td>
                     </tr>
                     <tr>
                         <td>음주 빈도</td>
-                        <td>주 1회</td>
-                        <td>57.4% 음주율 (출처41)</td>
+                        <td th:text="${healthReport.alcoholConsumption.displayName}">주 1회</td>
+                        <td th:text="${healthReport.drinkingRate} + '% 음주율'">57.4% 음주율 (출처41)</td>
                     </tr>
                     <tr>
                         <td>운동 빈도</td>
-                        <td>주 3회</td>
-                        <td>47.9% 걷기실천율 (출처52)</td>
+                        <td th:text="${healthReport.exerciseFrequency.displayName}">주 3회</td>
+                        <td th:text="${healthReport.exerciseRate} + '% 규칙적 운동 비율'">47.9% 걷기실천율 (출처52)</td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="txt_wr">
-                    <div class="txt_box">
-                        <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
+                    <div class="txt_box" th:if="${reportType.toLowerCase() == 'questionnaire'}">
+                        <h3>* 문진표 추가 정보 *</h3>
                         <ul>
-                            <li class="dots">현재 앓고 있는 만성질환 여부: </li>
-                            <li class="dots">최근 6개월 내 병원에 방문 여부: </li>
-                            <li class="dots">복용 중인 약물: </li>
-                            <li class="dots">식사: </li>
-                            <li class="dots">최근 2주간 기분: </li>
-                            <li class="dots">평소 수면 패턴: </li>
-                            <li class="dots">일상에서 자립적으로 활동 여부: </li>
-                            <li class="dots">사회적 활동 참여 여부: </li>
-                            <li class="dots">유전적 질환 여부: </li>
-                            <li class="dots">체중에 변화 여부: </li>
-                            <li class="dots">알레르기 여부: </li>
+                            <li class="dots" th:text="'현재 앓고 있는 만성질환 여부: ' + ${healthReport.chronicDisease.displayName}"></li>
+                            <li class="dots" th:text="'최근 6개월 내 병원에 방문 여부: ' + ${healthReport.hospitalVisit.displayName}"></li>
+                            <li class="dots" th:text="'복용 중인 약물: ' + ${healthReport.currentMedication.displayName}"></li>
+                            <li class="dots" th:text="'식사: ' + ${healthReport.dietPattern.displayName}"></li>
+                            <li class="dots" th:text="'최근 2주간 기분: ' + ${healthReport.moodStatus.displayName}"></li>
+                            <li class="dots" th:text="'평소 수면 패턴: ' + ${healthReport.sleepPattern.displayName}"></li>
+                            <li class="dots" th:text="'일상에서 자립적으로 활동 여부: ' + ${healthReport.independenceLevel.displayName}"></li>
+                            <li class="dots" th:text="'사회적 활동 참여 여부: ' + ${healthReport.socialParticipation.displayName}"></li>
+                            <li class="dots" th:text="'유전적 질환 여부: ' + (${healthReport.hasGeneticDisease} ? '있음' : '없음')"></li>
+                            <li class="dots" th:text="'체중에 변화 여부: ' + ${healthReport.weightChange.displayName}"></li>
+                            <li class="dots" th:text="'알레르기 여부: ' + (${healthReport.hasAllergy} ? '있음' : '없음')"></li>
                         </ul>
                     </div>
-                    <div class="txt_box">
-                        <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
+                    <div class="txt_box"  th:if="${reportType.toLowerCase() == 'dementia'}">
+                        <h3>* 문진표 입력 정보 *</h3>
                         <ul>
-                            <li class="dots">나이: </li>
-                            <li class="dots">성별: </li>
-                            <li class="dots">기억력 변화: </li>
-                            <li class="dots">일상 생활에서의 혼란 정도: </li>
-                            <li class="dots">문제 해결 능력 변화: </li>
-                            <li class="dots">날짜 요일: </li>
-                            <li class="dots">현재 위치: </li>
-                            <li class="dots">최근 사건 기억: </li>
-                            <li class="dots">질문 반복: </li>
-                            <li class="dots">물건 분실 빈도: </li>
-                            <li class="dots">일상 생활 활동 어려움: </li>
-                            <li class="dots">혼자 외출: </li>
-                            <li class="dots">금전 관리: </li>
-                            <li class="dots">불안하거나 우울하거나 공격적인 행동: </li>
-                            <li class="dots">환각이나 망상 경험: </li>
-                            <li class="dots">수면 패턴 변화: </li>
-                            <li class="dots">고혈압, 당뇨병 등의 질환 여부: </li>
-                            <li class="dots">과거 뇌졸중이나 뇌손상을 입은 적: </li>
-                            <li class="dots">가족 중 치매 환자 여부: </li>
+                            <li class="dots" th:text="'나이: ' + ${healthReport.userId != null ? healthReport.userId.getAge() : healthReport.familyId.getAge()}"></li>
+                            <li class="dots" th:text="'성별: ' + ${healthReport.userId != null ? healthReport.userId.gender.displayName : healthReport.familyId.gender.displayName}"></li>
+                            <li class="dots" th:text="'기억력 변화: ' + ${healthReport.memoryChange.displayName}"></li>
+                            <li class="dots" th:text="'일상 생활에서의 혼란 정도: ' + ${healthReport.dailyConfusion.displayName}"></li>
+                            <li class="dots" th:text="'문제 해결 능력 변화: ' + ${healthReport.problemSolvingChange.displayName}"></li>
+                            <li class="dots" th:text="'날짜 요일: ' + (${healthReport.knowsDate} ? '알고 있음' : '헷갈리거나 잘 모름')"></li>
+                            <li class="dots" th:text="'현재 위치: ' + (${healthReport.knowsLocation} ? '알고 있음' : '헷갈리거나 잘 모름')"></li>
+                            <li class="dots" th:text="'최근 사건 기억: ' + (${healthReport.remembersRecentEvents} ? '기억함' : '헷갈리거나 기억하지 못함')"></li>
+                            <li class="dots" th:text="'질문 반복: ' + ${healthReport.frequencyOfRepetition.displayName}"></li>
+                            <li class="dots" th:text="'물건 분실 빈도: ' + ${healthReport.lostItemsFrequency.displayName}"></li>
+                            <li class="dots" th:text="'일상 생활 활동 어려움: ' + ${healthReport.dailyActivityDifficulty.displayName}"></li>
+                            <li class="dots" th:text="'혼자 외출: ' + ${healthReport.goingOutAlone.displayName}"></li>
+                            <li class="dots" th:text="'금전 관리: ' + ${healthReport.financialManagementDifficulty.displayName}"></li>
+                            <li class="dots" th:text="'불안하거나 우울하거나 공격적인 행동: ' + ${healthReport.anxietyOrAggression.displayName}"></li>
+                            <li class="dots" th:text="'환각이나 망상 경험: ' + ${healthReport.hallucinationOrDelusion.displayName}"></li>
+                            <li class="dots" th:text="'수면 패턴 변화: ' + ${healthReport.sleepPatternChange.displayName}"></li>
+                            <li class="dots" th:text="'고혈압, 당뇨병 등의 질환 여부: ' + (${healthReport.hasChronicDiseases} ? '있음' : '없음')"></li>
+                            <li class="dots" th:text="'과거 뇌졸중이나 뇌손상을 입은 적: ' + (${healthReport.hasStrokeHistory} ? '있음' : '없음')"></li>
+                            <li class="dots" th:text="'가족 중 치매 환자 여부: ' + (${healthReport.hasFamilyDementia} ? '있음' : '없음')"></li>
                         </ul>
                     </div>
                     <div class="txt_box">
                         <h2>종합 평가</h2>
                         <ul>
-                            <li class="dots">건강</li>
+                            <li class="dots" th:if="${reportType.toLowerCase() == 'questionnaire'}" th:text="'건강 지수: ' + ${healthReport.healthIndex} + '점'"></li>
+                            <li class="dots" th:each="evaluation : ${healthReport.summaryEvaluation}" th:utext="${evaluation.evaluation}"></li>
                         </ul>
                     </div>
                     <div class="txt_box">
                         <h2>개선 사항</h2>
                         <ul>
-                            <li class="dots">건강</li>
+                            <li class="dots" th:each="suggestion : ${healthReport.improvementSuggestions}" th:utext="${suggestion.suggestion}"></li>
                         </ul>
                     </div>
                 </div>

@@ -19,7 +19,7 @@ public class HospitalViewController {
     private HospitalService hospitalService;
 
     // 병원 목록 조회
-    @GetMapping("/hospital_list")
+    @GetMapping("/hospital-list")
     public String hospitalList(@RequestParam(value = "search", required = false) String search,
                                @RequestParam(value = "city", required = false) String city,
                                @RequestParam(value = "district", required = false) String district,
@@ -52,7 +52,7 @@ public class HospitalViewController {
         model.addAttribute("search", search);
 
         Users user = SecurityUtil.getLoggedInUser();
-        if(user != null) {
+        if (user != null) {
             model.addAttribute("loginUser", user);
         }
 

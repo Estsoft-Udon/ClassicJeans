@@ -2,7 +2,6 @@ package com.example.classicjeans.entity;
 
 import com.example.classicjeans.enums.questionnaire.MemoryChange;
 import com.example.classicjeans.enums.questionnaire.CommonFrequency;
-import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -94,10 +93,6 @@ public class DementiaData {
     @PrePersist
     public void setDate() {
         this.date = LocalDate.now();
-    }
-
-    public String getDate() {
-        return this.date.format(DateFormatUtil.formatter);
     }
 
     public DementiaData(
