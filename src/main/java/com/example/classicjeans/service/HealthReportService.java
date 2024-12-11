@@ -97,4 +97,12 @@ public class HealthReportService {
             default -> throw new IllegalArgumentException("제공하지 않은 검사 유형");
         };
     }
+
+    // 최근 기본검사 결과 조회
+    public QuestionnaireData getLatestHealthReport() {
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+
+        return questionnaireDataRepository.findTopByOrderByDateDesc(user);
+    }
 }
