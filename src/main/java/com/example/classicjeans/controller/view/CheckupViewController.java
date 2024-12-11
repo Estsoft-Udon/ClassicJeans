@@ -2,10 +2,7 @@ package com.example.classicjeans.controller.view;
 
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
-import com.example.classicjeans.dto.response.AlanDementiaResponse;
-import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
-import com.example.classicjeans.dto.response.FamilyInfoResponse;
-import com.example.classicjeans.dto.response.HealthReportResponse;
+import com.example.classicjeans.dto.response.*;
 import com.example.classicjeans.entity.*;
 import com.example.classicjeans.service.*;
 import com.example.classicjeans.util.MarkdownRenderer;
@@ -146,6 +143,8 @@ public class CheckupViewController {
     // 검사 결과 통계 페이지
     @GetMapping("/result-statistics")
     public String resultStatistics(Model model) {
+        List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
+        model.addAttribute("healthStatisticsList", healthStatisticsList);
         return "checkout/result_statistics";
     }
 
