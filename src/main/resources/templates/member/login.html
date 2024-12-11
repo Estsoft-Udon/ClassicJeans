@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/layout">
 <th:block layout:fragment="content">
@@ -33,13 +36,19 @@
                     <div class="oauth2_btn_box">
                         <ul>
                             <li>
-                                <button type="button" onclick="location.href='/oauth2/authorization/kakao'" class="social-btn kakao">카카오로 계속하기</button>
+                                <button type="button" onclick="location.href='/oauth2/authorization/kakao'"
+                                        class="social-btn kakao">카카오로 계속하기
+                                </button>
                             </li>
                             <li>
-                                <button type="button" onclick="location.href='/oauth2/authorization/naver'" class="social-btn naver">네이버로 계속하기</button>
+                                <button type="button" onclick="location.href='/oauth2/authorization/naver'"
+                                        class="social-btn naver">네이버로 계속하기
+                                </button>
                             </li>
                             <li>
-                                <button type="button" onclick="location.href='/oauth2/authorization/google'" class="social-btn google">구글로 계속하기</button>
+                                <button type="button" onclick="location.href='/oauth2/authorization/google'"
+                                        class="social-btn google">구글로 계속하기
+                                </button>
                             </li>
                         </ul>
                     </div>
