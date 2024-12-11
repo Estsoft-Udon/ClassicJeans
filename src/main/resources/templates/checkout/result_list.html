@@ -35,7 +35,7 @@
                 <tr th:each="report : ${healthReportList}">
                     <td th:text="${report.name}">홍길동</td>
                     <td>
-                        <a th:href="@{/checkout/result-detail/{id}(id=${report.id})}"
+                        <a th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}"
                            th:text="${report.type == 'Dementia' ? '치매 검사' : (report.type == 'Questionnaire' ? '기본 검사' : report.type + ' 검사')}">치매 검사 결과</a>
                     </td>
                     <td th:text="${report.date}">2024.12.10</td>
