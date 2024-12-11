@@ -39,7 +39,7 @@ public class UserViewController {
             session.removeAttribute("error");
         }
 
-        return "/member/login";
+        return "member/login";
     }
 
     // 회원가입
