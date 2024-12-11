@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class AlanDementiaRequest {
     private Users user;
-    private FamilyInfo family; // 가족 정보(nullable)
+    private FamilyInfo family;
     // 인지 기능
     private MemoryChange memoryChange;  // 기억력 변화
     private CommonFrequency dailyConfusion;  // 일상 생활에서의 혼란

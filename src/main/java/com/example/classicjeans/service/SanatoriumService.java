@@ -3,9 +3,7 @@ package com.example.classicjeans.service;
 import com.example.classicjeans.addresscode.dto.request.AddressCodeRequest;
 import com.example.classicjeans.addresscode.service.AddressCodeService;
 import com.example.classicjeans.dto.request.SanatoriumRequest;
-import com.example.classicjeans.dto.response.NursingHomeResponse;
 import com.example.classicjeans.dto.response.SanatoriumResponse;
-import com.example.classicjeans.entity.NursingHomeData;
 import com.example.classicjeans.entity.SanatoriumData;
 import com.example.classicjeans.repository.SanatoriumDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,12 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 

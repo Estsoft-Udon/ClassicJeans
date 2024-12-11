@@ -1,6 +1,5 @@
 package com.example.classicjeans.security;
 
-
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
