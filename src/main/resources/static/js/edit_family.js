@@ -84,7 +84,7 @@ document.querySelector('form').addEventListener('submit', (event) => {
         .then(response => response.json())
         .then(data => {
             alert('가족 정보가 저장되었습니다.');
-            location.href = '/edit-family';
+            location.href = '/mypage';
         })
         .catch(error => {
             console.error('Error:', error);

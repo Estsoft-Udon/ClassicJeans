@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class HospitalViewController {
 
@@ -30,12 +29,11 @@ public class HospitalViewController {
 
         // 검색어가 있을 경우 병원명으로 검색
         if (search != null && !search.isEmpty()) {
-            hospitalPage = hospitalService.searchHospitalsByName(search, page, size);  // 병원명으로 검색
+            hospitalPage = hospitalService.searchHospitalsByName(search, page, size);
         } else if (city != null || district != null) {
             // city와 district가 있을 경우 검색
             hospitalPage = hospitalService.searchHospitals(city, district, page, size);
         } else {
-            // 모든 병원 조회
             hospitalPage = hospitalService.getAllHospitals(page, size);
         }
 
@@ -56,7 +54,6 @@ public class HospitalViewController {
             model.addAttribute("loginUser", user);
         }
 
-        return "/info/hospital_list";
+        return "/info/hospital-list";
     }
-
 }

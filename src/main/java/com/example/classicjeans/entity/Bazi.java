@@ -2,7 +2,6 @@ package com.example.classicjeans.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -25,7 +24,6 @@ public class Bazi {
     @Column(nullable = false)
     private String content;
 
-
     public Bazi(Users user, LocalDate date, String content) {
         this.user = user;
         this.date = date;
@@ -33,6 +31,5 @@ public class Bazi {
     }
 
     public Bazi() {
-
     }
 }

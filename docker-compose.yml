@@ -27,7 +27,7 @@ services:
 
   java-app:
     build:
-      context: .  # Dockerfile 위치
+      context: .
     container_name: java-app
     ports:
       - "1234:1234"  # JMX Exporter 포트

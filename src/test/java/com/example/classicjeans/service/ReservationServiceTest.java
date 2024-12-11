@@ -9,6 +9,7 @@ import com.example.classicjeans.repository.ReservationRepository;
 import com.example.classicjeans.dto.request.ReservationRequest;
 import com.example.classicjeans.util.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -52,6 +53,11 @@ public class ReservationServiceTest {
 
     private Reservation mockReservation;
 
+    @BeforeAll
+    static void setUpClass() {
+        mockStatic(SecurityUtil.class);
+    }
+
     @BeforeEach
     void setUp() {
         // mock 객체 초기화
@@ -60,7 +66,6 @@ public class ReservationServiceTest {
         mockReservation = new Reservation(mockUser, "John Doe", mockHospital, LocalDateTime.now().plusDays(1));
 
         // 예시 예약 객체를 저장할 때 호출될 때마다 mock 예약을 반환
-        mockStatic(SecurityUtil.class);
         when(SecurityUtil.getLoggedInUser()).thenReturn(mockUser); // static 메소드 mock
         when(reservationRepository.save(any(Reservation.class))).thenReturn(mockReservation);
         when(reservationRepository.findById(any(Long.class))).thenReturn(Optional.of(mockReservation));

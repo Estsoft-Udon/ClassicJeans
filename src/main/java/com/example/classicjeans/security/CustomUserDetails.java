@@ -1,6 +1,5 @@
 package com.example.classicjeans.security;
 
-
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Gender;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
     // 추가적으로 엔티티 접근 가능
-    private final Users user; // Users 엔티티
+    private final Users user;
 
     public Users getUser() {
         return user;

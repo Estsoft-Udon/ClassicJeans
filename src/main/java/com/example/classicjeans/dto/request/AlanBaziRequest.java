@@ -26,7 +26,6 @@ public class AlanBaziRequest {
         requestMessage.append("띠별 운세 내용은 나의 띠에 대해서만 이야기 해줘. 띠 잘 모르면 이야기 하지 말아줘.");
         requestMessage.append("마지막으로 한 줄로 요약해줘.");
 
-
         return requestMessage.toString();
     }
 }

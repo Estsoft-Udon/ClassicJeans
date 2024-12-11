@@ -2,9 +2,7 @@ package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.request.NursingHomeRequest;
 import com.example.classicjeans.dto.response.NursingHomeResponse;
-import com.example.classicjeans.dto.response.SanatoriumResponse;
 import com.example.classicjeans.entity.NursingHomeData;
-import com.example.classicjeans.entity.SanatoriumData;
 import com.example.classicjeans.repository.NursingHomeDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
