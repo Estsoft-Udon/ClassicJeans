@@ -10,12 +10,14 @@
             <p>아래의 목록에서 검사 결과 재확인이 가능합니다.</p>
         </div>
         <div class="search_cont">
-            <form id="result-form" method="GET">
+            <form id="result-form" method="GET" action="/checkout/result-list">
                 <div class="search_box">
-                    <select id="filter_search" name="filter">
-                        <option value="">전체</option> <!-- 기본값: 모든 검사 -->
-                        <option value="dementia">치매 검사</option>
-                        <option value="basic">기본 검사</option>
+                    <select id="filter_search" name="choiceUser">
+                        <option value="all" th:selected="${choiceUser == 'all'}">전체</option>
+                        <option value="user" th:selected="${choiceUser == 'user'}">본인</option>
+                        <th:block th:each="family : ${familyInfoList}">
+                            <option th:value="${family.id}" th:selected="${choiceUser == family.id.toString()}" th:text="${family.name}"></option>
+                        </th:block>
                     </select>
                 </div>
             </form>
