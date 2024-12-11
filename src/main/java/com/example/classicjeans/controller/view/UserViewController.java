@@ -81,12 +81,12 @@ public class UserViewController {
     }
 
     // 아이디 찾기
-    @GetMapping("/find_id")
+    @GetMapping("/find-id")
     public String findId() {
         return "member/find_id";
     }
 
-    @PostMapping("/find_id")
+    @PostMapping("/find-id")
     public String findId(String name, String email, Model model) {
         Users foundUser = usersService.searchId(name, email);
 
@@ -102,19 +102,19 @@ public class UserViewController {
     }
 
     // 비밀번호 찾기
-    @GetMapping("/find_pw")
+    @GetMapping("/find-pw")
     public String findPw() {
         return "member/find_pw";
     }
 
     // 비밀번호 번경
-    @GetMapping("/change_pw")
+    @GetMapping("/change-pw")
     public String changePassword() {
         return "/member/change_pw";
     }
 
     // 비밀번호 변경 처리 (POST)
-    @PostMapping("/change_pw")
+    @PostMapping("/change-pw")
     public String changePassword(@RequestParam String currentPassword,
                                  @RequestParam String newPassword,
                                  Model model) {
@@ -133,13 +133,13 @@ public class UserViewController {
     }
 
     // 비밀번호 변경 (찾기 후)
-    @GetMapping("/change_pw_after_find")
+    @GetMapping("/change-pw-after-find")
     public String changePasswordAfterFind() {
         return "member/change_pw_after_find";
     }
 
     // 비밀번호 찾기 후속 처리
-    @PostMapping("/change_pw_after_find")
+    @PostMapping("/change-pw-after-find")
     public String changePasswordAfterFind(String newPassword, HttpSession session, Model model) {
         String loginId = (String) session.getAttribute("loginId");
 
@@ -175,14 +175,14 @@ public class UserViewController {
     }
 
     @PostMapping("/edit-profile")
-    public String editProfile(@ModelAttribute UsersRequest request, Model model) {
+    public String editProfile(@ModelAttribute UsersRequest request) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         usersService.update(user.getId(), request);
         return "redirect:/mypage";
     }
 
     // 가족 정보 수정
-    @GetMapping("/edit_family")
+    @GetMapping("/edit-family")
     public String editFamily(Model model) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(null);
@@ -201,5 +201,4 @@ public class UserViewController {
     public String chat() {
         return "chat/chat";
     }
-
 }

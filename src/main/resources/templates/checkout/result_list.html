@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/checkout/result.css">
 </head>
@@ -23,11 +24,11 @@
         <section class="list_section">
             <table>
                 <thead>
-                    <tr>
-                        <th style="width: 15%;">이름</th>
-                        <th style="width: 70%;">검사 유형</th>
-                        <th style="width: 15%;">날짜</th>
-                    </tr>
+                <tr>
+                    <th style="width: 15%;">이름</th>
+                    <th style="width: 70%;">검사 유형</th>
+                    <th style="width: 15%;">날짜</th>
+                </tr>
                 </thead>
                 <tbody>
                 <tr>
@@ -43,21 +44,21 @@
         <!-- 페이지네이션 -->
         <ul class="pagination">
             <li>
-                <a href="/hospital_list?page=0">
+                <a href="/hospital-list?page=0">
                     <button class="first-btn page_btn">첫 페이지</button>
                 </a>
             </li>
 
             <!-- 이전 버튼 -->
             <li>
-                <a href="/hospital_list?page={previousPage}">
+                <a href="/hospital-list?page={previousPage}">
                     <button class="prev-btn page_btn">이전</button>
                 </a>
             </li>
 
             <!-- 페이지 숫자 버튼들 -->
             <li>
-                <a href="/hospital_list?page={page}">
+                <a href="/hospital-list?page={page}">
                     <button type="button" class="{activeClass}">1</button>
                 </a>
             </li>
@@ -69,14 +70,14 @@
 
             <!-- 다음 버튼 -->
             <li>
-                <a href="/hospital_list?page={nextPage}">
+                <a href="/hospital-list?page={nextPage}">
                     <button class="next-btn page_btn">다음</button>
                 </a>
             </li>
 
             <!-- 마지막 페이지 버튼 -->
             <li>
-                <a href="/hospital_list?page={lastPage}">
+                <a href="/hospital-list?page={lastPage}">
                     <button class="last-btn page_btn">마지막 페이지</button>
                 </a>
             </li>
