@@ -156,7 +156,7 @@ document.getElementById('emailAuthBtn').addEventListener('click', function() {
 function showEmailModal() {
     const modal = document.getElementById("emailAuthModal");
     const email = document.getElementById("email").value; // 이메일 입력 필드 값 가져오기
-    fetch('api/email/send', {
+    fetch('/api/email/send', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

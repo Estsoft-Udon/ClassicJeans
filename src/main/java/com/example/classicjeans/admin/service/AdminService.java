@@ -34,7 +34,7 @@ public class AdminService {
         usersRepository.save(user);
     }
 
-    private Sort determineSortOrder(String sortOption) {
+    public Sort determineSortOrder(String sortOption) {
         return switch (sortOption) {
             case "recent" -> Sort.by("createdAt").descending();
             case "abc" -> Sort.by("name").ascending();
