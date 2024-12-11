@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <h2>AI 건강 검진 서비스를 사용하여 현재 건강을 간단하게 검사해보세요!</h2>
-                        <button type="button" class="btn" onclick="location.href='/checkout/checkout'">AI 건강 검진 하러가기</button>
+                        <button type="button" class="btn" onclick="location.href='/checkout'">AI 건강 검진 하러가기</button>
                     </div>
                 </div>
             </section>
@@ -142,6 +142,9 @@
             </section>
         </div>
     </div>
+    <script th:inline="javascript">
+        const healthStatisticsList = /*[[${healthStatisticsList}]]*/ [];
+    </script>
     <script src="/js/chart.js"></script>
     <script>
         document.getElementById('download-pdf').addEventListener('click', function () {
