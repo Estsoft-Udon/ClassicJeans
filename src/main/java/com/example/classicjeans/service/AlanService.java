@@ -59,7 +59,7 @@ public class AlanService {
     }
 
     // 기본 검사 결과 저장
-    private void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+    public void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
         boolean isFamilyInfo = request.getFamily() != null;
         QuestionnaireData data = new QuestionnaireData(
                 request.getUser(),
@@ -310,7 +310,7 @@ public class AlanService {
     }
 
     // 건강 지수 계산
-    private Double calculateHealthIndex(AlanQuestionnaireRequest request) {
+    public Double calculateHealthIndex(AlanQuestionnaireRequest request) {
         double score = 100.0;
         double bmi = calculateBMI(request.getHeight(), request.getWeight());
         if (bmi < 18.5) {
@@ -394,7 +394,7 @@ public class AlanService {
     }
     
     // BMI 계산
-    private double calculateBMI(double height, double weight) {
+    public double calculateBMI(double height, double weight) {
         return weight / Math.pow(height / 100, 2);
     }
 }

@@ -18,10 +18,8 @@ public class ReservationNotificationService {
         emitters.put(userId, emitter);
         try {
             emitter.send(SseEmitter.event().name("userId").data(userId));
-            System.out.println("sse 연결 성공");
         } catch (IOException e) {
             emitters.remove(userId);
-            System.out.println("sse 연결 실패");
         }
 
         emitter.onCompletion(() -> emitters.remove(userId));

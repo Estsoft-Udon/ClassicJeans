@@ -1,5 +1,6 @@
 package com.example.classicjeans.config;
 
+import com.example.classicjeans.oauth.CustomOAuth2LoginSuccessHandler;
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
 import com.example.classicjeans.security.UsersDetailService;
@@ -18,6 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomAuthFailureHandler customAuthFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UsersDetailService usersDetailService;
 
 
     @Bean
@@ -31,7 +34,7 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(
                         custom -> custom
                                 .requestMatchers("/", "/login", "/signup", "/find_id", "/find_pw",
-                                        "/success", "/change_pw_find", "/send-email").permitAll()
+                                        "/success", "/change-pw-find", "/api/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
@@ -39,13 +42,17 @@ public class SecurityConfig {
                     custom.loginPage("/login")
                             .failureHandler(customAuthFailureHandler);
                 })
-//                .oauth2Login(oauth2 ->
-//                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
-//                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
-//                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
-//                                .userInfoEndpoint(userInfo ->
-//                                        userInfo.userService(customOAuth2UserService))
-//                )
+                .oauth2Login(oauth2 ->
+                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
+                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
+                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
+                                .userInfoEndpoint(userInfo ->
+                                        userInfo.userService(customOAuth2UserService))
+                )
+                // 권한이 없는 사용자 접근 시 에러 페이지 설정
+                .exceptionHandling(custom -> {
+                    custom.accessDeniedPage("/access-denied"); // 권한 없는 사용자가 접근할 경우 리다이렉트할 페이지
+                })
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }

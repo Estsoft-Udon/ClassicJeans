@@ -42,7 +42,6 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
             uniqueKey = "N_" + attributes.get("id");
         }
 
-        System.out.println("uniqueKey = " + uniqueKey);
         request.getSession().setAttribute("providerId", uniqueKey);
         request.getSession().setAttribute("uniqueKey", uniqueKey);
 

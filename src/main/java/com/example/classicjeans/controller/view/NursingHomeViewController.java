@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class NursingHomeViewController {
     private final NursingHomeService service;
 
-    @GetMapping("/nursing_list")
+    @GetMapping("/nursing-list")
     public String getNursingList(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "10") int size,
                                  @RequestParam(required = false) String province,
