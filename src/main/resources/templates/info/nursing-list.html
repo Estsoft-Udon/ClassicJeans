@@ -122,7 +122,7 @@
 
             <!-- 현재 페이지 기준으로 앞뒤 2개씩 표시 -->
             <li th:if="${!nursinghomes.getContent().isEmpty()}"
-                th:each="i : ${#numbers.sequence(nursinghomes.number - 2 > 0 ? nursinghomes.number - 2 : 0, nursinghomes.number + 2 < nursinghomes.totalPages - 1 ? nursinghomes.number + 2 : nursinghomes.totalPages - 1)}"
+                th:each="i : ${#numbers.sequence((nursinghomes.number - 2 > 0 ? nursinghomes.number - 2 : 0), (nursinghomes.number + 2 < nursinghomes.totalPages - 1 ? nursinghomes.number + 2 : nursinghomes.totalPages - 1))}"
                 th:class="${i == nursinghomes.number} ? 'on active'">
                 <a th:if="${search != null}" th:href="@{'/nursing-list?search=' + ${search} + '&page=' + ${i}}">
                     <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}">1

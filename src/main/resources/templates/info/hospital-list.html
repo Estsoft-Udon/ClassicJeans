@@ -157,7 +157,7 @@
             </li>
 
             <!-- 페이지 숫자 버튼들 -->
-            <li th:unless="${noResults}" th:each="i : ${#numbers.sequence(currentPage - 2 > 0 ? currentPage - 2 : 0, currentPage + 2 < totalPages - 1 ? currentPage + 2 : totalPages - 1)}">
+            <li th:unless="${noResults}" th:each="i : ${#numbers.sequence((currentPage - 2 > 0 ? currentPage - 2 : 0), (currentPage + 2 < totalPages - 1 ? currentPage + 2 : totalPages - 1))}">
                 <!-- 페이지가 0인 경우를 숨기기 -->
                 <a th:if="${i >= 0}">
                     <!-- search가 있을 때 -->
