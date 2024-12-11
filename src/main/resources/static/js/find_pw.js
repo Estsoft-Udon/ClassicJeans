@@ -23,7 +23,7 @@ async function checkEmail() {
             alert(data.message);
 
             // 두 번째 API 호출: 이메일 인증 코드 전송
-            const emailResponse = await fetch('/email/send', {
+            const emailResponse = await fetch('api/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
