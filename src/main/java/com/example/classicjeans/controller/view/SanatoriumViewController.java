@@ -38,6 +38,6 @@ public class SanatoriumViewController {
         model.addAttribute("province", province);
         model.addAttribute("district", district);
 
-        return "/info/sanatorium_list";
+        return "/info/sanatorium-list";
     }
 }

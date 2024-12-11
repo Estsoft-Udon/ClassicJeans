@@ -20,7 +20,7 @@ public class AdminController {
 
     @GetMapping
     public String adminMain() {
-        return "admin/admin_index";
+        return "/admin/admin-index";
     }
 
     @GetMapping("/member/list")
@@ -37,7 +37,7 @@ public class AdminController {
         model.addAttribute("sortOption", sortOption);
         model.addAttribute("keyword", keyword);
 
-        return "admin/member/member_list";
+        return "/admin/member/member-list";
     }
 
     @GetMapping("/member/edit/{id}")
@@ -46,7 +46,7 @@ public class AdminController {
         model.addAttribute("user", userById);
         model.addAttribute("grades", Grade.values());
 
-        return "admin/member/member_edit";
+        return "/admin/member/member-edit";
     }
 
     @PostMapping("/member/edit/{id}")
