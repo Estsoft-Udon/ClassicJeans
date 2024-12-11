@@ -3,8 +3,10 @@ package com.example.classicjeans.repository;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.QuestionnaireData;
 import com.example.classicjeans.entity.Users;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -26,4 +28,8 @@ public interface QuestionnaireDataRepository extends JpaRepository<Questionnaire
     // 최근
     @Query("SELECT q FROM QuestionnaireData q WHERE q.userId = :user ORDER BY q.date DESC")
     QuestionnaireData findTopByOrderByDateDesc(Users userId);
+
+    // 최근 5개 조회
+    @Query("SELECT q FROM QuestionnaireData q WHERE q.userId = :user ORDER BY q.date DESC")
+    List<QuestionnaireData> findTop5ByUserIdOrderByDateDesc(@Param("user") Users user, Pageable pageable);
 }
