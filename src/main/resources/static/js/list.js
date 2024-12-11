@@ -203,6 +203,7 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// 모달 열고 닫기 기본 동작, 예약 팝업 병원 정보 자동 넣기
 document.addEventListener("DOMContentLoaded", function () {
         const modal = document.getElementById("reservationModal");
         const closeModalButton = document.querySelector(".modal .close_btn");
@@ -251,4 +252,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 input.value = "";
             });
         }
+
+        window.closeModal = closeModal;
 });
