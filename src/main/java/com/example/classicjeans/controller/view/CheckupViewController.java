@@ -5,18 +5,17 @@ import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
+import com.example.classicjeans.dto.response.HealthReportResponse;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.ImprovementSuggestions;
 import com.example.classicjeans.entity.SummaryEvaluation;
 import com.example.classicjeans.entity.Users;
-import com.example.classicjeans.service.AlanService;
-import com.example.classicjeans.service.FamilyInfoService;
-import com.example.classicjeans.service.SessionUserService;
-import com.example.classicjeans.service.UsersService;
+import com.example.classicjeans.service.*;
 import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,7 @@ public class CheckupViewController {
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
     private final AlanService alenService;
+    private final HealthReportService healthReportService;
 
     // 건강 검진 메인
     @GetMapping
@@ -49,8 +49,8 @@ public class CheckupViewController {
     // 건강 검진 대상 선택
     @GetMapping("/checkout_list")
     public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
-                              @RequestParam(value = "selectedType", required = false) String selectedType,
-                              HttpSession session) {
+                               @RequestParam(value = "selectedType", required = false) String selectedType,
+                               HttpSession session) {
 
         if (selectedUser != null && selectedType != null) {
             if ("user".equals(selectedType)) {
@@ -146,16 +146,33 @@ public class CheckupViewController {
         return "checkout/result";
     }
 
-
     // 검사 결과 통계 페이지
     @GetMapping("/result-statistics")
-    public String resultStatistics() {
+    public String resultStatistics(Model model) {
         return "checkout/result_statistics";
     }
 
     // 검사 결과 목록 페이지
     @GetMapping("/result-list")
-    public String resultList() {
+    public String resultList(@RequestParam(defaultValue = "0") int page,
+                             @RequestParam(defaultValue = "7") int size,
+                             @RequestParam(defaultValue = "all") String choiceUser,
+                             Model model) {
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+        List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
+        Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
+
+        // 페이지네이션 정보와 함께 모델에 전달
+        model.addAttribute("user", user);
+        model.addAttribute("familyInfoList", familyInfo);
+        model.addAttribute("healthReportList", healthReportList);
+        model.addAttribute("totalPages", healthReportList.getTotalPages());
+        model.addAttribute("totalItems", healthReportList.getTotalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("choiceUser", choiceUser);
+
         return "checkout/result_list";
     }
 
