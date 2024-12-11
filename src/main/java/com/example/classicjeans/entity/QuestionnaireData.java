@@ -129,10 +129,6 @@ public class QuestionnaireData {
         this.date = LocalDate.now();
     }
 
-    public String getDate() {
-        return this.date.format(DateFormatUtil.formatter);
-    }
-
     public QuestionnaireData(
             Users userId, FamilyInfo familyId, int age, Gender gender, Double height,
             Double weight, ChronicDisease chronicDisease, HospitalVisit hospitalVisit,

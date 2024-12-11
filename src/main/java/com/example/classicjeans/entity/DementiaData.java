@@ -96,10 +96,6 @@ public class DementiaData {
         this.date = LocalDate.now();
     }
 
-    public String getDate() {
-        return this.date.format(DateFormatUtil.formatter);
-    }
-
     public DementiaData(
             Users userId, FamilyInfo familyId, MemoryChange memoryChange, CommonFrequency dailyConfusion,
                                                    CommonFrequency problemSolvingChange, CommonFrequency languageChange, boolean knowsDate, boolean knowsLocation,
