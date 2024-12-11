@@ -49,7 +49,22 @@ public class AlanService {
     // 기본 문진표 AI 검사
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
-        String responseBody = fetchResponse(request.toString());
+
+//        // 아래 횟수 없을 시 사용
+//        String responseBody = fetchResponse(request.toString());
+//        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+//        response.setHealthIndex(calculateHealthIndex(request));
+//        saveQuestionnaireData(request, response);
+//        return response;
+
+        // 횟수 초과 되면 위에꺼 활성화 시켜주세요
+        String CLIENT_ID = "49c03662-63c7-4cb3-9dda-8b0279982686";
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL)
+                .queryParam("content", request.toString())
+                .queryParam("client_id", CLIENT_ID)
+                .toUriString();
+        String responseBody = restTemplate.getForEntity(uri, String.class).getBody();
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
         response.setHealthIndex(calculateHealthIndex(request));
         saveQuestionnaireData(request, response);
