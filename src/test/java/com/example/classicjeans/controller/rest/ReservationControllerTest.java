@@ -6,11 +6,11 @@ import com.example.classicjeans.entity.Reservation;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
-import com.example.classicjeans.service.ReservationNotificationService;
 import com.example.classicjeans.service.ReservationService;
 import com.example.classicjeans.util.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,17 +39,22 @@ class ReservationControllerTest {
     @Mock
     private ReservationService reservationService;
 
-    @Mock
-    private ReservationNotificationService notificationService;
-
     @InjectMocks
     private ReservationController reservationController;
 
     Users mockUser;
 
+    private static AutoCloseable closeable;
+
     @BeforeAll
     static void setUpClass() {
-        mockStatic(SecurityUtil.class);
+        closeable = mockStatic(SecurityUtil.class);
+    }
+
+    @AfterAll
+    static void tearDownClass() throws Exception {
+        // Static mock 해제
+        closeable.close();
     }
 
     @BeforeEach

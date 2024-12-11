@@ -7,12 +7,9 @@ import com.example.classicjeans.service.UsersService;
 import com.example.classicjeans.util.SecurityUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +23,7 @@ import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -44,11 +42,22 @@ class UsersControllerTest {
     UsersRequest request;
     Users user;
 
+    private static AutoCloseable closeable;
+
+    @BeforeAll
+    static void setUpClass() {
+        closeable = mockStatic(SecurityUtil.class);
+    }
+
+    @AfterAll
+    static void tearDownClass() throws Exception {
+        // Static mock 해제
+        closeable.close();
+    }
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
-        mockStatic(SecurityUtil.class);
 
         mockMvc = MockMvcBuilders.standaloneSetup(usersController).build();
         objectMapper = new ObjectMapper();
@@ -63,13 +72,15 @@ class UsersControllerTest {
         user.setId(1L);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
+
+        when(getLoggedInUser()).thenReturn(user);
     }
 
     @Test
     @DisplayName("유저 가입 성공 테스트")
     void register_Success() throws Exception {
         // Given
-        Mockito.when(usersService.register(any(UsersRequest.class))).thenReturn(user);
+        when(usersService.register(any(UsersRequest.class))).thenReturn(user);
 
         // When & Then
         mockMvc.perform(post("/api/users/register")
@@ -87,7 +98,7 @@ class UsersControllerTest {
     @DisplayName("유저 조회 성공 테스트")
     void findUserById_Success() throws Exception {
         // Given
-        Mockito.when(usersService.findUserById(eq(1L))).thenReturn(user);
+        when(usersService.findUserById(eq(1L))).thenReturn(user);
 
         // When & Then
         mockMvc.perform(get("/api/users/1")
@@ -102,8 +113,8 @@ class UsersControllerTest {
     @DisplayName("회원 탈퇴 성공 테스트")
     void doWithdrawal_Success() throws Exception {
         // Given
-        Mockito.when(usersService.softDelete(eq(1L), eq("password"))).thenReturn(true);
-        Mockito.when(getLoggedInUser()).thenReturn(user);
+        when(usersService.softDelete(eq(1L), eq("password"))).thenReturn(true);
+
         // When & Then
         mockMvc.perform(post("/api/users/withdrawal")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -115,8 +126,7 @@ class UsersControllerTest {
     @DisplayName("회원 탈퇴 실패 테스트 - 비밀번호 불일치")
     void doWithdrawal_Unauthorized() throws Exception {
         // Given
-        Mockito.when(usersService.softDelete(eq(1L), eq("wrongPassword"))).thenReturn(false);
-        Mockito.when(getLoggedInUser()).thenReturn(user);
+        when(usersService.softDelete(eq(1L), eq("wrongPassword"))).thenReturn(false);
 
         // When & Then
         mockMvc.perform(post("/api/users/withdrawal")
@@ -129,7 +139,7 @@ class UsersControllerTest {
     @DisplayName("아이디 중복 확인 테스트")
     void checkId_Success() throws Exception {
         // Given
-        Mockito.when(usersService.isLoginIdDuplicate(eq("testLoginId"))).thenReturn(false);
+        when(usersService.isLoginIdDuplicate(eq("testLoginId"))).thenReturn(false);
 
         // When & Then
         mockMvc.perform(post("/api/users/checkId")
@@ -143,7 +153,7 @@ class UsersControllerTest {
     @DisplayName("닉네임 중복 확인 테스트")
     void checkNickname_Success() throws Exception {
         // Given
-        Mockito.when(usersService.isLoginCheckNickname(eq("testNickname"))).thenReturn(true);
+        when(usersService.isLoginCheckNickname(eq("testNickname"))).thenReturn(true);
 
         // When & Then
         mockMvc.perform(post("/api/users/checkNickname")
