@@ -34,7 +34,7 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(
                         custom -> custom
                                 .requestMatchers("/", "/login", "/signup", "/find_id", "/find_pw",
-                                        "/success", "/change_pw_find", "/send-email", "/api/**").permitAll()
+                                        "/success", "/change_pw_find", "/api/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
