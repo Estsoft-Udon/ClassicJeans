@@ -39,13 +39,13 @@ public class UserViewController {
             session.removeAttribute("error");
         }
 
-        return "member/login";
+        return "/member/login";
     }
 
     // 회원가입
     @GetMapping("/signup")
     public String signup() {
-        return "member/signup";
+        return "/member/signup";
     }
 
     @PostMapping("/signup")
@@ -53,7 +53,7 @@ public class UserViewController {
         try {
             if (!authService.isEmailVerified(request.getEmail())) {
                 model.addAttribute("error", "이메일 인증이 완료되지 않았습니다.");
-                return "member/signup";
+                return "/member/signup";
             }
 
             String uniqueKey = (String) session.getAttribute("uniqueKey");
@@ -69,20 +69,20 @@ public class UserViewController {
             return "redirect:/success";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "member/signup";
+            return "/member/signup";
         }
     }
 
     // 회원가입 성공시
     @GetMapping("/success")
     public String success() {
-        return "member/success";
+        return "/member/success";
     }
 
     // 아이디 찾기
     @GetMapping("/find-id")
     public String findId() {
-        return "member/find_id";
+        return "/member/find-id";
     }
 
     @PostMapping("/find-id")
@@ -97,19 +97,19 @@ public class UserViewController {
         } else {  // 아이디 발견 여부 플래그
             model.addAttribute("isIdFound", false);
         }
-        return "member/find_id";
+        return "/member/find-id";
     }
 
     // 비밀번호 찾기
     @GetMapping("/find-pw")
     public String findPw() {
-        return "member/find_pw";
+        return "/member/find-pw";
     }
 
     // 비밀번호 번경
     @GetMapping("/change-pw")
     public String changePassword() {
-        return "/member/change_pw";
+        return "/member/change-pw";
     }
 
     // 비밀번호 변경 처리 (POST)
@@ -124,17 +124,17 @@ public class UserViewController {
 
         if (isUpdated) {
             model.addAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
-            return "member/change_pw";
+            return "/member/change-pw";
         } else {
             model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
-            return "redirect:/change_pw";
+            return "redirect:/member/change-pw";
         }
     }
 
     // 비밀번호 변경 (찾기 후)
     @GetMapping("/change-pw-after-find")
     public String changePasswordAfterFind() {
-        return "member/change_pw_after_find";
+        return "member/change-pw-after-find";
     }
 
     // 비밀번호 찾기 후속 처리
@@ -150,7 +150,7 @@ public class UserViewController {
         model.addAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
         usersService.changePasswordAfterFind(loginId, newPassword);
 
-        return "member/change_pw";
+        return "/member/change-pw";
     }
 
     // 회원 정보
@@ -170,14 +170,14 @@ public class UserViewController {
     public String editProfile(Model model) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         model.addAttribute("user", user);
-        return "/member/edit_profile";
+        return "/member/edit-profile";
     }
 
     @PostMapping("/edit-profile")
     public String editProfile(@ModelAttribute UsersRequest request) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         usersService.update(user.getId(), request);
-        return "redirect:/mypage";
+        return "redirect:/member/mypage";
     }
 
     // 가족 정보 수정
@@ -187,7 +187,7 @@ public class UserViewController {
         List<FamilyInfoResponse> familyInfoList = familyInfoService.findFamilyByUserId(null);
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfoList);
-        return "/member/edit_family";
+        return "/member/edit-family";
     }
 
     // 회원 탈퇴
@@ -198,6 +198,6 @@ public class UserViewController {
 
     @GetMapping("chat")
     public String chat() {
-        return "chat/chat";
+        return "/chat/chat";
     }
 }

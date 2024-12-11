@@ -35,8 +35,7 @@
             </tr>
             </thead>
             <tbody id="user-table-body">
-<!--            게시물이 없을 때 -->
-            <tr th:if="${allUser.empty}">
+            <tr th:if="${allUser.isEmpty()}">
                 <td colspan="8" style="text-align: center;">검색된 결과가 없습니다.</td>
             </tr>
             <tr th:each="user : ${allUser}">
@@ -50,7 +49,7 @@
             </tr>
             </tbody>
         </table>
-        <div class="pagination" th:if="${not allUser.empty}">
+        <div class="pagination" th:if="${not allUser.isEmpty()}">
             <ul id="pagination-links">
                 <li th:if="${allUser.hasPrevious()}" class="page-item">
                     <a th:href="@{/admin/member/list(page=${allUser.number - 1}, size=${allUser.size}, sortOption=${sortOption})}"

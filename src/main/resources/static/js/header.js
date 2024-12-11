@@ -28,10 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // 종 클릭 시 알림 토글
-    bellIcon.addEventListener('click', () => {
-        notificationList.classList.toggle('visible');
-        notificationList.classList.toggle('hidden');
-    });
+    if (window.getComputedStyle(bellIcon).display !== 'none') {
+        bellIcon.addEventListener('click', () => {
+            notificationList.classList.toggle('visible');
+            notificationList.classList.toggle('hidden');
+        });
+    }
 
     // 외부 클릭 시 알림창 닫기
     document.addEventListener('click', (event) => {
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(() => {
                 // UI 업데이트
                 if (isUnread) {
                     notificationItem.classList.remove('unread');
