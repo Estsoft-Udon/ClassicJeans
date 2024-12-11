@@ -336,3 +336,32 @@ select option:checked {
 .dis-no{
     display: none;
 }
+
+.breadcrumb {
+    display: flex;
+    margin-bottom: 4rem;
+}
+
+.breadcrumb .breadcrumb-item {
+    display: inline-block;
+    font-size: 14px;
+}
+
+.breadcrumb .breadcrumb-item a {
+    text-decoration: none;
+    color: #5a5a5a;
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: " > ";
+    padding: 0 8px;
+    color: #5a5a5a;
+}
+
+.breadcrumb .breadcrumb-item.active {
+    color: #6c757d;
+}
+
+.breadcrumb .breadcrumb-item a:hover {
+    color: #0056b3;
+}

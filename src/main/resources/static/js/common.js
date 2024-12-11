@@ -1,60 +1,64 @@
-// 스크롤 인터렉션
-window.addEventListener('scroll', function() {
+document.addEventListener("DOMContentLoaded", function () {
     const header = document.querySelector("header");
-    if (window.scrollY > 0) {
-        header.classList.add("fixed");
-    } else {
-        header.classList.remove("fixed");
-    }
-
-    // 텍스트 올라오는 인터렉션
-    document.querySelectorAll('.ani_load, .ani_visible').forEach(function (element) {
-        var otop = element.getBoundingClientRect().top + window.scrollY;
-        var wtop = window.scrollY + (window.innerHeight * 0.9);
-
-        if (document.body.classList.contains('mo_ver')) {
-            wtop = window.scrollY + (window.innerHeight * 0.9);
-        }
-
-        if (wtop > otop) {
-            element.classList.add('ani_view');
-        } else {
-            element.classList.remove('ani_view');
-        }
-    });
-
-    document.querySelectorAll('.tran_delay .tran').forEach(function (element, index) {
-        var idx = (index * 1.5) / 10;
-        element.style.transitionDelay = `${idx}s`;
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function() {
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    const footer = document.querySelector("footer");
+    const isMainPage = window.location.pathname === "/" || window.location.pathname === "/index";
 
-    if (scrollToTopBtn) {
-        if (window.location.pathname !== "/" && window.location.pathname !== "/index") {
-            window.addEventListener("scroll", function () {
-                if (window.scrollY > 300) {
-                    scrollToTopBtn.style.display = "block";
-                } else {
-                    scrollToTopBtn.style.display = "none";
-                }
-            });
+    // 스크롤 이벤트 핸들러
+    const handleScroll = () => {
+        const scrollY = window.scrollY;
 
-            scrollToTopBtn.addEventListener("click", function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-        } else {
-            scrollToTopBtn.style.display = "none";
+        // 헤더 고정 처리
+        if (header) {
+            header.classList.toggle("fixed", scrollY > 0);
         }
-    } else {
-        console.warn('scrollToTopBtn 요소를 찾을 수 없습니다.');
+
+        // 스크롤 탑 버튼 표시/숨김 처리
+        if (scrollToTopBtn && !isMainPage) {
+            scrollToTopBtn.classList.toggle("show", scrollY > 300);
+
+            if (footer) {
+                const footerTop = footer.offsetTop;
+                const windowHeight = window.innerHeight;
+                const scrollPosition = scrollY + windowHeight;
+                const buttonHeight = scrollToTopBtn.offsetHeight;
+
+                if (scrollPosition + buttonHeight < footerTop) {
+                    scrollToTopBtn.classList.add("fixed");
+                    scrollToTopBtn.classList.remove("stop");
+                } else {
+                    scrollToTopBtn.classList.remove("fixed");
+                    scrollToTopBtn.classList.add("stop");
+                }
+            }
+        }
+    };
+
+    // 텍스트 인터랙션 처리
+    const handleTextAnimation = () => {
+        document.querySelectorAll(".ani_load, .ani_visible").forEach(element => {
+            const elementTop = element.getBoundingClientRect().top + window.scrollY;
+            const windowBottom = window.scrollY + (window.innerHeight * 0.9);
+            element.classList.toggle("ani_view", windowBottom > elementTop);
+        });
+
+        document.querySelectorAll(".tran_delay .tran").forEach((element, index) => {
+            element.style.transitionDelay = `${(index * 1.5) / 10}s`;
+        });
+    };
+
+    // 스크롤 이벤트 등록
+    window.addEventListener("scroll", () => {
+        handleScroll();
+        handleTextAnimation();
+    });
+
+    // 스크롤 탑 버튼 클릭 이벤트
+    if (scrollToTopBtn && !isMainPage) {
+        scrollToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    } else if (scrollToTopBtn) {
+        scrollToTopBtn.style.display = "none";
     }
 });
-
-
-

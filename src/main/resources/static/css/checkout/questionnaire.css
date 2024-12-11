@@ -194,3 +194,13 @@ input[type="text"]::placeholder {
         width: 100%;
     }
 }
+
+.questionnaire_tit{
+    padding: 0 2rem;
+    margin-top: 10rem;
+}
+
+.questionnaire_tit span{
+    color: #013E8B;
+    font-weight: 600;
+}
