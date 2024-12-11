@@ -60,13 +60,13 @@ public class CheckupViewController {
                 session.setAttribute("selectedType", "family");
             }
         }
-        return "checkout/checkout_list";
+        return "checkout/checkout-list";
     }
 
     // 기본 검사 페이지
     @GetMapping("/questionnaire-list")
     public String questionnaireList() {
-        return "checkout/questionnaire_list";
+        return "checkout/questionnaire-list";
     }
 
     // 기본 검사 요청 기능
@@ -160,7 +160,7 @@ public class CheckupViewController {
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
 
-        return "checkout/result_statistics";
+        return "checkout/result-statistics";
     }
 
     // 검사 결과 목록 페이지
@@ -184,7 +184,7 @@ public class CheckupViewController {
         model.addAttribute("pageSize", size);
         model.addAttribute("choiceUser", choiceUser);
 
-        return "checkout/result_list";
+        return "checkout/result-list";
     }
 
     // 검사 결과 상세 페이지(목록에서)
@@ -213,6 +213,6 @@ public class CheckupViewController {
         }
 
         model.addAttribute("reportType", reportType);
-        return "checkout/result_detail";
+        return "checkout/result-detail";
     }
 }
