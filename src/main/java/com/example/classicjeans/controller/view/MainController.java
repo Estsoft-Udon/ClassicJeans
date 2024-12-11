@@ -49,13 +49,12 @@ public class MainController {
                 }
             }
         }
-
-        return "/index";
+        return "index";
     }
 
     // 접근 제한
     @RequestMapping("/access-denied")
     public String accessDenied() {
-        return "/access-denied";
+        return "access-denied";
     }
 }

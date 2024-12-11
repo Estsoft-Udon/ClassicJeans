@@ -18,10 +18,10 @@ public class HospitalController {
     // 병원 목록 조회 (검색 및 페이지네이션 포함)
     @GetMapping
     public ResponseEntity<Page<HospitalResponse>> getHospitals(
-            @RequestParam(required = false) String city,  // 검색: 도시
-            @RequestParam(required = false) String district, // 검색: 구/시
-            @RequestParam(defaultValue = "0") int page,      // 페이지 번호 (기본값 0)
-            @RequestParam(defaultValue = "10") int size      // 페이지 크기 (기본값 10)
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String district,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
         try {
             Page<HospitalResponse> hospitals = hospitalService.searchHospitals(city, district, page, size);

@@ -41,7 +41,6 @@ public class CheckupViewController {
     }
 
     // 건강 검진 대상 선택
-
     @GetMapping("/checkout-list")
     public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
                               @RequestParam(value = "selectedType", required = false) String selectedType,
@@ -160,7 +159,6 @@ public class CheckupViewController {
         List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
 
-        // 페이지네이션 정보와 함께 모델에 전달
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfo);
         model.addAttribute("healthReportList", healthReportList);

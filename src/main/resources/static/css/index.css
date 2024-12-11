@@ -19,7 +19,7 @@
 
 .sec01{
     background-image: url("/img/sec01.png");
-    /*max-height: 84.3rem;*/
+    max-height: 86rem;
     color: #fff;
 }
 
@@ -287,6 +287,7 @@
     background: transparent;
     transition: .8s;
     color: #fff;
+    cursor: inherit;
 }
 .btn_wr .scr_top_btn svg {
     animation: scr_down .8s infinite alternate ease-in-out;
@@ -304,6 +305,7 @@
     left: calc(100% - 10rem);
     background: #013E8B;
     color: #fff;
+    cursor: pointer;
 }
 .btn_wr .scr_top_btn.act:hover {
     background: #032D41;

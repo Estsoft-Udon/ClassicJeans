@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import static com.example.classicjeans.util.SecurityUtil.*;
 
-
 @Controller
 @RequiredArgsConstructor
 public class UserViewController {

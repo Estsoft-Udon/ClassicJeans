@@ -91,7 +91,6 @@ public class HealthReportService {
         return new PageImpl<>(pagedSummaries, PageRequest.of(page, size), totalElements);
     }
 
-
     // 단건 검사 기록 조회
     public Object getHealthReportById(Long reportId, String reportType) {
         return switch (reportType.toLowerCase()) {
@@ -125,13 +124,5 @@ public class HealthReportService {
             healthStatisticsList.add(response);
         }
         return healthStatisticsList;
-    }
-
-    // 최근 기본검사 결과 조회
-    public QuestionnaireData getLatestHealthReport() {
-        Long userId = getLoggedInUser().getId();
-        Users user = usersService.findUserById(userId);
-
-        return questionnaireDataRepository.findTopByOrderByDateDesc(user);
     }
 }

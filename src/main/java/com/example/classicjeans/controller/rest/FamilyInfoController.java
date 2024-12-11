@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/family")
 @RequiredArgsConstructor
@@ -32,5 +31,4 @@ public class FamilyInfoController {
     public void deleteFamily(@PathVariable Long familyId) {
         familyInfoService.deleteFamily(familyId);
     }
-
 }
