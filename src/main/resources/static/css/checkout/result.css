@@ -12,6 +12,11 @@
     border: 1px solid #e8e8e8;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.questionnaire_result section{
+    padding: 0;
+}
+
 .container h2,
 .container h3{
     font-weight: bold;

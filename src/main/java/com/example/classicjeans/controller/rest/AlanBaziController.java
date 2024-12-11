@@ -26,8 +26,8 @@ public class AlanBaziController {
 
         // AlanBaziRequest 객체를 생성
         AlanBaziRequest request = new AlanBaziRequest();
-        request.setBirthDate(user.getDateOfBirth());  // 사용자의 생일을 설정
-        request.setGender(user.getGender().name());  // 사용자의 성별을 설정
+        request.setBirthDate(user.getDateOfBirth());
+        request.setGender(user.getGender().name());
 
         try {
             // AlanBaziRequest를 전달하여 운세 조회
@@ -40,4 +40,3 @@ public class AlanBaziController {
         }
     }
 }
-

@@ -1,6 +1,5 @@
 package com.example.classicjeans.service;
 
-
 import static com.example.classicjeans.util.MarkdownRenderer.*;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -46,7 +45,6 @@ public class AlanSSEService {
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("data: ")) {
-
                     // "data: " 이후의 JSON 데이터 추출
                     String json = line.substring(6).trim();
 

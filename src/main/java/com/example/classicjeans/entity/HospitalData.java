@@ -32,7 +32,6 @@ public class HospitalData {
     @Column(name = "sub_region")
     private String district;
 
-
     public HospitalData() {}
 
     public HospitalData(String name, String address, String phone, Double latitude, Double longitude, String city, String district) {

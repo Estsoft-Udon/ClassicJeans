@@ -25,10 +25,6 @@ public interface QuestionnaireDataRepository extends JpaRepository<Questionnaire
     // 해당 가족 조회
     List<QuestionnaireData> findByFamilyId(FamilyInfo familyInfo);
 
-    // 최근
-    @Query("SELECT q FROM QuestionnaireData q WHERE q.userId = :user ORDER BY q.date DESC")
-    QuestionnaireData findTopByOrderByDateDesc(Users userId);
-
     // 최근 5개 조회
     @Query("SELECT q FROM QuestionnaireData q WHERE q.userId = :user ORDER BY q.date DESC")
     List<QuestionnaireData> findTop5ByUserIdOrderByDateDesc(@Param("user") Users user, Pageable pageable);

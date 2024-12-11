@@ -1,9 +1,7 @@
 package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
-import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
-import com.example.classicjeans.dto.response.AlanBasicResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.entity.*;
