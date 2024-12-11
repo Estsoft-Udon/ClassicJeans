@@ -181,8 +181,20 @@ public class CheckupViewController {
         Object healthReport = healthReportService.getHealthReportById(reportId, reportType);
 
         if (healthReport instanceof QuestionnaireData questionnaireData) {
+            for (SummaryEvaluation evaluation : questionnaireData.getSummaryEvaluation()) {
+                evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
+            }
+            for (ImprovementSuggestions suggestion : questionnaireData.getImprovementSuggestions()) {
+                suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
+            }
             model.addAttribute("healthReport", questionnaireData);
         } else if (healthReport instanceof DementiaData dementiaData) {
+            for (SummaryEvaluation evaluation : dementiaData.getSummaryEvaluation()) {
+                evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
+            }
+            for (ImprovementSuggestions suggestion : dementiaData.getImprovementSuggestions()) {
+                suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
+            }
             model.addAttribute("healthReport", dementiaData);
         }
 
