@@ -1,7 +1,7 @@
 
 // 병원 검색 API 호출 함수
 function searchHospitalsByRegion(province, district, page = 0, size = 10) {
-    let url = `/hospital_list?`;
+    let url = `/hospital-list?`;
 
     if (province) {
         url += `city=${province}&`;
@@ -41,7 +41,7 @@ function navigateToPage(pageNumber) {
     const district = document.getElementById("district").value;
 
     // 페이지 번호와 함께 URL에 쿼리 파라미터 추가
-    let url = `/hospital_list?page=${pageNumber}&size=10`;
+    let url = `/hospital-list?page=${pageNumber}&size=10`;
 
     // 지역 값이 존재하는 경우 URL에 포함
     if (province) {

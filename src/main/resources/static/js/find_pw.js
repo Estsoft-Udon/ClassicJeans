@@ -23,7 +23,7 @@ async function checkEmail() {
             alert(data.message);
 
             // 두 번째 API 호출: 이메일 인증 코드 전송
-            const emailResponse = await fetch('api/email/send', {
+            const emailResponse = await fetch('/api/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -76,7 +76,7 @@ function submitAuthCode() {
         .then(result => {
             alert(result); // 서버 응답 메시지 표시
             isEmailVerified = true; // 이메일 인증 완료 상태로 변경
-            window.location.href = `/change_pw_after_find`;
+            window.location.href = `/change-pw-after-find`;
         })
         .catch(error => {
             isEmailVerified = false; // 인증 실패 상태로 변경
