@@ -25,5 +25,19 @@ services:
       - "9100:9100"
     restart: always
 
+  java-app:
+    build:
+      context: .  # Dockerfile 위치
+    container_name: java-app
+    ports:
+      - "1234:1234"  # JMX Exporter 포트
+      - "8080:8080"  # Java 애플리케이션 포트
+    volumes:
+      - ./jmx_prometheus_javaagent-0.16.1.jar:/app/jmx_prometheus_javaagent-0.16.1.jar
+      - ./jmx_exporter_config.yml:/app/jmx_exporter_config.yml
+      - ./build/libs/ClassicJeans-0.0.1-SNAPSHOT.jar:/app/ClassicJeans-0.0.1-SNAPSHOT.jar
+    command: java -javaagent:/app/jmx_prometheus_javaagent-0.16.1.jar=1234:/app/jmx_exporter_config.yml -jar /app/ClassicJeans-0.0.1-SNAPSHOT.jar
+    restart: always
+
 volumes:
   grafana_data:
