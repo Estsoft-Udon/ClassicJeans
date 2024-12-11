@@ -15,18 +15,18 @@ import java.util.List;
 public class AlanDementiaResponse {
 
     @JsonProperty(value = "action")
-    private Action action;  // action 객체로 AI 응답의 액션 부분을 처리
+    private Action action;
 
     @JsonProperty(value = "content")
-    private String content; // AI 응답의 "content" 필드에 있는 내용
+    private String content;
 
     // 종합 평가 내용
     @JsonProperty(value = "summaryEvaluation")
-    private List<SummaryEvaluation> summaryEvaluation;  // 종합평가 내용 추가
+    private List<SummaryEvaluation> summaryEvaluation;
 
     // 개선 방법
     @JsonProperty(value = "improvementSuggestions")
-    private List<ImprovementSuggestions> improvementSuggestions; // 개선 방법 추가
+    private List<ImprovementSuggestions> improvementSuggestions;
 
     // Action 서브 클래스 정의
     @Data
