@@ -65,7 +65,6 @@ public class HospitalService {
                     hospitalList.add(hospitalResponse);
                 }
             }
-
             return hospitalList;
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,7 +103,6 @@ public class HospitalService {
                     hospitalRepository.save(hospital);
                 }
             }
-
             // 다음 페이지가 있는지 확인
             pageNo++;
             hasNextPage = hospitalList.size() == numOfRows;

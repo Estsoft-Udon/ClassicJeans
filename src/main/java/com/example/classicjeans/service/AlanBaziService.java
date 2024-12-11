@@ -75,7 +75,6 @@ public class AlanBaziService {
 
         // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
         return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
-
     }
 
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {

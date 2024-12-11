@@ -1,6 +1,5 @@
 package com.example.classicjeans.entity;
 
-
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;

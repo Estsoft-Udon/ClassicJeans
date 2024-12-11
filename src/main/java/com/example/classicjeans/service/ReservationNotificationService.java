@@ -1,6 +1,5 @@
 package com.example.classicjeans.service;
 
-
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
