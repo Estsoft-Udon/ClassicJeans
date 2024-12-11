@@ -1,3 +1,7 @@
+footer{
+    position: relative;
+}
+
 footer .inner {
     height: 30rem;
     display: flex;
@@ -6,31 +10,48 @@ footer .inner {
     background: #D9D9D9;
 }
 
-/* 스크롤 탑 버튼 스타일 */
+/* 스크롤 탑 버튼 기본 스타일 */
 .scroll-to-top-btn {
     position: fixed;
     bottom: 2rem;
-    left: calc(100% - 15rem);
+    right: 6rem;
     padding: 0;
     width: 9rem;
     height: 9rem;
     border-radius: 50%;
+    background: #013E8B;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #013E8B;
-    color: #fff;
-    transition: .8s;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
 }
 
 .scroll-to-top-btn:hover {
     background-color: #032D41;
 }
 
-#scrollToTopBtn svg{
+#scrollToTopBtn svg {
     animation: scr_up .8s infinite alternate ease-in-out;
     stroke: #fff;
+}
+
+.scroll-to-top-btn.stop {
+    position: absolute;
+    bottom: 32rem;
+}
+
+.scroll-to-top-btn.fixed {
+    position: fixed;
+    bottom: 2rem
+}
+
+.scroll-to-top-btn.show {
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
 .scr_txt{

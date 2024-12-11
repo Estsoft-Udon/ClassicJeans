@@ -29,16 +29,33 @@ window.addEventListener('scroll', function() {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+    const footer = document.querySelector("footer");
 
     if (scrollToTopBtn) {
         if (window.location.pathname !== "/" && window.location.pathname !== "/index") {
             window.addEventListener("scroll", function () {
                 if (window.scrollY > 300) {
-                    scrollToTopBtn.style.display = "block";
+                    scrollToTopBtn.classList.add("show");
                 } else {
-                    scrollToTopBtn.style.display = "none";
+                    scrollToTopBtn.classList.remove("show");
+                }
+
+                if (footer) {
+                    const footerTop = footer.offsetTop;
+                    const windowHeight = window.innerHeight;
+                    const scrollPosition = window.scrollY + windowHeight;
+
+                    const buttonHeight = scrollToTopBtn.offsetHeight;
+
+                    if (scrollPosition + buttonHeight < footerTop) {
+                        scrollToTopBtn.classList.add("fixed");
+                        scrollToTopBtn.classList.remove("stop");
+                    } else {
+                        scrollToTopBtn.classList.remove("fixed");
+                        scrollToTopBtn.classList.add("stop");
+                    }
                 }
             });
 
@@ -48,13 +65,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     behavior: "smooth"
                 });
             });
-        } else {
+        } else{
             scrollToTopBtn.style.display = "none";
         }
     } else {
         console.warn('scrollToTopBtn 요소를 찾을 수 없습니다.');
     }
 });
+
 
 
 
