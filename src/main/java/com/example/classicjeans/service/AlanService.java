@@ -247,7 +247,11 @@ public class AlanService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
-            return Double.parseDouble(matcher.group(2));
+            if (regex.contains("흡연율") || regex.contains("음주율") || regex.contains("운동율") || regex.contains("실천율")) {
+                return Double.parseDouble(matcher.group(2));
+            } else {
+                return Double.parseDouble(matcher.group(3));
+            }
         }
         return null;
     }
@@ -390,7 +394,7 @@ public class AlanService {
         // 점수 제한 (최소 0, 최대 100)
         return Math.round(Math.max(0, Math.min(100, score)) * 100.0) / 100.0;
     }
-    
+
     // BMI 계산
     public double calculateBMI(double height, double weight) {
         return weight / Math.pow(height / 100, 2);
