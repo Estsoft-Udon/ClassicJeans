@@ -42,13 +42,13 @@ public class SecurityConfig {
                     custom.loginPage("/login")
                             .failureHandler(customAuthFailureHandler);
                 })
-                .oauth2Login(oauth2 ->
-                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
-                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
-                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
-                                .userInfoEndpoint(userInfo ->
-                                        userInfo.userService(customOAuth2UserService))
-                )
+//                .oauth2Login(oauth2 ->
+//                        oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
+//                                .defaultSuccessUrl("/") // OAuth2 성공 시 이동
+//                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
+//                                .userInfoEndpoint(userInfo ->
+//                                        userInfo.userService(customOAuth2UserService))
+//                )
                 // 권한이 없는 사용자 접근 시 에러 페이지 설정
                 .exceptionHandling(custom -> {
                     custom.accessDeniedPage("/access-denied"); // 권한 없는 사용자가 접근할 경우 리다이렉트할 페이지
