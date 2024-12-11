@@ -20,7 +20,7 @@ public interface DementiaDataRepository extends JpaRepository<DementiaData, Long
     List<DementiaData> findByUserOrFamily(Users user, Collection<FamilyInfo> familyInfos);
 
     // 본인 목록 조회
-    Page<DementiaData> findByUserId(Users user, Pageable pageable);
+    List<DementiaData> findByUserId(Users user);
 
     // 해당 가족 조회
     Page<DementiaData> findByFamilyId(FamilyInfo familyInfo, Pageable pageable);
