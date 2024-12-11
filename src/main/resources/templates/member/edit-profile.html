@@ -18,7 +18,7 @@
                     <label for="name">이름</label>
                     <input type="text" id="name" name="name" th:value="${user.name}" disabled>
 
-                    <button type="button" onclick="window.location.href='/change_pw'" class="btn">비밀번호 변경하러가기
+                    <button type="button" onclick="window.location.href='/change-pw'" class="btn">비밀번호 변경하러가기
                     </button>
 
                     <!-- 아이디 -->
@@ -41,11 +41,7 @@
 
                     <!-- 이메일 -->
                     <label for="email" class="label">이메일</label>
-                    <div id="emailCheckMessage" class="check-message"></div>
-                    <div class="id_box">
-                        <input type="email" id="email" name="email" th:value="${user.email}" required placeholder="이메일">
-                        <button type="button" onclick="checkEmail()" class="btn">중복 확인</button>
-                    </div>
+                    <input type="email" id="email" name="email" th:value="${user.email}" disabled>
 
                     <div class="family_cont">
                         <p>🏠 나의 가족 정보</p>
