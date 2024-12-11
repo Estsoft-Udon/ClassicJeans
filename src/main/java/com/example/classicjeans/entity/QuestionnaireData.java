@@ -2,21 +2,16 @@ package com.example.classicjeans.entity;
 
 import com.example.classicjeans.enums.questionnaire.*;
 import com.example.classicjeans.enums.Gender;
-import com.example.classicjeans.util.DateFormatUtil;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class QuestionnaireData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -127,10 +122,6 @@ public class QuestionnaireData {
     @PrePersist
     public void setDate() {
         this.date = LocalDate.now();
-    }
-
-    public String getDate() {
-        return this.date.format(DateFormatUtil.formatter);
     }
 
     public QuestionnaireData(
