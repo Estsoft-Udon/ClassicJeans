@@ -67,32 +67,27 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
+    public Reservation toggleReadStatus(Long id) {
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
+        if(reservation == null) {
+            return null;
+        }
+
+        // 예약의 읽음 상태를 토글
+        boolean currentStatus = reservation.getIsRead();
+        reservation.setIsRead(!currentStatus);
+
+        return reservationRepository.save(reservation);
+    }
+
     @PostConstruct
     public void addReservationWhenConstruct() {
         reservationQueue.addReservations(reservationRepository.findByIsNotificatedFalse());
     }
 
-    public int getQueueSize() {
-        System.out.println("reservationQueue = " + reservationQueue.getQueueSize());
-        return reservationQueue.getQueueSize();
-    }
-
-    public Reservation setReadTrue(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        reservation.setIsRead(true);
-        return reservationRepository.save(reservation);
-    }
-
-    public Reservation setReadFalse(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        reservation.setIsRead(false);
-        return reservationRepository.save(reservation);
-    }
-
     @Scheduled(fixedRate = 60000) // 1분(60,000ms)마다 실행
     public void sendNotificationScheduling() throws JsonProcessingException {
         LocalDateTime oneDayAfter = LocalDateTime.now().plusDays(1);
-        System.out.println("scheduled job executed");
 
         boolean processing = true;
         while (processing) {
@@ -102,8 +97,6 @@ public class ReservationService {
                 if (reservation.getTime().isBefore(oneDayAfter)) {
                     // 여기서 알림 전송
                     String message = objectMapper.writeValueAsString(reservation);
-
-                    System.out.println("message = " + message);
 
                     notificationService.sendNotification(reservation.getUser().getId(), message);
                     notifyReservation(reservation);

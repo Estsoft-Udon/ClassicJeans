@@ -1,12 +1,6 @@
 package com.example.classicjeans.oauth;
 
-import com.example.classicjeans.entity.Users;
-import com.example.classicjeans.enums.Grade;
-import com.example.classicjeans.repository.UsersRepository;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;

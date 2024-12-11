@@ -41,10 +41,11 @@ public class CheckupViewController {
     }
 
     // 건강 검진 대상 선택
-    @GetMapping("/checkout_list")
-    public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
-                               @RequestParam(value = "selectedType", required = false) String selectedType,
-                               HttpSession session) {
+
+    @GetMapping("/checkout-list")
+    public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
+                              @RequestParam(value = "selectedType", required = false) String selectedType,
+                              HttpSession session) {
 
         if (selectedUser != null && selectedType != null) {
             if ("user".equals(selectedType)) {
@@ -63,13 +64,13 @@ public class CheckupViewController {
     }
 
     // 기본 검사 페이지
-    @GetMapping("/questionnaire_list")
+    @GetMapping("/questionnaire-list")
     public String questionnaireList() {
         return "checkout/questionnaire_list";
     }
 
     // 기본 검사 요청 기능
-    @PostMapping("/questionnaire_list")
+    @PostMapping("/questionnaire-list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
         Object selectedUserFromSession = session.getAttribute("selectedUser");
@@ -102,13 +103,13 @@ public class CheckupViewController {
     }
 
     // 치매 검사 페이지
-    @GetMapping("/dementia_list")
+    @GetMapping("/dementia-list")
     public String dementiaList() {
         return "checkout/dementia_list";
     }
 
     // 치매 검사 요청 기능
-    @PostMapping("/dementia_list")
+    @PostMapping("/dementia-list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
         Object selectedUserFromSession = session.getAttribute("selectedUser");

@@ -1,17 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const eventSource = new EventSource(`api/reservation/stream`);
+    const eventSource = new EventSource(`/api/reservation/stream`);
 
     eventSource.onopen = function () {
         console.log('SSE 연결 성공');
-    };
-
-    eventSource.onmessage = function (event) {
-        console.log('새로운 메시지:', event.data);
-    };
-
-    eventSource.onerror = function (error) {
-        console.error('SSE 오류:', error);
     };
 
     const notificationList = document.querySelector(".notification-list");
@@ -56,11 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const notificationItem = button.closest('.notification-item');
         const url = `/api/reservation/read/${id}`;
         const isUnread = notificationItem.classList.contains('unread');
-        const method = isUnread ? 'POST' : 'DELETE'; // 읽음 처리(POST) 또는 읽음 취소 처리(DELETE)
 
         // API 호출
         fetch(url, {
-            method: method,
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -77,12 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     notificationItem.classList.remove('unread');
                     notificationItem.classList.add('read');
                     button.textContent = '읽음 취소';
-                    console.log('읽음 취소');
                 } else {
                     notificationItem.classList.remove('read');
                     notificationItem.classList.add('unread');
                     button.textContent = '읽음 처리';
-                    console.log('읽음 처리');
                 }
 
                 // 알림 갯수 업데이트
@@ -98,17 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateNotificationCount() {
         const remainingNotifications = notificationList.querySelectorAll('.notification-item.unread').length;
         notificationCount.textContent = remainingNotifications;
-
-        // 알림이 없으면 카운트 숨기기
         if (remainingNotifications === 0) {
-            notificationCount.style.display = 'none';
+            notificationCount.textContent = '0';
         } else {
-            notificationCount.style.display = 'inline-block';
-
-            const emptyMessage = document.querySelector(".empty_alarm");
-            if (emptyMessage) {
-                emptyMessage.remove();
-            }
+            notificationCount.textContent = remainingNotifications;
         }
     }
 
@@ -159,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function addNotification(id, text) {
-        console.log(text);
         const listItem = document.createElement("li");
         listItem.classList.add("notification-item");
         listItem.classList.add("unread");
