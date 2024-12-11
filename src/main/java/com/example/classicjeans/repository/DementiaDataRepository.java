@@ -3,8 +3,6 @@ package com.example.classicjeans.repository;
 import com.example.classicjeans.entity.DementiaData;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,5 +21,5 @@ public interface DementiaDataRepository extends JpaRepository<DementiaData, Long
     List<DementiaData> findByUserId(Users user);
 
     // 해당 가족 조회
-    Page<DementiaData> findByFamilyId(FamilyInfo familyInfo, Pageable pageable);
+    List<DementiaData> findByFamilyId(FamilyInfo familyInfo);
 }
