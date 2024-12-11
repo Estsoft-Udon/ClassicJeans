@@ -6,10 +6,7 @@ import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.dto.response.HealthReportResponse;
-import com.example.classicjeans.entity.FamilyInfo;
-import com.example.classicjeans.entity.ImprovementSuggestions;
-import com.example.classicjeans.entity.SummaryEvaluation;
-import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.entity.*;
 import com.example.classicjeans.service.*;
 import com.example.classicjeans.util.MarkdownRenderer;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -177,8 +174,19 @@ public class CheckupViewController {
     }
 
     // 검사 결과 상세 페이지(목록에서)
-    @GetMapping("/result-detail")
-    public String resultDetail() {
+    @GetMapping("/result-detail/{reportId}")
+    public String resultDetail(@PathVariable Long reportId,
+                               @RequestParam String reportType,
+                               Model model) {
+        Object healthReport = healthReportService.getHealthReportById(reportId, reportType);
+
+        if (healthReport instanceof QuestionnaireData questionnaireData) {
+            model.addAttribute("healthReport", questionnaireData);
+        } else if (healthReport instanceof DementiaData dementiaData) {
+            model.addAttribute("healthReport", dementiaData);
+        }
+
+        model.addAttribute("reportType", reportType);
         return "checkout/result_detail";
     }
 }
