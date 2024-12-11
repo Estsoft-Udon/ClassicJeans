@@ -1,6 +1,7 @@
 package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.response.HealthReportResponse;
+import com.example.classicjeans.dto.response.HealthStatisticsResponse;
 import com.example.classicjeans.entity.DementiaData;
 import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.QuestionnaireData;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,14 +28,16 @@ public class HealthReportService {
     private final UsersService usersService;
     private final FamilyInfoRepository familyInfoRepository;
     private final FamilyInfoService familyInfoService;
+    private final AlanService alanService;
 
     @Autowired
-    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, UsersService usersService, FamilyInfoRepository familyInfoRepository, FamilyInfoService familyInfoService) {
+    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, UsersService usersService, FamilyInfoRepository familyInfoRepository, FamilyInfoService familyInfoService, AlanService alanService) {
         this.questionnaireDataRepository = questionnaireDataRepository;
         this.dementiaDataRepository = dementiaDataRepository;
         this.usersService = usersService;
         this.familyInfoRepository = familyInfoRepository;
         this.familyInfoService = familyInfoService;
+        this.alanService = alanService;
     }
 
     // 접속 중인 유저(본인 + 가족)의 검사 결과 목록 조회
@@ -96,6 +101,30 @@ public class HealthReportService {
                     .orElseThrow(() -> new RuntimeException("없는 검사 기록"));
             default -> throw new IllegalArgumentException("제공하지 않은 검사 유형");
         };
+    }
+
+    // 최근 기본 검사 결과 5건으로 bmi, 건강지수 가져오기
+    public List<HealthStatisticsResponse> getRecent5QuestionnaireData() {
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("date")));
+
+        List<QuestionnaireData> recent5Data = questionnaireDataRepository.findTop5ByUserIdOrderByDateDesc(user, pageable);
+
+        List<HealthStatisticsResponse> healthStatisticsList = new ArrayList<>();
+        for (QuestionnaireData data : recent5Data) {
+            double bmi = alanService.calculateBMI(data.getHeight(), data.getWeight());
+            Double healthIndex = data.getHealthIndex();
+            if (healthIndex == null) {
+                healthIndex = 0.0;
+            }
+            LocalDate date = data.getDate();
+
+            HealthStatisticsResponse response = new HealthStatisticsResponse(bmi, healthIndex, date);
+            healthStatisticsList.add(response);
+        }
+        return healthStatisticsList;
     }
 
     // 최근 기본검사 결과 조회
