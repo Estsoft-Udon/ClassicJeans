@@ -13,7 +13,7 @@
                 </p>
             </div>
             <section>
-                <form id="changePasswordForm" method="POST" action="/change_pw">
+                <form id="changePasswordForm" method="POST" action="/change-pw">
                     <label for="currentPassword"></label>
                     <input type="password" id="currentPassword" name="currentPassword" required
                            placeholder="현재 비밀번호를 입력하세요">
@@ -29,7 +29,7 @@
 
                     <div class="btn_box">
                         <button onclick="location.href='/login'" class="btn" th:if="${user != null}">취소하기</button>
-                        <button onclick="location.href='/edit_profile'" class="btn">취소하기</button>
+                        <button onclick="location.href='/edit-profile'" class="btn">취소하기</button>
                         <button type="submit" class="btn">변경하기</button>
                     </div>
 

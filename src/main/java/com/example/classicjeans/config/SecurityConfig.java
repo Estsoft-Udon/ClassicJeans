@@ -30,8 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
                         custom -> custom
-                                .requestMatchers("/", "/login", "/signup", "/find_id", "/find_pw",
-                                        "/success", "/change_pw_find", "/send-email").permitAll()
+                                .requestMatchers("/", "/login", "/signup", "/find-id", "/find-pw",
+                                        "/success", "/change-pw-find", "/send-email", "api/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
