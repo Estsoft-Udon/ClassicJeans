@@ -48,7 +48,7 @@ public class CheckupViewController {
 
     // 건강 검진 대상 선택
     @GetMapping("/checkout_list")
-    public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
+    public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
                               @RequestParam(value = "selectedType", required = false) String selectedType,
                               HttpSession session) {
 
