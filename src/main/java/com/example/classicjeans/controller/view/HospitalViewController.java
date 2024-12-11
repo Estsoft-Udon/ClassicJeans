@@ -54,6 +54,6 @@ public class HospitalViewController {
             model.addAttribute("loginUser", user);
         }
 
-        return "/info/hospital-list";
+        return "info/hospital-list";
     }
 }
