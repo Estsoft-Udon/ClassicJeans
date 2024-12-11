@@ -8,17 +8,12 @@ import com.example.classicjeans.repository.HospitalRepository;
 import com.example.classicjeans.repository.ReservationRepository;
 import com.example.classicjeans.dto.request.ReservationRequest;
 import com.example.classicjeans.util.SecurityUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -113,18 +108,13 @@ public class ReservationServiceTest {
     }
 
     @Test
-    void testSetReadTrue() {
-        Reservation result = reservationService.setReadTrue(1L);
+    void testToggleReadStatus() {
+        Reservation result = reservationService.toggleReadStatus(1L);
 
         assertTrue(result.getIsRead());
-        verify(reservationRepository, times(1)).save(any(Reservation.class));
-    }
-
-    @Test
-    void testSetReadFalse() {
-        Reservation result = reservationService.setReadFalse(1L);
+        result = reservationService.toggleReadStatus(1L);
 
         assertFalse(result.getIsRead());
-        verify(reservationRepository, times(1)).save(any(Reservation.class));
+        verify(reservationRepository, times(2)).save(any(Reservation.class));
     }
 }
