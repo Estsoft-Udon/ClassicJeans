@@ -219,7 +219,7 @@ document.getElementById("emailAuthForm").addEventListener("submit", function (ev
             if (response.ok) {
                 return response.text(); // 응답이 성공적일 경우, 응답 본문을 텍스트로 반환
             } else {
-                throw new Error('인증번호 확인 실패'); // 응답이 실패한 경우
+                throw new Error('이메일 인증에 실패하였습니다.'); // 응답이 실패한 경우
             }
         })
         .then(result => {
