@@ -1,7 +1,7 @@
 package com.example.classicjeans.util;
 
 public class RegexPatterns {
-    public static final String SUMMARY_EVALUATION_PATTERN = "(?i)### 종합 평가 \\(summary\\s*evaluation\\):?\\s*\\n([\\s\\S]*?)\\n### 개선 방법";
+    public static final String SUMMARY_EVALUATION_PATTERN = "(?i)### 종합 평가 \\(summary\\s*evaluation\\):?\\s*\\n([\\s\\S]*?)\\n### (분석|개선 방법)";
     public static final String IMPROVEMENT_SUGGESTIONS_PATTERN = "(?i)### 개선 방법 \\(improvement\\s*suggestions\\)[\\s\\S]*?(\\d+\\.\\s.*?)(?=\\n$|$)";
 
     public static final String AGE_GROUP_PATTERN = "연령대:\\s*(\\d+대)";
