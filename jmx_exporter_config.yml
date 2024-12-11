@@ -1,0 +1,9 @@
+rules:
+  - pattern: 'java.lang<type=Memory><attribute=HeapMemoryUsage>(Used)'
+    name: 'jvm_memory_heap_used'
+    type: GAUGE
+    help: 'Heap memory used'
+  - pattern: 'java.lang<type=Memory><attribute=NonHeapMemoryUsage>(Used)'
+    name: 'jvm_memory_nonheap_used'
+    type: GAUGE
+    help: 'Non-Heap memory used'
