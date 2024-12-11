@@ -7,6 +7,22 @@ window.onload = function() {
     const data1 = healthStatisticsList.map(item => item.healthIndex).reverse();
     const data2 = healthStatisticsList.map(item => item.bmi).reverse();
 
+    // 건강 지수의 범위 계산
+    const minHealthIndex = Math.min(...data1);
+    const maxHealthIndex = Math.max(...data1);
+
+    // 건강 지수의 최소값과 최대값 설정
+    const y1Min = Math.max(minHealthIndex - 10, 0);
+    const y1Max = Math.min(maxHealthIndex + 10, 100);
+
+    // BMI의 최소값과 최대값 계산
+    const minBmi = Math.min(...data2);
+    const maxBmi = Math.max(...data2);
+
+    // BMI 범위 동적 설정: 평균을 기준으로 상하 2단위로 범위 설정
+    const y2Min = Math.max(minBmi - 2, 0);
+    const y2Max = Math.min(maxBmi + 2, 50);
+
     const ctx = document.getElementById('myChart').getContext('2d');
 
     // 차트 설정
@@ -47,10 +63,10 @@ window.onload = function() {
             scales: {
                 y1: {
                     beginAtZero: true,
-                    min: 0,
-                    max: 100,
+                    min: y1Min,
+                    max: y1Max,
                     ticks: {
-                        stepSize: 10
+                        stepSize: 5
                     },
                     position: 'left',
                     title: {
@@ -62,10 +78,10 @@ window.onload = function() {
                 },
                 y2: {
                     beginAtZero: true,
-                    min: 0,
-                    max: 50,
+                    min: y2Min,
+                    max: y2Max,
                     ticks: {
-                        stepSize: 5
+                        stepSize: 1
                     },
                     position: 'right',
                     title: {
@@ -88,4 +104,4 @@ window.onload = function() {
             }
         }
     });
-}
+};
