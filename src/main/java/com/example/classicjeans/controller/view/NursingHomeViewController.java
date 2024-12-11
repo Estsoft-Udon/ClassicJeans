@@ -42,5 +42,4 @@ public class NursingHomeViewController {
 
         return "/info/nursing_list";
     }
-
 }

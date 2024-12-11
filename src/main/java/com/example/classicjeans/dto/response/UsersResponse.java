@@ -1,7 +1,6 @@
 package com.example.classicjeans.dto.response;
 
 import com.example.classicjeans.entity.Users;
-import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
 import com.example.classicjeans.util.DateFormatUtil;
 import lombok.AllArgsConstructor;

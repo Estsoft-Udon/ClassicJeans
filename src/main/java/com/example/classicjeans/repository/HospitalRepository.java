@@ -5,9 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface HospitalRepository extends JpaRepository<HospitalData, Long> {
     // 전화번호로 중복 체크
     boolean existsByPhone(String phone);
