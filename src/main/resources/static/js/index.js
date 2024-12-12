@@ -13,11 +13,26 @@ scrTopBtn.addEventListener('click', function () {
         behavior: 'smooth'  // 부드러운 스크롤 효과
     });
 });
+
 window.addEventListener('scroll', function () {
     if (window.scrollY > 0) {
         scrTopBtn.classList.add("act");
     } else {
         scrTopBtn.classList.remove("act");
+    }
+
+    const footer = document.querySelector("footer");
+    if (footer) {
+        const footerTop = footer.offsetTop;
+        const windowHeight = window.innerHeight;
+        const scrollPosition = window.scrollY + windowHeight;
+        const buttonHeight = scrTopBtn.offsetHeight;
+
+        if (scrollPosition + buttonHeight < footerTop) {
+            scrTopBtn.classList.remove("stop");
+        } else {
+            scrTopBtn.classList.add("stop");
+        }
     }
 });
 

@@ -1,5 +1,6 @@
 .wrap{
     padding: 7.7rem 3rem 0;
+    position: relative;
 }
 
 .sec {
@@ -288,6 +289,7 @@
     transition: .8s;
     color: #fff;
     cursor: inherit;
+    z-index: 9;
 }
 .btn_wr .scr_top_btn svg {
     animation: scr_down .8s infinite alternate ease-in-out;
@@ -316,6 +318,12 @@
 }
 .btn_wr .scr_top_btn.act .scr_txt02 {
     display: block;
+}
+
+.btn_wr .scr_top_btn.stop {
+    position: absolute;
+    bottom: -20rem;
+    transition: none;
 }
 
 .main_btn{
