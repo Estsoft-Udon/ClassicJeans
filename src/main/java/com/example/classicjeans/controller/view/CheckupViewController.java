@@ -214,6 +214,19 @@ public class CheckupViewController {
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
     }
 
+    // 결과 페이지에 모델 채우기
+    private void populateResultModel(Object request, Model model, String type, HttpSession session) throws JsonProcessingException {
+        model.addAttribute("request", request);
+        model.addAttribute("type", type);
+        Object response = fetchResponse(request, type);
+
+        processMarkdownContent(response);
+        model.addAttribute("response", response);
+
+        session.removeAttribute("selectedUser");
+        session.removeAttribute("selectedType");
+    }
+
     // 마크다운 변환 메소드
     private void processMarkdownContent(Object response) {
         if (response instanceof QuestionnaireData data) {
