@@ -1,54 +1,66 @@
 package com.example.classicjeans.admin.controller;
 
 import com.example.classicjeans.admin.service.AdminService;
-import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.UsersResponse;
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.enums.Grade;
 import com.example.classicjeans.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/admin")
+@Controller
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
     private final UsersService usersService;
 
-    @PostMapping("/login")
-    public ResponseEntity<UsersResponse> login(@RequestBody UsersRequest request) {
-        Users admin = adminService.adminLogin(request.getLoginId(), request.getPassword());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UsersResponse(admin));
+    @GetMapping
+    public String adminMain() {
+        return "admin/admin-index";
     }
 
-    // 관리자 회원 관리 리스트
-    @GetMapping("/users")
-    public ResponseEntity<List<UsersResponse>> getAllUsers() {
-        List<UsersResponse> userList = adminService.getAllUsers();
-        return ResponseEntity.ok(userList);
-    }
-    // 회원의 이름으로 검색하기
-    @GetMapping("/member_list")
-    public ResponseEntity<Page<UsersResponse>> searchUsersByName(
-            @RequestParam String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        // 실제 서비스 호출 및 필터링된 결과 반환
-        Page<UsersResponse> usersResponsePage = adminService.getUsersSearchName(keyword, page, size)
+    @GetMapping("/member/list")
+    public String memberListForAdmin(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size,
+                                    @RequestParam(defaultValue = "all") String sortOption,
+                                    @RequestParam(required = false) String keyword,
+                                    Model model) {
+        Page<UsersResponse> allUser = adminService.getFilteredUsers(page, size, sortOption, keyword)
                 .map(UsersResponse::new);
 
-        // 필터링된 데이터가 있는지 확인
-        if (usersResponsePage.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(usersResponsePage); // 데이터 없음
-        }
 
-        return ResponseEntity.ok(usersResponsePage); // 필터링된 데이터 반환
+        model.addAttribute("allUser", allUser);
+        model.addAttribute("sortOption", sortOption);
+        model.addAttribute("keyword", keyword);
+
+        return "admin/member/member-list";
     }
 
+    @GetMapping("/member/edit/{id}")
+    public String memberDetailForAdmin(Model model, @PathVariable Long id) {
+        UsersResponse userById = new UsersResponse(usersService.findById(id));
+        model.addAttribute("user", userById);
+        model.addAttribute("grades", Grade.values());
+
+        return "admin/member/member-edit";
+    }
+
+    @PostMapping("/member/edit/{id}")
+    public String memberEditForAdmin(@PathVariable Long id, Grade grade) {
+        adminService.updateUserGrade(id, grade);
+        return "redirect:admin/member/edit/" + id;
+    }
+
+    @PostMapping("/member/delete/{id}")
+    public String memberDeleteForAdmin(@PathVariable Long id) {
+        Users user = usersService.findById(id);
+        if(!user.getGrade().name().equals("ADMIN")) {
+            usersService.softDelete(id, user.getPassword());
+        }
+        return "redirect:admin/member/list";
+    }
 }

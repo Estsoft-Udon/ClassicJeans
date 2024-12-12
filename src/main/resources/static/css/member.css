@@ -1,0 +1,244 @@
+
+h1.tit{
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 4rem;
+}
+
+.top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.txt_box{
+    margin: 2rem 0 3rem;
+    text-align: center;
+}
+
+.txt_box span{
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.txt_box span:nth-child(2){
+    margin: 0 1rem;
+}
+
+.btn_box{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 10rem;
+}
+
+.btn_box button{
+    flex: 1;
+}
+
+.change_btn{
+    margin-top: 10rem;
+}
+
+.find_box{
+    text-align: right;
+}
+
+.find_box button:hover{
+    font-weight: 500;
+}
+
+.find_box button.find_id_btn{
+    position: relative;
+    padding-right: 0.7rem;
+    margin-right: 0.4rem;
+}
+
+.find_box button.find_id_btn:before{
+    content: "";
+    width: 1px;
+    height: 70%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input_bot{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.input_bot .txt_box{
+    margin: 0;
+    position: absolute;
+    left: 0;
+}
+
+.input_bot .txt_box span{
+    font-weight: normal;
+    font-size: 1.5rem;
+    color: red;
+}
+.error-message{
+    margin-top: 3rem;
+    font-weight: normal;
+    font-size: 1.75rem;
+    text-align: center;
+    color: red;
+}
+
+.id_box{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+}
+
+.id_box button{
+    padding: 1rem;
+    font-size: 1.4rem;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.success_cont p{
+    text-align: center;
+    line-height: 9rem;
+    font-size: 2rem;
+    font-weight: 500;
+    border-radius: 1rem;
+}
+
+.warning{
+    font-size: 1.7rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.info-section span{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.info-section label{
+    font-size: 1.3rem;
+    padding-left: 0.5rem;
+}
+
+.grade_box{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    gap: 1rem;
+}
+
+.grade_box .reversal_btn{
+    padding: 1rem;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    border-color: rgba(0,0,0,0.5);
+    color: rgba(0,0,0,0.5);
+    cursor: not-allowed;
+    white-space: nowrap;
+}
+
+.grade_box .reversal_btn.on{
+    cursor: pointer;
+    border-color: rgba(0, 133, 249, 1);
+    white-space: nowrap;
+}
+
+.info-section span.grade_info{
+    font-size: 1.2rem;
+    border: none;
+    display: inline;
+    padding: 0;
+    vertical-align: top;
+}
+
+.pw_change_btn{
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+.bot{
+    text-align: right;
+    margin-top: 10rem;
+}
+
+.delete_btn{
+    color: #aaa;
+}
+
+
+
+/*======================================================*/
+
+/* 모달 창 배경 */
+.modal {
+    display: none; /* 기본적으로 숨겨짐 */
+    position: fixed;
+    z-index: 1; /* 화면 위에 보이도록 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0); /* 반투명 배경 */
+    background-color: rgba(0,0,0,0.4); /* 투명도 */
+}
+
+/* 모달 창 내용 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* 인풋 박스 */
+input{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+input:last-child{
+    margin-bottom: 2.5rem;
+}
+
+input:focus{
+    border: 1px solid rgba(0,133,249,1);
+}

@@ -1,0 +1,447 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+*{
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    border: 0;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+html{
+    font-size: 62.5%;
+    /*overflow-x: hidden;*/
+}
+
+body {
+    line-height: 1;
+    font-size: 1.6rem;
+    overflow-x: hidden;
+}
+
+body.no-scroll{
+    overflow: hidden;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+table th, table td {
+    max-width: 20rem;
+    padding: 1.2rem 0;
+    border: none;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table th {
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr {
+    border-radius: 8px;
+}
+
+table td {
+    border-bottom: 1px solid #ddd;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+input{
+    border: none;
+}
+
+input:focus {
+    outline: none;
+}
+
+button{
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+img{
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+section{
+    padding: 0 3.2rem;
+}
+
+.w_1280{
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20rem 0;
+}
+
+.default_btn{
+    color: #fff;
+    background-color: rgb(25 43 59);
+    padding: 1.5rem 3.3rem 1.5rem 3.1rem;
+    border-radius: 1rem;
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
+
+    @media (max-width: 767px) {
+        padding: 1.1rem 2.4rem;
+    }
+}
+
+.reversal_btn{
+    color: rgb(25 43 59);
+    background-color: #fff;
+    padding: 1.5rem 3.3rem 1.5rem 3.1rem;
+    border-radius: 1rem;
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
+    border: 1px solid rgb(25 43 59);
+
+    @media (max-width: 767px) {
+        padding: 1.1rem 2.4rem;
+    }
+}
+
+mark{
+    background-color: transparent;
+}
+
+.txt{
+    font-size: clamp(1.4rem,1.1vw,1.6rem);
+    line-height: clamp(1.8rem,1.4vw,2rem);
+    word-break: break-word;
+}
+
+.pc{
+    display: block;
+    @media (max-width: 767px) {
+        display: none;
+    }
+}
+
+.mo{
+    display: none;
+    @media (max-width: 767px) {
+        display: block;
+    }
+}
+
+dialog{
+    border: none;
+}
+
+.def_c{
+    color: rgba(0,133,249,1);
+}
+
+.dn{
+    display: none;
+}
+
+.btn_layout{
+    width: 100%;
+    margin: 0 auto 10rem;
+    text-align: center;
+    display: block;
+}
+
+.mw_50{
+    max-width: 50rem;
+    margin: 0 auto 5rem;
+}
+
+.icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: filter 0.3s;
+}
+
+/* 좋아요 (엄지) 아이콘 */
+.thumb_icon {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-.83-.67-1.5-1.5-1.5h-6.38l.94-4.57.02-.32c0-.41-.17-.79-.44-1.06L14 2 7.59 8.59C7.22 8.96 7 9.46 7 10v9c0 .83.67 1.5 1.5 1.5h9.29c.72 0 1.38-.38 1.72-.97l3.38-6.03c.11-.21.18-.45.18-.7v-2z" fill="%23007bff"/></svg>');
+    filter: grayscale(100%);
+}
+
+.thumb_icon:hover {
+    filter: grayscale(0%);
+}
+
+.thumb_icon.on{
+    filter: grayscale(0%);
+}
+
+/* 댓글 아이콘 */
+.comment_icon {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 6h-2V4H5v2H3c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h6l3 3 3-3h6c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12h-7.17L12 20.17 9.17 18H3V8h18v10z" fill="%2328a745"/></svg>');
+    filter: grayscale(100%);
+}
+
+.comment_icon:hover {
+    filter: grayscale(0%);
+}
+
+.comment_icon.on {
+    filter: grayscale(0%);
+}
+
+/* 셀렉트 박스 */
+select{
+    width: 100%;
+    padding: 1rem 3rem 1rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+    box-sizing: border-box;
+    font-size: 1.5rem;
+    appearance: none;
+    background-color: #fff;
+    margin-bottom: 1.5rem;
+    color: rgba(0, 0, 0, 0.6);
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+select:focus {
+    border-color: rgba(0,133,249,1);
+    outline: none;
+    color: #000;
+}
+
+select.selected {
+    color: #000;
+}
+
+select option:checked {
+    color: #000;
+}
+
+/* 인풋 박스 */
+input{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+input:last-child{
+    margin-bottom: 2.5rem;
+}
+
+input:focus{
+    border: 1px solid rgba(0,133,249,1);
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+section {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.wrap{
+    width: 100%;
+    padding: clamp(5rem, 5.2vw, 10rem);
+}
+
+.wrap h1{
+    font-size: clamp(2.4rem, 2vw, 4.8rem);
+    font-weight: bold;
+    margin-bottom: clamp(5rem, 5.2vw, 10rem);
+}
+
+td a:hover {
+    color: rgba(0,133,249,1);
+}
+
+.filter {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+    margin-bottom: 5rem;
+}
+
+.filter a.selected{
+    color: rgba(0,133,249,1);
+    font-weight: bold;
+}
+
+.info_card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* 개별 항목 스타일 */
+.info_item {
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px 0;
+}
+
+.info_item.txt_item{
+    display: block;
+}
+
+/* 마지막 항목에는 구분선 제거 */
+.info_item:last-child {
+    border-bottom: none;
+}
+
+/* 항목의 제목 부분 스타일 */
+.info_label {
+    width: 12rem;
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}
+
+/* 텍스트 색상 */
+.info_item span {
+    color: #333;
+}
+
+.txt_item .info_label{
+    margin-bottom: 2rem;
+}
+
+.btn_box{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;
+}
+
+.btn_box button.approved{
+    color: #fff;
+    background: #aaa;
+    border-color: #aaa;
+    cursor: no-drop;
+}
+
+.search{
+    margin-bottom: 5rem;
+}
+
+.search_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+
+.search-input {
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    margin: 0 1rem 0 0;
+}
+
+.search-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.radio_box{
+    display: flex;
+    gap: 1rem;
+}
+
+.radio{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.radio label{
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.radio input{
+    margin: 0;
+    cursor: pointer;
+}

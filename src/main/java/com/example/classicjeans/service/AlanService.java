@@ -1,17 +1,15 @@
 package com.example.classicjeans.service;
 
-import com.example.classicjeans.dto.request.AlanBaziRequest;
 import com.example.classicjeans.dto.request.AlanDementiaRequest;
-import com.example.classicjeans.dto.request.AlanHealthRequest;
 import com.example.classicjeans.dto.request.AlanQuestionnaireRequest;
-import com.example.classicjeans.dto.response.AlanBasicResponse;
-import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.dto.response.AlanDementiaResponse;
 import com.example.classicjeans.dto.response.AlanQuestionnaireResponse;
+import com.example.classicjeans.entity.*;
+import com.example.classicjeans.repository.DementiaDataRepository;
+import com.example.classicjeans.repository.QuestionnaireDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
@@ -24,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static com.example.classicjeans.util.SecurityUtil.*;
 
 import static com.example.classicjeans.util.RegexPatterns.*;
 
@@ -32,41 +31,131 @@ public class AlanService {
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "CLIENT_ID 키 넣어야 함";
+    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final QuestionnaireDataRepository questionnaireDataRepository;
+    private final DementiaDataRepository dementiaDataRepository;
 
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
-    }
-
-    // 앨런AI test - 추후 제거
-    public AlanBasicResponse fetchBasicResponse(String content) throws JsonProcessingException {
-        String responseBody = fetchResponse(content);
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
-    }
-
-    // 앨런AI test2 - 추후 제거
-    public AlanBasicResponse fetchHealthResponse(AlanHealthRequest request) throws JsonProcessingException {
-        String responseBody = fetchResponse(request.toString());
-        return objectMapper.readValue(responseBody, AlanBasicResponse.class);
+        this.questionnaireDataRepository = questionnaireDataRepository;
+        this.dementiaDataRepository = dementiaDataRepository;
     }
 
     // 기본 문진표 AI 검사
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
 //        resetPreviousData();
-        String responseBody = fetchResponse(request.toString());
-        return parseQuestionnaireResponse(responseBody);
+
+//        // 아래 횟수 없을 시 사용
+//        String responseBody = fetchResponse(request.toString());
+//        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+//        response.setHealthIndex(calculateHealthIndex(request));
+//        saveQuestionnaireData(request, response);
+//        return response;
+
+        // 횟수 초과 되면 위에꺼 활성화 시켜주세요
+        String CLIENT_ID = "49c03662-63c7-4cb3-9dda-8b0279982686";
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(BASE_URL)
+                .queryParam("content", request.toString())
+                .queryParam("client_id", CLIENT_ID)
+                .toUriString();
+        String responseBody = restTemplate.getForEntity(uri, String.class).getBody();
+        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
+        response.setHealthIndex(calculateHealthIndex(request));
+        saveQuestionnaireData(request, response);
+        return response;
+    }
+
+    // 기본 검사 결과 저장
+    public void saveQuestionnaireData(AlanQuestionnaireRequest request, AlanQuestionnaireResponse response) {
+        boolean isFamilyInfo = request.getFamily() != null;
+        QuestionnaireData data = new QuestionnaireData(
+                request.getUser(),
+                request.getFamily(),
+                isFamilyInfo ? request.getFamily().getAge() : getLoggedInUser().getAge(),
+                isFamilyInfo ? request.getFamily().getGender() : getLoggedInUser().getGender(),
+                request.getHeight(),
+                request.getWeight(),
+                request.getChronicDisease(),
+                request.getHospitalVisit(),
+                request.getCurrentMedication(),
+                request.getSmokingStatus(),
+                request.getAlcoholConsumption(),
+                request.getExerciseFrequency(),
+                request.getDietPattern(),
+                request.getMoodStatus(),
+                request.getSleepPattern(),
+                request.getIndependenceLevel(),
+                request.getSocialParticipation(),
+                request.isHasGeneticDisease(),
+                request.getWeightChange(),
+                request.isHasAllergy(),
+                response.getAgeGroup(),
+                response.getAverageHeight(),
+                response.getAverageWeight(),
+                response.getSmokingRate(),
+                response.getDrinkingRate(),
+                response.getExerciseRate(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions(),
+                response.getHealthIndex()
+        );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setQuestionnaireData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setQuestionnaireData(data);
+        }
+        questionnaireDataRepository.save(data);
     }
 
     // 치매 문진표 AI 검사
     public AlanDementiaResponse fetchDementiaResponse(AlanDementiaRequest request) throws JsonProcessingException {
 //        resetPreviousData();
         String responseBody = fetchResponse(request.toString());
-        return parseAIResponse(responseBody);
+        AlanDementiaResponse response = parseAIResponse(responseBody);
+        saveDementiaData(request, response);
+        return response;
+    }
+
+    // 치매 검진 결과 저장
+    private void saveDementiaData(AlanDementiaRequest request, AlanDementiaResponse response) {
+        DementiaData data = new DementiaData(
+                request.getUser(),
+                request.getFamily(),
+                request.getMemoryChange(),
+                request.getDailyConfusion(),
+                request.getProblemSolvingChange(),
+                request.getLanguageChange(),
+                request.isKnowsDate(),
+                request.isKnowsLocation(),
+                request.isRemembersRecentEvents(),
+                request.getFrequencyOfRepetition(),
+                request.getLostItemsFrequency(),
+                request.getDailyActivityDifficulty(),
+                request.getGoingOutAlone(),
+                request.getFinancialManagementDifficulty(),
+                request.getAnxietyOrAggression(),
+                request.getHallucinationOrDelusion(),
+                request.getSleepPatternChange(),
+                request.isHasChronicDiseases(),
+                request.isHasStrokeHistory(),
+                request.isHasFamilyDementia(),
+                response.getSummaryEvaluation(),
+                response.getImprovementSuggestions()
+        );
+        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
+            evaluation.setDementiaData(data);
+        }
+        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
+            suggestion.setDementiaData(data);
+        }
+        dementiaDataRepository.save(data);
     }
 
     // URI 생성과 요청 전송
@@ -114,8 +203,12 @@ public class AlanService {
         response.setContent(rootNode.path("content").asText());
 
         parseHealthData(response);
-        response.setSummaryEvaluation(extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN));
-        response.setImprovementSuggestions(extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN));
+        response.setSummaryEvaluation(
+                extractContent(response.getContent(), SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class)
+        );
+        response.setImprovementSuggestions(
+                extractContent(response.getContent(), IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class)
+        );
 
         return response;
     }
@@ -131,24 +224,37 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        List<String> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN);
-        List<String> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN);
+        List<SummaryEvaluation> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class);
+        List<ImprovementSuggestions> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }
 
-    // 사용자 건강 데이터 및 한국 평균 데이터 파싱
+    // 한국 평균 데이터 파싱
     private void parseHealthData(AlanQuestionnaireResponse response) {
         String content = response.getContent();
 
-        response.setUserHeight(extractDouble(content, HEIGHT_PATTERN));
         response.setAverageHeight(extractDouble(content, AVERAGE_HEIGHT_PATTERN));
-        response.setUserWeight(extractDouble(content, WEIGHT_PATTERN));
         response.setAverageWeight(extractDouble(content, AVERAGE_WEIGHT_PATTERN));
-
         response.setSmokingRate(extractDouble(content, SMOKING_RATE_PATTERN));
         response.setDrinkingRate(extractDouble(content, DRINKING_RATE_PATTERN));
         response.setExerciseRate(extractDouble(content, EXERCISE_RATE_PATTERN));
+
+        String ageGroup = extractAgeGroup(content);
+        if (ageGroup != null) {
+            response.setAgeGroup(ageGroup);
+        }
+    }
+
+    // 연령대 추출 함수
+    private String extractAgeGroup(String content) {
+        Pattern pattern = Pattern.compile(AGE_GROUP_PATTERN);
+        Matcher matcher = pattern.matcher(content);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     // 정규 표현식으로 숫자 추출
@@ -156,33 +262,65 @@ public class AlanService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
-            return Double.parseDouble(matcher.group(1));
+            if (regex.contains("흡연율") || regex.contains("음주율") || regex.contains("운동율")) {
+                return Double.parseDouble(matcher.group(2));
+            } else if (regex.contains("실천율")) {
+                return Double.parseDouble(matcher.group(3));
+            } else {
+                return Double.parseDouble(matcher.group(3));
+            }
         }
         return null;
     }
 
     // 종합 평가, 개선 방법 추출 메서드
-    private List<String> extractContent(String content, String patternString) {
+    private <T> List<T> extractContent(String content, String patternString, Class<T> targetClass) {
         Pattern pattern = Pattern.compile(patternString, Pattern.DOTALL);
         Matcher matcher = pattern.matcher(content);
-        List<String> results = new ArrayList<>();
+        List<T> results = new ArrayList<>();
 
         while (matcher.find()) {
             String matchedContent = matcher.group(1).trim();
-            String[] items = matchedContent.split("\n");
-            for (String item : items) {
-                if (item.startsWith("-")) {
-                    results.add(removeSourceLinks(item.trim()));
-                } else if (item.matches("^\\d+\\.\\s.*")) {
-                    results.add(removeSourceLinks(item.trim()));
+            if (!matchedContent.isEmpty()) {
+                String[] items = matchedContent.split("\n");
+                for (String item : items) {
+                    String cleanedItem = removeSourceLinks(item.trim());
+                    if (cleanedItem.isEmpty() || cleanedItem.startsWith(":") || cleanedItem.startsWith("이 정보를 바탕으로")
+                            || cleanedItem.startsWith("### 참고 자료") || cleanedItem.startsWith("- **")) {
+                        continue;
+                    }
+                    try {
+                        T entity = createEntity(cleanedItem, targetClass);
+                        results.add(entity);
+                    } catch (Exception e) {
+                        System.err.println("Failed to create entity: " + e.getMessage());
+                    }
                 }
             }
         }
         if (results.isEmpty()) {
-            results.add("정보가 없습니다.");
+            try {
+                T emptyEntity = createEntity("정보가 없습니다.", targetClass);
+                results.add(emptyEntity);
+            } catch (Exception e) {
+                System.err.println("Failed to create empty entity: " + e.getMessage());
+            }
         }
-
         return results;
+    }
+
+    // 문자열 데이터를 받아 지정된 클래스 타입의 엔티티 객체를 생성
+    private <T> T createEntity(String content, Class<T> targetClass) throws Exception {
+        if (targetClass == SummaryEvaluation.class) {
+            SummaryEvaluation evaluation = new SummaryEvaluation();
+            evaluation.setEvaluation(content);
+            return targetClass.cast(evaluation);
+        } else if (targetClass == ImprovementSuggestions.class) {
+            ImprovementSuggestions suggestion = new ImprovementSuggestions();
+            suggestion.setSuggestion(content);
+            return targetClass.cast(suggestion);
+        }
+        throw new IllegalArgumentException("Unsupported target class: " + targetClass.getName());
     }
 
     // 출처 링크 제거
@@ -190,47 +328,92 @@ public class AlanService {
         return text.replaceAll(URL_PATTERN, "").trim();
     }
 
-    // 오늘의 운세
-    public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
-        // URI 생성
-        String uri = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("content", request)  // AlanBaziRequest.toString() 호출
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
-
-        // API 호출
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        String responseBody = response.getBody();
-
-        // JSON 파싱
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode contentNode = rootNode.path("content");
-
-        if (contentNode.isTextual()) {
-            String cleanedContent = removeBaziContent(contentNode.asText()); // 정리된 텍스트 처리
-
-            // JSON 수정
-            ((ObjectNode) rootNode).put("content", cleanedContent);
+    // 건강 지수 계산
+    public Double calculateHealthIndex(AlanQuestionnaireRequest request) {
+        double score = 66.5;
+        double bmi = calculateBMI(request.getHeight(), request.getWeight());
+        if (bmi < 18.5) {
+            score -= 7.5;
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            score += 3.5;
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            score -= 4.5;
+        } else {
+            score -= 8.5;
         }
 
-        // System.out.println("Cleaned content: " + rootNode.toString());  // 처리된 텍스트 출력
+        // 만성 질환 상태
+        if (request.getChronicDisease() != null) {
+            score -= request.getChronicDisease().getImpactScore() * 2.5;
+        }
 
-        // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
-        return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
+        // 병원 방문 여부
+        if (request.getHospitalVisit() != null) {
+            score += request.getHospitalVisit().getImpactScore();
+        }
 
+        // 약물 영향
+        if (request.getCurrentMedication() != null) {
+            score -= request.getCurrentMedication().getImpactScore() * 0.8;
+        }
+
+        // 흡연 여부
+        if (request.getSmokingStatus() != null) {
+            score += request.getSmokingStatus().getImpactScore();
+        }
+
+        // 음주 빈도
+        if (request.getAlcoholConsumption() != null) {
+            score += request.getAlcoholConsumption().getImpactScore();
+        }
+
+        // 운동 빈도
+        if (request.getExerciseFrequency() != null) {
+            score += request.getExerciseFrequency().getImpactScore();
+        }
+
+        // 식습관
+        if (request.getDietPattern() != null) {
+            score += request.getDietPattern().getImpactScore();
+        }
+
+        // 정신 건강
+        if (request.getMoodStatus() != null) {
+            score += request.getMoodStatus().getImpactScore();
+        }
+        if (request.getSleepPattern() != null) {
+            score += request.getSleepPattern().getImpactScore();
+        }
+
+        // 사회적 활동
+        if (request.getIndependenceLevel() != null) {
+            score += request.getIndependenceLevel().getImpactScore();
+        }
+        if (request.getSocialParticipation() != null) {
+            score += request.getSocialParticipation().getImpactScore();
+        }
+
+        // 가족력
+        if (request.isHasGeneticDisease()) {
+            score -= 7.5;
+        }
+
+        // 체중 변화
+        if (request.getWeightChange() != null) {
+            score += request.getWeightChange().getImpactScore();
+        }
+
+        // 알레르기 여부
+        if (request.isHasAllergy()) {
+            score -= 3.5;
+        }
+
+        // 점수 제한 (최소 0, 최대 100)
+        return Math.round(Math.max(0, Math.min(100, score)) * 100.0) / 100.0;
     }
-    // 운세 결과 텍스트 정리
-    private String removeBaziContent(String text) {
-        return text
-                .replaceAll(URL_PATTERN, "")
-                .replaceAll("\\d{4}년 \\d{1,2}월 \\d{1,2}일에 태어난 (남성|여성)의\\s*", "") // 0000년 00월 00일에 태어난 남성/여성" 제거
-                .replaceAll("\\[.*?]\\(.*?\\)", "")
-                .replaceAll("\\d{4}년생은\\s*", "")
-                .replaceAll("이 외에도.*", "")
-                .replaceAll("다른 띠의 내용은 포함하지 않았습니다\\.?", "")
-                .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
-                .replaceAll(":\\s*:\\s*:", "") // ': : :' 제거
-                .trim();
+
+    // BMI 계산
+    public double calculateBMI(double height, double weight) {
+        return weight / Math.pow(height / 100, 2);
     }
 }

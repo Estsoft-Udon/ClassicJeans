@@ -1,3 +1,8 @@
+.wrap{
+    padding: 7.7rem 3rem 0;
+    position: relative;
+}
+
 .sec {
     height: 100vh;
     display: flex;
@@ -6,74 +11,306 @@
     flex-direction: column;
     gap: 5rem;
     padding: 0 2rem;
+    margin-bottom: 3rem;
+    border-radius: 5rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
-.tit {
-    font-size: clamp(5rem, 3.12vw, 6rem);
+
+.sec01{
+    background-image: url("/img/sec01.png");
+    max-height: 86rem;
+    color: #fff;
+}
+
+.sec01 .tit{
+    font-size: clamp(3rem, 4.1vw, 8rem);
+}
+
+.sec01 .txt{
+    line-height: clamp(3rem, 2.5vw, 4.8rem);
+}
+
+.sec01 .txt span{
+    position: relative;
+}
+
+.sec01 .txt span::before{
+    content: "";
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background-color: #fff;
+    animation: underlineAnimation 2s forwards;
+}
+
+.sec02{
+    background-image: url("/img/sec02.png");
+    max-height: 66rem;
+}
+
+.sec03{
+    background-image: url("/img/sec03.png");
+    max-height: 74rem;
+}
+
+.sec04{
+    background-image: url("/img/sec04.png");
+    max-height: 66rem;
+    color: #fff;
+}
+
+.sec04 .main_btn{
+    background-color: #fff;
+    color: #012D66;
+    border: 1px solid #fff;
+}
+
+.sec04 .main_btn:hover{
+    background-color: #012D66;
+    color: #fff;
+}
+
+.sec05{
+    height: auto;
+    margin: 17rem 0 21.8rem;
+}
+
+.bazi_cont{
+    padding: 9.8rem 2rem 10.2rem;
+    width: 100%;
+    max-width: 100rem;
+    background-color: #F4F4F4;
+    border-radius: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.bazi_cont::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 19.3rem;
+    height: 22.8rem;
+    background-image: url("/img/sec05.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translate(8rem, 17rem);
+}
+
+.bazi_cont::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 5.35rem;
+    height: 5rem;
+    background-image: url("/img/sec05-01.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translate(-16rem, 5rem);
+}
+
+.log_on_txt pre{
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.log_on_txt pre ul,
+.log_on_txt pre ol {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+.log_on_txt pre strong {
     font-weight: bold;
+}
+
+
+.username span{
+    color: #013E8B;
+    font-weight: bold;
+}
+
+.username{
+    margin-bottom: 2rem;
+}
+
+.bazi_cont .btn_box{
+    margin-top: 3rem;
+}
+
+.tit {
+    font-size: clamp(2rem, 3.12vw, 6rem);
+    font-weight: bold;
+    text-align: center;
 }
 .tit span {
-    transition: 0.3s;
-}
-.tit.act span {
+    position: relative;
     font-weight: bold;
-    color: #3333ff;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
+
+.tit span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.tit span:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.tit span:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.tit span:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+.tit span:nth-child(5) {
+    animation-delay: 2s;
+}
+
+.tit span:nth-child(6) {
+    animation-delay: 2.5s;
+}
+
+.tit span:nth-child(7) {
+    animation-delay: 3s;
+}
+
+.tit span::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: 0;
+    animation: circle-appear 1s ease forwards;
+}
+
+.tit span:nth-child(1)::after {
+    animation-delay: 0s;
+}
+
+.tit span:nth-child(2)::after {
+    animation-delay: 0.5s;
+}
+
+.tit span:nth-child(3)::after {
+    animation-delay: 1s;
+}
+
+.tit span:nth-child(4)::after {
+    animation-delay: 1.5s;
+}
+
+.tit span:nth-child(5)::after {
+    animation-delay: 2s;
+}
+
+.tit span:nth-child(6)::after {
+    animation-delay: 2.5s;
+}
+
+.tit span:nth-child(7)::after {
+    animation-delay: 3s;
+}
+
 .txt {
     text-align: center;
+    line-height: clamp(3rem, 2.5vw, 4.8rem);
+    font-size: clamp(1.5rem, 1.6vw, 3.2rem);;
 }
 
 .sec02 .flex_box {
     flex-direction: column;
     align-items: center;
-    gap: 5rem;
+    gap: 8rem;
 }
 .sec02 .flex_box .l_box .tit {
-    margin-bottom: 3rem;
+    margin-bottom: clamp(3rem, 3.1vw, 8rem);
 }
 .sec02 .flex_box .l_box .txt + .txt {
     margin-top: 2rem;
 }
 .sec03 .sel_wr {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
+    width: 100%;
+    background: #fff;
+    border-radius: 2rem;
+    text-align: center;
+    justify-content: center;
+    padding: 8.4rem 0;
+    max-width: 120rem;
 }
+
+.sec03 .sel_wr .btn_box{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.sec03 .sel_wr .btn_box button{
+    min-width: 32.5rem;
+}
+
 .sec03 .sel_wr label,
 .sec03 .sel_wr select {
     font-size: 2rem;
 }
 .btn_wr .scr_top_btn {
     position: fixed;
-    bottom: 5rem;
+    bottom: 2rem;
     transform: translateX(-50%);
     left: 50%;
     padding: 0;
-    width: 7rem;
-    height: 7rem;
+    width: 9rem;
+    height: 9rem;
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #fff;
+    background: transparent;
     transition: .8s;
-    color: #000;
+    color: #fff;
+    cursor: inherit;
+    z-index: 9;
 }
 .btn_wr .scr_top_btn svg {
     animation: scr_down .8s infinite alternate ease-in-out;
-    stroke: #000;
+    stroke: #fff;
 }
 .btn_wr .scr_top_btn.act .scr_txt01,
 .btn_wr .scr_top_btn .scr_txt02 {
     display: none;
 }
+
+.scr_txt01{
+    white-space: nowrap;
+}
 .btn_wr .scr_top_btn.act {
     left: calc(100% - 10rem);
-    background: #ff9e33;
+    background: #013E8B;
     color: #fff;
+    cursor: pointer;
 }
 .btn_wr .scr_top_btn.act:hover {
-    background: #e97536;
+    background: #032D41;
 }
 .btn_wr .scr_top_btn.act svg {
     animation: scr_up .8s infinite alternate ease-in-out;
@@ -82,6 +319,38 @@
 .btn_wr .scr_top_btn.act .scr_txt02 {
     display: block;
 }
+
+.btn_wr .scr_top_btn.stop {
+    position: absolute;
+    bottom: -20rem;
+    transition: none;
+}
+
+.main_btn{
+    font-size: clamp(1.2rem,1.3vw,2.6rem);
+    font-weight: bold;
+    padding: 2.1rem 4rem;
+    border-radius: 2rem;
+    white-space: nowrap;
+}
+#loadingMessage .spinner {
+    border: 8px solid #fff;
+    border-top: 8px solid #013E8B;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    margin-top: 2rem;
+    display: inline-block;
+    vertical-align: inherit;
+    margin-left: 2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @keyframes scr_down {
     0% {
         transform: translateY(0);
@@ -96,5 +365,66 @@
     }
     100% {
         transform: translateY(-.5rem) rotate(180deg);
+    }
+}
+
+@keyframes underlineAnimation {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes circle-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .bazi_cont::after {
+        width: 12rem;
+        height: 14rem;
+        transform: translate(3rem, 10rem);
+    }
+
+    .bazi_cont::before {
+        width: 3rem;
+        height: 3rem;
+        transform: translate(-12rem, 2rem)
+    }
+}
+
+@media (max-width: 480px) {
+    .bazi_cont::after {
+        width: 10rem;
+        height: 12rem;
+        transform: translate(2rem, 8rem);
+    }
+
+    .bazi_cont::before {
+        width: 2.5rem;
+        height: 2.5rem;
+        transform: translate(-10rem, 2rem);
+    }
+
+    .sec03 .sel_wr .btn_box button{
+        min-width: 22rem;
     }
 }

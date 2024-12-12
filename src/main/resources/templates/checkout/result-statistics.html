@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/checkout/result.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap w_1280 questionnaire_result">
+        <div id="content">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">홈</a></li>
+                    <li class="breadcrumb-item"><a href="/checkout/result-statistics">내 건강 검진 통계</a></li>
+                </ol>
+            </nav>
+            <!-- 검사 기록이 없을 때 -->
+            <section th:if="${isStatisticsEmpty}">
+                <div class="empty_checkout">
+                    <div class="tit">
+                        <h1>
+                            검사 결과가 존재하지 않습니다 🥲
+                        </h1>
+                    </div>
+                    <div>
+                        <h2>AI 건강 검진 서비스를 사용하여 현재 건강을 간단하게 검사해보세요!</h2>
+                        <button type="button" class="btn" onclick="location.href='/checkout'">AI 건강 검진 하러가기</button>
+                    </div>
+                </div>
+            </section>
+            <!-- 검사 기록이 있을 때 -->
+            <section th:unless="${isStatisticsEmpty}">
+                <div class="tit">
+                    <h1>
+                        회원님의 검사 결과를 <br>
+                        한눈에 볼 수 있도록 통합 및 분석했습니다.
+                    </h1>
+                </div>
+              
+                <!-- 차트 -->
+                <div class="container cont_wr">
+                    <canvas id="myChart" width="1120" height="560"></canvas>
+                    <div class="btn_wr">
+                        <button type="button" class="btn" onclick="location.href='/checkout'">AI 건강 검진 하러가기</button>
+                    </div>
+                </div>
+                <!-- // 차트 -->
+
+                <!-- 검사 목록 -->
+                <div class="result_list">
+                    <div class="tit">
+                        <h1>다시 확인하고 싶은 검사 결과가 있으신가요?</h1>
+                        <p>아래의 목록에서 검사 결과 재확인이 가능합니다. (최근 5개 정보)</p>
+                    </div>
+                    <div class="search_cont">
+                        <form id="result-form" method="GET" action="/checkout/result-statistics">
+                            <div class="search_box">
+                                <select id="filter_search" name="choiceUser">
+                                    <option value="all" th:selected="${choiceUser == 'all'}">전체</option>
+                                    <option value="user" th:selected="${choiceUser == 'user'}">본인</option>
+                                    <th:block th:each="family : ${familyInfoList}">
+                                        <option th:value="${family.id}" th:selected="${choiceUser == family.id.toString()}" th:text="${family.name}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <section class="list_section">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width: 15%;">이름</th>
+                                <th style="width: 70%;">검사 유형</th>
+                                <th style="width: 15%;">날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="report : ${healthReportList}">
+                                <td th:text="${report.name}">홍길동</td>
+                                <td>
+                                    <a th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}"
+                                       th:text="${report.type == 'Dementia' ? '치매 검사' : (report.type == 'Questionnaire' ? '기본 검사' : report.type + ' 검사')}">치매 검사 결과</a>
+                                </td>
+                                <td th:text="${report.date}">2024.12.10</td>
+                            </tr>
+                            <!-- 검사 결과가 없을 경우 -->
+                            <tr th:if="${#lists.isEmpty(healthReportList.content)}">
+                                <td colspan="3">조회된 검사 결과가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <div class="btn_wr">
+                    <button type="button" class="btn" onclick="location.href='/checkout/result-list'">검사 결과 더보기</button>
+                </div>
+                <!-- // 검사 목록 -->
+            </section>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        const healthStatisticsList = /*[[${healthStatisticsList}]]*/ [];
+    </script>
+    <script src="/js/chart.js"></script>
+    <script>
+        // 필터를 선택하면 폼 자동 제출
+        document.getElementById('filter_search').addEventListener('change', function () {
+            document.getElementById('result-form').submit();
+        });
+    </script>
+</th:block>
+</html>

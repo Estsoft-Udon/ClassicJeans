@@ -1,6 +1,7 @@
 header{
     width: 100%;
-    padding: clamp(2.2rem, 1.8vw, 2.6rem)  clamp(2rem, 2.2vw, 3.2rem);
+    height: 7.7rem;
+    padding: 0  clamp(2rem, 2.2vw, 3.2rem);
     position: absolute;
     top: 0;
     left: 0;
@@ -18,10 +19,19 @@ header.fixed {
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+header nav{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 header nav ul {
     display: flex;
-    gap: 2rem;
+    gap: clamp(2rem, 4.1vw, 8rem);
+    align-items: center;
 }
+
 header nav ul li a,
 header .user_box ul li a{
     font-size: clamp(1.6rem, 1.04vw, 2rem);
@@ -31,13 +41,13 @@ header nav ul li a:hover,
 header .user_box ul li a:hover{
     font-weight: bold;
 }
-header nav ul .dept {
+header .dept {
     position: relative;
 }
-header nav ul .dept a {
-    padding-bottom: 2rem;
+header .dept a {
+    padding-bottom: 1rem;
 }
-header nav ul .dept div {
+header .dept div {
     position: absolute;
     width: max-content;
     display: flex;
@@ -50,12 +60,198 @@ header nav ul .dept div {
     left: -1rem;
     background: #fff;
 }
-header nav ul .dept:hover div {
-    height: 12.5rem;
+header .dept:hover div {
+    height: auto;
     padding: 2rem 1rem 1rem;
     border: 1px solid #000;
     border-radius: 1rem;
 }
 header .user_box ul {
+    gap: 3rem;
+}
+
+.logo span{
+    font-family: 'GmarketSansMedium';
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.logo {
+    width: 4rem;
+    height: auto;
+    max-width: 100%;
+}
+
+.logo_box{
+    display: flex;
+    align-items: center;
+}
+
+.logo_box picture{
+    display: flex;
+    align-items: center;
+}
+
+.dept > a:after {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 16l-6-6h12l-6 6z"/></svg>');
+    margin-left: 8px;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.user_box .flex_box {
+    display: flex;
+    align-items: center;
+}
+
+/* 알림 */
+.notification-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bell-icon {
+    position: relative;
+    font-size: 2.4rem;
+    color: #000;
+}
+
+.bell-icon .fa-bell {
+    font-size: 2.4rem;
+}
+
+.notification-count {
+    width: 1.8rem;
+    height: 1.8rem;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 1.2rem;
+    padding: 3px 5px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.notification-list {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 45rem;
+    height: 25rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 1.5rem;
+    z-index: 100;
+    display: none;
+    overflow-y: auto;
+    font-size: clamp(1.3rem,0.8vw,1.6rem);
+}
+
+.notification-list li {
+    padding: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.notification-list li:last-child {
+    border-bottom: none;
+}
+
+.notification-list.hidden {
+    display: none;
+}
+
+.notification-list.visible {
+    display: block;
+}
+
+.notification-list li.empty_alarm{
+    border: none;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-list li.empty_alarm:hover{
+    background-color: transparent;
+}
+
+.notification-list li.empty_alarm.dis-no{
+    display: none;
+}
+
+.imp{
+    font-weight: bold;
+    color:#013E8B;
+
+}
+
+.notification-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.alarm_txt{
+    line-height: 1.3;
+}
+
+.notification-item.unread {
+    font-weight: bold;
+    background-color: #ffe6e6;
+}
+
+.notification-item.read {
+    font-weight: normal;
+    background-color: #f5f5f5;
+}
+
+.mark-read-btn {
+    color: #d12e92;
+    border: 1px solid #d12e92;
+    border-radius: 3px;
+    padding: 5px 5px;
+    cursor: pointer;
+    margin-right: 0;
+}
+
+.unread .mark-read-btn:hover{
+    background-color: #d12e92;
+    color: #fff;
+}
+
+.read .mark-read-btn{
+    background-color: #d12e92;
+    color: #fff;
+}
+
+.mypage_dept{
+    margin-right: 2rem;
 }

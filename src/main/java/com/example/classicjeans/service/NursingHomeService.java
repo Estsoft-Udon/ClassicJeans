@@ -1,12 +1,15 @@
 package com.example.classicjeans.service;
 
 import com.example.classicjeans.dto.request.NursingHomeRequest;
+import com.example.classicjeans.dto.response.NursingHomeResponse;
 import com.example.classicjeans.entity.NursingHomeData;
 import com.example.classicjeans.repository.NursingHomeDataRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,12 @@ public class NursingHomeService {
             }
 
             NursingHomeData nursingHomeData = new NursingHomeData(response);
+            String[] addressParts = nursingHomeData.getAddress().split(" ");
+            String region = addressParts.length > 0 ? addressParts[0] : "";
+            String subRegion = addressParts.length > 1 ? addressParts[1] : "";
+            nursingHomeData.setRegion(region);
+            nursingHomeData.setSubRegion(subRegion);
+
             repository.save(nursingHomeData);
         }
     }
@@ -56,8 +65,6 @@ public class NursingHomeService {
             ResponseEntity<String> response = restTemplate.exchange(
                     uri, HttpMethod.GET, null, String.class);
 
-            System.out.println(response.getBody());
-
             return response.getBody();
 
         } catch (Exception e) {
@@ -71,9 +78,28 @@ public class NursingHomeService {
         }
         JsonNode rootNode = objectMapper.readTree(json);
         JsonNode itemsNode = rootNode.path("response").path("body").path("items");
-        List<NursingHomeRequest> responses = objectMapper.convertValue(
+        List<NursingHomeRequest> requests = objectMapper.convertValue(
                 itemsNode, objectMapper.getTypeFactory().constructCollectionType(List.class, NursingHomeRequest.class));
 
-        return responses;
+        return requests;
     }
+
+    public Page<NursingHomeResponse> getNursingHomeList(Pageable pageable) {
+        Page<NursingHomeData> nursingHomeData = repository.findAll(pageable);
+
+        return nursingHomeData.map(NursingHomeResponse::new);
+    }
+
+    public Page<NursingHomeResponse> getNursingHomeByRegion(Pageable pageable, String region, String subregion) {
+        Page<NursingHomeData> nursingHomeData = repository.findAllByRegionAndSubRegion(region, subregion, pageable);
+
+        return nursingHomeData.map(NursingHomeResponse::new);
+    }
+
+    public Page<NursingHomeResponse> searchNursingHomeByName(Pageable pageable, String search) {
+        Page<NursingHomeData> nursingHomeData = repository.findAllByNameContaining(search, pageable);
+
+        return nursingHomeData.map(NursingHomeResponse::new);
+    }
+
 }

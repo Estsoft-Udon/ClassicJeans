@@ -52,17 +52,21 @@ public class UsersService {
     }
 
     // soft Delete
-    public Users softDelete(Long id) {
+    public Boolean softDelete(Long id, String password) {
         Users user = usersRepository.findById(id).orElse(null);
 
-        if(user == null) {
-            return null;
+        if (user == null) {
+            return false;
         }
 
-        user.setIsDeleted(true);
-        user.setDeletedAt(LocalDateTime.now());
-
-        return usersRepository.save(user);
+        // 비밀번호가 인코딩된 비밀번호이거나 원본 비밀번호일 경우(어드민) 처리
+        if (passwordEncoder.matches(password, user.getPassword()) || password.equals(user.getPassword())) {
+            user.setIsDeleted(true);
+            user.setDeletedAt(LocalDateTime.now());
+            usersRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     // 회원정보삭제
@@ -79,8 +83,6 @@ public class UsersService {
     public Users searchId(String name, String email) {
         return usersRepository.findByNameAndEmailAndIsDeletedFalse(name, email);
     }
-
-    // 비밀번호 찾기
 
     // 회원가입시 아이디 중복체크
     public boolean isLoginIdDuplicate(String loginId) {
@@ -114,5 +116,20 @@ public class UsersService {
 
     public Users findByLoginId(String loginId) {
         return usersRepository.findByLoginIdAndIsDeletedFalse(loginId);
+    }
+
+    public Users findById(Long userId) {
+        return usersRepository.findByIdAndIsDeletedFalse(userId);
+    }
+
+    public void changePasswordAfterFind(String loginId, String newPassword) {
+        Users user = usersRepository.findByLoginId(loginId);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+    }
+
+    public Users findByLoginIdAndEmail(String loginId, String email) {
+
+        return usersRepository.findByLoginIdAndEmailAndIsDeletedFalse(loginId, email);
     }
 }

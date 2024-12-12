@@ -1,0 +1,226 @@
+/* 로딩 페이지 */
+.loading-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+.loading-screen .tit {
+    line-height: 1.3;
+}
+.loading-screen .tit h1 {
+    text-align: center;
+}
+.loading-screen .txt_box {
+    margin-bottom: 4rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.loading-screen .txt_box .txt{
+    font-weight: 500;
+}
+
+.loading-screen .txt_box .txt span{
+    font-weight: bold;
+    color: #013E8B;
+}
+
+.loading-screen .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #013E8B;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+    margin-top: 2rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.progress-container {
+    position: fixed;
+    top: 7.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: #fff;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    padding: 3.5rem 2rem 1.5rem;
+    max-width: 128rem;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 5.8rem;
+    left: 50%;
+    width: calc(100% - 100px);
+    height: 1.5rem;
+    background-color: #fff;
+    z-index: -1;
+    transform: translateX(-50%);
+    border: 0.5rem solid #efefef;
+}
+
+.progress {
+    height: 100%;
+    background-color: #013E8B;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.step {
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.circle {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 0.8rem solid #efefef;
+}
+.step:hover .circle,
+.step.active .circle,
+.step.valid .circle{
+    background-color: #013E8B;
+    transform: scale(1.2);
+}
+.step.invalid:not(.active) .circle {
+    background-color: #d12e92;
+    transform: scale(1.2);
+}
+
+.step p{
+    margin-top: 1.5rem;
+    font-size: clamp(1.5rem, 1.04vw, 1.8rem);
+}
+.step:hover p,
+.step.active p {
+    font-weight: bold;
+}
+.step-content {
+    padding-top: 10rem;
+}
+.step-content h2 {
+    font-weight: bold;
+    font-size: clamp(1.8rem,1.56vw,3rem);
+}
+.question + .question {
+    margin-top: 5rem;
+}
+.question p{
+    margin-top: 1.5rem;
+    font-size: clamp(1.5rem, 1.04vw, 1.8rem);
+    margin-bottom: 4rem;
+    font-weight: 500;
+}
+label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: clamp(1.5rem, 1.04vw, 1.8rem);
+}
+label + label {
+    margin-top: 1.5rem;
+}
+input[type="radio"] {
+    display: none;
+}
+input[type="radio"] + span {
+    display: block;
+    padding: 3rem 2rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    text-align: center;
+    transition: background-color 0.2s linear;
+}
+label:hover input[type="radio"] + span,
+input[type="radio"]:checked + span{
+    background-color: #013E8B;
+    color: #fff;
+    font-weight: bold;
+}
+.questionnaire_btn {
+    margin: 10rem 3.2rem 0;
+    width: calc(100% - 6.4rem);
+}
+.questionnaire_btn .btn {
+    width: 100%;
+}
+.questionnaire_btn .btn + .btn {
+    margin-top: 1.5rem;
+}
+
+/* 추가 css */
+input[type="text"] {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    display: block;
+    margin-bottom: 1.5rem;
+    text-align: right;
+}
+input[type="text"]::placeholder {
+    text-align: left;
+}
+.question .flex_box {
+    gap: 2rem;
+    align-items: center;
+}
+.question .flex_box span {
+    font-size: clamp(1.5rem, 1.04vw, 1.8rem);
+}
+
+/* 치매 검진 리스트 */
+.dementia_wr .progress-bar {
+    left: 49%;
+    width: calc(100% - 120px);
+}
+@media screen and (max-width: 767px) {
+    .step-content {
+        padding: 5rem 0 0;
+    }
+    input[type="radio"] + span {
+        padding: 2.5rem 0;
+    }
+    .questionnaire_btn {
+        margin: 7rem 0 0;
+        width: 100%;
+    }
+}
+
+.questionnaire_tit{
+    padding: 0 2rem;
+    margin-top: 10rem;
+}
+
+.questionnaire_tit span{
+    color: #013E8B;
+    font-weight: 600;
+}

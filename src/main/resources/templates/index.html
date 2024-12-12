@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
 <head>
     <link rel="stylesheet" href="/css/index.css">
 </head>
@@ -7,19 +8,23 @@
     <div class="wrap">
         <div class="btn_wr">
             <button type="button" class="scr_top_btn btn">
-                <span class="scr_txt01">Scroll</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 9l6 6 6-6" />
+                <span class="scr_txt01">아래로 스크롤 해주세요</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                     stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6"/>
                 </svg>
-                <span class="scr_txt02">Top</span>
+                <span class="scr_txt02">맨 위로</span>
             </button>
         </div>
         <article class="sec sec01">
             <h2 class="tit"><span>청</span>춘은 <span>바</span>로 <span>지</span>금</h2>
             <p class="txt">
-                저희 청바지(청춘은 바로 지금)는 초고령 사회 속 액티브 시니어를 위한 AI 기반 건강 정보 분석 플랫폼입니다.<br>
-                건강 점검과 지원금 안내, 디지털 기기 활용 지원을 통해<br>
-                시니어들이 능동적이고 행복한 삶을 누릴 수 있도록 돕습니다.
+                청바지(청춘은 바로 지금)는 초고령 사회 속 액티브 시니어를 위한 <br>
+                AI 기반 건강 정보 분석 플랫폼입니다.<br><br>
+                사용자의 건강 정보를 기록하고 분석하여 건강 상태를 쉽게 이해할 수 있도록 돕고,<br>
+                공공의료기관, 요양원, 복지시설을 지역별로 검색하며,<br>
+                챗봇을 통해 생활속 생기는 궁금증을 간편하게 문의할 수 있습니다.<br>
+                <span>청바지는 시니어들이 능동적이고 편안한 삶</span>을 누릴 수 있도록 지원합니다.
             </p>
         </article>
         <article class="sec sec02">
@@ -27,43 +32,30 @@
                 <div class="l_box">
                     <h2 class="tit ani_load tran">AI 건강 정보 분석</h2>
                     <p class="txt ani_load tran">
-                        간단한 문진표를 작성하여<br>
-                        AI 기반 건강 정보 분석을 받아보세요.
-                    </p>
-                    <p class="txt ani_load tran">
-                        일반 건강과 치매 건강 중 선택하여<br>
-                        검사를 받을 수 있습니다.
+                        간단한 문진표를 작성하여 AI 기반 건강 정보 분석을 받아보세요. <br>
+                        일반 건강과 치매 건강 중 선택하여 검사를 받을 수 있습니다.
                     </p>
                 </div>
                 <div class="r_box ani_load tran">
                     <div class="btn_box">
-                        <button type="button" class="btn">AI 건강 정보 분석 하러가기 버튼</button>
+                        <button type="button" onclick="location.href='/checkout'" class="btn main_btn">AI 건강 정보
+                            분석 하러가기 ->
+                        </button>
                     </div>
                 </div>
             </div>
         </article>
         <article class="sec sec03">
-            <h2 class="tit ani_load tran">병원 정보 찾기</h2>
-            <p class="txt ani_load tran">지역별로 검색하여 병원 정보를 확인해보세요.</p>
+            <h2 class="tit ani_load tran">정보 마당</h2>
+            <p class="txt ani_load tran">지역별로 공공의료기관, 요양원, 복지시설을 손쉽게 찾아 필요한 정보를 확인하세요.</p>
             <div class="sel_wr ani_load tran">
-                <label for="city-select">시 도 선택</label>
-                <select id="city-select" name="city">
-                    <option value="">전체 선택</option>
-                    <option value="서울특별시">서울특별시</option>
-                    <option value="부산광역시">부산광역시</option>
-                    <option value="경기도">경기도</option>
-                    <option value="강원도">강원도</option>
-                </select>
-                <label for="town-select">시 군 구 선택</label>
-                <select id="town-select" name="town">
-                    <option value="">전체 선택</option>
-                    <option value="도봉구">도봉구</option>
-                    <option value="노원구">노원구</option>
-                    <option value="용산구">용산구</option>
-                    <option value="동대문구">동대문구</option>
-                </select>
                 <div class="btn_box">
-                    <button type="button" class="btn">검색하기</button>
+                    <button type="button" class="btn main_btn" onclick="location.href='/hospital-list'">공공의료기관 검색하기 ->
+                    </button>
+                    <button type="button" class="btn main_btn" onclick="location.href='/sanatorium-list'">요양원 검색하기 ->
+                    </button>
+                    <button type="button" class="btn main_btn" onclick="location.href='/nursing-list'">복지시설 검색하기 ->
+                    </button>
                 </div>
             </div>
         </article>
@@ -71,24 +63,40 @@
             <h2 class="tit ani_load tran">알려줘 앨런아!</h2>
             <p class="txt ani_load tran">일상생활에서 생기는 사소한 궁금증을<br>앨런이에게 물어보세요.</p>
             <div class="btn_box ani_load tran">
-                <button type="button" class="btn">앨런이와 대화하러가기</button>
+                <button type="button" class="btn main_btn" onclick="location.href='/chat'">앨런이와 대화하기 -></button>
+
             </div>
         </article>
         <article class="sec sec05">
             <h2 class="tit ani_load">오늘의 운세는</h2>
-            <!-- 로그인 전-->
-            <p class="txt ani_load">로그인 후 오늘의 운세를 확인해보세요.</p>
-            <!-- 로그인 후-->
-            <div class="cont_wr dn">
-                <p class="sub_txt ani_load">로그인한 회원 이름</p>
-                <span class="date ani_load">당일 날짜 노출</span>
+            <div class="bazi_cont">
+                <!-- 로그인 전-->
+                <p class="txt log_off_txt ani_load" sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">로그인 후
+                    오늘의 운세를 확인해보세요.</p>
+                <p class="txt log_off_txt ani_load" sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">오늘의 운세를
+                    확인해보세요.</p>
+                <!-- 운세 확인 -->
+                <div class="cont_wr log_on_txt dn">
+                    <p class="txt ani_load username"><span id="nicknameDisplay">유저 이름</span>님</p>
+                    <div id="loadingMessage" style="display: none" class="txt">잠시만 기다려 주세요. <br> 운세 확인은 1~2분 가량 소요 됩니다.
+                        <div class="spinner"></div>
+                    </div>
+                    <pre class="txt ani_load" th:utext="${content}" id="baziResult">오늘의 운세는 운수대통입니다. 행복하시겠어요~</pre>
+                </div>
                 <div class="btn_box ani_load">
-                    <button type="button" class="btn">운세 확인하기</button>
+                    <!-- 로그인 전-->
+                    <button type="button" class="btn main_btn"
+                            sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')"
+                            onclick="location.href='/login'">로그인 하기 ->
+                    </button>
+                    <!-- 운세 확인 -->
+                    <button type="submit" class="btn bazi_btn main_btn" id="baziButton"
+                            sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')">오늘의 운세 보기 ->
+                    </button>
                 </div>
             </div>
         </article>
     </div>
-
 <script src="/js/index.js"></script>
 </th:block>
 </html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+  <link rel="stylesheet" href="/css/checkout/checkout.css">
+</head>
+<th:block layout:fragment="content">
+  <div class="wrap w_1280 checkout_list">
+      <div class="tit">
+        <h1>
+          안녕하세요, <br>
+          건강 정보 분석을 시작합니다
+        </h1>
+      </div>
+      <div class="flex_box">
+        <div class="cont_box">
+          <p class="txt">검진을 원하시는 문진표를 선택해주세요.</p>
+        </div>
+        <div class="btn_wr">
+          <a href="/checkout/questionnaire-list" class="btn">기본 건강 문진표 작성</a>
+          <a href="/checkout/dementia-list" class="btn">치매 건강 문진표 작성</a>
+          <button type="button" onclick="history.back()" class="btn">뒤로가기</button>
+        </div>
+      </div>
+  </div>
+</th:block>
+</html>

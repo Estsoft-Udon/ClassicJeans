@@ -6,18 +6,13 @@ import lombok.Data;
 public class AlanHealthRequest {
 
     private int age;
-    // 체중
     private int weight;
-    // 키
     private int height;
-
     private boolean smoker;
-
     private boolean drunken;
 
     // 현재 앓고 있는 만성 질환
     private String sick;
-
 
     @Override
     public String toString() {

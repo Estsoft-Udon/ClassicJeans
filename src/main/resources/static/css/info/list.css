@@ -1,0 +1,306 @@
+.list_section{
+    padding: 0;
+}
+
+label {
+    font-weight: bold;
+    font-size: clamp(1rem, 1.0417vw, 2rem);
+}
+
+input {
+    padding: 1rem;
+    font-size: clamp(1rem, 1.0417vw, 1.8rem);
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+    box-sizing: border-box;
+}
+
+.province_cont,
+.district_cont{
+    position: relative;
+}
+
+.autocomplete-list {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /*display: none;*/
+    z-index: 10;
+}
+
+.autocomplete-list div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-list div:hover {
+    background-color: #f0f0f0;
+}
+input:focus + .autocomplete-list,
+input:active + .autocomplete-list {
+    display: block;
+}
+
+.region_form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #F4F4F4;
+    margin: 10rem 0;
+    padding: 1rem 2rem;
+}
+
+.region_form input{
+    margin: 0 2rem;
+}
+
+.region_form .btn,
+.search_hospital_name .btn{
+    padding: 1rem 2rem;
+    font-size: clamp(1.6rem, 1vw, 1.8rem);
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+    height: auto;
+    border-top: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 8px;
+}
+
+table th{
+    border-right: 0;
+    word-break: keep-all;
+    padding: 2rem;
+    font-size: clamp(1rem, 1vw, 1.8rem);
+    font-weight: 600;
+    background: #F4F4F4;
+    vertical-align: middle;
+    text-align: Center;
+    white-space: nowrap;
+}
+
+table td{
+    border-right: 0;
+    font-weight: 400;
+    padding: 0 1rem;
+    height: 7rem;
+    vertical-align: middle;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    line-height: 2.6rem;
+    word-break: keep-all;
+    border-bottom: 1px solid #E4E4E4;
+}
+
+table td a{
+    white-space: nowrap;
+}
+
+td.show_map{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.show_map .btn{
+    padding: 1rem 3rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+}
+
+.sanatorium .search_box,
+.nursing .search_box,
+.hospital .search_box{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+}
+
+.sanatorium .btn,
+.nursing .btn,
+.hospital .btn{
+    padding: 1rem 2rem;
+    margin-left: 1rem;
+}
+
+/* 지도 모달 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    width: 100%;
+    max-width: 60%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    max-height: 60%;
+}
+
+.close, .close_btn {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    z-index: 99;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.search_empty {
+    text-align: center;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    margin: 3rem 0;
+}
+
+.search_info{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.search_info p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    text-align: center;
+}
+
+.search_cont{
+    position: relative;
+}
+
+#reservationModal .modal-content{
+    width: 30%;
+    height: 100%;
+    padding: 5rem 2rem;
+    max-height: 70%;
+}
+
+#reservationModal h2{
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5rem;
+}
+
+#reservationModal label{
+    display: block;
+    font-size: clamp(1rem, 1.0417vw, 2rem);
+    margin-bottom: 1rem;
+}
+
+#reservationModal span:not(.close_btn, .point){
+    display: block;
+    margin-bottom: 1rem;
+    font-size: clamp(1rem, 1.0417vw, 1.8rem);
+}
+
+#reservationModal .btn_box{
+    text-align: center;
+}
+
+#reservationModal .top{
+    overflow-y: auto;
+}
+
+#reservationModal form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+}
+
+#reservationModal form div{
+    margin-bottom: 2rem;
+}
+
+.reservation_btn{
+    background-color: #d12e92;
+}
+
+.reservation_btn:hover{
+    background-color: #912065;
+}
+
+.view-form.reservation_btn{
+    background-color: #fff;
+    border: 1px solid #d12e92;
+    color: #d12e92;
+}
+
+.view-form.reservation_btn:hover{
+    background-color: #d12e92;
+    color: #fff;
+}
+
+.point{
+    color: #d12e92;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 767px) {
+    .list_section {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    table td{
+        white-space: nowrap;
+    }
+
+    .region_form {
+        align-items: flex-start;
+        gap: 1.5rem;
+        flex-direction: column
+    }
+
+    .province_cont,
+    .district_cont {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .province_cont label,
+    .district_cont label{
+        white-space: nowrap;
+    }
+
+    .region_form input{
+        width: 100%;
+    }
+
+    .region_form .btn{
+        margin: 2rem auto 0;
+    }
+
+    .autocomplete-list{
+        transform: translateY(70%);
+    }
+}

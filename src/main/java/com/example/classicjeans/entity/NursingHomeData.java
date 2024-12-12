@@ -24,6 +24,12 @@ public class NursingHomeData {
     @Column(nullable = false)
     private String phone;
 
+    @Column(name = "region")
+    private String region;
+
+    @Column(name = "sub_region")
+    private String subRegion;
+
     public NursingHomeData(NursingHomeRequest request) {
         name = request.getName();
         address = request.getAddress();

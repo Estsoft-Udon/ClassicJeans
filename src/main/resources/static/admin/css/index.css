@@ -1,0 +1,19 @@
+section img{
+    max-width: 30rem;
+}
+
+.wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2{
+    font-size: clamp(3rem,2vw,4rem);
+    font-weight: bold;
+    margin-bottom: 5rem;
+}
+
+.txt{
+    text-align: center;
+}

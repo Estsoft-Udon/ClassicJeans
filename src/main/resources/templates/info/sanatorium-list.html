@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/info/list.css">
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43674e9fb7f4d940d2c3a46b585a4361&libraries=services"></script>
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap sanatorium w_1280">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">홈</a></li>
+                <li class="breadcrumb-item"><a href="#">정보 마당</a></li>
+                <li class="breadcrumb-item"><a href="/sanatorium-list">요양원 찾기</a></li>
+            </ol>
+        </nav>
+        <div class="tit">
+            <h1>요양원 찾기</h1>
+            <p>지역별로 검색하여 요양원 정보를 확인해보세요!</p>
+        </div>
+        <div class="search_cont">
+            <form id="region_form" action="/sanatorium-list" method="GET" class="region_form">
+                <div class="province_cont">
+                    <label for="province">시/도 입력</label>
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off" required>
+                    <div id="province-list" class="autocomplete-list"></div>
+                </div>
+
+                <div class="district_cont">
+                    <label for="district">시/군/구 입력</label>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" required>
+                    <div id="district-list" class="autocomplete-list"></div>
+                </div>
+
+                <button type="submit" class="btn">지역별 요양원 검색하기</button>
+                <button type="button" class="btn" id="search-cancel-btn" style="display:none;">지역 검색 취소</button>
+            </form>
+            <form id="search_form" action="/sanatorium-list" method="GET">
+                <div class="search_box">
+                    <label for="sanatorium_search"></label>
+                    <input type="text" id="sanatorium_search" name="search" placeholder="요양원 이름을 입력하세요">
+
+                    <button type="submit" class="btn">검색하기</button>
+                    <button type="button" class="btn" id="search-cancel-btn2" style="display:none;">검색 취소</button>
+                </div>
+            </form>
+            <div class="search_info">
+                <p id="location-display"></p>
+                <p id="search-display"></p>
+            </div>
+        </div>
+        <section class="list_section">
+            <!-- 요양원 목록 테이블 -->
+            <table id="sanatoriumTable">
+                <thead>
+                <tr>
+                    <th>요양원 이름</th>
+                    <th>주소</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sanatorium : ${sanatoriums}">
+                    <td th:text="${sanatorium.name}">365경희한의원</td>
+                    <td class="show_map">
+                        <span th:text="${sanatorium.address}">경기도 광주시 광주대로 35, 4,7층 (경안동)</span>
+                        <button type="button" class="btn view-map"
+                                th:data-address="${sanatorium.address}">지도보기
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!-- 지도 모달 -->
+            <div id="map-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </section>
+        <!-- 페이지네이션 -->
+        <ul class="pagination">
+            <!-- 맨앞으로 버튼 -->
+            <li th:if="${sanatoriums.hasPrevious()}">
+                <a th:if="${search != null}" th:href="@{'/sanatorium-list?search=' + ${search} + '&page=0'}">
+                    <button class="first-btn page_btn">맨앞으로</button>
+                </a>
+                <a th:if="${search == null and district != null}"
+                   th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=0'}">
+                    <button class="first-btn page_btn">맨앞으로</button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/sanatorium-list?page=0'}">
+                    <button class="first-btn page_btn">맨앞으로</button>
+                </a>
+            </li>
+
+            <!-- 이전 버튼 -->
+            <li th:if="${sanatoriums.hasPrevious()}">
+                <a th:if="${search != null}"
+                   th:href="@{'/sanatorium-list?search=' + ${search} + '&page=' + ${sanatoriums.number - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+                <a th:if="${search == null and district != null}"
+                   th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.number - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+                <a th:if="${search == null and district == null}"
+                   th:href="@{'/sanatorium-list?page=' + ${sanatoriums.number - 1}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+            </li>
+
+            <!-- 현재 페이지 기준으로 앞뒤 2개씩 표시 -->
+            <li th:if="${!sanatoriums.getContent().isEmpty()}"
+                th:each="i : ${#numbers.sequence((sanatoriums.number - 2 > 0 ? sanatoriums.number - 2 : 0), (sanatoriums.number + 2 < sanatoriums.totalPages - 1 ? sanatoriums.number + 2 : sanatoriums.totalPages - 1))}"
+                th:class="${i == sanatoriums.number} ? 'on'">
+                <a th:if="${search != null}" th:href="@{'/sanatorium-list?search=' + ${search} + '&page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
+                    </button>
+                </a>
+                <a th:if="${search == null and district != null}"
+                   th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
+                    </button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/sanatorium-list?page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
+                    </button>
+                </a>
+            </li>
+
+            <!-- 데이터 없음 표시 -->
+            <div th:if="${sanatoriums.getContent().isEmpty()}">
+                검색 기준에 맞는 데이터가 없습니다.
+            </div>
+
+            <!-- 다음 버튼 -->
+            <li th:if="${sanatoriums.hasNext()}">
+                <a th:if="${search != null}"
+                   th:href="@{'/sanatorium-list?search=' + ${search} + '&page=' + ${sanatoriums.number + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+                <a th:if="${search == null and district != null}"
+                   th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.number + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+                <a th:if="${search == null and district == null}"
+                   th:href="@{'/sanatorium-list?page=' + ${sanatoriums.number + 1}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+            </li>
+
+            <!-- 맨끝으로 버튼 -->
+            <li th:if="${sanatoriums.hasNext()}">
+                <a th:if="${search != null}"
+                   th:href="@{'/sanatorium-list?search=' + ${search} + '&page=' + ${sanatoriums.totalPages - 1}}">
+                    <button class="last-btn page_btn">맨끝으로</button>
+                </a>
+                <a th:if="${search == null and district != null}"
+                   th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${sanatoriums.totalPages - 1}}">
+                    <button class="last-btn page_btn">맨끝으로</button>
+                </a>
+                <a th:if="${search == null and district == null}"
+                   th:href="@{'/sanatorium-list?page=' + ${sanatoriums.totalPages - 1}}">
+                    <button class="last-btn page_btn">맨끝으로</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script src="/js/list.js"></script>
+    <script src="/js/kakaomap.js"></script>
+</th:block>
+</html>

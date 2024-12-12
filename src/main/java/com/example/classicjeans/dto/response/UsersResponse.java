@@ -1,7 +1,6 @@
 package com.example.classicjeans.dto.response;
 
 import com.example.classicjeans.entity.Users;
-import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.enums.Grade;
 import com.example.classicjeans.util.DateFormatUtil;
 import lombok.AllArgsConstructor;
@@ -29,6 +28,7 @@ public class UsersResponse {
     private String createdAt;
     private String updatedAt;
     private String lastLoginAt;
+    private Grade grade;
 
     public UsersResponse(Users user) {
         this.id = user.getId();
@@ -44,6 +44,9 @@ public class UsersResponse {
         this.updatedAt = user.getUpdatedAt().format(DateFormatUtil.formatter);
         if(user.getLastLoginAt() != null) {
             this.lastLoginAt = user.getLastLoginAt().format(DateFormatUtil.formatter);
+        }
+        if(user.getGrade() != null) {
+            this.grade = user.getGrade();
         }
     }
 }

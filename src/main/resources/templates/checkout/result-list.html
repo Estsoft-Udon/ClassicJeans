@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/checkout/result.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap result result_list w_1280">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">홈</a></li>
+                <li class="breadcrumb-item"><a href="/checkout/result-statistics">내 건강 검진 통계</a></li>
+                <li class="breadcrumb-item"><a href="/checkout/result-list">검사 결과 목록</a></li>
+            </ol>
+        </nav>
+        <div class="tit">
+            <h1>다시 확인하고 싶은 검사 결과가 있으신가요?</h1>
+            <p>아래의 목록에서 검사 결과 재확인이 가능합니다.</p>
+        </div>
+        <div class="search_cont">
+            <form id="result-form" method="GET" action="/checkout/result-list">
+                <div class="search_box">
+                    <select id="filter_search" name="choiceUser">
+                        <option value="all" th:selected="${choiceUser == 'all'}">전체</option>
+                        <option value="user" th:selected="${choiceUser == 'user'}">본인</option>
+                        <th:block th:each="family : ${familyInfoList}">
+                            <option th:value="${family.id}" th:selected="${choiceUser == family.id.toString()}" th:text="${family.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <section class="list_section">
+            <table>
+                <thead>
+                <tr>
+                    <th style="width: 15%;">이름</th>
+                    <th style="width: 70%;">검사 유형</th>
+                    <th style="width: 15%;">날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="report : ${healthReportList}">
+                    <td th:text="${report.name}">홍길동</td>
+                    <td>
+                        <a th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}"
+                           th:text="${report.type == 'Dementia' ? '치매 검사' : (report.type == 'Questionnaire' ? '기본 검사' : report.type + ' 검사')}">치매 검사 결과</a>
+                    </td>
+                    <td th:text="${report.date}">2024.12.10</td>
+                </tr>
+                <!-- 검사 결과가 없을 경우 -->
+                <tr th:if="${#lists.isEmpty(healthReportList.content)}">
+                    <td colspan="3">조회된 검사 결과가 없습니다.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <!-- 페이지네이션 -->
+        <ul class="pagination">
+            <!-- 첫 페이지 버튼 -->
+            <li>
+                <a th:href="@{'/checkout/result-list?page=0&choiceUser=' + ${choiceUser}}">
+                    <button class="first-btn page_btn">첫 페이지</button>
+                </a>
+            </li>
+
+            <!-- 이전 버튼 -->
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{'/checkout/result-list?page=' + ${currentPage - 1} + '&choiceUser=' + ${choiceUser}}">
+                    <button class="prev-btn page_btn">이전</button>
+                </a>
+            </li>
+
+            <!-- 페이지 숫자 버튼들 -->
+
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{'/checkout/result-list?page=' + ${i} + '&choiceUser=' + ${choiceUser}}">
+                    <button type="button" th:classappend="${i == currentPage ? 'active' : ''}" th:text="${i + 1}"></button>
+                </a>
+            </li>
+
+            <!-- 다음 버튼 -->
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{'/checkout/result-list?page=' + ${currentPage + 1} + '&choiceUser=' + ${choiceUser}}">
+                    <button class="next-btn page_btn">다음</button>
+                </a>
+            </li>
+
+            <!-- 마지막 페이지 버튼 -->
+            <li th:if="${totalPages > 0}">
+                <a th:href="@{'/checkout/result-list?page=' + ${totalPages - 1} + '&choiceUser=' + ${choiceUser}}">
+                    <button class="last-btn page_btn">마지막 페이지</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <script>
+        // 필터를 선택하면 폼 자동 제출
+        document.getElementById('filter_search').addEventListener('change', function () {
+            document.getElementById('result-form').submit();
+        });
+    </script>
+</th:block>
+</html>

@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/member/member.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap member">
+        <div class="w_1280">
+            <div class="tit mw_50">
+                <h1>비밀번호 변경</h1>
+                <p>
+                    ✅ 최소 8자 이상, 영문자, 숫자, 특수문자가 포함되어야 합니다.
+                </p>
+            </div>
+            <section>
+                <form id="changePasswordForm" method="POST" action="/change-pw">
+                    <label for="currentPassword"></label>
+                    <input type="password" id="currentPassword" name="currentPassword" required
+                           placeholder="현재 비밀번호를 입력하세요">
+
+                    <div id="passwordMessage"></div>
+                    <label for="newPassword"></label>
+                    <input type="password" id="newPassword" name="newPassword" required placeholder="변경할 비밀번호를 입력하세요">
+
+                    <div id="passwordMatchMessage"></div>
+                    <label for="confirmPassword"></label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                           placeholder="변경할 비밀번호 확인">
+
+                    <div class="btn_box">
+                        <button onclick="location.href='/login'" class="btn" th:if="${user != null}">취소하기</button>
+                        <button onclick="location.href='/edit-profile'" class="btn">취소하기</button>
+                        <button type="submit" class="btn">변경하기</button>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+    </div>
+    <script th:if="${successMessage}" type="text/javascript">
+        alert('비밀번호가 성공적으로 변경되었습니다.');
+        window.location.href = '/mypage';
+    </script>
+    <script th:if="${errorMessage}" type="text/javascript">
+        alert('현재 비밀번호가 일치하지 않습니다.');
+    </script>
+    <script src="/js/common.js"></script>
+    <script src="/js/password_change.js"></script>
+</th:block>
+</html>

@@ -66,6 +66,9 @@ public class Users {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted = Boolean.FALSE;
 
+    @Column(name = "unique_key")
+    private String uniqueKey;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -86,11 +89,14 @@ public class Users {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.email = request.getEmail();
-        this.grade = request.getGrade();
+        this.grade = Grade.CHUNGBAZI;
         this.dateOfBirth = request.getDateOfBirth();
         this.isLunar = request.getIsLunar();
         this.hourOfBirth = request.getHourOfBirth();
         this.gender = request.getGender();
+        if(request.getUniqueKey() != null) {
+            this.uniqueKey = request.getUniqueKey();
+        }
     }
 
     // 생년월일로 나이 계산

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout">
+<head>
+  <link rel="stylesheet" href="/css/checkout/checkout.css">
+</head>
+<th:block layout:fragment="content">
+  <div class="wrap checkout w_1280">
+      <div class="flex_box">
+        <div class="tit">
+          <h1>AI 건강 정보 분석</h1>
+        </div>
+        <div class="txt_box">
+          <p class="txt">문진표를 작성하여<br>AI 기반 건강 정보 분석을 받아보세요</p>
+          <p class="txt">작성 기록이 존재한다면,<br>이전 기록과 비교하여 알려드립니다</p>
+        </div>
+        <div class="btn_wr">
+          <div class="sel_box">
+            <label for="user-select">검사 대상 선택</label>
+            <select id="user-select" name="selectedUser" required onchange="checkSelection()">
+              <option value="-1" disabled selected>검사 대상 선택</option>
+              <option th:value="${user.id}" th:selected="${selectedUserId == user.id && selectedType == 'user'}" data-type="user">본인</option>
+              <th:block th:each="family : ${familyInfoList}">
+                <option th:value="${family.id}" th:selected="${selectedUserId == family.id && selectedType == 'family'}" th:text="${family.name}" data-type="family"></option>
+              </th:block>
+            </select>
+          </div>
+          <p id="warning-message" style="display: none;"></p>
+          <form id="submit-form" method="get" action="/checkout/checkout-list">
+            <input type="hidden" id="selectedUser" name="selectedUser" value="">
+            <input type="hidden" id="selectedType" name="selectedType" value="">
+            <a href="javascript:void(0);" id="submit-button" class="btn" disabled>건강 정보 분석 시작하기</a>
+          </form>
+        </div>
+      </div>
+  </div>
+  <script src="/js/checkout.js"></script>
+</th:block>
+</html>

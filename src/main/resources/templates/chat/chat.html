@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout">
+<head>
+    <link rel="stylesheet" href="/css/chat.css">
+</head>
+<th:block layout:fragment="content">
+    <div class="wrap w_1280 chat">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">홈</a></li>
+                <li class="breadcrumb-item"><a href="/chat">알려줘 앨런아</a></li>
+            </ol>
+        </nav>
+        <div class="tit">
+            <h1>알려줘 앨런아!</h1>
+            <p>
+                일상 생활 속 생기는 사소한 궁금증을 앨런이에게 물어보세요!
+            </p>
+        </div>
+        <div class="ex-container">
+            <button type="button" onclick="closeConnection()" class="btn exit">연결 종료</button>
+        </div>
+        <section>
+            <div class="chat-container" id="chat-container"></div>
+            <form class="input-container" onsubmit="sendMessage(); return false;">
+                <input type="text" id="chat-input" placeholder="질문을 입력 후 질문하기 버튼을 눌러주세요."/>
+                <button type="button" onclick="sendMessage()" id="askButton" class="btn">질문하기</button>
+            </form>
+            <div id="charCount">0 / 1000 자</div>
+        </section>
+    </div>
+    <script src="/js/chat.js"></script>
+</th:block>
+</html>

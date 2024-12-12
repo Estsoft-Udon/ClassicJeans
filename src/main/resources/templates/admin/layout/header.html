@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="headerFragment">
+    <head>
+        <title>chungbaji 관리자</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/admin/css/reset.css">
+        <link rel="stylesheet" href="/admin/css/header.css">
+    </head>
+    <header>
+        <div class="hd_wrap">
+            <h1>
+                <a href="/admin" class="logo">
+                    <img src="/img/logo.png" alt="logo">
+                    <span>chungbaji</span>
+                </a>
+            </h1>
+            <nav>
+                <ul>
+                    <li><a href="/admin/member/list">회원 관리</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</th:block>
+</html>

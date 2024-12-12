@@ -2,7 +2,6 @@ package com.example.classicjeans.dto.request;
 
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.enums.Gender;
-import com.example.classicjeans.enums.Grade;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +20,6 @@ public class UsersRequest {
 
     private String email;
 
-    private Grade grade;
-
     private String password;
 
     private LocalDate dateOfBirth;
@@ -32,6 +29,8 @@ public class UsersRequest {
     private Integer hourOfBirth;
 
     private Gender gender;
+
+    private String uniqueKey;
 
     public Users update(Users user) {
         if (password != null) {

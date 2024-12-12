@@ -1,14 +1,17 @@
 package com.example.classicjeans.dto.request;
 
+import com.example.classicjeans.entity.FamilyInfo;
 import com.example.classicjeans.entity.Users;
+import com.example.classicjeans.enums.questionnaire.*;
 import lombok.Data;
 
 @Data
 public class AlanQuestionnaireRequest {
-    private final Users user;
+    private Users user;
+    private FamilyInfo family;
 
-    private String height;
-    private String weight;
+    private Double height;
+    private Double weight;
 
     // 건강 상태
     private ChronicDisease chronicDisease;  // 현재 앓고 있는 만성 질환
@@ -36,45 +39,46 @@ public class AlanQuestionnaireRequest {
     private WeightChange weightChange;  // 최근 체중 변화
     private boolean hasAllergy;  // 알레르기 여부
 
-    // Enum으로 선택지 정의
-    public enum ChronicDisease { NONE, DIABETES, HYPERTENSION, HEART_DISEASE }
-    public enum HospitalVisit { NONE, REGULAR_CHECKUP, DISEASE_TREATMENT, EMERGENCY }
-    public enum Medication { NONE, BLOOD_PRESSURE_MEDICINE, DIABETES_MEDICINE, HEART_MEDICINE }
-    public enum SmokingStatus { CURRENTLY_SMOKING, FORMER_SMOKER, NON_SMOKER }
-    public enum AlcoholConsumption { NONE, OCCASIONAL, REGULAR, FREQUENT }
-    public enum ExerciseFrequency { NONE, OCCASIONAL, REGULAR }
-    public enum DietPattern { REGULAR_3_MEALS, IRREGULAR_MEALS }
-    public enum MoodStatus { GOOD, OCCASIONALLY_ANXIOUS_OR_DEPRESSED, PERSISTENTLY_ANXIOUS_OR_DEPRESSED }
-    public enum SleepPattern { SUFFICIENT, INSUFFICIENT, IRREGULAR }
-    public enum IndependenceLevel { FULLY_INDEPENDENT, PARTIALLY_DEPENDENT, FULLY_DEPENDENT }
-    public enum SocialParticipation { NONE, OCCASIONAL, FREQUENT }
-    public enum WeightChange { NONE, WEIGHT_GAIN, WEIGHT_LOSS }
-
     @Override
     public String toString() {
-        return "입력한 건강 정보와 한국인 평균 데이터 비교:\n" +
-                "1. **연령**: " + user.getAge() + " (연령대: n0대)\n" +
-                "2. **성별**: " + user.getGender() + " (성별: Gender)\n" +
-                "3. **키**: " + height + " (한국인 남성 평균: cm)\n" +
-                "4. **체중**: " + weight + " (한국인 남성 평균: kg)\n" +
-                "5. **흡연 상태**: " + smokingStatus + " (한국인 흡연율: 약 %)\n" +
-                "6. **음주 빈도**: " + alcoholConsumption + " (한국인 음주율: 약 %)\n" +
-                "7. **운동 빈도**: " + exerciseFrequency + " (한국인 운동 빈도: 약 %)\n" +
-                "\n  만성 질환: " + chronicDisease +
-                "\n  병원 방문: " + hospitalVisit +
-                "\n  현재 복용 약물: " + currentMedication +
-                "\n  식사 패턴: " + dietPattern +
-                "\n  기분 상태: " + moodStatus +
-                "\n  수면 패턴: " + sleepPattern +
-                "\n  독립성 수준: " + independenceLevel +
-                "\n  사회적 참여: " + socialParticipation +
-                "\n  유전 질환: " + hasGeneticDisease +
-                "\n  체중 변화: " + weightChange +
-                "\n  알레르기: " + hasAllergy +
-                "\n  이 정보를 바탕으로 자세히 분석하고 평가해서 자세한 설명을 아래와 같은 3가지 항목을 제공해줘" +
-                "\n  **건강 지수 (healthIndex)**: (건강지수: n.n점)" + " (한국인 평균 건강 지수: n.n점)" +
-                "\n  **종합 평가 (summaryEvaluation)**: [이 값은 AI가 응답에서 제공]" +
-                "\n  **개선 방법 (improvementSuggestions)**: [이 값은 AI가 응답에서 제공]" +
-                "}";
+        int age = 0;
+        String gender = "UNKNOWN";
+
+        if (user != null) {
+            age = user.getAge();
+            gender = user.getGender().toString();
+        } else if (family != null) {
+            age = family.getAge();
+            gender = family.getGender().toString();
+        }
+
+        String ageGroup = (age / 10) * 10 + "대";
+        // 출력 문자열 생성
+        StringBuilder sb = new StringBuilder();
+        sb.append("사용자의 건강 정보를 한국인 평균 데이터와 비교합니다:\n")
+                .append("1. **연령**: ").append(age).append(" (연령대: ").append(ageGroup).append(")\n")
+                .append("2. **성별**: ").append(gender).append("\n")
+                .append("3. **키**: ").append(height).append(" (" + ageGroup + " ").append(gender.equals("MALE") ? "남성" : "여성").append(" 평균: 약 cm)\n")
+                .append("4. **체중**: ").append(weight).append(" (" + ageGroup + " ").append(gender.equals("MALE") ? "남성" : "여성").append(" 평균: 약 kg)\n")
+                .append("5. **흡연 상태**: ").append(smokingStatus).append(" (한국인 ").append(gender.equals("MALE") ? "남성" : "여성").append(" 흡연율: 약 %)\n")
+                .append("6. **음주 빈도**: ").append(alcoholConsumption).append(" (한국인 ").append(gender.equals("MALE") ? "남성" : "여성").append(" 음주율: 약 %)\n")
+                .append("7. **운동 빈도**: ").append(exerciseFrequency).append(" (한국인 ").append(gender.equals("MALE") ? "남성" : "여성").append(" 평균: 약 %)\n\n")
+                .append("추가 정보:\n")
+                .append("- 만성 질환: ").append(chronicDisease).append("\n")
+                .append("- 병원 방문: ").append(hospitalVisit).append("\n")
+                .append("- 현재 복용 약물: ").append(currentMedication).append("\n")
+                .append("- 식사 패턴: ").append(dietPattern).append("\n")
+                .append("- 기분 상태: ").append(moodStatus).append("\n")
+                .append("- 수면 패턴: ").append(sleepPattern).append("\n")
+                .append("- 독립성 수준: ").append(independenceLevel).append("\n")
+                .append("- 사회적 참여: ").append(socialParticipation).append("\n")
+                .append("- 유전 질환: ").append(hasGeneticDisease).append("\n")
+                .append("- 체중 변화: ").append(weightChange).append("\n")
+                .append("- 알레르기: ").append(hasAllergy).append("\n\n")
+                .append("다음 항목을 기반으로 상세한 분석 및 평가를 요청합니다:\n")
+                .append("**종합 평가 (summaryEvaluation)**: [AI 응답]\n")
+                .append("**개선 방법 (improvementSuggestions)**: [AI 응답]");
+
+        return sb.toString();
     }
 }

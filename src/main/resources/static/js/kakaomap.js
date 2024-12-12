@@ -5,36 +5,66 @@
 // Geocoder 객체 생성
 var geocoder = new kakao.maps.services.Geocoder();
 
-// 기본 좌표 (서울 시청)
-var defaultCoords = new kakao.maps.LatLng(37.5665, 126.9780);
+// 모달 DOM 요소 가져오기
+const modal = document.getElementById("map-modal");
+const closeModalButton = document.querySelector(".close");
+const mapContainer = document.getElementById("map");
 
-const addressToSearch = '경기 성남시 분당구 판교역로 235 에이치스퀘어';
-// 주소를 좌표로 변환
-geocoder.addressSearch(addressToSearch, function (result, status) {
-    var coords; // 좌표 변수 선언
+// 모달 열기 함수
+function openMapModal() {
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
 
-    if (status === kakao.maps.services.Status.OK) {
-        // 변환된 좌표 가져오기
-        coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        console.log('주소 검색 성공:', coords);
-    } else {
-        // 주소 검색 실패 시 기본 좌표로 설정
-        coords = defaultCoords;
-        console.warn('주소 검색 실패. 기본 좌표를 사용합니다.');
-    }
+// 모달 닫기 함수
+function closeMapModal() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+}
 
-    // 지도 옵션: 좌표를 중심으로 설정
-    var options = {
-        center: coords, // 중심 좌표
-        level: 3 // 지도 레벨 (확대 정도)
-    };
+// 지도 렌더링 함수
+function renderMap(address) {
+    geocoder.addressSearch(address, function (result, status) {
+        var coords;
 
-    // 지도 생성
-    var map = new kakao.maps.Map(document.getElementById('map'), options);
+        if (status === kakao.maps.services.Status.OK) {
+            coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        } else {
+            coords = new kakao.maps.LatLng(37.5665, 126.9780); // 기본 좌표
+        }
 
-    // 마커 생성 및 지도에 추가
-    var marker = new kakao.maps.Marker({
-        position: coords // 마커 좌표
+        // 지도 옵션 설정
+        var options = {
+            center: coords,
+            level: 3
+        };
+
+        // 지도 생성
+        var map = new kakao.maps.Map(mapContainer, options);
+
+        // 마커 생성 및 추가
+        var marker = new kakao.maps.Marker({
+            position: coords
+        });
+        marker.setMap(map);
     });
-    marker.setMap(map);
+}
+
+// 지도 보기 버튼 클릭 이벤트 추가
+document.querySelectorAll(".view-map").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        const address = event.target.dataset.address; // 주소 가져오기
+        renderMap(address); // 지도 렌더링
+        openMapModal(); // 모달 열기
+    });
+});
+
+// 모달 닫기 버튼 클릭 이벤트
+closeModalButton.addEventListener("click", closeMapModal);
+
+// 모달 외부 클릭 시 닫기
+modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        closeMapModal();
+    }
 });

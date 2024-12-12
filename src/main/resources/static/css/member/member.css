@@ -1,0 +1,427 @@
+
+h1.tit{
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-bottom: 4rem;
+}
+
+.top{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form{
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+.txt_box{
+    margin: 2rem 0 3rem;
+    text-align: center;
+}
+
+.txt_box span{
+    font-size: 1.75rem;
+    font-weight: 500;
+}
+
+.txt_box span:nth-child(2){
+    margin: 0 1rem;
+}
+
+.btn_box{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 10rem;
+}
+
+.btn_box button{
+    flex: 1;
+}
+
+.change_btn{
+    margin-top: 10rem;
+}
+
+.find_box{
+    text-align: right;
+}
+
+.find_box button:hover{
+    font-weight: 500;
+}
+
+.find_box button.find_id_btn{
+    position: relative;
+    padding-right: 0.7rem;
+    margin-right: 0.4rem;
+}
+
+.find_box button.find_id_btn:before{
+    content: "";
+    width: 1px;
+    height: 70%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input_bot{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.input_bot .txt_box{
+    margin: 0;
+    position: absolute;
+    left: 0;
+}
+
+.input_bot .txt_box span{
+    font-weight: normal;
+    font-size: clamp(1.2rem,0.78vw,1.5rem);
+    color: red;
+}
+.error-message{
+    margin-top: 3rem;
+    font-weight: normal;
+    font-size: 1.75rem;
+    text-align: center;
+    color: red;
+}
+
+.id_box{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+}
+
+.id_box button{
+    padding: 1rem;
+    height: auto;
+    margin-bottom: 1.5rem;
+    border-radius: 1rem;
+}
+
+.success_cont p{
+    text-align: center;
+    line-height: 9rem;
+    font-size: 2rem;
+    font-weight: 500;
+    border-radius: 1rem;
+}
+
+.warning{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    text-align: center;
+    font-weight: 500;
+}
+
+.info-section span:not(.req){
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+label{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    padding-left: 0.5rem;
+}
+
+.pw_change_btn{
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+.bot{
+    text-align: right;
+    margin-top: 10rem;
+}
+
+.delete_btn{
+    color: #aaa;
+}
+
+.profile_basic dt, .profile_basic dd {
+    padding: 0.9rem 0;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+}
+
+.member .tit h1{
+    text-align: center;
+}
+
+.member .tit p {
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: center;
+    word-break: keep-all;
+    line-height: 1.25;
+}
+
+.family_cont{
+    margin: 2rem 0;
+}
+
+.family_cont p{
+    font-size: clamp(1.5rem, 1.5vw, 2rem);
+    margin-bottom: 1rem;
+    font-weight: bold;
+    padding: 1rem 0;
+    border-bottom: 1px solid #aaa;
+}
+
+.edit_profile .btn{
+    display: block;
+    width: 100%;
+    border-radius: 1rem;
+}
+
+.edit_profile label{
+    margin-top: 2rem;
+    display: block;
+}
+
+/* 인풋 박스 */
+input{
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+input:focus{
+    border: 1px solid rgba(0,133,249,1);
+}
+
+/* 가족 정보 수정 */
+.family-section{
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 5rem;
+}
+.edit_family .delete_btn{
+    width: auto;
+    padding: 1rem 2rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+}
+
+.empty_family p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: center;
+    margin: 15rem 0;
+}
+
+.family_cont .empty_family p{
+    border-bottom: none;
+    margin: 2rem 0;
+}
+
+#add-family{
+    margin-top: 2rem;
+}
+
+.autocomplete_cont {
+    position: relative;
+}
+
+.autocomplete_list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.autocomplete_list.active {
+    display: block;
+}
+
+.autocomplete_item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete_item:hover {
+    background: #f0f0f0;
+}
+
+.req{
+    color: #013E8B;
+    font-weight: bold;
+}
+
+/* 로그인 */
+
+.oauth2_btn_box{
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+}
+
+.oauth2_btn_box ul li{
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.oauth2_btn_box button{
+    width: 100%;
+    background-size: 4rem;
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    background-position: left 1rem center;
+    padding: 1rem 0;
+}
+
+.oauth2_btn_box button.kakao{
+    background-color: #fee500;
+    background-image: url("/img/kakao.png");
+}
+
+.oauth2_btn_box button.naver{
+    background-color: #03c75a;
+    color: #fff;
+    background-image: url("/img/naver.png");
+}
+
+.oauth2_btn_box button.google{
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-size: 3rem;
+    background-image: url("/img/google.png");
+}
+
+.login .btn_box{
+    margin-top: 4rem;
+}
+
+/* 비밀번호 찾기 */
+.email_cont{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.email_cont #email,
+.email_cont #authCode{
+    margin-bottom: 0;
+}
+
+.email_cont .btn{
+    width: 100%;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+/* 모달 팝업 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    padding: 3rem;
+    margin: 0 1.5rem;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: clamp(1.5rem, 1vw, 2rem);
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    z-index: 99;
+}
+
+.signup select{
+    padding: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.birth_cont{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: end;
+}
+
+.modal-content p{
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#emailAuthForm .btn{
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.family_cont table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(1.5rem, 1vw, 1.8rem);
+    font-weight: 500;
+    text-align: left;
+}
+
+.family_cont th, .family_cont td {
+    padding: 12px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.family_cont th {
+    font-weight: bold;
+    text-align: center;
+}
+
+.family_cont tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.family_cont tbody tr:hover {
+    background-color: #f5f5f5; /* 마우스 오버 시 배경색 */
+}

@@ -1,50 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="headerFragment">
-  <head>
-    <title>chungbaji</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <script src="js/common.js"></script>
-  </head>
-  <header>
-    <h1><img src="" alt="logo"></h1>
-    <nav>
-      <ul>
-        <li><a href="javascript:void(0)">AI 건강 검진</a></li>
-        <li class="dept">
-          <a href="javascript:void(0)">정보 마당</a>
-          <div>
-            <a href="javascript:void(0)">벙원 정보</a>
-            <a href="javascript:void(0)">요양원 정보</a>
-          </div>
-        </li>
-        <li><a href="javascript:void(0)">알려줘 엘런아!</a></li>
-      </ul>
-    </nav>
-    <div class="user_box">
-        <!-- 로그인 전 -->
-        <ul class="flex_box">
-          <li>
-            <a href="/login">로그인</a>
-          </li>
-          <li>
-            <a href="/signup">회원가입</a>
-          </li>
-        </ul>
-        <!-- 로그인 후 -->
-<!--        <ul class="flex_box">-->
-<!--          <li>-->
-<!--            <a href="/mypage">마이페이지</a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="/logout">로그아웃</a>-->
-<!--          </li>-->
-<!--        </ul>-->
-    </div>
-  </header>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        <title>청바지</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        <script src="/js/common.js"></script>
+        <link rel="icon" href="https://chungbaji.kro.kr/img/favicon.ico" type="image/x-icon">
+    </head>
+    <header>
+        <h1 class="logo_box">
+            <a href="/" class="logo">
+                <picture>
+                    <img th:src="@{/img/logo.png}" alt="logo">
+                    <span>청바지</span>
+                </picture>
+            </a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="/checkout">AI 건강 검진</a></li>
+                <li class="dept">
+                    <a href="javascript:void(0)">정보 마당</a>
+                    <div>
+                        <a href="/hospital-list">공공의료기관 찾기</a>
+                        <a href="/sanatorium-list">요양원 찾기</a>
+                        <a href="/nursing-list">복지시설 찾기</a>
+                    </div>
+                </li>
+                <li><a href="/chat">알려줘 앨런아!</a></li>
+            </ul>
+        </nav>
+        <div class="user_box">
+            <!-- 로그인 전 -->
+            <ul sec:authorize="!hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
+                <li>
+                    <a href="/login">로그인</a>
+                </li>
+                <li>
+                    <a href="/signup">회원가입</a>
+                </li>
+            </ul>
+            <!-- 로그인 후 -->
+            <ul sec:authorize="hasAnyRole('ROLE_CHUNGBAZI', 'ROLE_ADMIN')" class="flex_box">
+                <!-- 알람 -->
+                <li>
+                    <div class="notification-container">
+                        <div class="bell-icon">
+                            <i class="fa fa-bell"></i>
+                            <!-- 알람 수 -->
+                            <span class="notification-count"></span>
+                        </div>
+                        <ul class="notification-list hidden">
+                        </ul>
+                    </div>
+                </li>
+                <!-- // 알람 -->
+                <li class="dept mypage_dept">
+                    <a href="javascript:void(0)">마이페이지</a>
+                    <div>
+                        <a href="/mypage">내 정보 수정</a>
+                        <a href="/checkout/result-statistics">내 건강 검진 통계</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="/logout">로그아웃</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <script src="/js/header.js"></script>
 </th:block>
 </html>
