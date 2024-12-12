@@ -12,8 +12,7 @@ env:
   AWS_REGION: ap-northeast-2
   CODEDEPLOY_NAME: chungbaji-actions
   CODEDEPLOY_GROUP: chungbaji-actions-group
-  RESOURCE_PATH: ./home/ec2-user/action/src/main/resources/application.properties
-
+  RESOURCE_PATH: /home/ec2-user/action/src/main/resources/application.properties
 
 jobs:
   build:
