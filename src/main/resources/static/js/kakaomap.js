@@ -11,13 +11,13 @@ const closeModalButton = document.querySelector(".close");
 const mapContainer = document.getElementById("map");
 
 // 모달 열기 함수
-function openModal() {
+function openMapModal() {
     modal.style.display = "flex";
     document.body.style.overflow = "hidden";
 }
 
 // 모달 닫기 함수
-function closeModal() {
+function closeMapModal() {
     modal.style.display = "none";
     document.body.style.overflow = "auto";
 }
@@ -55,16 +55,16 @@ document.querySelectorAll(".view-map").forEach((button) => {
     button.addEventListener("click", (event) => {
         const address = event.target.dataset.address; // 주소 가져오기
         renderMap(address); // 지도 렌더링
-        openModal(); // 모달 열기
+        openMapModal(); // 모달 열기
     });
 });
 
 // 모달 닫기 버튼 클릭 이벤트
-closeModalButton.addEventListener("click", closeModal);
+closeModalButton.addEventListener("click", closeMapModal);
 
 // 모달 외부 클릭 시 닫기
-window.addEventListener("click", (event) => {
+modal.addEventListener("click", (event) => {
     if (event.target === modal) {
-        closeModal();
+        closeMapModal();
     }
 });
