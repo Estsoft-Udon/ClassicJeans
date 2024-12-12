@@ -12,8 +12,7 @@ env:
   AWS_REGION: ap-northeast-2
   CODEDEPLOY_NAME: chungbaji-actions
   CODEDEPLOY_GROUP: chungbaji-actions-group
-  RESOURCE_PATH: ./home/ec2-user/action/src/main/resources/application.properties
-
+  RESOURCE_PATH: ./src/main/resources/application.properties
 
 jobs:
   build:
@@ -53,14 +52,3 @@ jobs:
 
       - name: Code Deploy
         run: aws deploy create-deployment --application-name $CODEDEPLOY_NAME --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name $CODEDEPLOY_GROUP --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
-
-      - name: Set properties file
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH }}
-        env:
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
-          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
-          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
