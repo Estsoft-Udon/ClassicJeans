@@ -40,6 +40,6 @@ public class NursingHomeViewController {
         model.addAttribute("province", province);
         model.addAttribute("district", district);
 
-        return "/info/nursing-list";
+        return "info/nursing-list";
     }
 }

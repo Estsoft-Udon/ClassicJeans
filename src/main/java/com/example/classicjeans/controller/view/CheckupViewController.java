@@ -37,7 +37,7 @@ public class CheckupViewController {
         List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfo);
-        return "/checkout/checkout";
+        return "checkout/checkout";
     }
 
     // 건강 검진 대상 선택
@@ -59,14 +59,13 @@ public class CheckupViewController {
                 session.setAttribute("selectedType", "family");
             }
         }
-      
-        return "/checkout/checkout-list";
+        return "checkout/checkout-list";
     }
 
     // 기본 검사 페이지
     @GetMapping("/questionnaire-list")
     public String questionnaireList() {
-        return "/checkout/questionnaire-list";
+        return "checkout/questionnaire-list";
     }
 
     // 기본 검사 요청 기능
@@ -78,7 +77,7 @@ public class CheckupViewController {
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("request", request);
-        return "redirect:/checkout/result-questionnaire";
+        return "redirect:checkout/result-questionnaire";
     }
 
     // 기본 검사 결과 페이지
@@ -99,13 +98,13 @@ public class CheckupViewController {
 
         session.removeAttribute("selectedUser");
         session.removeAttribute("selectedType");
-        return "/checkout/result";
+        return "checkout/result";
     }
 
     // 치매 검사 페이지
     @GetMapping("/dementia-list")
     public String dementiaList() {
-        return "/checkout/dementia-list";
+        return "checkout/dementia-list";
     }
 
     // 치매 검사 요청 기능
@@ -117,7 +116,7 @@ public class CheckupViewController {
 
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
-        return "redirect:/checkout/result-dementia";
+        return "redirect:checkout/result-dementia";
     }
 
     // 치매 검사 결과 페이지
@@ -138,7 +137,7 @@ public class CheckupViewController {
 
         session.removeAttribute("selectedUser");
         session.removeAttribute("selectedType");
-        return "/checkout/result";
+        return "checkout/result";
     }
 
     // 검사 결과 통계 페이지
@@ -159,7 +158,6 @@ public class CheckupViewController {
         model.addAttribute("choiceUser", choiceUser);
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
-
         return "checkout/result-statistics";
     }
 
@@ -212,7 +210,6 @@ public class CheckupViewController {
         }
 
         model.addAttribute("reportType", reportType);
-
-        return "/checkout/result-detail";
+        return "checkout/result-detail";
     }
 }
