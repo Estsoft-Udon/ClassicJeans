@@ -73,7 +73,8 @@ window.onload = function() {
                         display: true,
                         text: '건강지수',
                         align: 'center',
-                        rotation: 0
+                        rotation: 0,
+                        color: 'rgba(75, 192, 192, 1)'
                     }
                 },
                 y2: {
@@ -88,7 +89,8 @@ window.onload = function() {
                         display: true,
                         text: 'BMI',
                         align: 'center',
-                        rotation: 0
+                        rotation: 0,
+                        color: 'rgba(255, 99, 132, 1)'
                     },
                     grid: {
                         drawOnChartArea: true
