@@ -9,8 +9,14 @@
 <th:block layout:fragment="content">
     <div class="wrap w_1280 questionnaire_result">
         <div id="content">
-            <!-- 검사 기록이 없을 때, dis-no 클래스는 display:none; 스타일을 가지고 있습니다. -->
-            <section class="dis-no">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">홈</a></li>
+                    <li class="breadcrumb-item"><a href="/checkout/result-statistics">내 건강 검진 통계</a></li>
+                </ol>
+            </nav>
+            <!-- 검사 기록이 없을 때 -->
+            <section th:if="${isStatisticsEmpty}">
                 <div class="empty_checkout">
                     <div class="tit">
                         <h1>
@@ -24,121 +30,72 @@
                 </div>
             </section>
             <!-- 검사 기록이 있을 때 -->
-            <section>
+            <section th:unless="${isStatisticsEmpty}">
                 <div class="tit">
                     <h1>
                         회원님의 검사 결과를 <br>
                         한눈에 볼 수 있도록 통합 및 분석했습니다.
                     </h1>
                 </div>
+              
+                <!-- 차트 -->
                 <div class="container cont_wr">
                     <canvas id="myChart" width="1120" height="560"></canvas>
-                    <h2>통계 분석 결과</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>항목</th>
-                            <th>문진표 데이터</th>
-                            <th>한국 평균 데이터</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>성별</td>
-                            <td>남성</td>
-                            <td>남성</td>
-                        </tr>
-                        <tr>
-                            <td>나이</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>신장</td>
-                            <td>175cm</td>
-                            <td>175cm</td>
-                        </tr>
-                        <tr>
-                            <td>체중</td>
-                            <td>70kg</td>
-                            <td>75kg</td>
-                        </tr>
-                        <tr>
-                            <td>흡연 여부</td>
-                            <td>비흡연</td>
-                            <td>32.8% 흡연율 (출처42)</td>
-                        </tr>
-                        <tr>
-                            <td>음주 빈도</td>
-                            <td>주 1회</td>
-                            <td>57.4% 음주율 (출처41)</td>
-                        </tr>
-                        <tr>
-                            <td>운동 빈도</td>
-                            <td>주 3회</td>
-                            <td>47.9% 걷기실천율 (출처52)</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="txt_wr">
-                        <div class="txt_box">
-                            <h3 style="font-weight: bold">* 문진표 추가 정보 *</h3>
-                            <ul>
-                                <li class="dots">현재 앓고 있는 만성질환 여부: </li>
-                                <li class="dots">최근 6개월 내 병원에 방문 여부: </li>
-                                <li class="dots">복용 중인 약물: </li>
-                                <li class="dots">식사: </li>
-                                <li class="dots">최근 2주간 기분: </li>
-                                <li class="dots">평소 수면 패턴: </li>
-                                <li class="dots">일상에서 자립적으로 활동 여부: </li>
-                                <li class="dots">사회적 활동 참여 여부: </li>
-                                <li class="dots">유전적 질환 여부: </li>
-                                <li class="dots">체중에 변화 여부: </li>
-                                <li class="dots">알레르기 여부: </li>
-                            </ul>
-                        </div>
-                        <div class="txt_box">
-                            <h3 style="font-weight: bold">* 문진표 입력 정보 *</h3>
-                            <ul>
-                                <li class="dots">나이: </li>
-                                <li class="dots">성별: </li>
-                                <li class="dots">기억력 변화: </li>
-                                <li class="dots">일상 생활에서의 혼란 정도: </li>
-                                <li class="dots">문제 해결 능력 변화: </li>
-                                <li class="dots">날짜 요일: </li>
-                                <li class="dots">현재 위치: </li>
-                                <li class="dots">최근 사건 기억: </li>
-                                <li class="dots">질문 반복: </li>
-                                <li class="dots">물건 분실 빈도: </li>
-                                <li class="dots">일상 생활 활동 어려움: </li>
-                                <li class="dots">혼자 외출: </li>
-                                <li class="dots">금전 관리: </li>
-                                <li class="dots">불안하거나 우울하거나 공격적인 행동: </li>
-                                <li class="dots">환각이나 망상 경험: </li>
-                                <li class="dots">수면 패턴 변화: </li>
-                                <li class="dots">고혈압, 당뇨병 등의 질환 여부: </li>
-                                <li class="dots">과거 뇌졸중이나 뇌손상을 입은 적: </li>
-                                <li class="dots">가족 중 치매 환자 여부: </li>
-                            </ul>
-                        </div>
-                        <div class="txt_box">
-                            <h2>종합 평가</h2>
-                            <ul>
-                                <li class="dots">건강</li>
-                            </ul>
-                        </div>
-                        <div class="txt_box">
-                            <h2>개선 사항</h2>
-                            <ul>
-                                <li class="dots">건강</li>
-                            </ul>
-                        </div>
+                    <div class="btn_wr">
+                        <button type="button" class="btn" onclick="location.href='/checkout'">AI 건강 검진 하러가기</button>
                     </div>
                 </div>
-                <div class="btn_wr">
-                    <button type="button" class="btn" id="download-pdf">건강 분석표 다운받기</button>
-                    <button type="button" class="btn" onclick="location.href='/checkout/result-list'">검사 결과 목록 보기</button>
+                <!-- // 차트 -->
+
+                <!-- 검사 목록 -->
+                <div class="result_list">
+                    <div class="tit">
+                        <h1>다시 확인하고 싶은 검사 결과가 있으신가요?</h1>
+                        <p>아래의 목록에서 검사 결과 재확인이 가능합니다.</p>
+                    </div>
+                    <div class="search_cont">
+                        <form id="result-form" method="GET" action="/checkout/result-list">
+                            <div class="search_box">
+                                <select id="filter_search" name="choiceUser">
+                                    <option value="all" th:selected="${choiceUser == 'all'}">전체</option>
+                                    <option value="user" th:selected="${choiceUser == 'user'}">본인</option>
+                                    <th:block th:each="family : ${familyInfoList}">
+                                        <option th:value="${family.id}" th:selected="${choiceUser == family.id.toString()}" th:text="${family.name}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <section class="list_section">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width: 15%;">이름</th>
+                                <th style="width: 70%;">검사 유형</th>
+                                <th style="width: 15%;">날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="report : ${healthReportList}">
+                                <td th:text="${report.name}">홍길동</td>
+                                <td>
+                                    <a th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}"
+                                       th:text="${report.type == 'Dementia' ? '치매 검사' : (report.type == 'Questionnaire' ? '기본 검사' : report.type + ' 검사')}">치매 검사 결과</a>
+                                </td>
+                                <td th:text="${report.date}">2024.12.10</td>
+                            </tr>
+                            <!-- 검사 결과가 없을 경우 -->
+                            <tr th:if="${#lists.isEmpty(healthReportList.content)}">
+                                <td colspan="3">조회된 검사 결과가 없습니다.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
+                <div class="btn_wr">
+                    <button type="button" class="btn" onclick="location.href='/checkout/result-list'">검사 결과 더보기</button>
+                </div>
+                <!-- // 검사 목록 -->
             </section>
         </div>
     </div>
@@ -147,39 +104,9 @@
     </script>
     <script src="/js/chart.js"></script>
     <script>
-        document.getElementById('download-pdf').addEventListener('click', function () {
-            const content = document.querySelector('.container'); // PDF로 변환할 HTML 요소 선택
-
-            const options = {
-                margin: [20, 20, 20, 20], // 여백 조정 (상, 우, 하, 좌)
-                filename: '건강_분석표.pdf', // PDF 파일 이름
-                image: { type: 'jpeg', quality: 0.98 }, // 이미지 품질 설정
-                html2canvas: {
-                    scale: 3, // 해상도 높이기 (2~3 추천)
-                    useCORS: true, // CORS 이슈 방지
-                    logging: true // 디버깅용 로그 활성화
-                },
-                jsPDF: {
-                    unit: 'mm',
-                    format: 'a4', // A4 페이지 크기
-                    orientation: 'landscape' // 가로 방향 설정
-                }
-            };
-
-            // HTML을 PDF로 변환
-            html2pdf()
-                .set(options)
-                .from(content)
-                .toPdf()
-                .get('pdf')
-                .then(function (pdf) {
-                    // 여러 페이지에 걸쳐 출력되는 경우 페이지 크기 조정
-                    const totalPages = pdf.internal.getNumberOfPages();
-                    for (let i = 1; i <= totalPages; i++) {
-                        pdf.setPage(i); // 페이지가 바뀔 때마다 새 페이지 설정
-                    }
-                })
-                .save(); // PDF 저장
+        // 필터를 선택하면 폼 자동 제출
+        document.getElementById('filter_search').addEventListener('change', function () {
+            document.getElementById('result-form').submit();
         });
     </script>
 </th:block>

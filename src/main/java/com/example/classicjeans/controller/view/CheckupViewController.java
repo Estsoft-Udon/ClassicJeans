@@ -142,9 +142,22 @@ public class CheckupViewController {
 
     // 검사 결과 통계 페이지
     @GetMapping("/result-statistics")
-    public String resultStatistics(Model model) {
+    public String resultStatistics(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "5") int size,
+                                   @RequestParam(defaultValue = "all") String choiceUser,
+                                   Model model) {
         List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
+        Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
+
         model.addAttribute("healthStatisticsList", healthStatisticsList);
+        model.addAttribute("healthReportList", healthReportList);
+        model.addAttribute("totalPages", healthReportList.getTotalPages());
+        model.addAttribute("totalItems", healthReportList.getTotalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("choiceUser", choiceUser);
+
+        model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
         return "checkout/result-statistics";
     }
 
