@@ -81,20 +81,7 @@ public class CheckupViewController {
     @GetMapping("/result-questionnaire")
     public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model,
                                       HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
-        model.addAttribute("type", "questionnaire");
-        AlanQuestionnaireResponse response = alanService.fetchQuestionnaireResponse(request);
-
-        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
-            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-        }
-        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
-            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-        }
-        model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
+        populateResultModel(request, model, "questionnaire", session);
         return "checkout/result";
     }
 
@@ -117,20 +104,7 @@ public class CheckupViewController {
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model,
                                  HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
-        model.addAttribute("type", "dementia");
-        AlanDementiaResponse response = alanService.fetchDementiaResponse(request);
-
-        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
-            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-        }
-        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
-            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-        }
-        model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
+        populateResultModel(request, model, "dementia", session);
         return "checkout/result";
     }
 
