@@ -74,7 +74,7 @@ public class CheckupViewController {
                                     RedirectAttributes redirectAttributes) {
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("request", request);
-        return "redirect:checkout/result-questionnaire";
+        return "redirect:/checkout/result-questionnaire";
     }
 
     // 기본 검사 결과 페이지
@@ -97,7 +97,7 @@ public class CheckupViewController {
                                RedirectAttributes redirectAttributes) {
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
-        return "redirect:checkout/result-dementia";
+        return "redirect:/checkout/result-dementia";
     }
 
     // 치매 검사 결과 페이지
