@@ -76,7 +76,7 @@ class NursingHomeServiceTest {
         String region = "Seoul";
         String subregion = "Gangnam";
         Page<NursingHomeData> mockPage = new PageImpl<>(Collections.singletonList(new NursingHomeData()));
-        when(repository.findAllByAddressContainingAndAddressContaining(eq(region), eq(subregion), any(PageRequest.class)))
+        when(repository.findAllByRegionAndSubRegion(eq(region), eq(subregion), any(PageRequest.class)))
                 .thenReturn(mockPage);
 
         // When
@@ -85,7 +85,7 @@ class NursingHomeServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        verify(repository, times(1)).findAllByAddressContainingAndAddressContaining(eq(region), eq(subregion), any(PageRequest.class));
+        verify(repository, times(1)).findAllByRegionAndSubRegion(eq(region), eq(subregion), any(PageRequest.class));
     }
 
     @Test
