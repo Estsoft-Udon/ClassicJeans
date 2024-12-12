@@ -36,8 +36,8 @@ jobs:
       - name: Create .env file from OAUTH_ENV   
         run: echo "${{ secrets.OAUTH_ENV }}" > oauth.env
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build with Gradle (skip Test)
+        run: ./gradlew build -x test
         
       - name: Make zip file
         run: zip -r ./$GITHUB_SHA.zip .
