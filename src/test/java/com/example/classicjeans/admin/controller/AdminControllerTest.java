@@ -87,7 +87,6 @@ class AdminControllerTest {
     @Test
     void testMemberDetailForAdmin() throws Exception {
         // Given
-        UsersResponse userResponse = new UsersResponse(mockUser);
         when(usersService.findById(1L)).thenReturn(mockUser);
 
         // When & Then
