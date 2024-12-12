@@ -213,4 +213,15 @@ public class CheckupViewController {
         String selectedTypeFromSession = (String) session.getAttribute("selectedType");
         sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
     }
+
+    // 마크다운 변환 메소드
+    private void processMarkdownContent(Object response) {
+        if (response instanceof QuestionnaireData data) {
+            data.getSummaryEvaluation().forEach(e -> e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s -> s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof DementiaData data) {
+            data.getSummaryEvaluation().forEach(e -> e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s -> s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        }
+    }
 }
