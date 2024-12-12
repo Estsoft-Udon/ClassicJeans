@@ -113,7 +113,7 @@ class UserViewControllerTest {
                         .flashAttr("request", request)
                         .session(session))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:success"));
+                .andExpect(view().name("redirect:/success"));
     }
 
     @Test
