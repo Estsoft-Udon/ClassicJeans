@@ -103,7 +103,7 @@ class AdminControllerTest {
         mockMvc.perform(post("/admin/member/edit/{id}", 1L)
                         .param("grade", Grade.ADMIN.name()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "admin/member/edit/1"));
+                .andExpect(header().string("Location", "/admin/member/edit/1"));
 
         // Verify service method was called
         verify(adminService, times(1)).updateUserGrade(1L, Grade.ADMIN);
@@ -117,7 +117,7 @@ class AdminControllerTest {
         // When & Then
         mockMvc.perform(post("/admin/member/delete/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "admin/member/list"));
+                .andExpect(header().string("Location", "/admin/member/list"));
 
         // Verify service method was called
         verify(usersService, times(1)).softDelete(1L, mockUser.getPassword());
@@ -133,7 +133,7 @@ class AdminControllerTest {
         // When & Then
         mockMvc.perform(post("/admin/member/delete/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "admin/member/list"));
+                .andExpect(header().string("Location", "/admin/member/list"));
 
         // Verify that softDelete was not called since it's an admin user
         verify(usersService, times(0)).softDelete(anyLong(), anyString());
