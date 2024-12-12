@@ -20,6 +20,29 @@ window.addEventListener('scroll', function () {
         scrTopBtn.classList.remove("act");
     }
 });
+// 운세 닉네임 스크립트
+const nicknameElement = document.getElementById('nicknameDisplay'); // 닉네임 표시할 DOM 요소
+
+// 닉네임 가져오는 API 호출
+fetch('/api/users/nickname')
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("닉네임을 가져오는데 실패했습니다.");
+        }
+    })
+    .then(data => {
+        if (data && data.nickname) {
+            nicknameElement.textContent = data.nickname; // 닉네임 표시
+        } else {
+            throw new Error("닉네임 데이터가 비어 있습니다.");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        nicknameElement.textContent = "로그인이 필요합니다."; // 에러 처리
+    });
 
 // 운세 확인 버튼 스크립트
 document.getElementById('baziButton').addEventListener('click', function () {

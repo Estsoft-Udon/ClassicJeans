@@ -110,4 +110,15 @@ public class UsersController {
                     .body(Map.of("error", "서버 오류가 발생했습니다."));
         }
     }
+
+    // 현재 로그인된 유저의 닉네임 반환
+    @GetMapping("/nickname")
+    public ResponseEntity<Map<String, String>> getNickname() {
+        Users loggedInUser = usersService.findByLoginId(getLoggedInUser().getLoginId());
+
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(Map.of("nickname", loggedInUser.getNickname()));
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인이 필요합니다."));
+    }
 }
