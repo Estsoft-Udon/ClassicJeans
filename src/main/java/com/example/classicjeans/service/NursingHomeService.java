@@ -39,6 +39,12 @@ public class NursingHomeService {
             }
 
             NursingHomeData nursingHomeData = new NursingHomeData(response);
+            String[] addressParts = nursingHomeData.getAddress().split(" ");
+            String region = addressParts.length > 0 ? addressParts[0] : "";
+            String subRegion = addressParts.length > 1 ? addressParts[1] : "";
+            nursingHomeData.setRegion(region);
+            nursingHomeData.setSubRegion(subRegion);
+
             repository.save(nursingHomeData);
         }
     }
@@ -58,8 +64,6 @@ public class NursingHomeService {
 
             ResponseEntity<String> response = restTemplate.exchange(
                     uri, HttpMethod.GET, null, String.class);
-
-            System.out.println(response.getBody());
 
             return response.getBody();
 
@@ -87,7 +91,7 @@ public class NursingHomeService {
     }
 
     public Page<NursingHomeResponse> getNursingHomeByRegion(Pageable pageable, String region, String subregion) {
-        Page<NursingHomeData> nursingHomeData = repository.findAllByAddressContainingAndAddressContaining(region, subregion, pageable);
+        Page<NursingHomeData> nursingHomeData = repository.findAllByRegionAndSubRegion(region, subregion, pageable);
 
         return nursingHomeData.map(NursingHomeResponse::new);
     }

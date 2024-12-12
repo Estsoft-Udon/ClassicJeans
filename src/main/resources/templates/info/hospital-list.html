@@ -18,16 +18,16 @@
             <p>지역별 검색을 통해 공공의료기관 정보를 확인하고 예약하실 수 있습니다!</p>
         </div>
         <div class="search_cont">
-            <form id="hospital_form" th:action="@{/hospital-list}" method="get" class="region_form">
+            <form id="hospital_form" action="/hospital-list" method="get" class="region_form">
                 <div class="province_cont">
                     <label for="province">시/도 입력</label>
-                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off" required>
                     <div id="province-list" class="autocomplete-list"></div>
                 </div>
 
                 <div class="district_cont">
                     <label for="district">시/군/구 입력</label>
-                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" required>
                     <div id="district-list" class="autocomplete-list"></div>
                 </div>
 
@@ -213,7 +213,6 @@
             </li>
         </ul>
     </div>
-
     <script src="/js/list.js"></script>
     <script src="/js/hospital.js"></script>
     <script src="/js/kakaomap.js"></script>

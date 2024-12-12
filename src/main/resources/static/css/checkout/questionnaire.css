@@ -15,8 +15,22 @@
 .loading-screen .tit {
     line-height: 1.3;
 }
+.loading-screen .tit h1 {
+    text-align: center;
+}
 .loading-screen .txt_box {
     margin-bottom: 4rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.loading-screen .txt_box .txt{
+    font-weight: 500;
+}
+
+.loading-screen .txt_box .txt span{
+    font-weight: bold;
+    color: #013E8B;
 }
 
 .loading-screen .spinner {

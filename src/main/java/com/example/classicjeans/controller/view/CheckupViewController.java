@@ -26,7 +26,7 @@ public class CheckupViewController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
-    private final AlanService alenService;
+    private final AlanService alanService;
     private final HealthReportService healthReportService;
 
     // 건강 검진 메인
@@ -42,7 +42,7 @@ public class CheckupViewController {
 
     // 건강 검진 대상 선택
     @GetMapping("/checkout-list")
-    public String checkoutist(@RequestParam(value = "selectedUser", required = false) String selectedUser,
+    public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
                               @RequestParam(value = "selectedType", required = false) String selectedType,
                               HttpSession session) {
 
@@ -72,32 +72,16 @@ public class CheckupViewController {
     @PostMapping("/questionnaire-list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        processRequest(session, request);
         redirectAttributes.addFlashAttribute("request", request);
-        return "redirect:checkout/result-questionnaire";
+        return "redirect:/checkout/result-questionnaire";
     }
 
     // 기본 검사 결과 페이지
     @GetMapping("/result-questionnaire")
     public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model,
                                       HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
-        model.addAttribute("type", "questionnaire");
-        AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
-
-        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
-            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-        }
-        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
-            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-        }
-        model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
+        populateResultModel(request, model, "questionnaire", session);
         return "checkout/result";
     }
 
@@ -111,32 +95,16 @@ public class CheckupViewController {
     @PostMapping("/dementia-list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        processRequest(session, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
-        return "redirect:checkout/result-dementia";
+        return "redirect:/checkout/result-dementia";
     }
 
     // 치매 검사 결과 페이지
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model,
                                  HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
-        model.addAttribute("type", "dementia");
-        AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
-
-        for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
-            evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-        }
-        for (ImprovementSuggestions suggestion : response.getImprovementSuggestions()) {
-            suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-        }
-        model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
+        populateResultModel(request, model, "dementia", session);
         return "checkout/result";
     }
 
@@ -146,16 +114,14 @@ public class CheckupViewController {
                                    @RequestParam(defaultValue = "5") int size,
                                    @RequestParam(defaultValue = "all") String choiceUser,
                                    Model model) {
-        List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+        List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
+        List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
 
         model.addAttribute("healthStatisticsList", healthStatisticsList);
-        model.addAttribute("healthReportList", healthReportList);
-        model.addAttribute("totalPages", healthReportList.getTotalPages());
-        model.addAttribute("totalItems", healthReportList.getTotalElements());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", size);
-        model.addAttribute("choiceUser", choiceUser);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model, user, familyInfo);
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
         return "checkout/result-statistics";
@@ -164,7 +130,7 @@ public class CheckupViewController {
     // 검사 결과 목록 페이지
     @GetMapping("/result-list")
     public String resultList(@RequestParam(defaultValue = "0") int page,
-                             @RequestParam(defaultValue = "5") int size,
+                             @RequestParam(defaultValue = "7") int size,
                              @RequestParam(defaultValue = "all") String choiceUser,
                              Model model) {
         Long userId = getLoggedInUser().getId();
@@ -172,14 +138,7 @@ public class CheckupViewController {
         List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
 
-        model.addAttribute("user", user);
-        model.addAttribute("familyInfoList", familyInfo);
-        model.addAttribute("healthReportList", healthReportList);
-        model.addAttribute("totalPages", healthReportList.getTotalPages());
-        model.addAttribute("totalItems", healthReportList.getTotalElements());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", size);
-        model.addAttribute("choiceUser", choiceUser);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model, user, familyInfo);
 
         return "checkout/result-list";
     }
@@ -192,24 +151,83 @@ public class CheckupViewController {
         Object healthReport = healthReportService.getHealthReportById(reportId, reportType);
 
         if (healthReport instanceof QuestionnaireData questionnaireData) {
-            for (SummaryEvaluation evaluation : questionnaireData.getSummaryEvaluation()) {
-                evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-            }
-            for (ImprovementSuggestions suggestion : questionnaireData.getImprovementSuggestions()) {
-                suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-            }
+            processMarkdownContent(questionnaireData);
             model.addAttribute("healthReport", questionnaireData);
         } else if (healthReport instanceof DementiaData dementiaData) {
-            for (SummaryEvaluation evaluation : dementiaData.getSummaryEvaluation()) {
-                evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
-            }
-            for (ImprovementSuggestions suggestion : dementiaData.getImprovementSuggestions()) {
-                suggestion.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(suggestion.getSuggestion()));
-            }
+            processMarkdownContent(dementiaData);
             model.addAttribute("healthReport", dementiaData);
         }
 
         model.addAttribute("reportType", reportType);
         return "checkout/result-detail";
+    }
+
+    // 세션에 저장된 정보 가져오는 메소드
+    private void processRequest(HttpSession session, Object request) {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+    }
+
+    // 결과 페이지에 모델 채우기
+    private void populateResultModel(Object request, Model model, String type, HttpSession session) throws JsonProcessingException {
+        model.addAttribute("request", request);
+        model.addAttribute("type", type);
+        Object response = fetchResponse(request, type);
+
+        processMarkdownContent(response);
+        model.addAttribute("response", response);
+
+        session.removeAttribute("selectedUser");
+        session.removeAttribute("selectedType");
+    }
+
+    // 마크다운 변환 메소드
+    private void processMarkdownContent(Object response) {
+        if (response instanceof AlanQuestionnaireResponse data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof AlanDementiaResponse data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof QuestionnaireData data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof DementiaData data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        }
+    }
+
+    // 요청 타입에 맞는 응답 데이터 가져오는 메소드
+    private Object fetchResponse(Object request, String type) throws JsonProcessingException {
+        return switch (type) {
+            case "questionnaire" -> alanService.fetchQuestionnaireResponse((AlanQuestionnaireRequest) request);
+            case "dementia" -> alanService.fetchDementiaResponse((AlanDementiaRequest) request);
+            default -> throw new IllegalArgumentException("Unsupported type: " + type);
+        };
+    }
+
+    // 검진 결과 목록 관련 정보 모델에 추가
+    private void addHealthReportPageAttributes(Page<HealthReportResponse> healthReportList,
+                                               int page, int size, String choiceUser,
+                                               Model model, Users user,
+                                               List<FamilyInfoResponse> familyInfo) {
+        model.addAttribute("user", user);
+        model.addAttribute("familyInfoList", familyInfo);
+        model.addAttribute("healthReportList", healthReportList);
+        model.addAttribute("totalPages", healthReportList.getTotalPages());
+        model.addAttribute("totalItems", healthReportList.getTotalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("choiceUser", choiceUser);
     }
 }

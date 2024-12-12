@@ -97,6 +97,10 @@ table td{
     border-bottom: 1px solid #E4E4E4;
 }
 
+table td a{
+    white-space: nowrap;
+}
+
 td.show_map{
     display: flex;
     align-items: center;

@@ -6,6 +6,7 @@ import com.example.classicjeans.enums.Gender;
 import com.example.classicjeans.repository.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,9 +15,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 
 class UsersServiceTest {
 
@@ -26,27 +28,27 @@ class UsersServiceTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
+    @InjectMocks
     private UsersService usersService;
+
+    UsersRequest request;
+    Users mockUser;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         usersService = new UsersService(usersRepository, passwordEncoder);
-    }
 
-    public static UsersRequest tempRequest() {
-        UsersRequest request = new UsersRequest("testLoginId", "testName", "testNickName", "testEmail",
+        request = new UsersRequest("testLoginId", "testName", "testNickName", "testEmail",
                 "testPassword", LocalDate.now(), false, 5, Gender.MALE, null);
 
-        return request;
+        mockUser = new Users(request);
+        mockUser.setId(1L);
     }
 
     @Test
     void testRegister() {
         // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
         when(usersRepository.save(any(Users.class))).thenReturn(mockUser);
 
         // when
@@ -60,8 +62,6 @@ class UsersServiceTest {
     @Test
     void testGetUsers() {
         // given
-        UsersRequest request = tempRequest();
-
         Users user1 = new Users(request);
         Users user2 = new Users(request);
         when(usersRepository.findByIsDeletedFalse()).thenReturn(List.of(user1, user2));
@@ -78,9 +78,6 @@ class UsersServiceTest {
     @Test
     void testFindUserById() {
         // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
         when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
 
         // when
@@ -89,6 +86,10 @@ class UsersServiceTest {
         // then
         assertNotNull(user);
         assertEquals("testLoginId", user.getLoginId());
+
+        mockUser.setIsDeleted(true);
+        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        assertNull(usersService.findUserById(1L));
     }
 
     @Test
@@ -104,11 +105,24 @@ class UsersServiceTest {
     }
 
     @Test
+    void testUpdateUser() {
+        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser)); // 수정된 부분
+        mockUser.setName("testUpdateName");
+
+        // Mock 저장 동작 준비
+        when(usersRepository.save(any(Users.class))).thenReturn(mockUser);
+
+        // 서비스 호출
+        Users result = usersService.update(1L, request);
+
+        // 검증
+        assertNotNull(result);
+        assertEquals("testUpdateName", result.getName());
+    }
+
+    @Test
     void testSoftDelete() {
         // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
         mockUser.setPassword("encodedPassword");
         when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
         when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
@@ -122,11 +136,17 @@ class UsersServiceTest {
     }
 
     @Test
+    void testSoftDeleteFail() {
+        when(usersRepository.findById(anyLong())).thenReturn(null);
+
+        boolean result = usersService.softDelete(anyLong(), "password");
+
+        // then
+        assertFalse(result);
+    }
+
+    @Test
     void testSoftDelete_incorrectPassword() {
-        // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
         mockUser.setPassword("encodedPassword");
         when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
         when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
@@ -140,13 +160,56 @@ class UsersServiceTest {
     }
 
     @Test
+    void testDelete() {
+        when(usersService.findUserById(1L)).thenReturn(null);
+        boolean result = usersService.delete(1L);
+        assertFalse(result);
+
+        when(usersService.findUserById(1L)).thenReturn(mockUser);
+        result = usersService.delete(1L);
+        assertTrue(result);
+    }
+
+    @Test
+    void testSearchId() {
+        // Given
+        when(usersRepository.findByNameAndEmailAndIsDeletedFalse(anyString(), anyString()))
+                .thenReturn(mockUser);
+
+        // When
+        Users result = usersService.searchId(request.getName(), request.getEmail());
+
+        // Then
+        assertThat(result).isNotNull();
+        assertThat(result.getName()).isEqualTo(request.getName());
+        assertThat(result.getEmail()).isEqualTo(request.getEmail());
+    }
+
+    @Test
+    void testIsLoginCheckNickname() {
+        when(usersRepository.existsByNicknameIgnoreCase(anyString())).thenReturn(true);
+
+        boolean result = usersService.isLoginCheckNickname(request.getNickname());
+
+        assertTrue(result);
+    }
+
+
+    @Test
+    void testisLoginCheckEmail() {
+        when(usersRepository.existsByEmailIgnoreCase(anyString())).thenReturn(true);
+
+        boolean result = usersService.isLoginCheckEmail(request.getEmail());
+
+        assertTrue(result);
+    }
+
+    @Test
     void testChangePassword() {
         // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
-        mockUser.setPassword("encodedPassword");
-        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        Users mockUser2 = new Users(request);
+        mockUser2.setPassword("encodedPassword");
+        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser2));
         when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
         when(passwordEncoder.encode("newPassword")).thenReturn("encodedNewPassword");
 
@@ -155,17 +218,16 @@ class UsersServiceTest {
 
         // then
         assertTrue(result);
-        assertEquals("encodedNewPassword", mockUser.getPassword());
+        assertEquals("encodedNewPassword", mockUser2.getPassword());
     }
 
     @Test
     void testChangePassword_incorrectCurrentPassword() {
         // given
-        UsersRequest request = tempRequest();
-        Users mockUser = new Users(request);
-        mockUser.setId(1L);
-        mockUser.setPassword("encodedPassword");
-        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        Users mockUser2 = new Users(request);
+        mockUser2.setId(1L);
+        mockUser2.setPassword("encodedPassword");
+        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser2));
         when(passwordEncoder.matches("wrongPassword", "encodedPassword")).thenReturn(false);
 
         // when
@@ -185,5 +247,32 @@ class UsersServiceTest {
 
         // then
         assertTrue(result);
+    }
+
+    @Test
+    void testFindById() {
+        when(usersRepository.findByIdAndIsDeletedFalse(anyLong())).thenReturn(mockUser);
+
+        Users result = usersService.findById(1L);
+
+        assertNotNull(result);
+        assertEquals("testLoginId", result.getLoginId());
+    }
+
+    @Test
+    void testChangePasswordAfterFind() {
+        Users mockUser2 = new Users(request);
+        when(usersRepository.findByLoginId(anyString())).thenReturn(mockUser);
+        mockUser2.setPassword("updatedPassword");
+        when(usersRepository.save(any(Users.class))).thenReturn(mockUser2);
+        assertThat(mockUser2.getPassword()).isEqualTo("updatedPassword");
+    }
+
+    @Test
+    void testFindByLoginIdAndEmail() {
+        when(usersRepository.findByLoginIdAndEmailAndIsDeletedFalse(anyString(), anyString())).thenReturn(mockUser);
+        Users result = usersService.findByLoginIdAndEmail("testLoginId", "testEmail");
+        assertNotNull(result);
+        assertEquals("testLoginId", result.getLoginId());
     }
 }
