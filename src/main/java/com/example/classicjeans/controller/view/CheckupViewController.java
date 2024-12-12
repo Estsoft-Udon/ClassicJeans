@@ -26,7 +26,7 @@ public class CheckupViewController {
     private final UsersService usersService;
     private final FamilyInfoService familyInfoService;
     private final SessionUserService sessionUserService;
-    private final AlanService alenService;
+    private final AlanService alanService;
     private final HealthReportService healthReportService;
 
     // 건강 검진 메인
@@ -83,7 +83,7 @@ public class CheckupViewController {
                                       HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
         model.addAttribute("type", "questionnaire");
-        AlanQuestionnaireResponse response = alenService.fetchQuestionnaireResponse(request);
+        AlanQuestionnaireResponse response = alanService.fetchQuestionnaireResponse(request);
 
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
             evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
@@ -119,7 +119,7 @@ public class CheckupViewController {
                                  HttpSession session) throws JsonProcessingException {
         model.addAttribute("request", request);
         model.addAttribute("type", "dementia");
-        AlanDementiaResponse response = alenService.fetchDementiaResponse(request);
+        AlanDementiaResponse response = alanService.fetchDementiaResponse(request);
 
         for (SummaryEvaluation evaluation : response.getSummaryEvaluation()) {
             evaluation.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(evaluation.getEvaluation()));
@@ -223,5 +223,14 @@ public class CheckupViewController {
             data.getSummaryEvaluation().forEach(e -> e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
             data.getImprovementSuggestions().forEach(s -> s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
         }
+    }
+
+    // 요청 타입에 맞는 응답 데이터 가져오는 메소드
+    private Object fetchResponse(Object request, String type) throws JsonProcessingException {
+        return switch (type) {
+            case "questionnaire" -> alanService.fetchQuestionnaireResponse((AlanQuestionnaireRequest) request);
+            case "dementia" -> alanService.fetchDementiaResponse((AlanDementiaRequest) request);
+            default -> throw new IllegalArgumentException("Unsupported type: " + type);
+        };
     }
 }
