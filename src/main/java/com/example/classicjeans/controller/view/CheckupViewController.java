@@ -118,12 +118,7 @@ public class CheckupViewController {
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
 
         model.addAttribute("healthStatisticsList", healthStatisticsList);
-        model.addAttribute("healthReportList", healthReportList);
-        model.addAttribute("totalPages", healthReportList.getTotalPages());
-        model.addAttribute("totalItems", healthReportList.getTotalElements());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", size);
-        model.addAttribute("choiceUser", choiceUser);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model);
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
         return "checkout/result-statistics";
@@ -142,12 +137,7 @@ public class CheckupViewController {
 
         model.addAttribute("user", user);
         model.addAttribute("familyInfoList", familyInfo);
-        model.addAttribute("healthReportList", healthReportList);
-        model.addAttribute("totalPages", healthReportList.getTotalPages());
-        model.addAttribute("totalItems", healthReportList.getTotalElements());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageSize", size);
-        model.addAttribute("choiceUser", choiceUser);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model);
 
         return "checkout/result-list";
     }
@@ -209,5 +199,16 @@ public class CheckupViewController {
             case "dementia" -> alanService.fetchDementiaResponse((AlanDementiaRequest) request);
             default -> throw new IllegalArgumentException("Unsupported type: " + type);
         };
+    }
+
+    // 검진 결과 상세 페이지에 관련 정보 모델에 추가
+    private void addHealthReportPageAttributes(Page<HealthReportResponse> healthReportList,
+                                               int page, int size, String choiceUser, Model model) {
+        model.addAttribute("healthReportList", healthReportList);
+        model.addAttribute("totalPages", healthReportList.getTotalPages());
+        model.addAttribute("totalItems", healthReportList.getTotalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("choiceUser", choiceUser);
     }
 }
