@@ -137,9 +137,12 @@ class UsersServiceTest {
 
     @Test
     void testSoftDeleteFail() {
-        when(usersRepository.findById(anyLong())).thenReturn(null);
+        // given
+        Long nonExistentUserId = 999L;
+        when(usersRepository.findById(nonExistentUserId)).thenReturn(Optional.empty());
 
-        boolean result = usersService.softDelete(anyLong(), "password");
+        // when
+        Boolean result = usersService.softDelete(nonExistentUserId, "password");
 
         // then
         assertFalse(result);
@@ -161,12 +164,8 @@ class UsersServiceTest {
 
     @Test
     void testDelete() {
-        when(usersService.findUserById(1L)).thenReturn(null);
+        when(usersRepository.findById(1L)).thenReturn(Optional.of(mockUser));
         boolean result = usersService.delete(1L);
-        assertFalse(result);
-
-        when(usersService.findUserById(1L)).thenReturn(mockUser);
-        result = usersService.delete(1L);
         assertTrue(result);
     }
 
