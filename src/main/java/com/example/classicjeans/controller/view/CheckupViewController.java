@@ -72,10 +72,7 @@ public class CheckupViewController {
     @PostMapping("/questionnaire-list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        processRequest(session, request);
         redirectAttributes.addFlashAttribute("request", request);
         return "redirect:checkout/result-questionnaire";
     }
@@ -111,10 +108,7 @@ public class CheckupViewController {
     @PostMapping("/dementia-list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
-        Object selectedUserFromSession = session.getAttribute("selectedUser");
-        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
-
-        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
+        processRequest(session, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
         return "redirect:checkout/result-dementia";
     }
@@ -211,5 +205,12 @@ public class CheckupViewController {
 
         model.addAttribute("reportType", reportType);
         return "checkout/result-detail";
+    }
+
+    // 세션에 저장된 정보 가져오는 메소드
+    private void processRequest(HttpSession session, Object request) {
+        Object selectedUserFromSession = session.getAttribute("selectedUser");
+        String selectedTypeFromSession = (String) session.getAttribute("selectedType");
+        sessionUserService.setUserFromSession(selectedUserFromSession, selectedTypeFromSession, request);
     }
 }
