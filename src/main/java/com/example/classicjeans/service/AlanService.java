@@ -262,8 +262,10 @@ public class AlanService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
-            if (regex.contains("흡연율") || regex.contains("음주율") || regex.contains("운동율") || regex.contains("실천율")) {
+            if (regex.contains("흡연율") || regex.contains("음주율") || regex.contains("운동율")) {
                 return Double.parseDouble(matcher.group(2));
+            } else if (regex.contains("실천율")) {
+                return Double.parseDouble(matcher.group(3));
             } else {
                 return Double.parseDouble(matcher.group(3));
             }
