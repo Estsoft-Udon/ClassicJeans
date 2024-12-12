@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Component
 public class TestController {
 
-    @Value("${KAKAO_CLIENT_ID")
+    @Value("${KAKAO_CLIENT_ID}")
     private String KAKAO_CLIENT_ID;
 
     @GetMapping("/check-env")
