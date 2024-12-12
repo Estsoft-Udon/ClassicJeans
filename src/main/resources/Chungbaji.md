@@ -24,10 +24,12 @@ CREATE TABLE users
 
 CREATE TABLE nursing_home_data
 (
-    id      BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name    VARCHAR(50)  NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    phone   VARCHAR(255) NOT NULL
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name       VARCHAR(50)  NOT NULL,
+    address    VARCHAR(255) NOT NULL,
+    phone      VARCHAR(255) NOT NULL,
+    region     VARCHAR(255) NULL,
+    sub_region VARCHAR(255) NULL
 );
 
 CREATE TABLE family_info
@@ -181,7 +183,7 @@ CREATE TABLE reservation
     hospital_id    BIGINT       NOT NULL,
     time           DATETIME     NOT NULL,
     is_notificated BOOLEAN      NOT NULL DEFAULT FALSE,
-    is_read BOOLEAN      NOT NULL DEFAULT FALSE,
+    is_read        BOOLEAN      NOT NULL DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     FOREIGN KEY (hospital_id) REFERENCES hospital_data (id) ON DELETE CASCADE
 );
