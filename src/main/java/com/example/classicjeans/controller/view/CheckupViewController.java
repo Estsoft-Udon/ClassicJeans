@@ -202,7 +202,7 @@ public class CheckupViewController {
         };
     }
 
-    // 검진 결과 상세 페이지에 관련 정보 모델에 추가
+    // 검진 결과 목록 관련 정보 모델에 추가
     private void addHealthReportPageAttributes(Page<HealthReportResponse> healthReportList,
                                                int page, int size, String choiceUser,
                                                Model model, Users user,
