@@ -114,11 +114,14 @@ public class CheckupViewController {
                                    @RequestParam(defaultValue = "5") int size,
                                    @RequestParam(defaultValue = "all") String choiceUser,
                                    Model model) {
-        List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
+        Long userId = getLoggedInUser().getId();
+        Users user = usersService.findUserById(userId);
+        List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
+        List<HealthStatisticsResponse> healthStatisticsList = healthReportService.getRecent5QuestionnaireData();
 
         model.addAttribute("healthStatisticsList", healthStatisticsList);
-        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model, user, familyInfo);
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
         return "checkout/result-statistics";
@@ -127,7 +130,7 @@ public class CheckupViewController {
     // 검사 결과 목록 페이지
     @GetMapping("/result-list")
     public String resultList(@RequestParam(defaultValue = "0") int page,
-                             @RequestParam(defaultValue = "5") int size,
+                             @RequestParam(defaultValue = "7") int size,
                              @RequestParam(defaultValue = "all") String choiceUser,
                              Model model) {
         Long userId = getLoggedInUser().getId();
@@ -135,9 +138,7 @@ public class CheckupViewController {
         List<FamilyInfoResponse> familyInfo = familyInfoService.findFamilyByUserId(userId);
         Page<HealthReportResponse> healthReportList = healthReportService.getHealthReportList(page, size, choiceUser);
 
-        model.addAttribute("user", user);
-        model.addAttribute("familyInfoList", familyInfo);
-        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model);
+        addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model, user, familyInfo);
 
         return "checkout/result-list";
     }
@@ -203,7 +204,11 @@ public class CheckupViewController {
 
     // 검진 결과 상세 페이지에 관련 정보 모델에 추가
     private void addHealthReportPageAttributes(Page<HealthReportResponse> healthReportList,
-                                               int page, int size, String choiceUser, Model model) {
+                                               int page, int size, String choiceUser,
+                                               Model model, Users user,
+                                               List<FamilyInfoResponse> familyInfo) {
+        model.addAttribute("user", user);
+        model.addAttribute("familyInfoList", familyInfo);
         model.addAttribute("healthReportList", healthReportList);
         model.addAttribute("totalPages", healthReportList.getTotalPages());
         model.addAttribute("totalItems", healthReportList.getTotalElements());
