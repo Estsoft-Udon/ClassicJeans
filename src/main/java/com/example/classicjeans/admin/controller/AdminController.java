@@ -52,7 +52,7 @@ public class AdminController {
     @PostMapping("/member/edit/{id}")
     public String memberEditForAdmin(@PathVariable Long id, Grade grade) {
         adminService.updateUserGrade(id, grade);
-        return "redirect:admin/member/edit/" + id;
+        return "redirect:/admin/member/edit/" + id;
     }
 
     @PostMapping("/member/delete/{id}")
@@ -61,6 +61,6 @@ public class AdminController {
         if(!user.getGrade().name().equals("ADMIN")) {
             usersService.softDelete(id, user.getPassword());
         }
-        return "redirect:admin/member/list";
+        return "redirect:/admin/member/list";
     }
 }
