@@ -184,12 +184,26 @@ public class CheckupViewController {
 
     // 마크다운 변환 메소드
     private void processMarkdownContent(Object response) {
-        if (response instanceof QuestionnaireData data) {
-            data.getSummaryEvaluation().forEach(e -> e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
-            data.getImprovementSuggestions().forEach(s -> s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        if (response instanceof AlanQuestionnaireResponse data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof AlanDementiaResponse data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+        } else if (response instanceof QuestionnaireData data) {
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
         } else if (response instanceof DementiaData data) {
-            data.getSummaryEvaluation().forEach(e -> e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
-            data.getImprovementSuggestions().forEach(s -> s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
+            data.getSummaryEvaluation().forEach(e ->
+                    e.setEvaluation(MarkdownRenderer.convertMarkdownToHtml(e.getEvaluation())));
+            data.getImprovementSuggestions().forEach(s ->
+                    s.setSuggestion(MarkdownRenderer.convertMarkdownToHtml(s.getSuggestion())));
         }
     }
 
