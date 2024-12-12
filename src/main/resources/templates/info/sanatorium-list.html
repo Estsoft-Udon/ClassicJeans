@@ -22,13 +22,13 @@
             <form id="region_form" action="/sanatorium-list" method="GET" class="region_form">
                 <div class="province_cont">
                     <label for="province">시/도 입력</label>
-                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off">
+                    <input type="text" id="province" name="province" placeholder="예: 서울특별시" autocomplete="off" required>
                     <div id="province-list" class="autocomplete-list"></div>
                 </div>
 
                 <div class="district_cont">
                     <label for="district">시/군/구 입력</label>
-                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" disabled>
+                    <input type="text" id="district" name="district" placeholder="예: 종로구" autocomplete="off" required>
                     <div id="district-list" class="autocomplete-list"></div>
                 </div>
 
@@ -166,8 +166,6 @@
                 </a>
             </li>
         </ul>
-
-
     </div>
     <script src="/js/list.js"></script>
     <script src="/js/kakaomap.js"></script>
