@@ -330,7 +330,7 @@ public class AlanService {
 
     // 건강 지수 계산
     public Double calculateHealthIndex(AlanQuestionnaireRequest request) {
-        double score = 100.0;
+        double score = 66.5;
         double bmi = calculateBMI(request.getHeight(), request.getWeight());
         if (bmi < 18.5) {
             score -= 7.5;
