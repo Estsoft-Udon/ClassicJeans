@@ -174,6 +174,7 @@ window.addEventListener("DOMContentLoaded", function () {
             // searchQuery, province, district 파라미터 삭제
             urlParams.delete('city');
             urlParams.delete('district');
+            urlParams.delete('province');
             urlParams.delete('page');
             urlParams.delete('size');
 
