@@ -34,7 +34,7 @@ class FamilyInfoServiceTest {
     }
 
     FamilyInfoRequest tempFamilyInfoRequest() {
-        FamilyInfoRequest familyInfoRequest = new FamilyInfoRequest("John Doe", Gender.MALE, LocalDate.now(), "Brother");
+        FamilyInfoRequest familyInfoRequest = new FamilyInfoRequest("John Doe", Gender.MALE, LocalDate.now(), false, "Brother");
         return familyInfoRequest;
     }
 

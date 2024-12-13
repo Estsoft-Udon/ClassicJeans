@@ -126,7 +126,7 @@ public class UserViewController {
             return "member/change-pw";
         } else {
             model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
-            return "redirect:/change-pw";
+            return "member/change-pw";
         }
     }
 

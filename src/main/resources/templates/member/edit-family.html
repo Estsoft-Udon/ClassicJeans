@@ -30,6 +30,8 @@
                             <input type="text" id="family-name" th:value="${family.name}" placeholder="등록하실 가족의 이름을 입력해주세요" required disabled>
                             <label for="family-birth"><span class="req">*</span>생년월일</label>
                             <input type="date" id="family-birth" th:value="${family.dateOfBirth}" required disabled>
+                            <label for="family-isLunar"><span class="req">*</span>생일 유형</label>
+                            <input type="text" id="family-isLunar" th:value="${family.isLunar ? '음력' : '양력'}" required disabled>
                             <label for="family-gender"><span class="req">*</span>성별</label>
                             <input type="text" id="family-gender" th:value="${family.gender.displayName}" placeholder="등록하실 가족의 성별을 입력해주세요" required disabled>
                         </div>

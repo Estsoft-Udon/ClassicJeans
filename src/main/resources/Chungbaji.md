@@ -39,6 +39,7 @@ CREATE TABLE family_info
     name          VARCHAR(150) NOT NULL, -- 가족 이름
     gender        VARCHAR(10)  NOT NULL, -- 성별
     date_of_birth DATE         NOT NULL, -- 생년월일
+    is_lunar      BOOLEAN      NOT NULL DEFAULT FALSE,
     relationship  VARCHAR(255) NOT NULL, -- 가족 관계
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
