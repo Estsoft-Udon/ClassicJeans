@@ -84,6 +84,24 @@ function validateAge(birthInput, messageElement) {
 document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault(); // 기본 폼 제출 방지
 
+    let isValid = true;
+
+    // 모든 가족 생년월일 입력 필드를 검사
+    document.querySelectorAll('input[name^="families"][name$=".birthDate"]').forEach((birthInput) => {
+        const familyId = birthInput.id.split('-')[2];
+        const messageElement = document.getElementById(`ageMessage-${familyId}`);
+
+        if (!validateAge(birthInput, messageElement)) {
+            isValid = false;
+        }
+    });
+
+    // 유효성 검사 실패 시 폼 제출 중단
+    if (!isValid) {
+        alert('입력한 정보를 확인해주세요. 가족 생년월일이 유효하지 않습니다.');
+        return;
+    }
+
     const formData = new FormData(event.target);
     const familiesData = [];
 
