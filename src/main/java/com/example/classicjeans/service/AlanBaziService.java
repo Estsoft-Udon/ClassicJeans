@@ -14,8 +14,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -48,33 +49,34 @@ public class AlanBaziService {
     }
 
     // 오늘의 운세
-    public AlanBaziResponse fetchBazi(AlanBaziRequest request) throws JsonProcessingException {
-        // URI 생성
-        String uri = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("content", request)  // AlanBaziRequest.toString() 호출
-                .queryParam("client_id", CLIENT_ID)
-                .toUriString();
+    public AlanBaziResponse fetchBazi(AlanBaziRequest request) {
+        try {
+            // 기존 로직 수행
+            String uri = UriComponentsBuilder
+                    .fromHttpUrl(BASE_URL)
+                    .queryParam("content", request)
+                    .queryParam("client_id", CLIENT_ID)
+                    .toUriString();
 
-        // API 호출
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        String responseBody = response.getBody();
+            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+            String responseBody = response.getBody();
 
-        // JSON 파싱
-        JsonNode rootNode = objectMapper.readTree(responseBody);
-        JsonNode contentNode = rootNode.path("content");
+            JsonNode rootNode = objectMapper.readTree(responseBody);
+            JsonNode contentNode = rootNode.path("content");
 
-        if (contentNode.isTextual()) {
-            String cleanedContent = removeBaziContent(contentNode.asText()); // 정리된 텍스트 처리
+            if (contentNode.isTextual()) {
+                String cleanedContent = removeBaziContent(contentNode.asText());
+                ((ObjectNode) rootNode).put("content", cleanedContent);
+            }
 
-            // JSON 수정
-            ((ObjectNode) rootNode).put("content", cleanedContent);
+            return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
+        } catch (Exception e) {
+            // 앨런 클라이언트 ID 횟수 초기화
+            // resetPreviousData();
+            // 콘솔에 에러 로그 출력
+            e.printStackTrace();  // 콘솔에 전체 스택 트레이스를 출력
+            throw new RuntimeException("Error occurred while fetching Bazi", e);  // 클라이언트에 전달할 사용자 정의 메시지
         }
-
-        // System.out.println("Cleaned content: " + rootNode.toString());  // 처리된 텍스트 출력
-
-        // 수정된 JSON을 AlanBaziResponse 객체로 변환하여 반환
-        return objectMapper.treeToValue(rootNode, AlanBaziResponse.class);
     }
 
     public Bazi saveBazi(Long userId, AlanBaziRequest request) throws JsonProcessingException {
@@ -148,5 +150,25 @@ public class AlanBaziService {
                 .replaceAll(":\\s*:\\s*:", "") // ': : :' 제거
                 .replaceAll("\\*\\*\\*\\*:\\s*-\\s*", "")
                 .trim();
+    }
+
+    // 메소드 실행 전에 이전 데이터를 초기화
+    private void resetPreviousData() {
+        String uri = UriComponentsBuilder
+                .fromHttpUrl(DELETE_URL)
+                .toUriString();
+
+        String jsonBody = "{\"client_id\":\"" + CLIENT_ID + "\"}";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
+
+        try {
+            restTemplate.exchange(uri, HttpMethod.DELETE, entity, String.class);
+        } catch (HttpStatusCodeException e) {
+            System.err.println("Error during reset: " + e.getResponseBodyAsString());
+        }
     }
 }
