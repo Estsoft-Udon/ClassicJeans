@@ -124,7 +124,8 @@ function listenForMessages() {
 
 function closeConnection() {
     if (isWaitingForResponse) {
-        alert("현재 답변이 생성 중입니다.\n 답변이 완료된 후에 종료해주세요!");
+        alert("현재 답변이 생성 중입니다.\n" +
+            "답변이 완료된 후에 종료해주세요!");
         return;
     }
 
@@ -145,7 +146,7 @@ function closeConnection() {
                 // 연결 종료 후 메시지 표시
                 const message = document.createElement('div');
                 message.classList.add('message', 'received');
-                message.innerHTML = '<span>연결이 종료되었습니다.</span>';
+                message.innerHTML = '<span>연결이 종료되었습니다. <br> 재시작을 원하시면 새로고침을 해주세요.</span>';
                 chatContainer.appendChild(message);
                 scroll();
 
@@ -155,6 +156,14 @@ function closeConnection() {
                     element.disabled = true;
                     element.style.cursor = 'not-allowed'; // 커서를 비활성화 스타일로 변경
                 });
+
+                // 연결 종료 버튼 비활성화
+                const closeButton = document.getElementById('closeBtn'); // 버튼 ID로 선택
+                if (closeButton) {
+                    closeButton.disabled = true;
+                    closeButton.style.cursor = 'not-allowed'; // 커서 변경
+                }
+
             } else {
                 alert("연결 종료에 실패했습니다.");
             }
