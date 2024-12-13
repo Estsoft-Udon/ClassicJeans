@@ -127,8 +127,8 @@
             </li>
 
             <!-- 데이터 없음 표시 -->
-            <div th:if="${sanatoriums.getContent().isEmpty()}">
-                검색 기준에 맞는 데이터가 없습니다.
+            <div th:if="${sanatoriums.getContent().isEmpty()}" class="search_empty">
+                검색 기준에 맞는 요양원이 존재하지 않습니다.
             </div>
 
             <!-- 다음 버튼 -->

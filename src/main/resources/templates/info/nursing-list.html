@@ -110,7 +110,7 @@
             </li>
 
             <!-- 페이지 번호 출력 -->
-            <li th:each="i : ${#numbers.sequence(startPage, endPage)}" th:class="${i == nursinghomes.number} ? 'on active'">
+            <li th:if="${!nursinghomes.getContent().isEmpty()}" th:each="i : ${#numbers.sequence(startPage, endPage)}" th:class="${i == nursinghomes.number} ? 'on active'">
                 <a th:if="${search != null}" th:href="@{'/nursing-list?search=' + ${search} + '&page=' + ${i}}">
                     <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}"></button>
                 </a>
@@ -121,6 +121,11 @@
                     <button type="button" th:text="${i + 1}" th:class="${i == nursinghomes.number ? 'active' : ''}"></button>
                 </a>
             </li>
+
+            <!-- 데이터 없음 표시 -->
+            <div th:if="${nursinghomes.getContent().isEmpty()}" class="search_empty">
+                검색 기준에 맞는 복지시설이 존재하지 않습니다.
+            </div>
 
             <!-- 다음 버튼 -->
             <li th:if="${nursinghomes.hasNext()}">
