@@ -264,6 +264,9 @@ function validateAge() {
     }
 }
 
+// 실시간으로 연령 제한 검사 및 메시지 업데이트
+document.getElementById('dateOfBirth').addEventListener('input', validateAge);
+
 // 폼 제출 이벤트에 연령 제한 검사 추가
 document.getElementById('signupForm').addEventListener('submit', function(event) {
     if (!validateAge()) {
