@@ -16,6 +16,7 @@ public class FamilyInfoResponse {
     private String name;
     private Gender gender;
     private LocalDate dateOfBirth;
+    private Boolean isLunar;
     private String relationship;
 
     public static FamilyInfoResponse convertFamilyInfo(FamilyInfo familyInfo) {
@@ -23,6 +24,7 @@ public class FamilyInfoResponse {
         response.setId(familyInfo.getId());
         response.setName(familyInfo.getName());
         response.setGender(familyInfo.getGender());
+        response.setIsLunar(familyInfo.getIsLunar());
         response.setDateOfBirth(familyInfo.getDateOfBirth());
         response.setRelationship(familyInfo.getRelationship());
         return response;
