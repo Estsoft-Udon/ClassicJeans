@@ -32,7 +32,7 @@ public class FamilyInfoService {
 
         List<FamilyInfo> familyInfoList = new ArrayList<>();
         for (FamilyInfoRequest request : requests) {
-            FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getRelationship()));
+            FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getIsLunar() , request.getRelationship()));
             familyInfoList.add(familyInfo);
         }
 

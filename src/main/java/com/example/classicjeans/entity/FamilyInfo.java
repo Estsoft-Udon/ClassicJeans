@@ -31,6 +31,9 @@ public class FamilyInfo {
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
+    @Column(name = "is_lunar", nullable = false)
+    private Boolean isLunar = Boolean.FALSE;
+
     @Column
     private String relationship;
 
@@ -43,11 +46,12 @@ public class FamilyInfo {
         return Period.between(this.dateOfBirth, LocalDate.now()).getYears();
     }
 
-    public FamilyInfo(Users userId, String name, Gender gender, LocalDate dateOfBirth, String relationship) {
+    public FamilyInfo(Users userId, String name, Gender gender, LocalDate dateOfBirth, Boolean isLunar , String relationship) {
         this.userId = userId;
         this.name = name;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.isLunar = isLunar;
         this.relationship = relationship;
     }
 }

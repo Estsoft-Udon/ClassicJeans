@@ -36,6 +36,9 @@
                     <label for="userBirthday">생년월일</label>
                     <input type="text" id="userBirthday" name="name" th:value="${user.dateOfBirth}" disabled>
 
+                    <label for="userIsLunar">생일 유형</label>
+                    <input type="text" id="userIsLunar" name="name" th:value="${user.isLunar ? '음력' : '양력'}" disabled>
+
                     <label for="userGender">성별</label>
                     <input type="text" id="userGender" name="name" th:value="${user.gender.displayName}" disabled>
 
