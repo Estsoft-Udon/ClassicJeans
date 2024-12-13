@@ -43,6 +43,11 @@ addFamilyButton.addEventListener('click', () => {
     familyBirthInput.addEventListener('input', () => {
         validateAge(familyBirthInput, ageMessageElement);
     });
+
+    // 당일 날짜까지만 표시
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    familyBirthInput.max = maxDate.toISOString().split('T')[0];
 });
 
 // form을 제출할 때, 가족 정보를 JSON 형식으로 서버로 전송
