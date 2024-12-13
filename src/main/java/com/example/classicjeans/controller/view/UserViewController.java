@@ -176,7 +176,7 @@ public class UserViewController {
     public String editProfile(@ModelAttribute UsersRequest request) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         usersService.update(user.getId(), request);
-        return "redirect:/member/mypage";
+        return "redirect:/mypage";
     }
 
     // 가족 정보 수정
