@@ -27,7 +27,6 @@ public class ChatController {
         Users user = SecurityUtil.getLoggedInUser();
         Long userId = user.getId();
 
-        System.out.println("SSE 연결 시작 연결된 userId: " + userId);
         emitters.put(userId, emitter);
 
         // 클라이언트에 emitterId 전송
@@ -40,15 +39,12 @@ public class ChatController {
 
         emitter.onCompletion(() -> {
             emitters.remove(userId);
-            System.out.println("SSE 연결 종료 (onCompletion): " + userId);
         });
         emitter.onTimeout(() -> {
             emitters.remove(userId);
-            System.out.println("SSE 연결 종료 (onTimeout): " + userId);
         });
         emitter.onError((ex) -> {
             emitters.remove(userId);
-            System.out.println("SSE 연결 종료 (onError): " + userId);
         });
 
         return ResponseEntity.ok(emitter);
@@ -73,11 +69,9 @@ public class ChatController {
     @PostMapping("/stream/close")
     public ResponseEntity<Void> closeConnection(@RequestParam Long userId) {
         SseEmitter emitter = emitters.remove(userId);
-        System.out.println("SSE 연결 종료 " + userId);
 
         if (emitter != null) {
             try {
-                System.out.println(" 연결이 종료 되었습니다.");
                 emitter.complete();
             } catch (Exception e) {
                 // 연결 종료 실패 처리
