@@ -124,6 +124,13 @@ public class CheckupViewController {
         addHealthReportPageAttributes(healthReportList, page, size, choiceUser, model, user, familyInfo);
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
+
+        if (healthReportList.getTotalElements() == 1) {
+            model.addAttribute("isSingleReport", true);
+        } else if (healthReportList.getTotalElements() >= 2) {
+            model.addAttribute("isMultipleReports", true);
+        }
+
         return "checkout/result-statistics";
     }
 

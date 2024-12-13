@@ -15,6 +15,7 @@
                     <li class="breadcrumb-item"><a href="/checkout/result-statistics">내 건강 검진 통계</a></li>
                 </ol>
             </nav>
+
             <!-- 검사 기록이 없을 때 -->
             <section th:if="${isStatisticsEmpty}">
                 <div class="empty_checkout">
@@ -29,15 +30,30 @@
                     </div>
                 </div>
             </section>
-            <!-- 검사 기록이 있을 때 -->
-            <section th:unless="${isStatisticsEmpty}">
+
+            <!-- 검사 기록이 1개일 때 노출, 0개일 때는 미노출 -->
+            <section th:if="${isSingleReport}">
+                <div class="lack_checkout">
+                    <div class="tit">
+                        <h1>
+                            통계 분석을 위한 건강 검진 기록이 충분하지 않습니다 😯
+                        </h1>
+                    </div>
+                    <div class="lack_txt">
+                        <h2>통계 분석을 위해서는 건강 검진 결과가 <span>최소 2개 이상</span> 필요합니다.</h2>
+                        <button type="button" class="btn" onclick="location.href='/checkout'">AI 건강 검진 하러가기</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 검사 기록이 2개 이상일 때 노출 -->
+            <section th:if="${isMultipleReports}">
                 <div class="tit">
                     <h1>
                         회원님의 검사 결과를 <br>
                         한눈에 볼 수 있도록 통합 및 분석했습니다.
                     </h1>
                 </div>
-              
                 <!-- 차트 -->
                 <div class="container cont_wr">
                     <canvas id="myChart" width="1120" height="560"></canvas>
@@ -46,8 +62,10 @@
                     </div>
                 </div>
                 <!-- // 차트 -->
+            </section>
 
-                <!-- 검사 목록 -->
+            <!-- 검사 목록 -->
+            <section th:unless="${isStatisticsEmpty}">
                 <div class="result_list">
                     <div class="tit">
                         <h1>다시 확인하고 싶은 검사 결과가 있으신가요?</h1>
@@ -95,7 +113,6 @@
                 <div class="btn_wr">
                     <button type="button" class="btn" onclick="location.href='/checkout/result-list'">검사 결과 더보기</button>
                 </div>
-                <!-- // 검사 목록 -->
             </section>
         </div>
     </div>
