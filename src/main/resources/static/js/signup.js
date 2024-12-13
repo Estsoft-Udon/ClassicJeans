@@ -273,3 +273,10 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
         event.preventDefault();
     }
 });
+
+// 당일 날짜까지만 표시
+document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    document.getElementById('dateOfBirth').max = maxDate.toISOString().split('T')[0];
+});
