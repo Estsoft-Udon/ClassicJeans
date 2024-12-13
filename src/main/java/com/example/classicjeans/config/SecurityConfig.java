@@ -33,9 +33,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
                         custom -> custom
-                                .requestMatchers("/", "/login", "/signup", "/find-id", "/find-pw",
+                                .requestMatchers("/", "/find-id", "/find-pw",
                                         "/success", "/change-pw-after-find", "/api/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/login", "/signup").anonymous()
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
                 .formLogin(custom -> {
