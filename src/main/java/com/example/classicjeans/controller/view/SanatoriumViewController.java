@@ -41,7 +41,6 @@ public class SanatoriumViewController {
         int startPage = Math.max(0, page - halfPageSize);
         int endPage = Math.min(totalPages - 1, startPage + pageSize - 1);
 
-        // 페이지 범위가 pageSize보다 적을 경우 보정
         if (endPage - startPage + 1 < pageSize) {
             startPage = Math.max(0, endPage - pageSize + 1);
         }
