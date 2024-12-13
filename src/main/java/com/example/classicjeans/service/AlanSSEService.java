@@ -51,7 +51,6 @@ public class AlanSSEService {
                     // "complete"가 포함되면 스트리밍 종료 이벤트 전송
                     if (json.contains("complete")) {
                         emitter.send(SseEmitter.event().name("completed"));
-                        System.out.println("메세지가 종료됩니다.");
                         break;
                     }
 
@@ -84,16 +83,6 @@ public class AlanSSEService {
             emitter.completeWithError(e);
             throw e;
         }
-    }
-
-    // delete api 사용하는 방법
-    public String resetChat(String clientId) {
-        // 요청 데이터 생성
-        String uri = UriComponentsBuilder
-                .fromUriString(DELETE_URL)
-                .toUriString();
-
-        return null;
     }
 
     private void handleJsonParsingError(Exception e) {
