@@ -112,20 +112,17 @@
 
             <!-- 현재 페이지 기준으로 앞뒤 2개씩 표시 -->
             <li th:if="${!sanatoriums.getContent().isEmpty()}"
-                th:each="i : ${#numbers.sequence((sanatoriums.number - 2 > 0 ? sanatoriums.number - 2 : 0), (sanatoriums.number + 2 < sanatoriums.totalPages - 1 ? sanatoriums.number + 2 : sanatoriums.totalPages - 1))}"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}"
                 th:class="${i == sanatoriums.number} ? 'on'">
                 <a th:if="${search != null}" th:href="@{'/sanatorium-list?search=' + ${search} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
-                    </button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}"></button>
                 </a>
                 <a th:if="${search == null and district != null}"
                    th:href="@{'/sanatorium-list?province=' + ${province} + '&district=' + ${district} + '&page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
-                    </button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}"></button>
                 </a>
                 <a th:if="${search == null and district == null}" th:href="@{'/sanatorium-list?page=' + ${i}}">
-                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}">1
-                    </button>
+                    <button type="button" th:text="${i + 1}" th:class="${i == sanatoriums.number ? 'active' : ''}"></button>
                 </a>
             </li>
 

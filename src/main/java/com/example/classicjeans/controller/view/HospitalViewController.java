@@ -41,7 +41,7 @@ public class HospitalViewController {
             model.addAttribute("noResults", true);
         }
 
-        // 페이지네이션 계산
+        // 페이지네이션
         int totalPages = hospitalPage.getTotalPages();
         int pageSize = 5; // 최대 표시할 페이지 버튼 수
         int halfPageSize = pageSize / 2;
