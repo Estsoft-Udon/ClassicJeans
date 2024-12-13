@@ -17,10 +17,7 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        System.out.println("registrationId = " + registrationId);
-        for(Map.Entry<String, Object> entry : attributes.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+
         if ("google".equals(registrationId)) {
             return ofGoogle(userNameAttributeName, attributes);
         } else if ("naver".equals(registrationId)) {

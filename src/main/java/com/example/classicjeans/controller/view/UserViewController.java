@@ -64,7 +64,6 @@ public class UserViewController {
             usersService.register(request);
 
             session.removeAttribute("uniqueKey");
-            session.removeAttribute("providerId");
 
             return "redirect:/success";
         } catch (Exception e) {
