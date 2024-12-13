@@ -16,6 +16,7 @@ addFamilyButton.addEventListener('click', () => {
         <label for="family-name-${familyIndex}"><span class="req">*</span>이름</label> 
         <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
         <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
+        <div id="ageMessage-${familyIndex}"></div>
         <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>
         <div class="isLunar_box">
             <label for="family-isLunar-${familyIndex}">음력 여부</label>
@@ -34,6 +35,14 @@ addFamilyButton.addEventListener('click', () => {
 
     familyContainer.appendChild(familySection);
     familyIndex++;
+
+    // 추가된 가족 생년월일 필드에 연령 제한 추가
+    const familyBirthInput = document.getElementById(`family-birth-${familyIndex - 1}`);
+    const ageMessageElement = document.getElementById(`ageMessage-${familyIndex - 1}`);
+
+    familyBirthInput.addEventListener('input', () => {
+        validateAge(familyBirthInput, ageMessageElement);
+    });
 });
 
 // form을 제출할 때, 가족 정보를 JSON 형식으로 서버로 전송
