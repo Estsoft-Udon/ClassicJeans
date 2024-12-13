@@ -23,7 +23,7 @@ function sendMessage() {
     const content = input.value;
 
     if (!content.trim()) {
-        appendMessage("질문을 입력하세요", false);
+        appendMessage("질문을 입력해주세요", false);
         return;
     }
 
@@ -124,7 +124,7 @@ function listenForMessages() {
 
 function closeConnection() {
     if (isWaitingForResponse) {
-        alert("현재 답변이 생성 중입니다. 답변이 완료된 후에 종료해주세요!");
+        alert("현재 답변이 생성 중입니다.\n 답변이 완료된 후에 종료해주세요!");
         return;
     }
 
@@ -149,9 +149,12 @@ function closeConnection() {
                 chatContainer.appendChild(message);
                 scroll();
 
-                // 입력 필드와 버튼을 비활성화 시킬 수 있습니다.
-                document.getElementById('chat-input').disabled = true;
-                document.querySelector('button[type="button"]').disabled = true;
+                // form 안의 모든 입력 필드와 버튼 비활성화
+                const formElements = document.querySelectorAll('.input-container input, .input-container button');
+                formElements.forEach(element => {
+                    element.disabled = true;
+                    element.style.cursor = 'not-allowed'; // 커서를 비활성화 스타일로 변경
+                });
             } else {
                 alert("연결 종료에 실패했습니다.");
             }
