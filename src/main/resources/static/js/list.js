@@ -174,6 +174,7 @@ window.addEventListener("DOMContentLoaded", function () {
             // searchQuery, province, district 파라미터 삭제
             urlParams.delete('city');
             urlParams.delete('district');
+            urlParams.delete('province');
             urlParams.delete('page');
             urlParams.delete('size');
 
@@ -201,57 +202,4 @@ window.addEventListener("DOMContentLoaded", function () {
             location.reload();  // 페이지를 새로 고칩니다
         });
     }
-});
-
-// 모달 열고 닫기 기본 동작, 예약 팝업 병원 정보 자동 넣기
-document.addEventListener("DOMContentLoaded", function () {
-        const modal = document.getElementById("reservationModal");
-        const closeModalButton = document.querySelector(".modal .close_btn");
-        const cancelButton = document.querySelector(".modal .btn_box .cancel_btn");
-
-        document.querySelectorAll(".view-form").forEach(button => {
-            button.addEventListener("click", function () {
-                const hospitalName = button.getAttribute("data-name");
-                const hospitalPhone = button.getAttribute("data-phone");
-                const hospitalAddress = button.getAttribute("data-address");
-
-                // 병원 정보 채우기
-                document.getElementById("hospitalName").textContent = hospitalName;
-                document.getElementById("hospitalPhone").textContent = hospitalPhone;
-                document.getElementById("hospitalAddress").textContent = hospitalAddress;
-
-                // hidden 필드 채우기
-                document.getElementById("modalHospitalId").value = button.getAttribute("data-id");
-
-                // 모달 열기 및 스크롤 비활성화
-                modal.style.display = "flex";
-                document.body.style.overflow = "hidden"; // 배경 스크롤 비활성화
-            });
-        });
-
-        closeModalButton.addEventListener("click", function () {
-            closeModal();
-        });
-
-        cancelButton.addEventListener("click", function () {
-            closeModal();
-        });
-
-        window.addEventListener("click", function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        function closeModal() {
-            modal.style.display = "none";
-            document.body.style.overflow = ""; // 배경 스크롤 활성화
-
-            // 모달 내부 input 필드 초기화
-            document.querySelectorAll("#reservationModal input").forEach(input => {
-                input.value = "";
-            });
-        }
-
-        window.closeModal = closeModal;
 });

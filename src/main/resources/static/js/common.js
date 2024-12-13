@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
     const footer = document.querySelector("footer");
     const isMainPage = window.location.pathname === "/" || window.location.pathname === "/index";
+    const isChatPage = window.location.pathname === "/chat";
 
     // 스크롤 이벤트 핸들러
     const handleScroll = () => {
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // 스크롤 탑 버튼 표시/숨김 처리
-        if (scrollToTopBtn && !isMainPage) {
+        if (scrollToTopBtn && !isMainPage && !isChatPage) {
             scrollToTopBtn.classList.toggle("show", scrollY > 300);
 
             if (footer) {
