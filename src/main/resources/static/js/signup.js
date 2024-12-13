@@ -263,3 +263,10 @@ function validateAge() {
         return true;
     }
 }
+
+// 폼 제출 이벤트에 연령 제한 검사 추가
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+    if (!validateAge()) {
+        event.preventDefault();
+    }
+});
