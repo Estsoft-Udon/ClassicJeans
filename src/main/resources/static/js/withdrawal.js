@@ -22,7 +22,7 @@ window.onload = function() {
                         return text ? JSON.parse(text) : {}; // 비어있으면 빈 객체 반환
                     });
                 })
-                .then(data => {
+                .then(() => {
                     alert("탈퇴 처리가 완료되었습니다.");
                     window.location.href = '/logout';
                 })
