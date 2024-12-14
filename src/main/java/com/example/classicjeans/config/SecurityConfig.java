@@ -3,6 +3,7 @@ package com.example.classicjeans.config;
 import com.example.classicjeans.oauth.CustomOAuth2LoginSuccessHandler;
 import com.example.classicjeans.oauth.CustomOAuth2UserService;
 import com.example.classicjeans.security.CustomAuthFailureHandler;
+import com.example.classicjeans.security.RedirectIfAuthenticatedFilter;
 import com.example.classicjeans.security.UsersDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +23,7 @@ public class SecurityConfig {
     private final CustomAuthFailureHandler customAuthFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UsersDetailService usersDetailService;
+    private final RedirectIfAuthenticatedFilter redirectIfAuthenticatedFilter;
 
 
     @Bean
@@ -39,6 +42,7 @@ public class SecurityConfig {
                                 .requestMatchers("/login", "/signup").anonymous()
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
+                .addFilterBefore(redirectIfAuthenticatedFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(custom -> {
                     custom.loginPage("/login")
                             .failureHandler(customAuthFailureHandler);

@@ -35,10 +35,24 @@ public class NursingHomeViewController {
             nursinghomes = service.getNursingHomeList(pageable);
         }
 
+        // 페이지네이션
+        int totalPages = nursinghomes.getTotalPages();
+        int pageSize = 5;
+        int halfPageSize = pageSize / 2;
+
+        int startPage = Math.max(0, page - halfPageSize);
+        int endPage = Math.min(totalPages - 1, startPage + pageSize - 1);
+
+        if (endPage - startPage + 1 < pageSize) {
+            startPage = Math.max(0, endPage - pageSize + 1);
+        }
+
         model.addAttribute("nursinghomes", nursinghomes);
         model.addAttribute("search", search);
         model.addAttribute("province", province);
         model.addAttribute("district", district);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "info/nursing-list";
     }

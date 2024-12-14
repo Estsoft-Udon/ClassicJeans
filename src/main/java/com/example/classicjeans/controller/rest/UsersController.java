@@ -114,11 +114,18 @@ public class UsersController {
     // 현재 로그인된 유저의 닉네임 반환
     @GetMapping("/nickname")
     public ResponseEntity<Map<String, String>> getNickname() {
-        Users loggedInUser = usersService.findByLoginId(getLoggedInUser().getLoginId());
+        Users loggedInUser = getLoggedInUser();
 
-        if (loggedInUser != null) {
-            return ResponseEntity.ok(Map.of("nickname", loggedInUser.getNickname()));
+        if (loggedInUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인이 필요합니다."));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인이 필요합니다."));
+
+        Users user = usersService.findByLoginId(loggedInUser.getLoginId());
+
+        if (user != null) {
+            return ResponseEntity.ok(Map.of("nickname", user.getNickname()));
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "유저 정보가 없습니다."));
     }
 }

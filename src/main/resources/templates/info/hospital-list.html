@@ -131,6 +131,7 @@
         </section>
         <!-- 페이지네이션 -->
         <ul class="pagination">
+            <!-- 첫 페이지 버튼 -->
             <li th:if="${currentPage > 0}">
                 <a th:if="${search != null}" th:href="@{'/hospital-list?search=' + ${search} + '&page=0'}">
                     <button class="first-btn page_btn">첫 페이지</button>
@@ -156,32 +157,20 @@
                 </a>
             </li>
 
-            <!-- 페이지 숫자 버튼들 -->
-            <li th:unless="${noResults}" th:each="i : ${#numbers.sequence((currentPage - 2 > 0 ? currentPage - 2 : 0), (currentPage + 2 < totalPages - 1 ? currentPage + 2 : totalPages - 1))}">
-                <!-- 페이지가 0인 경우를 숨기기 -->
-                <a th:if="${i >= 0}">
-                    <!-- search가 있을 때 -->
-                    <a th:if="${search != null}" th:href="@{'/hospital-list?search=' + ${search} + '&page=' + ${i}}">
-                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
-                    </a>
-
-                    <!-- search가 없고 district가 있을 때 -->
-                    <a th:if="${search == null and district != null}" th:href="@{'/hospital-list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${i}}">
-                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
-                    </a>
-
-                    <!-- search와 district가 없을 때, city 있을 때 -->
-                    <a th:if="${search == null and district == null and city != null}" th:href="@{'/hospital-list?city=' + ${city} + '&page=' + ${i}}">
-                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
-                    </a>
-
-                    <!-- search, district, city 모두 없을 때 -->
-                    <a th:if="${search == null and district == null and city == null}" th:href="@{'/hospital-list?page=' + ${i}}">
-                        <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}">${i + 1}</button>
-                    </a>
+            <!-- 페이지 숫자 버튼 -->
+            <li th:unless="${noResults}" th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${search != null}" th:href="@{'/hospital-list?search=' + ${search} + '&page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}"></button>
+                </a>
+                <a th:if="${search == null and district != null}" th:href="@{'/hospital-list?city=' + ${city} + '&district=' + ${district} + '&page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}"></button>
+                </a>
+                <a th:if="${search == null and district == null}" th:href="@{'/hospital-list?page=' + ${i}}">
+                    <button type="button" th:text="${i + 1}" th:class="${i == currentPage ? 'active' : ''}"></button>
                 </a>
             </li>
 
+            <!-- 검색 결과가 없는 경우 -->
             <div th:if="${noResults}" class="search_empty">
                 검색 기준에 맞는 공공의료기관이 존재하지 않습니다.
             </div>

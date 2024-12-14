@@ -17,6 +17,13 @@ addFamilyButton.addEventListener('click', () => {
         <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
         <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
         <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>
+        <div class="isLunar_box">
+            <label for="family-isLunar-${familyIndex}">음력 여부</label>
+            <select id="family-isLunar-${familyIndex}" name="families[${familyIndex}].isLunar">
+                <option value="false">양력</option>
+                <option value="true">음력</option>
+            </select>
+        </div>
         <label for="family-gender-${familyIndex}"><span class="req">*</span>성별</label>
         <select id="family-gender-${familyIndex}" name="families[${familyIndex}].gender" required>
             <option value="">성별을 선택하세요</option>
@@ -50,6 +57,7 @@ document.querySelector('form').addEventListener('submit', (event) => {
                 name: "name",
                 gender: "gender",
                 birthDate: "dateOfBirth",
+                isLunar : "isLunar",
                 relation: "relationship",
             };
 
