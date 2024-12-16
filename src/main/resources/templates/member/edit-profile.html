@@ -32,12 +32,13 @@
                         <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" required placeholder="닉네임">
                         <button type="button" onclick="checkNickname()" class="btn">중복 확인</button>
                     </div>
-
-                    <label for="userBirthday">생년월일</label>
-                    <input type="text" id="userBirthday" name="name" th:value="${user.dateOfBirth}" disabled>
-
-                    <label for="userIsLunar">생일 유형</label>
-                    <input type="text" id="userIsLunar" name="name" th:value="${user.isLunar ? '음력' : '양력'}" disabled>
+                    <div class="birth_cont">
+                        <div>
+                            <label for="userBirthday">생년월일</label>
+                            <input type="text" id="userBirthday" name="name" th:value="${user.dateOfBirth}" disabled>
+                        </div>
+                        <input type="text" id="userIsLunar" name="name" th:value="${user.isLunar ? '음력' : '양력'}" disabled>
+                    </div>
 
                     <label for="userGender">성별</label>
                     <input type="text" id="userGender" name="name" th:value="${user.gender.displayName}" disabled>
