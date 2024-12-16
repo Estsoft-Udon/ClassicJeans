@@ -21,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class AlanSSEService {
 
     @Value("${CLIENT_ID_2}")
-    private static String CLIENT_ID_2;
+    private String CLIENT_ID_2;
 
     private static final String SSE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question/sse-streaming";
 

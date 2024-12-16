@@ -33,7 +33,7 @@ public class SanatoriumService {
     private final String[] siDoCodes = {"11", "21", "22", "23", "24", "25", "26", "36", "41", "42", "43", "44", "45", "46", "47", "48", "50"};
 
     @Value("${SANATORIUM_API_KEY}")
-    private static String SANATORIUM_API_KEY;
+    private String SANATORIUM_API_KEY;
 
     public List<SanatoriumData> getSanatoriumDatas() {
         return repository.findAll();

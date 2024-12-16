@@ -28,7 +28,7 @@ public class NursingHomeService {
     private final NursingHomeDataRepository repository;
 
     @Value("${NURSING_API_KEY}")
-    private static String NURSING_API_KEY;
+    private String NURSING_API_KEY;
 
     public List<NursingHomeData> getNursingHomeDatas() {
         return repository.findAll();
