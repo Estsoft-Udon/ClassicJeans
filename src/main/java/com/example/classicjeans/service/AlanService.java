@@ -58,8 +58,6 @@ public class AlanService {
     public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request)
             throws JsonProcessingException {
         //resetPreviousData();
-
-        // 아래 횟수 없을 시 사용
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
         response.setHealthIndex(calculateHealthIndex(request));
