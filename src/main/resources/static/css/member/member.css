@@ -387,6 +387,18 @@ input:focus{
     align-items: end;
 }
 
+.birth_cont label{
+    margin-top: 0;
+}
+
+.birth_cont input{
+    margin-bottom: 0;
+}
+
+.edit_family .family-section select{
+    padding: 1.1rem;
+}
+
 .modal-content p{
     font-size: clamp(1.5rem, 1vw, 1.8rem);
     font-weight: 500;
