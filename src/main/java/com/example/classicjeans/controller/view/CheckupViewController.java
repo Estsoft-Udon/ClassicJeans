@@ -88,18 +88,7 @@ public class CheckupViewController {
             request = (AlanQuestionnaireRequest) session.getAttribute("request");
         }
 
-        String type = "questionnaire";
-        if (session.getAttribute("type") == null) {
-            session.setAttribute("type", type);
-        }
-
-        Object response = session.getAttribute("response");
-        if (response == null) {
-            response = fetchResponse(request, type);
-            session.setAttribute("response", response);
-        }
-
-        populateResultModel(request, model, type, session);
+        populateResultModel(request, model, "questionnaire", session);
         return "checkout/result";
     }
 
@@ -129,18 +118,7 @@ public class CheckupViewController {
             request = (AlanDementiaRequest) session.getAttribute("dementiaRequest");
         }
 
-        String type = "dementia";
-        if (session.getAttribute("type") == null) {
-            session.setAttribute("type", type);
-        }
-
-        Object response = session.getAttribute("response");
-        if (response == null) {
-            response = fetchResponse(request, type);
-            session.setAttribute("response", response);
-        }
-
-        populateResultModel(request, model, type, session);
+        populateResultModel(request, model, "dementia", session);
         return "checkout/result";
     }
 
@@ -222,6 +200,9 @@ public class CheckupViewController {
             model.addAttribute("dementiaRequest", request);
         }
 
+        if (session.getAttribute("type") == null) {
+            session.setAttribute("type", type);
+        }
         model.addAttribute("type", type);
 
         Object response = session.getAttribute("response");
@@ -286,8 +267,8 @@ public class CheckupViewController {
     // 세션에 저장된 값 초기화
     private void clearSession(HttpSession session) {
         session.removeAttribute("request");
-        session.removeAttribute("response");
         session.removeAttribute("dementiaRequest");
+        session.removeAttribute("response");
         session.removeAttribute("type");
     }
 }
