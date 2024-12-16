@@ -35,7 +35,7 @@ jobs:
 
       - name: Create .env file from CHUNGBAJI_ENV
         run: |
-          echo ${{ secrets.CHUNGBAJI_ENV}}" > chungbaji.env
+          echo "${{ secrets.CHUNGBAJI_ENV}}" > chungbaji.env
           export $(cat chungbaji.env | xargs)
 
       - name: Build with Gradle (skip Test)
