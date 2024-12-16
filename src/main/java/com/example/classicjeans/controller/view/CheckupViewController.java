@@ -43,8 +43,8 @@ public class CheckupViewController {
     // 건강 검진 대상 선택
     @GetMapping("/checkout-list")
     public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
-                              @RequestParam(value = "selectedType", required = false) String selectedType,
-                              HttpSession session) {
+                               @RequestParam(value = "selectedType", required = false) String selectedType,
+                               HttpSession session) {
 
         if (selectedUser != null && selectedType != null) {
             if ("user".equals(selectedType)) {
@@ -72,6 +72,7 @@ public class CheckupViewController {
     @PostMapping("/questionnaire-list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
+        clearSession(session);
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("request", request);
         return "redirect:/checkout/result-questionnaire";
@@ -112,6 +113,7 @@ public class CheckupViewController {
     @PostMapping("/dementia-list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
+        clearSession(session);
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
         return "redirect:/checkout/result-dementia";
@@ -279,5 +281,13 @@ public class CheckupViewController {
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("choiceUser", choiceUser);
+    }
+
+    // 세션에 저장된 값 초기화
+    private void clearSession(HttpSession session) {
+        session.removeAttribute("request");
+        session.removeAttribute("response");
+        session.removeAttribute("dementiaRequest");
+        session.removeAttribute("type");
     }
 }
