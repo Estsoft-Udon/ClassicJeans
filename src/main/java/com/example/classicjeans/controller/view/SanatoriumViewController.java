@@ -33,10 +33,26 @@ public class SanatoriumViewController {
             sanatoriums = service.getSanatoriumList(pageable);
         }
 
+        // 페이지네이션
+        int totalPages = sanatoriums.getTotalPages();
+        int pageSize = 5;
+        int halfPageSize = pageSize / 2;
+
+        int startPage = Math.max(0, page - halfPageSize);
+        int endPage = Math.min(totalPages - 1, startPage + pageSize - 1);
+
+        if (endPage - startPage + 1 < pageSize) {
+            startPage = Math.max(0, endPage - pageSize + 1);
+        }
+
         model.addAttribute("sanatoriums", sanatoriums);
         model.addAttribute("search", search);
         model.addAttribute("province", province);
         model.addAttribute("district", district);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page);
 
         return "info/sanatorium-list";
     }

@@ -29,7 +29,10 @@
                     <div>
                         <label for="birthDate">생년월일</label>
                         <span id="birthDate" th:text="${user.dateOfBirth}">1956.01.23</span>
-
+                    </div>
+                    <div>
+                        <label for="isLunar">생일 유형</label>
+                        <span id="isLunar" th:text="${user.isLunar ? '음력' : '양력'}">1956.01.23</span>
                     </div>
                     <div>
                         <label for="gender">성별</label>

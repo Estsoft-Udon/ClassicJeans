@@ -31,19 +31,13 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
         String uniqueKey = null;
 
         if ("google".equals(providerId)) {
-            request.getSession().setAttribute("providerId", "google");
             uniqueKey = "G_" + attributes.get("sub");
         } else if ("kakao".equals(providerId)) {
-            request.getSession().setAttribute("providerId", "kakao");
             Long kakaoId = (Long) attributes.get("id");
             uniqueKey = "K_" + kakaoId;
         } else if ("naver".equals(providerId)) {
-            request.getSession().setAttribute("providerId", "naver");
             uniqueKey = "N_" + attributes.get("id");
         }
-
-        request.getSession().setAttribute("providerId", uniqueKey);
-        request.getSession().setAttribute("uniqueKey", uniqueKey);
 
         // 이메일을 기준으로 기존 사용자 조회
         UserDetails userDetails = usersDetailService.loadUserByUniqueKey(uniqueKey);
@@ -53,6 +47,10 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
             Authentication userAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userAuth);
         } else {
+            SecurityContextHolder.clearContext();  // 인증 정보 초기화
+            request.getSession().invalidate();     // 세션 무효화
+            request.getSession().setAttribute("uniqueKey", uniqueKey);
+
             String redirectURL = UriComponentsBuilder.fromUriString("/signup")
                     .build()
                     .encode(StandardCharsets.UTF_8)

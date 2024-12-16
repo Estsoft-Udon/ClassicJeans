@@ -14,5 +14,6 @@ public class FamilyInfoRequest {
     private String name;
     private Gender gender;
     private LocalDate dateOfBirth;
+    private Boolean isLunar;
     private String relationship;
 }

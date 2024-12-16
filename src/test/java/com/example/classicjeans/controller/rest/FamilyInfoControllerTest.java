@@ -47,8 +47,8 @@ class FamilyInfoControllerTest {
         objectMapper.registerModule(new JavaTimeModule()); // Java 8 날짜/시간 모듈 등록
 
         // 테스트 데이터 준비
-        familyInfoRequest = new FamilyInfoRequest("TestName", Gender.MALE, LocalDate.now(), "Relationship");
-        familyInfoResponse = new FamilyInfoResponse(1L, "TestName", Gender.MALE, LocalDate.now(), "RelationShip");
+        familyInfoRequest = new FamilyInfoRequest("TestName", Gender.MALE, LocalDate.now(), false, "Relationship");
+        familyInfoResponse = new FamilyInfoResponse(1L, "TestName", Gender.MALE, LocalDate.now(), false, "RelationShip");
     }
 
     @Test

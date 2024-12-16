@@ -64,7 +64,6 @@ public class UserViewController {
             usersService.register(request);
 
             session.removeAttribute("uniqueKey");
-            session.removeAttribute("providerId");
 
             return "redirect:/success";
         } catch (Exception e) {
@@ -127,7 +126,7 @@ public class UserViewController {
             return "member/change-pw";
         } else {
             model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
-            return "redirect:/member/change-pw";
+            return "member/change-pw";
         }
     }
 
@@ -177,7 +176,7 @@ public class UserViewController {
     public String editProfile(@ModelAttribute UsersRequest request) {
         Users user = usersService.findUserById(getLoggedInUser().getId());
         usersService.update(user.getId(), request);
-        return "redirect:/member/mypage";
+        return "redirect:/mypage";
     }
 
     // 가족 정보 수정

@@ -222,3 +222,19 @@ input{
     border: none;
     border-bottom: 1px solid #e4e4e4;;
 }
+
+.lack_checkout{
+    padding-bottom: 20rem;
+    border-bottom: 1px solid #aaa;
+    margin-bottom: 10rem;
+}
+
+.lack_checkout .lack_txt span{
+    color: #013E8B;
+    font-weight: bold;
+}
+
+.lack_checkout .btn{
+    width: 100%;
+    margin-top: 10rem;
+}
