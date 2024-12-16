@@ -178,15 +178,24 @@ public class CheckupViewController {
 
     // 결과 페이지에 모델 채우기
     private void populateResultModel(Object request, Model model, String type, HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
+        if ("questionnaire".equals(type)) {
+            request = session.getAttribute("request");
+            model.addAttribute("request", request);
+        } else if ("dementia".equals(type)) {
+            request = session.getAttribute("dementiaRequest");
+            model.addAttribute("dementiaRequest", request);
+        }
+
         model.addAttribute("type", type);
-        Object response = fetchResponse(request, type);
+
+        Object response = session.getAttribute("response");
+        if (response == null) {
+            response = fetchResponse(request, type);
+            session.setAttribute("response", response);
+        }
 
         processMarkdownContent(response);
         model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
     }
 
     // 마크다운 변환 메소드
