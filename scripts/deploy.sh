@@ -37,4 +37,5 @@ fi
 # 새로운 애플리케이션 배포
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "## deploy JAR file"   >> /home/ec2-user/action/spring-deploy.log
-nohup java -jar $DEPLOY_JAR >> /home/ec2-user/action/spring-deploy.log 2> /home/ec2-user/action/spring-deploy_err.log &
+#nohup java -jar $DEPLOY_JAR >> /home/ec2-user/action/spring-deploy.log 2> /home/ec2-user/action/spring-deploy_err.log &
+nohup java -Dspring.config.import=optional:file:/home/ec2-user/action/chungbaji.env -jar $DEPLOY_JAR >> /home/ec2-user/action/spring-deploy.log 2>> /home/ec2-use
