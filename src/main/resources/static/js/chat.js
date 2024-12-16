@@ -82,6 +82,8 @@ function sendMessage() {
             }, 50);
         }, 3000);
     }
+    inputText.value = '';
+    charCount.textContent = '0 / 1,000 자';
 }
 
 function responseMessage(responseContent) {
@@ -137,7 +139,7 @@ function closeConnection() {
     }
 
     // SSE 연결 종료 API 호출
-    fetch(`api/chat/stream/close?userId=${userId}`, {
+    fetch(`/api/chat/stream/close?userId=${userId}`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
     })
@@ -190,7 +192,6 @@ function scroll() {
 
 const inputText = document.getElementById('chat-input');
 const charCount = document.getElementById('charCount');
-const askButton = document.getElementById('askButton');
 const maxLength = 1000;
 
 // 글자 수 제한 및 실시간 카운트 업데이트
@@ -204,16 +205,4 @@ inputText.addEventListener('input', () => {
 
     // 글자 수 표시 업데이트
     charCount.textContent = `${inputText.value.length} / 1,000 자`;
-});
-
-// 질문하기 버튼 클릭 시 텍스트 초기화
-askButton.addEventListener('click', () => {
-    inputText.value = '';
-    charCount.textContent = '0 / 1,000 자';
-});
-
-inputText.addEventListener('keypress', (event) => {
-    if (event.keyCode === 13) {
-        event.preventDefault();
-    }
 });
