@@ -33,13 +33,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         
-      # - name: Create .env file from CHUNGBAJI_ENV
-      #   run: echo "${{ secrets.CHUNGBAJI_ENV }}" > chungbaji.env 
-        
-      # - name: Create .env file from CHUNGBAJI_ENV
-      #   run: source chungbaji.env
-      - name: excute .env
-        run: export $(cat /home/ec2-user/action/.env | xargs)
+      - name: Create .env file from CHUNGBAJI_ENV
+        run: echo "${{ secrets.CHUNGBAJI_ENV }}" > chungbaji.env 
 
       - name: Build with Gradle (skip Test)
         run: ./gradlew build -x test
