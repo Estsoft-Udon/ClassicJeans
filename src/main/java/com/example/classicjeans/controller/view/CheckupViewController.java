@@ -43,8 +43,8 @@ public class CheckupViewController {
     // 건강 검진 대상 선택
     @GetMapping("/checkout-list")
     public String checkoutList(@RequestParam(value = "selectedUser", required = false) String selectedUser,
-                              @RequestParam(value = "selectedType", required = false) String selectedType,
-                              HttpSession session) {
+                               @RequestParam(value = "selectedType", required = false) String selectedType,
+                               HttpSession session) {
 
         if (selectedUser != null && selectedType != null) {
             if ("user".equals(selectedType)) {
@@ -72,6 +72,7 @@ public class CheckupViewController {
     @PostMapping("/questionnaire-list")
     public String questionnaireList(@ModelAttribute AlanQuestionnaireRequest request, HttpSession session,
                                     RedirectAttributes redirectAttributes) {
+        clearSession(session);
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("request", request);
         return "redirect:/checkout/result-questionnaire";
@@ -81,6 +82,12 @@ public class CheckupViewController {
     @GetMapping("/result-questionnaire")
     public String resultQuestionnaire(@ModelAttribute("request") AlanQuestionnaireRequest request, Model model,
                                       HttpSession session) throws JsonProcessingException {
+        if (session.getAttribute("request") == null) {
+            session.setAttribute("request", request);
+        } else {
+            request = (AlanQuestionnaireRequest) session.getAttribute("request");
+        }
+
         populateResultModel(request, model, "questionnaire", session);
         return "checkout/result";
     }
@@ -95,6 +102,7 @@ public class CheckupViewController {
     @PostMapping("/dementia-list")
     public String dementiaList(@ModelAttribute AlanDementiaRequest request, HttpSession session,
                                RedirectAttributes redirectAttributes) {
+        clearSession(session);
         processRequest(session, request);
         redirectAttributes.addFlashAttribute("dementiaRequest", request);
         return "redirect:/checkout/result-dementia";
@@ -104,6 +112,12 @@ public class CheckupViewController {
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model,
                                  HttpSession session) throws JsonProcessingException {
+        if (session.getAttribute("dementiaRequest") == null) {
+            session.setAttribute("dementiaRequest", request);
+        } else {
+            request = (AlanDementiaRequest) session.getAttribute("dementiaRequest");
+        }
+
         populateResultModel(request, model, "dementia", session);
         return "checkout/result";
     }
@@ -178,15 +192,27 @@ public class CheckupViewController {
 
     // 결과 페이지에 모델 채우기
     private void populateResultModel(Object request, Model model, String type, HttpSession session) throws JsonProcessingException {
-        model.addAttribute("request", request);
+        if ("questionnaire".equals(type)) {
+            request = session.getAttribute("request");
+            model.addAttribute("request", request);
+        } else if ("dementia".equals(type)) {
+            request = session.getAttribute("dementiaRequest");
+            model.addAttribute("dementiaRequest", request);
+        }
+
+        if (session.getAttribute("type") == null) {
+            session.setAttribute("type", type);
+        }
         model.addAttribute("type", type);
-        Object response = fetchResponse(request, type);
+
+        Object response = session.getAttribute("response");
+        if (response == null) {
+            response = fetchResponse(request, type);
+            session.setAttribute("response", response);
+        }
 
         processMarkdownContent(response);
         model.addAttribute("response", response);
-
-        session.removeAttribute("selectedUser");
-        session.removeAttribute("selectedType");
     }
 
     // 마크다운 변환 메소드
@@ -236,5 +262,13 @@ public class CheckupViewController {
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("choiceUser", choiceUser);
+    }
+
+    // 세션에 저장된 값 초기화
+    private void clearSession(HttpSession session) {
+        session.removeAttribute("request");
+        session.removeAttribute("dementiaRequest");
+        session.removeAttribute("response");
+        session.removeAttribute("type");
     }
 }
