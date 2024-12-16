@@ -16,6 +16,7 @@ addFamilyButton.addEventListener('click', () => {
         <label for="family-name-${familyIndex}"><span class="req">*</span>이름</label> 
         <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
         <div class="birth_cont">
+          <div id="ageMessage-${familyIndex}"></div>
             <div>
                 <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
                 <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>      
@@ -37,11 +38,72 @@ addFamilyButton.addEventListener('click', () => {
 
     familyContainer.appendChild(familySection);
     familyIndex++;
+
+    // 추가된 가족 생년월일 필드에 연령 제한 추가
+    const familyBirthInput = document.getElementById(`family-birth-${familyIndex - 1}`);
+    const ageMessageElement = document.getElementById(`ageMessage-${familyIndex - 1}`);
+
+    familyBirthInput.addEventListener('input', () => {
+        validateAge(familyBirthInput, ageMessageElement);
+    });
+
+    // 당일 날짜까지만 표시
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    familyBirthInput.max = maxDate.toISOString().split('T')[0];
 });
+
+// 연령 제한 체크 함수
+function validateAge(birthInput, messageElement) {
+    const dateOfBirth = birthInput.value;
+    if (!dateOfBirth) {
+        messageElement.textContent = '생년월일을 입력해주세요.';
+        messageElement.style.color = 'red';
+        return false;
+    }
+
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    const ageLimit = 18;
+
+    // 만 18세가 되는 날짜 계산
+    const eighteenYearsLater = new Date(birthDate);
+    eighteenYearsLater.setFullYear(birthDate.getFullYear() + ageLimit);
+
+    // 만 18세가 되지 않은 날짜를 선택한 경우
+    if (today < eighteenYearsLater) {
+        messageElement.innerHTML = `죄송합니다.<br>만 ${ageLimit}세 이상만 추가 가능합니다.`;
+        messageElement.style.color = 'red';
+        return false;
+    } else {
+        // 만 18세 이상인 경우
+        messageElement.textContent = '가입 가능합니다.';
+        messageElement.style.color = 'green';
+        return true;
+    }
+}
 
 // form을 제출할 때, 가족 정보를 JSON 형식으로 서버로 전송
 document.querySelector('form').addEventListener('submit', (event) => {
     event.preventDefault(); // 기본 폼 제출 방지
+
+    let isValid = true;
+
+    // 모든 가족 생년월일 입력 필드를 검사
+    document.querySelectorAll('input[name^="families"][name$=".birthDate"]').forEach((birthInput) => {
+        const familyId = birthInput.id.split('-')[2];
+        const messageElement = document.getElementById(`ageMessage-${familyId}`);
+
+        if (!validateAge(birthInput, messageElement)) {
+            isValid = false;
+        }
+    });
+
+    // 유효성 검사 실패 시 폼 제출 중단
+    if (!isValid) {
+        alert('입력한 정보를 확인해주세요. 가족 생년월일이 유효하지 않습니다.');
+        return;
+    }
 
     const formData = new FormData(event.target);
     const familiesData = [];
