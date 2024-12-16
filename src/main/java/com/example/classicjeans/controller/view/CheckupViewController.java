@@ -125,9 +125,9 @@ public class CheckupViewController {
 
         model.addAttribute("isStatisticsEmpty", healthStatisticsList.isEmpty());
 
-        if (healthReportList.getTotalElements() == 1) {
+        if (healthStatisticsList.size() == 1) {
             model.addAttribute("isSingleReport", true);
-        } else if (healthReportList.getTotalElements() >= 2) {
+        } else if (healthStatisticsList.size() >= 2) {
             model.addAttribute("isMultipleReports", true);
         }
 
