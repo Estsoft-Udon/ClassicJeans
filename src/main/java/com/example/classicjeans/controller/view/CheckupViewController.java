@@ -121,7 +121,24 @@ public class CheckupViewController {
     @GetMapping("/result-dementia")
     public String resultDementia(@ModelAttribute("dementiaRequest") AlanDementiaRequest request, Model model,
                                  HttpSession session) throws JsonProcessingException {
-        populateResultModel(request, model, "dementia", session);
+        if (session.getAttribute("dementiaRequest") == null) {
+            session.setAttribute("dementiaRequest", request);
+        } else {
+            request = (AlanDementiaRequest) session.getAttribute("dementiaRequest");
+        }
+
+        String type = "dementia";
+        if (session.getAttribute("type") == null) {
+            session.setAttribute("type", type);
+        }
+
+        Object response = session.getAttribute("response");
+        if (response == null) {
+            response = fetchResponse(request, type);
+            session.setAttribute("response", response);
+        }
+
+        populateResultModel(request, model, type, session);
         return "checkout/result";
     }
 
