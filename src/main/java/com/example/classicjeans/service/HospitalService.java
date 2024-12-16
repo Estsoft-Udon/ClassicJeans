@@ -5,6 +5,7 @@ import com.example.classicjeans.entity.HospitalData;
 import com.example.classicjeans.repository.HospitalRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,10 @@ public class HospitalService {
     private final ObjectMapper objectMapper;
     private final HospitalRepository hospitalRepository;
 
+    @Value("${HOSPITAL_API_KEY}")
+    private static String HOSPITAL_API_KEY;
+    private static final String HOSPITAL_URL = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
+
     public HospitalService(ObjectMapper objectMapper, HospitalRepository hospitalRepository) {
         this.restTemplate = new RestTemplate();
         this.objectMapper = objectMapper;
@@ -34,9 +39,9 @@ public class HospitalService {
 
     // API에서 병원 목록을 가져오는 메소드 (저장 로직 제외)
     public List<HospitalResponse> getHospitalList(int pageNo, int numOfRows) throws IOException, URISyntaxException {
-        String url = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
-        String serviceKey = "PCnXo01ezwgVrAtBI1kDSkxM5DUmKQhd1Ymna75IirQaRHIkp9xdqTw0uVOV9sPUcaLd%2BS0SxuZLTm%2BA2DMppQ%3D%3D";
-        String baseUrl = url + "?serviceKey=" + serviceKey + "&pageNo=" + pageNo + "&numOfRows=" + numOfRows;
+        String baseUrl =
+                HOSPITAL_URL + "?HOSPITAL_API_KEY=" + HOSPITAL_API_KEY + "&pageNo=" + pageNo + "&numOfRows="
+                        + numOfRows;
 
         URI uri = new URI(baseUrl);
 
@@ -61,7 +66,8 @@ public class HospitalService {
                     String district = addressParts.length > 1 ? addressParts[1] : "";
 
                     // HospitalResponse 객체 생성
-                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitude, longitude, city, district);
+                    HospitalResponse hospitalResponse = new HospitalResponse(name, address, phone, latitude, longitude,
+                            city, district);
                     hospitalList.add(hospitalResponse);
                 }
             }
@@ -146,7 +152,7 @@ public class HospitalService {
     }
 
     private HospitalResponse convertToResponse(HospitalData hospital) {
-        HospitalResponse response =  new HospitalResponse(
+        HospitalResponse response = new HospitalResponse(
                 hospital.getName(),
                 hospital.getPhone(),
                 hospital.getAddress(),

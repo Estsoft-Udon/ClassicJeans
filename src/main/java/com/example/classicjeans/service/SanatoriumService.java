@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
@@ -30,7 +31,9 @@ public class SanatoriumService {
     private final SanatoriumDataRepository repository;
     private final AddressCodeService addressCodeService;
     private final String[] siDoCodes = {"11", "21", "22", "23", "24", "25", "26", "36", "41", "42", "43", "44", "45", "46", "47", "48", "50"};
-    private final String API_KEY = "2ogCXo2SHKelqGs5eqM%2FG%2FLLmJ%2FwJmM%2BABW7tKBCTi1GjRUV7enps2byfYp1KGJXSvou9b2zSxMh%2FVbFZYrn2g%3D%3D";
+
+    @Value("${SANATORIUM_API_KEY}")
+    private static String SANATORIUM_API_KEY;
 
     public List<SanatoriumData> getSanatoriumDatas() {
         return repository.findAll();
@@ -57,7 +60,7 @@ public class SanatoriumService {
     public String fetchSanatoriumData(String siDoCd, int numOfRows) {
         try {
             String url = "http://apis.data.go.kr/B550928/searchLtcInsttService01/getLtcInsttSeachList01" +
-                    "?serviceKey=" + API_KEY +
+                    "?serviceKey=" + SANATORIUM_API_KEY +
                     "&numOfRows=" + numOfRows +
                     "&siDoCd=" + siDoCd;
 
@@ -127,7 +130,7 @@ public class SanatoriumService {
 
     public int calculateTotalCount(String siDoCd) throws JsonProcessingException, URISyntaxException {
         String url = "http://apis.data.go.kr/B550928/searchLtcInsttService01/getLtcInsttSeachList01" +
-                "?serviceKey=" + API_KEY +
+                "?serviceKey=" + SANATORIUM_API_KEY +
                 "&numOfRows=1" +
                 "&siDoCd=" + siDoCd;
 
