@@ -5,10 +5,13 @@ import com.example.classicjeans.dto.response.AlanBaziResponse;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanBaziService;
 import com.example.classicjeans.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "앨런 오늘의 운세 api", description = "오늘의 운세")
 @RestController
 @RequestMapping("api")
 public class AlanBaziController {
@@ -19,6 +22,7 @@ public class AlanBaziController {
     }
 
     // 앨런 오늘의 운세
+    @Operation(summary = "오늘의 운세 가져오기")
     @GetMapping("/bazi")
     public ResponseEntity<AlanBaziResponse> getOrCreateBaziResponse() {
         Users user = SecurityUtil.getLoggedInUser();

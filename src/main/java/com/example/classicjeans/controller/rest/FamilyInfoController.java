@@ -3,11 +3,13 @@ package com.example.classicjeans.controller.rest;
 import com.example.classicjeans.dto.request.FamilyInfoRequest;
 import com.example.classicjeans.dto.response.FamilyInfoResponse;
 import com.example.classicjeans.service.FamilyInfoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "가족정보 CRUD api", description = "가족정보 저장/조회/삭제")
 @RestController
 @RequestMapping("/api/family")
 @RequiredArgsConstructor

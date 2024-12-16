@@ -4,6 +4,8 @@ package com.example.classicjeans.controller.rest;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.AlanSSEService;
 import com.example.classicjeans.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Tag(name = "AI 기반 대화 기능 api", description = "앨런 채팅")
 @RequestMapping("api/chat")
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class ChatController {
     private final AlanSSEService alanSSEService;
 
     // SSE 연결 설정
+    @Operation(summary = "채팅 SSE 연결")
     @GetMapping("/stream")
     public ResponseEntity<SseEmitter> connect() {
         SseEmitter emitter = new SseEmitter(0L); // 무제한 타임아웃
@@ -51,6 +55,7 @@ public class ChatController {
     }
 
     // 메시지 전송 및 브로드캐스트
+    @Operation(summary = "채팅 SSE 메시지 전송")
     @PostMapping("/send")
     public ResponseEntity<Void> sendMessage(@RequestBody String content) {
         emitters.forEach((id, emitter) -> {
@@ -66,6 +71,7 @@ public class ChatController {
     }
 
     // SSE 연결 종료
+    @Operation(summary = "채팅 SSE 연결 끊기")
     @PostMapping("/stream/close")
     public ResponseEntity<Void> closeConnection(@RequestParam Long userId) {
         SseEmitter emitter = emitters.remove(userId);
