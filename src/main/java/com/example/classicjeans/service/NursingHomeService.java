@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
@@ -26,6 +27,9 @@ public class NursingHomeService {
     private final ObjectMapper objectMapper;
     private final NursingHomeDataRepository repository;
 
+    @Value("${NURSING_API_KEY}")
+    private static String NURSING_API_KEY;
+
     public List<NursingHomeData> getNursingHomeDatas() {
         return repository.findAll();
     }
@@ -33,8 +37,8 @@ public class NursingHomeService {
     public void setNursingHomeDatas() throws Exception {
         List<NursingHomeRequest> nursingHomeDatas = parseJsonToDTOList(fetchNursingHomeData());
 
-        for(NursingHomeRequest response : nursingHomeDatas) {
-            if(repository.existsByName(response.getName())) {
+        for (NursingHomeRequest response : nursingHomeDatas) {
+            if (repository.existsByName(response.getName())) {
                 continue;
             }
 
@@ -51,10 +55,8 @@ public class NursingHomeService {
 
     public String fetchNursingHomeData() {
         try {
-            String API_KEY = "IHUZ2GEZ-IHUZ-IHUZ-IHUZ-IHUZ2GEZN5";
-
             String url = "https://safemap.go.kr/openApiService/data/getEWFData.do" +
-                    "?serviceKey=" + API_KEY +
+                    "?serviceKey=" + NURSING_API_KEY +
                     "&dataType=json" +
                     "&pageNo=1" +
                     "&numOfRows=1000000" +
@@ -73,7 +75,7 @@ public class NursingHomeService {
     }
 
     public List<NursingHomeRequest> parseJsonToDTOList(String json) throws JsonProcessingException {
-        if(json == null) {
+        if (json == null) {
             return new ArrayList<>();
         }
         JsonNode rootNode = objectMapper.readTree(json);

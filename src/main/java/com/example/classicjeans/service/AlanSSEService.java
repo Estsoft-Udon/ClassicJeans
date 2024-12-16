@@ -20,10 +20,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class AlanSSEService {
 
-    @Value("${openai.api.key}")
-    private String CLIENT_ID;
+    @Value("${CLIENT_ID_2}")
+    private static String CLIENT_ID_2;
+
     private static final String SSE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question/sse-streaming";
-    private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
 
     private final ObjectMapper objectMapper;
 
@@ -32,7 +32,7 @@ public class AlanSSEService {
         String uri = UriComponentsBuilder
                 .fromUriString(SSE_URL)
                 .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID)
+                .queryParam("client_id", CLIENT_ID_2)
                 .toUriString();
 
         HttpURLConnection connection = (HttpURLConnection) new URL(uri).openConnection();
