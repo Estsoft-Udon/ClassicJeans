@@ -15,14 +15,17 @@ addFamilyButton.addEventListener('click', () => {
         <input type="text" id="relationship-${familyIndex}" name="families[${familyIndex}].relation" placeholder="등록하실 가족과의 관계를 입력해주세요. 예) 부, 모, 자녀" required>
         <label for="family-name-${familyIndex}"><span class="req">*</span>이름</label> 
         <input type="text" id="family-name-${familyIndex}" name="families[${familyIndex}].name" placeholder="등록하실 가족의 이름을 입력해주세요" required>
-        <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
-        <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>
-        <div class="isLunar_box">
-            <label for="family-isLunar-${familyIndex}">음력 여부</label>
-            <select id="family-isLunar-${familyIndex}" name="families[${familyIndex}].isLunar">
-                <option value="false">양력</option>
-                <option value="true">음력</option>
-            </select>
+        <div class="birth_cont">
+            <div>
+                <label for="family-birth-${familyIndex}"><span class="req">*</span>생년월일</label>
+                <input type="date" id="family-birth-${familyIndex}" name="families[${familyIndex}].birthDate" required>      
+            </div>
+            <div class="isLunar_box">
+                <select id="family-isLunar-${familyIndex}" name="families[${familyIndex}].isLunar">
+                    <option value="false">양력</option>
+                    <option value="true">음력</option>
+                </select>
+            </div>
         </div>
         <label for="family-gender-${familyIndex}"><span class="req">*</span>성별</label>
         <select id="family-gender-${familyIndex}" name="families[${familyIndex}].gender" required>
