@@ -32,9 +32,9 @@ import static com.example.classicjeans.util.RegexPatterns.*;
 public class AlanService {
 
     @Value("${CLIENT_ID_3")
-    private static String CLIENT_ID_3;
+    private String CLIENT_ID_3;
     @Value("${CLIENT_ID_4")
-    private static String CLIENT_ID_4;
+    private String CLIENT_ID_4;
 
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";

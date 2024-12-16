@@ -28,7 +28,7 @@ public class HospitalService {
     private final HospitalRepository hospitalRepository;
 
     @Value("${HOSPITAL_API_KEY}")
-    private static String HOSPITAL_API_KEY;
+    private String HOSPITAL_API_KEY;
     private static final String HOSPITAL_URL = "http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire";
 
     public HospitalService(ObjectMapper objectMapper, HospitalRepository hospitalRepository) {
