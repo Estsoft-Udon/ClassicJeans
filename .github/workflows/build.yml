@@ -39,7 +39,7 @@ jobs:
       # - name: Create .env file from CHUNGBAJI_ENV
       #   run: source chungbaji.env
       - name: excute .env
-        run: export $(cat .env | xargs)
+        run: export $(cat /home/ec2-user/action .env | xargs)
 
       - name: Build with Gradle (skip Test)
         run: ./gradlew build -x test
