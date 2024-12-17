@@ -63,6 +63,7 @@ public class UsersService {
         if (passwordEncoder.matches(password, user.getPassword()) || password.equals(user.getPassword())) {
             user.setIsDeleted(true);
             user.setDeletedAt(LocalDateTime.now());
+            user.setUniqueKey(null);
             usersRepository.save(user);
             return true;
         }
