@@ -103,10 +103,11 @@ gantt
 ➡️ [figma 에서 확인하기](https://www.figma.com/design/E9nwpp2MsdbKAIoSyrQ6Ot/%EC%B2%AD%EB%B0%94%EC%A7%80---%EC%99%80%EC%9D%B4%EC%96%B4%ED%94%84%EB%A0%88%EC%9E%84?node-id=0-1&t=LJryapQWiEW2EZ3k-1)
 
 ### ✅ 프론트
-![프론트 화면 설계](docs/figma_front.jpg)
+![프론트 화면 설계](docs/figma_front.png)
+![프론트 화면 설계](docs/figma_front2.png)
 
 ### ✅ 관리자
-![관리자 화면 설계](docs/figma_admin.jpg)
+![관리자 화면 설계](docs/figma_admin.png)
 
 <br>
 <br>
@@ -119,11 +120,11 @@ gantt
 <br>
 
 
-## **청바지 프로젝트 API 문서**
+# **청바지 프로젝트 API 문서**
 
-### 🚀 **1. REST API**
+## 🚀 **1. REST API**
 
-#### 📌 **유저 관리**
+### 📌 **유저 관리**
 
 | **Method** | **URL**                                 | **Description**                |
 |------------|-----------------------------------------|--------------------------------|
@@ -265,7 +266,7 @@ gantt
 
 ---
 
-## 🔧 **3. 관리자 페이지**
+### 🔧 **3. 관리자 페이지**
 
 | **Method** | **URL**                                 | **HTML File Name**             | **Description**                |
 |------------|-----------------------------------------|--------------------------------|--------------------------------|
