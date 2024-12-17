@@ -1,7 +1,9 @@
 package com.example.classicjeans.controller.rest;
 
+import com.example.classicjeans.dto.request.SignupRequest;
 import com.example.classicjeans.dto.request.UsersRequest;
 import com.example.classicjeans.dto.response.UsersResponse;
+import com.example.classicjeans.email.service.AuthService;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +24,7 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UsersController {
     private final UsersService usersService;
+    private final AuthService authService;
 
     // 회원가입
     @Operation(summary = "회원가입")
@@ -73,8 +76,8 @@ public class UsersController {
         return ResponseEntity.ok(foundUser.getLoginId());
     }
 
-    // 회원 가입시 아이디 중복 확인
-    @Operation(summary = "회원 가입시 아이디 중복 체크")
+    // 회원 가입시 아이디 중복 및 패턴 검증 확인
+    @Operation(summary = "회원 가입시 아이디 중복 체크 및 패턴 검증")
     @PostMapping("/checkId")
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> requestBody) {
         String loginId = requestBody.get("loginId");
@@ -141,5 +144,36 @@ public class UsersController {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "유저 정보가 없습니다."));
+    }
+
+    @Operation(summary = "회원가입 검증")
+    @PostMapping("/validateSignup")
+    public ResponseEntity<?> validateSignup(@RequestBody SignupRequest request) {
+        boolean isIdDuplicate = usersService.isLoginIdDuplicate(request.getLoginId());
+        boolean isIdValidate = usersService.isLoginIdValidate(request.getLoginId());
+        boolean isNicknameDuplicate = usersService.isLoginCheckNickname(request.getNickname());
+        boolean isNicknameValidate = usersService.isNicknameValidate(request.getNickname());
+        boolean isEmailDuplicate = usersService.isLoginCheckEmail(request.getEmail());
+        boolean isEmailVerified = authService.isEmailVerified(request.getEmail());
+        boolean isPasswordValidate = usersService.isPasswordValidate(request.getPassword());
+        boolean isConfirmPasswordValidate = usersService.isConfirmPasswordValidate(request.getPassword(), request.getConfirmPassword());
+
+        if (isIdDuplicate || !isIdValidate) {
+            return ResponseEntity.badRequest().body(Map.of("isValid", false, "message", "아이디를 확인해주세요."));
+        }
+        if (isNicknameDuplicate || isNicknameValidate) {
+            return ResponseEntity.badRequest().body(Map.of("isValid", false, "message", "닉네임을 확인해주세요."));
+        }
+        if (isEmailDuplicate) {
+            return ResponseEntity.badRequest().body(Map.of("isValid", false, "message", "이미 사용 중인 이메일입니다."));
+        }
+        if (!isEmailVerified) {
+            return ResponseEntity.badRequest().body(Map.of("isValid", false, "message", "이메일 인증을 완료해주세요."));
+        }
+        if(!isPasswordValidate || !isConfirmPasswordValidate) {
+            return ResponseEntity.badRequest().body(Map.of("isValid", false, "message", "비밀번호를 확인해주세요."));
+        }
+
+        return ResponseEntity.ok(Map.of("isValid", true));
     }
 }
