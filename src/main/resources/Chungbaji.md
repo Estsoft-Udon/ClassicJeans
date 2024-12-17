@@ -44,16 +44,6 @@ CREATE TABLE family_info
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE subsidy_data
-(
-    id      BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    date    DATE   NOT NULL, -- 지원 신청 날짜
-    content TEXT   NOT NULL, -- 지원 내용
-    UNIQUE (user_id, date),  -- 동일 사용자와 날짜 중복 방지
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-);
-
 CREATE TABLE bazi
 (
     id      BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
