@@ -38,7 +38,6 @@ public class UserViewController {
 
             session.removeAttribute("error");
         }
-
         return "member/login";
     }
 
@@ -62,7 +61,6 @@ public class UserViewController {
             }
 
             usersService.register(request);
-
             session.removeAttribute("uniqueKey");
 
             return "redirect:/success";

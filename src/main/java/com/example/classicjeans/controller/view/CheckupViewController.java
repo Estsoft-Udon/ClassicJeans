@@ -191,7 +191,8 @@ public class CheckupViewController {
     }
 
     // 결과 페이지에 모델 채우기
-    private void populateResultModel(Object request, Model model, String type, HttpSession session) throws JsonProcessingException {
+    private void populateResultModel(Object request, Model model, String type, HttpSession session)
+            throws JsonProcessingException {
         if ("questionnaire".equals(type)) {
             request = session.getAttribute("request");
             model.addAttribute("request", request);

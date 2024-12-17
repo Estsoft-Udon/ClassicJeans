@@ -24,7 +24,7 @@ public class FamilyInfoService {
     public List<FamilyInfoResponse> saveFamily(Long userId, List<FamilyInfoRequest> requests) {
         Users user = null;
 
-        if(userId != null) {
+        if (userId != null) {
             user = usersService.findUserById(userId);
         } else {
             user = usersService.findUserById(getLoggedInUser().getId());
@@ -32,7 +32,9 @@ public class FamilyInfoService {
 
         List<FamilyInfo> familyInfoList = new ArrayList<>();
         for (FamilyInfoRequest request : requests) {
-            FamilyInfo familyInfo = familyInfoRepository.save(new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(), request.getIsLunar() , request.getRelationship()));
+            FamilyInfo familyInfo = familyInfoRepository.save(
+                    new FamilyInfo(user, request.getName(), request.getGender(), request.getDateOfBirth(),
+                            request.getIsLunar(), request.getRelationship()));
             familyInfoList.add(familyInfo);
         }
 
@@ -45,7 +47,7 @@ public class FamilyInfoService {
     public List<FamilyInfoResponse> findFamilyByUserId(Long userId) {
         Users user = null;
 
-        if(userId != null) {
+        if (userId != null) {
             user = usersService.findUserById(userId);
         } else {
             user = usersService.findUserById(getLoggedInUser().getId());
