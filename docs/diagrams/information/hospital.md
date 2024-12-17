@@ -13,4 +13,10 @@ sequenceDiagram
         Database -->> FrontEnd: "병원 정보 없음" 응답
         FrontEnd -->> User: "해당 지역의 병원 정보가 없습니다" 메시지 표시
     end
+
+    User ->> FrontEnd: 예약 정보 입력
+    FrontEnd ->> Database: 예약 정보 전달 및 저장 요청
+    Database -->> FrontEnd: 예약 정보 저장 완료
+    FrontEnd -->> User: 예약 완료 메시지 표시
+
 ```

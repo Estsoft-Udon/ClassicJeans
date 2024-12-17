@@ -38,7 +38,7 @@ public class SecurityConfig {
                         custom -> custom
                                 .requestMatchers("/", "/find-id", "/find-pw",
                                         "/success", "/change-pw-after-find", "/api/**").permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/admin/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("ADMIN")
                                 .requestMatchers("/login", "/signup").anonymous()
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
