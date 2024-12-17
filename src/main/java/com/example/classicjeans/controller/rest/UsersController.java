@@ -76,8 +76,8 @@ public class UsersController {
         return ResponseEntity.ok(foundUser.getLoginId());
     }
 
-    // 회원 가입시 아이디 중복 및 패턴 검증 확인
-    @Operation(summary = "회원 가입시 아이디 중복 체크 및 패턴 검증")
+    // 회원 가입시 아이디 중복 확인
+    @Operation(summary = "회원 가입시 아이디 중복 체크")
     @PostMapping("/checkId")
     public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> requestBody) {
         String loginId = requestBody.get("loginId");
