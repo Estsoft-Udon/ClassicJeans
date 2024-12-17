@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# .env 파일 로드
+export $(grep -v '^#' /home/ec2-user/action/.env | xargs)
+
 # 빌드 파일 경로 및 이름 설정
 BUILD_JAR=$(ls /home/ec2-user/action/build/libs/*SNAPSHOT.jar)
 JAR_NAME=$(basename $BUILD_JAR)
