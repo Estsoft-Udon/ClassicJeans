@@ -22,21 +22,9 @@ window.onload = function() {
                         return text ? JSON.parse(text) : {}; // 비어있으면 빈 객체 반환
                     });
                 })
-                .then(data => {
+                .then(() => {
                     alert("탈퇴 처리가 완료되었습니다.");
-
-                    // 로그아웃 후 페이지 리다이렉트
-                    return fetch('/logout', {
-                        method: 'POST',  // 로그아웃 요청
-                        credentials: 'include'  // 쿠키 포함 요청
-                    });
-                })
-                .then(logoutResponse => {
-                    if (!logoutResponse.ok) {
-                        throw new Error('로그아웃 실패');
-                    }
-                    // 로그아웃이 완료되면 홈 페이지로 리다이렉트
-                    window.location.href = '/';  // 홈 페이지로 리다이렉트
+                    window.location.href = '/logout';
                 })
                 .catch(error => {
                     console.error('오류 발생:', error);

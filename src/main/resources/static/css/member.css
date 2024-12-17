@@ -182,7 +182,9 @@ form{
     color: #aaa;
 }
 
-
+.signup .birth_box #dateOfBirth{
+    margin-bottom: 1.5rem;
+}
 
 /*======================================================*/
 

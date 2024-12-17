@@ -41,12 +41,20 @@
                 </thead>
                 <tbody>
                 <tr th:each="report : ${healthReportList}">
-                    <td th:text="${report.name}">홍길동</td>
+                    <td>
+                        <a th:text="${report.name}" th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}">
+                            홍길동
+                        </a>
+                    </td>
                     <td>
                         <a th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}"
                            th:text="${report.type == 'Dementia' ? '치매 검사' : (report.type == 'Questionnaire' ? '기본 검사' : report.type + ' 검사')}">치매 검사 결과</a>
                     </td>
-                    <td th:text="${report.date}">2024.12.10</td>
+                    <td>
+                        <a th:text="${report.date}" th:href="@{/checkout/result-detail/{id}(id=${report.id}, reportType=${report.type})}">
+                            2024.12.30
+                        </a>
+                    </td>
                 </tr>
                 <!-- 검사 결과가 없을 경우 -->
                 <tr th:if="${#lists.isEmpty(healthReportList.content)}">

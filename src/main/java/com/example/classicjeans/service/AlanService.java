@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static com.example.classicjeans.util.SecurityUtil.*;
 
 import static com.example.classicjeans.util.RegexPatterns.*;
@@ -29,9 +31,13 @@ import static com.example.classicjeans.util.RegexPatterns.*;
 @Service
 public class AlanService {
 
+    @Value("${CLIENT_ID_3}")
+    private String CLIENT_ID_3;
+    @Value("${CLIENT_ID_4}")
+    private String CLIENT_ID_4;
+
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c56c356c-d0e8-403b-af19-87c9c713dd95";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -39,7 +45,9 @@ public class AlanService {
     private final DementiaDataRepository dementiaDataRepository;
 
     @Autowired
-    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper, QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository) {
+    public AlanService(RestTemplateBuilder restTemplate, ObjectMapper objectMapper,
+                       QuestionnaireDataRepository questionnaireDataRepository,
+                       DementiaDataRepository dementiaDataRepository) {
         this.restTemplate = restTemplate.build();
         this.objectMapper = objectMapper;
         this.questionnaireDataRepository = questionnaireDataRepository;
@@ -47,28 +55,14 @@ public class AlanService {
     }
 
     // 기본 문진표 AI 검사
-    public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request) throws JsonProcessingException {
-//        resetPreviousData();
-
-        // 아래 횟수 없을 시 사용
+    public AlanQuestionnaireResponse fetchQuestionnaireResponse(AlanQuestionnaireRequest request)
+            throws JsonProcessingException {
+        //resetPreviousData();
         String responseBody = fetchResponse(request.toString());
         AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
         response.setHealthIndex(calculateHealthIndex(request));
         saveQuestionnaireData(request, response);
         return response;
-
-//        // 횟수 초과 되면 위에꺼 활성화 시켜주세요
-//        String CLIENT_ID = "49c03662-63c7-4cb3-9dda-8b0279982686";
-//        String uri = UriComponentsBuilder
-//                .fromHttpUrl(BASE_URL)
-//                .queryParam("content", request.toString())
-//                .queryParam("client_id", CLIENT_ID)
-//                .toUriString();
-//        String responseBody = restTemplate.getForEntity(uri, String.class).getBody();
-//        AlanQuestionnaireResponse response = parseQuestionnaireResponse(responseBody);
-//        response.setHealthIndex(calculateHealthIndex(request));
-//        saveQuestionnaireData(request, response);
-//        return response;
     }
 
     // 기본 검사 결과 저장
@@ -163,7 +157,7 @@ public class AlanService {
         String uri = UriComponentsBuilder
                 .fromHttpUrl(BASE_URL)
                 .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID)
+                .queryParam("client_id", CLIENT_ID_3)
                 .toUriString();
         return restTemplate.getForEntity(uri, String.class).getBody();
     }
@@ -174,7 +168,7 @@ public class AlanService {
                 .fromHttpUrl(DELETE_URL)
                 .toUriString();
 
-        String jsonBody = "{\"client_id\":\"" + CLIENT_ID + "\"}";
+        String jsonBody = "{\"client_id\":\"" + CLIENT_ID_3 + "\"}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -189,7 +183,8 @@ public class AlanService {
     }
 
     // AlanQuestionnaireResponse 파싱
-    private AlanQuestionnaireResponse parseQuestionnaireResponse(String aiResponseContent) throws JsonProcessingException {
+    private AlanQuestionnaireResponse parseQuestionnaireResponse(String aiResponseContent)
+            throws JsonProcessingException {
         AlanQuestionnaireResponse response = new AlanQuestionnaireResponse();
         JsonNode rootNode = objectMapper.readTree(aiResponseContent);
 
@@ -224,8 +219,10 @@ public class AlanService {
         );
 
         String content = rootNode.path("content").asText();
-        List<SummaryEvaluation> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN, SummaryEvaluation.class);
-        List<ImprovementSuggestions> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN, ImprovementSuggestions.class);
+        List<SummaryEvaluation> summaryEvaluation = extractContent(content, SUMMARY_EVALUATION_PATTERN,
+                SummaryEvaluation.class);
+        List<ImprovementSuggestions> improvementSuggestions = extractContent(content, IMPROVEMENT_SUGGESTIONS_PATTERN,
+                ImprovementSuggestions.class);
 
         return new AlanDementiaResponse(action, content, summaryEvaluation, improvementSuggestions);
     }

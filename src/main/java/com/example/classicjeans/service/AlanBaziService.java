@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,12 @@ import static com.example.classicjeans.util.RegexPatterns.URL_PATTERN;
 
 @Service
 public class AlanBaziService {
+
+    @Value("${CLIENT_ID_5}")
+    private String CLIENT_ID_5;
+
     private static final String BASE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/question";
     private static final String DELETE_URL = "https://kdt-api-function.azurewebsites.net/api/v1/reset-state";
-    private static final String CLIENT_ID = "c4bbb624-af0f-4304-9557-740cb16dc30a";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -55,7 +59,7 @@ public class AlanBaziService {
             String uri = UriComponentsBuilder
                     .fromHttpUrl(BASE_URL)
                     .queryParam("content", request)
-                    .queryParam("client_id", CLIENT_ID)
+                    .queryParam("client_id", CLIENT_ID_5)
                     .toUriString();
 
             ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
@@ -119,8 +123,8 @@ public class AlanBaziService {
 
             // 기존 운세의 내용을 정리 (필요한 내용을 제거)
             String cleanedContent = removeBaziContent(existingBazi.getContent());
-            String html =  MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
-          
+            String html = MarkdownRenderer.convertMarkdownToHtml(cleanedContent);
+
             response.setContent(html);
             return response;
         }
@@ -158,7 +162,7 @@ public class AlanBaziService {
                 .fromHttpUrl(DELETE_URL)
                 .toUriString();
 
-        String jsonBody = "{\"client_id\":\"" + CLIENT_ID + "\"}";
+        String jsonBody = "{\"client_id\":\"" + CLIENT_ID_5 + "\"}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
