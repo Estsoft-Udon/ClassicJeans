@@ -22,7 +22,8 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
     private final UsersDetailService usersDetailService;  // 사용자 서비스 (DB 조회용)
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                                        Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
 
         // 모든 속성 출력
@@ -44,7 +45,8 @@ public class CustomOAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSucc
 
         if (userDetails != null) {
             // 기존 사용자라면 해당 사용자로 로그인 처리
-            Authentication userAuth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            Authentication userAuth = new UsernamePasswordAuthenticationToken(userDetails, null,
+                    userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(userAuth);
         } else {
             SecurityContextHolder.clearContext();  // 인증 정보 초기화

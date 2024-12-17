@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SanatoriumDataRepository extends JpaRepository<SanatoriumData, Long> {
     boolean existsByName(String name);
+
     Page<SanatoriumData> findAllByRegionAndSubRegion(String region, String subRegion, Pageable pageable);
+
     Page<SanatoriumData> findAllByNameContaining(String search, Pageable pageable);
 }
