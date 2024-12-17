@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface AlanBaziRepository extends JpaRepository<Bazi, Long> {
     List<Bazi> findByUserId(Long userId);
+
     boolean existsByUserAndDate(Users user, LocalDate date);
 }

@@ -34,21 +34,18 @@ public class UsersService {
     public Users findUserById(Long id) {
         Users user = usersRepository.findById(id).orElse(null);
 
-        if(user == null || user.getIsDeleted()) {
+        if (user == null || user.getIsDeleted()) {
             return null;
         }
-
         return user;
     }
 
     // 유저 정보 수정
     public Users update(Long userId, UsersRequest request) {
         Users user = findUserById(userId);
-
-        if(user == null) {
+        if (user == null) {
             return null;
         }
-
         return usersRepository.save(request.update(user));
     }
 
@@ -73,7 +70,7 @@ public class UsersService {
 
     // 회원정보삭제
     public boolean delete(Long id) {
-        if(findUserById(id) == null) {
+        if (findUserById(id) == null) {
             return false;
         }
         usersRepository.deleteById(id);

@@ -38,8 +38,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return  List.of(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getGrade().name()));
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true; // 계정 만료 여부
@@ -58,12 +59,18 @@ public class CustomUserDetails implements UserDetails {
     public String getNickname() {
         return user.getNickname();
     }
-    public String getGrade(){
+
+    public String getGrade() {
         return user.getGrade().name();
     }
 
-    public LocalDate getBirthDate() {return user.getDateOfBirth();}
-    public Gender getGender() {return user.getGender();}
+    public LocalDate getBirthDate() {
+        return user.getDateOfBirth();
+    }
+
+    public Gender getGender() {
+        return user.getGender();
+    }
 
     public Long getUserId() {
         return user.getId();
