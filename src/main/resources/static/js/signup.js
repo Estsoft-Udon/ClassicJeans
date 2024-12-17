@@ -26,7 +26,7 @@ function checkId() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ loginId })
+        body: JSON.stringify({loginId})
     })
         .then(response => response.json())
         .then(isDuplicate => {
@@ -70,7 +70,7 @@ async function checkNickname() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nickname })
+            body: JSON.stringify({nickname})
         });
 
         const isDuplicate = await response.json();
@@ -91,7 +91,7 @@ async function checkNickname() {
 }
 
 // 이메일 실시간 중복확인
-document.getElementById('email').addEventListener('input', function() {
+document.getElementById('email').addEventListener('input', function () {
     const email = this.value.trim();
     const messageElement = document.getElementById('emailCheckMessage');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -118,7 +118,7 @@ document.getElementById('email').addEventListener('input', function() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({email})
     })
         .then(response => response.json())
         .then(isDuplicate => {
@@ -144,7 +144,7 @@ document.getElementById('email').addEventListener('input', function() {
 });
 
 // 이메일 인증 버튼 클릭 시 모달 띄우기
-document.getElementById('emailAuthBtn').addEventListener('click', function() {
+document.getElementById('emailAuthBtn').addEventListener('click', function () {
     if (isEmailChecked) {
         showEmailModal();  // 인증 모달 창을 여는 함수 호출
     } else {
@@ -175,32 +175,6 @@ function closeEmailModal() {
     modal.style.display = "none";  // 모달을 숨기기
 }
 
-// 모달 외부 클릭 시 닫기
-window.onclick = function(event) {
-    const modal = document.getElementById("emailAuthModal");
-    if (event.target === modal) {
-        modal.style.display = "none";  // 모달을 숨기기
-    }
-}
-
-// 폼 제출 시 아이디, 닉네임, 이메일 유효성 체크
-document.getElementById('signupForm').addEventListener('submit', async function(event) {
-    console.log("폼 제출 이벤트 발생");
-
-    console.log("유효성 검사 결과", { isIdChecked, isNicknameChecked, isEmailChecked, isEmailVerified });
-
-    if (!isIdChecked || !isNicknameChecked || !isEmailChecked || !isEmailVerified) {
-        event.preventDefault();  // 폼 제출을 막기
-        console.log("폼 제출이 막혔습니다");
-
-        if (!isEmailVerified) {
-            alert('이메일 인증을 완료해주세요');
-        } else {
-            alert('아이디, 닉네임, 이메일을 확인 해주세요');
-        }
-    }
-});
-
 document.getElementById("emailAuthForm").addEventListener("submit", function (event) {
     event.preventDefault(); // 폼 기본 동작 중단
 
@@ -209,7 +183,7 @@ document.getElementById("emailAuthForm").addEventListener("submit", function (ev
 
     fetch('/api/auth/verify', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: `authCode=${encodeURIComponent(authCode)}&email=${encodeURIComponent(email)}`,
     })
         .then(response => {
@@ -268,7 +242,7 @@ function validateAge() {
 document.getElementById('dateOfBirth').addEventListener('input', validateAge);
 
 // 폼 제출 이벤트에 연령 제한 검사 추가
-document.getElementById('signupForm').addEventListener('submit', function(event) {
+document.getElementById('signupForm').addEventListener('submit', function (event) {
     if (!validateAge()) {
         event.preventDefault();
     }
@@ -279,4 +253,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     const maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     document.getElementById('dateOfBirth').max = maxDate.toISOString().split('T')[0];
+});
+
+
+document.getElementById('signupForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // 폼 제출 방지
+
+    const loginId = document.getElementById('loginId').value.trim();
+    const nickname = document.getElementById('nickname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+    try {
+        // 서버에 최종 유효성 검사 요청
+        const response = await fetch('/api/users/validateSignup', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({loginId, nickname, email, password, confirmPassword})
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.isValid) {
+            // 서버 검증 통과 시 폼 제출
+            if (!isIdChecked || !isNicknameChecked || !isEmailChecked || !isEmailVerified) {
+                event.preventDefault();  // 폼 제출을 막기
+                alert('회원가입이 정상처리되지 않았습니다. 중복 확인이나 이메일 인증을 진행해주세요.');
+                return;
+            }
+            this.submit();
+        } else {
+            alert(result.message || '유효성 검사에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('유효성 검사 중 오류 발생:', error);
+        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    }
 });
