@@ -472,44 +472,44 @@ sequenceDiagram
 <br>
 <br>
 
-### 🖲️ 화면 설계 (시연 영상)
+### 🖲️ 화면 구현 (시연 영상)
 
 <table>
     <tbody>
         <tr>
             <td>메인화면(로그인 전)</td>
-             <td>메인화면(로그인 후)</td>
+             <td>메인화면(로그인 후) + 오늘의 운세</td>
         </tr>
         <tr>
             <td>
-		        <img src="/docs/ui01.jpg" width="100%">
+		        <img src="/docs/main.gif" width="100%">
             </td>
             <td>
-                <img src="/docs/ui02.jpg" width="100%">
+                <img src="/docs/main-bazi.gif" width="100%">
             </td>
         </tr>
         <tr>
-            <td>건강검진</td>
-            <td>정보마당</td>
-        </tr>
-        <tr>
-            <td>
-                <img src="/docs/ui03.jpg" width="100%">
-            </td>
-            <td>
-                <img src="/docs/ui04.jpg" width="100%">
-            </td>
-        </tr>
-        <tr>
+            <td>AI 건강검진</td>
             <td>알려줘 앨런아!</td>
-            <td>오늘의 운세 </td>
         </tr>
         <tr>
             <td>
-                <img src="docs/ui05.jpg" width="100%">
+                <img src="/docs/ai.gif" width="100%">
             </td>
             <td>
-                <img src="docs/ui06.jpg" width="100%">
+                <img src="/docs/chat.gif" width="100%">
+            </td>
+        </tr>
+        <tr>
+            <td>정보마당</td>
+            <td>공공의료기관 간편예약 및 알림</td>
+        </tr>
+        <tr>
+            <td>
+                <img src="docs/info.gif" width="100%">
+            </td>
+            <td>
+                <img src="docs/reservation.gif" width="100%">
             </td>
         </tr>
     </tbody>
@@ -520,7 +520,8 @@ sequenceDiagram
 
 ### 🌟 시연 영상
 
-![이스트소프트 백엔드6기 오르미 3차 프로젝트 (청춘은 바로 지금)](/docs/image.png)
+[![이스트소프트 백엔드6기 오르미 2차 프로젝트_우동 (우리동네는)](/docs/image.png)](https://youtu.be/2M4xkKO4Msw)
+클릭하면 동영상이 재생됩니다.
 <br>
 <br>
 
