@@ -520,7 +520,7 @@ sequenceDiagram
 
 ### 🌟 시연 영상
 
-[![이스트소프트 백엔드6기 오르미 2차 프로젝트_우동 (우리동네는)](/docs/image.png)](https://youtu.be/2M4xkKO4Msw)
+[![이스트소프트 백엔드6기 오르미 파이널 프로젝트 (청춘은 바로 지금)](/docs/image.png)](https://youtu.be/2M4xkKO4Msw)
 클릭하면 동영상이 재생됩니다.
 <br>
 <br>
