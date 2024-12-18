@@ -207,7 +207,7 @@ sequenceDiagram
 
 # **청바지 프로젝트 API 문서**
 
-## 🚀 **1. REST API**
+## 🚀 **REST API**
 
 ### 📌 **유저 관리**
 
@@ -224,7 +224,7 @@ sequenceDiagram
 | POST       | `/api/users/checkEmail`           | 이메일 중복 확인        |
 | POST       | `/api/users/checkEmailAndLoginId` | 비밀번호 찾기 시 이메일 확인 |
 | GET        | `/api/users/nickname`             | 로그인된 유저 닉네임 반환   |
-
+| POST       | `/api/users/validateSignup`       | 회원가입 폼 검증   |
 ---
 
 ### 👨‍👩‍👧 **가족 정보**
@@ -322,8 +322,7 @@ sequenceDiagram
 | PATCH      | `/api/reservation/read/{id}` | 알림 읽음 여부 토글     |
 
 ---
-
-## 🌐 **2. 랜더링 관련 API**
+## 🌐 **랜더링 관련 API**
 
 ### 🏠 **메인**
 
@@ -331,33 +330,74 @@ sequenceDiagram
 |------------|---------|--------------------|-----------------|
 | GET        | `/`     | `index.html`       | 메인 화면           |
 
----
+### 👤 **유저**
 
-### 👤 **유저 페이지**
+| **Method** | **URL**                      | **HTML File Name**            | **Description**                     |
+|------------|------------------------------|--------------------------------|-------------------------------------|
+| GET        | `/login`                    | `login.html`                  | 로그인 화면                         |
+| GET        | `/signup`                   | `signup.html`                 | 회원가입 화면                       |
+| POST       | `/signup`                   | `signup.html`                 | 회원가입 처리                       |
+| GET        | `/success`                  | `success.html`                | 회원가입 완료 화면                  |
+| GET        | `/find-id`                  | `find-id.html`                | 아이디 찾기 화면                    |
+| POST       | `/find-id`                  | `find-id.html`                | 아이디 찾기 처리                    |
+| GET        | `/find-pw`                  | `find-pw.html`                | 비밀번호 찾기 화면                  |
+| POST       | `/find-pw`                  | `find-pw.html`                | 비밀번호 찾기 처리                  |
+| GET        | `/change-pw`                | `change-pw.html`              | 비밀번호 변경 화면                  |
+| POST       | `/change-pw`                | `change-pw.html`              | 비밀번호 변경 처리                  |
+| GET        | `/change-pw-after-find`     | `change-pw-after-find.html`   | 비밀번호 찾은 후 변경 화면          |
+| POST       | `/change-pw-after-find`     | `change-pw-after-find.html`   | 비밀번호 찾은 후 변경 처리          |
+| GET        | `/mypage`                   | `mypage.html`                 | 마이페이지                          |
+| GET        | `/edit-profile`             | `edit-profile.html`           | 개인정보 수정 화면                  |
+| POST       | `/edit-profile`             | `mypage.html`                 | 개인정보 수정 처리                  |
+| GET        | `/edit-family`              | `edit-family.html`            | 가족 정보 수정 화면                 |
+| GET        | `/withdrawal`               | `withdrawal.html`             | 회원 탈퇴 화면                      |
+| GET        | `/chat`                     | `chat.html`                   | 앨런아 알려줘 페이지                 |
 
-| **Method** | **URL**   | **HTML File Name** | **Description** |
-|------------|-----------|--------------------|-----------------|
-| GET        | `/login`  | `login.html`       | 로그인             |
-| GET        | `/signup` | `signup.html`      | 회원가입            |
-| POST       | `/signup` | `signup.html`      | 회원가입 처리         |
+### 🏥 **병원**
 
----
+| **Method** | **URL**            | **HTML File Name** | **Description**           |
+|------------|--------------------|--------------------|---------------------------|
+| GET        | `/hospital-list`  | `hospital-list.html` | 병원 목록 리스트            |
 
-### 🏥 **병원 관리**
+### 🏡 **요양**
 
-| **Method** | **URL**          | **HTML File Name**   | **Description** |
-|------------|------------------|----------------------|-----------------|
-| GET        | `/hospital-list` | `hospital-list.html` | 병원 목록 리스트       |
+| **Method** | **URL**            | **HTML File Name** | **Description**           |
+|------------|--------------------|--------------------|---------------------------|
+| GET        | `/nursing-list`   | `nursing-list.html` | 요양병원 목록 리스트         |
 
----
+### 🏢 **복지시설**
 
-### 🔧 **3. 관리자 페이지**
+| **Method** | **URL**            | **HTML File Name** | **Description**           |
+|------------|--------------------|--------------------|---------------------------|
+| GET        | `/sanatorium-list` | `sanatorium-list.html` | 복지시설 목록 리스트        |
 
-| **Method** | **URL**              | **HTML File Name**   | **Description** |
-|------------|----------------------|----------------------|-----------------|
-| GET        | `/admin`             | `admin-index.html`   | 관리자 메인 페이지      |
-| GET        | `/admin/member/list` | `member-list.html`   | 회원 목록           |
-| GET        | `/access-denied`     | `access-denied.html` | 접근 제한 페이지       |
+### 🩺 **건강검진**
+
+| **Method** | **URL**                            | **HTML File Name**          | **Description**                  |
+|------------|------------------------------------|-----------------------------|----------------------------------|
+| GET        | `/checkout`                       | `checkout.html`             | 건강 검진 메인화면               |
+| GET        | `/checkout/checkout-list`         | `checkout-list.html`        | 검사 유형 선택 페이지            |
+| GET        | `/checkout/questionnaire-list`    | `questionnaire-list.html`   | 기본 검사 페이지                 |
+| POST       | `/checkout/questionnaire-list`    | `result-questionnaire.html` | 기본 검사 요청 기능              |
+| GET        | `/checkout/result-questionnaire`  | `result.html`               | 기본 검사 결과 페이지            |
+| GET        | `/checkout/dementia-list`         | `dementia-list.html`        | 치매 검사 페이지                 |
+| POST       | `/checkout/dementia-list`         | `result-dementia`           | 치매 검사 요청 기능              |
+| GET        | `/checkout/result-dementia`       | `result.html`               | 치매 검사 결과 페이지            |
+| GET        | `/checkout/result-statistics`     | `result-statistics.html`    | 검사 결과 통계 페이지            |
+| GET        | `/checkout/result-list`           | `result-list.html`          | 검사 결과 목록 페이지            |
+| GET        | `/checkout/result-detail/{reportId}` | `result-detail.html`     | 검사 결과 상세 페이지            |
+
+### 🛠️ **관리자**
+
+| **Method** | **URL**                          | **HTML File Name**     | **Description**          |
+|------------|----------------------------------|------------------------|--------------------------|
+| GET        | `/admin`                        | `admin-index.html`     | 관리자 메인               |
+| GET        | `/admin/member/list`            | `member-list.html`     | 회원 목록                 |
+| GET        | `/admin/member/edit/{id}`       | `member-edit.html`     | 개별 회원 정보 조회       |
+| POST       | `/admin/member/edit/{id}`       | `member-edit.html`     | 개별 회원 등급 수정       |
+| POST       | `/admin/member/delete/{id}`     | `member-list.html`     | 개별 회원 탈퇴            |
+| GET        | `/access-denied`                | `access-denied.html`   | 접근 제한 페이지           |
+
 
 <br>
 <br>
