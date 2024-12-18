@@ -262,25 +262,27 @@ header .user_box ul {
     margin-right: 2rem;
 }
 
-header{
-    padding: 0 1rem;
-}
+@media (max-width: 768px) {
+    header {
+        padding: 0 1rem;
+    }
 
-header nav {
-    display: none;
-}
+    header nav {
+        display: none;
+    }
 
-header .user_box ul{
-    gap: 1.5rem;
-}
+    header .user_box ul {
+        gap: 1.5rem;
+    }
 
-.notification-list{
-    left: 0;
-    right: 0;
-    width: 20rem;
-    padding: 1rem;
-}
+    .notification-list {
+        left: 0;
+        right: 0;
+        width: 20rem;
+        padding: 1rem;
+    }
 
-.notification-list li{
-    flex-direction: column;
+    .notification-list li {
+        flex-direction: column;
+    }
 }
