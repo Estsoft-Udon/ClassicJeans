@@ -533,12 +533,12 @@ sequenceDiagram
 
 ## 🫡 CHUNGBAJI 팀원 소개 및 역할 분담
 
-|                       송주환                        |                       김진건                        |                       이상원                       |                       장금송                       |                        조아정                         |
-|:------------------------------------------------:|:------------------------------------------------:|:-----------------------------------------------:|:-----------------------------------------------:|:--------------------------------------------------:|
-| <img src="/docs/mem1.jpg" alt="송주환" width="150"> | <img src="/docs/mem2.jpg" alt="이상원" width="150"> | <img src="docs/mem3.png" alt="이상원" width="150"> | <img src="docs/mem4.jpg" alt="장금송" width="150"> |  <img src="docs/mem5.png" alt="조아정" width="150">   |
-|                       👑팀장                       |                        팀원                        |                       팀원                        |                       팀원                        |                         팀원                         |
-|      [GitHub](https://github.com/SongJwans)      |     [GitHub](https://github.com/jingun0516)      |    [GitHub](https://github.com/SangWon-Lee1)    |     [GitHub](https://github.com/goldsonge)      |      [GitHub](https://github.com/jeongggggg)       |
-|        - 기능 구현<br/>- 버그 수정<br/>- 프로젝트 관리         |       - 기능 구현<br/>- 버그 수정<br/>- 외부 API 구현        |       - 기능 구현<br/>- 버그 수정<br/>- GitHub 관리       |       - 기능 구현<br/>- 버그 수정<br/>- 디자인 및 UI        | - 기능 구현<br/>- 버그 수정<br/>- 디자인 및 UI <br/>- 프로젝트 문서화 |
+|                       송주환                        |                                 김진건                                 |                                   이상원                                    |                                 장금송                                  |                              조아정                               |
+|:------------------------------------------------:|:-------------------------------------------------------------------:|:------------------------------------------------------------------------:|:--------------------------------------------------------------------:|:--------------------------------------------------------------:|
+| <img src="/docs/mem1.jpg" alt="송주환" width="150"> |          <img src="/docs/mem2.jpg" alt="이상원" width="150">           |             <img src="docs/mem3.png" alt="이상원" width="150">              |           <img src="docs/mem4.jpg" alt="장금송" width="150">            |        <img src="docs/mem5.png" alt="조아정" width="150">         |
+|                       👑팀장                       |                                 팀원                                  |                                    팀원                                    |                                  팀원                                  |                               팀원                               |
+|      [GitHub](https://github.com/SongJwans)      |               [GitHub](https://github.com/jingun0516)               |                [GitHub](https://github.com/SangWon-Lee1)                 |                [GitHub](https://github.com/goldsonge)                |            [GitHub](https://github.com/jeongggggg)             |
+|  - 프로젝트 총 관리<br/>- 앨런아 도와줘 기능 <br/>- Server 구축   | - 유저 관리 기능<br/>- OAuth2 소셜 로그인 기능<br/>- 공공의료기관 알림 기능 <br/>- ERD 명세서 | - AI 정보 분석 관련 기능 <br/>- 가족 관련 기능 <br/>- Notion / GitHub 관리 <br/>-API 명세서 | - AI 오늘의 운세 관련기능<br/>- 검진 결과 다운로드 기능 <br/>- 디자인 및 UI <br/>- 와이어 프레임  | - 병-의원 정보 외부 API<br/>- 디자인 및 UI <br/>- 와이어 프레임 <br/>- 반응형 웹 구축 |
 
 <br>
 <br>
