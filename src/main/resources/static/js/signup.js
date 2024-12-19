@@ -277,7 +277,8 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
         if (response.ok && result.isValid) {
             // 서버 검증 통과 시 폼 제출
-            if (!isIdChecked || !isNicknameChecked || !isEmailChecked || !isEmailVerified) {
+            if (!isIdChecked || !isNicknameChecked || !isEmailChecked || !isEmailVerified ||
+            !validateAge()) {
                 event.preventDefault();  // 폼 제출을 막기
                 alert('회원가입이 정상처리되지 않았습니다. 중복 확인이나 이메일 인증을 진행해주세요.');
                 return;
