@@ -1,12 +1,12 @@
 # <img src="/docs/favicon.ico" alt="로고" width="30"> 청춘은 바로 지금! (청바지)
 
-#### <span style = "background : orange; color : #000;">"청바지" (청춘은 바로 지금) </span> 프로젝트는 건강에 관심이 많은 액티브 시니어를 대상으로 AI 기반 건강 정보 분석 서비스 및 다양한 공공의료기관, 요양원, 복지시설 정보를 제공합니다.
+#### <span style = "background : orange; color : #000; font-weight:bold;">"청바지" (청춘은 바로 지금) </span> 프로젝트는 건강에 관심이 많은 액티브 시니어를 대상으로 AI 기반 건강 정보 분석 서비스 및 다양한 공공의료기관, 요양원, 복지시설 정보를 제공합니다.
 
 <img alt="chungbazi.png" height="250" src="src/main/resources/static/img/chungbazi.png" width="250"/>
 
 ## 🍚 프로젝트 소개
 
-💡 대한민국은 2017년 고령사회에 진입했으며, 2024년 말에서 2025년 초에는 노인 인구가 전체 인구의 20%를 차지하는 **초고령사회**에 접어들 것으로 예상됩니다. 인구는 감소하고 노인 복지 비용은 증가하는
+대한민국은 2017년 고령사회에 진입했으며, 2024년 말에서 2025년 초에는 노인 인구가 전체 인구의 20%를 차지하는 **초고령사회**에 접어들 것으로 예상됩니다. 인구는 감소하고 노인 복지 비용은 증가하는
 가운데, 은퇴 후에도 활발한 사회 활동과 여가를 즐기며 능동적으로 생활하고자 하는 50~60대 액티브 시니어들이 점점 늘어나고 있습니다.
 
 이에 따라, **"청바지" (청춘은 바로 지금)** 프로젝트는 건강에 관심이 많은 액티브 시니어를 대상으로 AI 기반 건강 정보 분석 서비스 및 다양한 공공의료기관, 요양원, 복지시설 정보를 제공합니다.
@@ -19,7 +19,7 @@
 
 ## ⛓️ 배포 URL
 
-[서비스 링크](https://chungbaji.kro.kr)
+[https://chungbaji.kro.kr](https://chungbaji.kro.kr)
 
 <br>
 <br>
@@ -70,17 +70,29 @@ gantt
 ## 🏔️ 개발 환경
 
 ### Development
-
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Java 17](https://img.shields.io/badge/java%2017-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot 3.4.0](https://img.shields.io/badge/spring%20boot%203.4.0-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/spring%20data%20jpa-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Spring Security](https://img.shields.io/badge/spring%20security-%236DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=for-the-badge&logo=Thymeleaf&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript%20ES6-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 
 ### Environment
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+<img src="https://img.shields.io/badge/Amazon%20EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white">
+<img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white">
+<img src="https://img.shields.io/badge/Amazon%20RDS-527FFF?style=for-the-badge&logo=Amazon%20RDS&logoColor=white">
+![SSH](https://img.shields.io/badge/SSH-%23000000.svg?style=for-the-badge&logo=openssh&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 
+### Development Tools
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 
 ### Communication
-
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
 
 <br>
@@ -92,9 +104,12 @@ gantt
 
 ### ⭐ 주요 기능
 
-- AI 건강 검진
-- 병원 정보 찾기
-- 앨런아 알려줘
+- 앨런 API 기반 **AI 건강 정보 분석**
+- 앨런 API 기반 **AI 채팅**
+- 구글, 카카오, 네이버 **소셜 로그인 기능**
+- 외부 API 기반 **공공의료기관, 요양원, 복지시설 정보 제공**
+- 공공의료기관 **간편 예약**
+- 예약 확정 안내 및 예약 날짜 하루 전 리마인드 **알림 기능**
 
 ![기능 정의 회원 관리](docs/func1.png)
 ![기능 정의 정보제공기능](docs/func3.png)
@@ -106,7 +121,14 @@ gantt
 <br>
 <br>
 
-## Sequence Diagram
+## ⚓ 시스템 아키텍처 구성도
+
+![시스템 아키텍처 구성도](docs/sys1.png)
+![시스템 아키텍처 구성도](docs/sys2.png)
+<br>
+<br>
+
+## 🖼️ Sequence Diagram
 
 ### 건강 정보 분석
 
@@ -128,7 +150,7 @@ sequenceDiagram
     WebApp -->> User: 비교 결과 응답
 ```
 
-### 앨런아 알려줘
+### 알려줘 앨런아!
 
 ```mermaid
 sequenceDiagram
@@ -154,7 +176,7 @@ sequenceDiagram
     Server-->>User: 진단 결과 응답
 ```
 
-### 병원 정보 찾기
+### 공공의료기관 찾기
 
 ```mermaid
 sequenceDiagram
@@ -205,7 +227,7 @@ sequenceDiagram
 <br>
 <br>
 
-# **청바지 프로젝트 API 문서**
+# 🚩 API 명세서
 
 ## 🚀 **REST API**
 
@@ -472,8 +494,15 @@ sequenceDiagram
 <br>
 <br>
 
-### 🖲️ 화면 구현 (시연 영상)
+## 🖲️ 화면 구현 (시연 영상)
+### 🚀 UI 구현 시 집중 포인트
 
+✅ **큼직하고 가독성 높은 텍스트** <br>
+✅ **명확한 경고 및 안내 텍스트** <br>
+✅ **반응형 웹디자인 지원**  <br>
+✅ **건강 검진 통계 결과 시각화**
+<br>
+<br>
 <table>
     <tbody>
         <tr>
@@ -544,7 +573,7 @@ sequenceDiagram
 <br>
 <br>
 
-## 🤝 추가 구현
+## 🤝 추가 구현 예정
 
 - 모바일 앱 구현 (IOS, Android)
 - 실제 병·의원 연계하여 예약 
@@ -555,8 +584,23 @@ sequenceDiagram
 
 ## 🗨️ 프로젝트를 마치며...
 
-- **송주환** :
-- **김진건** :
-- **이상원** :
-- **장금송** :
-- **조아정** : 
+- **송주환**  
+  스트레스 없이 행복하게 프로젝트 진행한 거 같습니다. 하시는 일 모두 대박 나시길!!  
+  정말 정말 감사합니다~ 일주일 남았지만 메리크리스마스🎄
+
+- **김진건**  
+  자 이제 다음 프로젝트 준비하시죠.
+
+- **이상원**  
+  마지막 프로젝트를 열정 넘치는 여러분과 함께할 수 있어 정말 즐거운 4주였습니다.  
+  앞으로도 모두 좋은 일만 가득하시길 진심으로 바랍니다! 👍🏼
+
+- **장금송**  
+  👖 프로젝트 기간 동안 모두 고생 많으셨고 덕분에 좋은 동료와 많은 걸 배워 갑니다.  
+  앞으로도 건강 잘 챙기시고 늘 응원하겠습니다. :-) 👖
+
+- **조아정**  
+  손발 잘 맞는 팀원들과 협업하며 많이 배우고 성장할 수 있었습니다.  
+  앞으로도 늘 행복하시길 바랍니다! 🍀  
+
+
