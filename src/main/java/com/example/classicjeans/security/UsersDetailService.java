@@ -28,7 +28,7 @@ public class UsersDetailService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public UserDetails loadUserByEmail(String email)  {
+    public UserDetails loadUserByEmail(String email) {
         // 이메일을 기준으로 사용자 조회
         Users user = usersRepository.findByEmail(email);
 
@@ -43,10 +43,10 @@ public class UsersDetailService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public UserDetails loadUserByUniqueKey(String uniqueKey)  {
+    public UserDetails loadUserByUniqueKey(String uniqueKey) {
         Users user = usersRepository.findByUniqueKeyAndIsDeletedFalse(uniqueKey);
 
-        if(user == null) {
+        if (user == null) {
             return null;
         }
 

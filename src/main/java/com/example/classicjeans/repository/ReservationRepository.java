@@ -10,9 +10,6 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     // 알림이 true인 예약
     List<Reservation> findAllByUserIdAndIsNotificatedTrue(Long userId);
-    // 알림과 읽음이 true인 예약
-    List<Reservation> findAllByUserIdAndIsNotificatedTrueAndIsReadTrue(Long userId);
-    // 알림 true, 읽음 false 예약
-    List<Reservation> findAllByUserIdAndIsNotificatedTrueAndIsReadFalse(Long userId);
+
     List<Reservation> findByIsNotificatedFalse();
 }

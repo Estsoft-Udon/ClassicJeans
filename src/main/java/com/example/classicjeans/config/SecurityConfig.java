@@ -38,7 +38,7 @@ public class SecurityConfig {
                         custom -> custom
                                 .requestMatchers("/", "/find-id", "/find-pw",
                                         "/success", "/change-pw-after-find", "/api/**").permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/admin/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("ADMIN")
                                 .requestMatchers("/login", "/signup").anonymous()
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
                 )
@@ -50,7 +50,8 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 ->
                         oauth2.loginPage("/login") // OAuth2 버튼이 포함된 페이지
                                 .defaultSuccessUrl("/") // OAuth2 성공 시 이동
-                                .successHandler(new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
+                                .successHandler(
+                                        new CustomOAuth2LoginSuccessHandler(usersDetailService))  // 로그인 후 처리할 핸들러 등록
                                 .userInfoEndpoint(userInfo ->
                                         userInfo.userService(customOAuth2UserService))
                 )

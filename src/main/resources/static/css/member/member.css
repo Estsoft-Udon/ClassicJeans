@@ -437,3 +437,12 @@ input:focus{
 .family_cont tbody tr:hover {
     background-color: #f5f5f5; /* 마우스 오버 시 배경색 */
 }
+
+.signup .birth_box #dateOfBirth{
+    margin-bottom: 1.5rem;
+}
+
+label[for="confirmPassword"],
+label[for="password"]{
+    padding: 0;
+}

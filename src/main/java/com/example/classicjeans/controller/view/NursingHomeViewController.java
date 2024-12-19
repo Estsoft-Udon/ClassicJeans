@@ -26,10 +26,9 @@ public class NursingHomeViewController {
         Pageable pageable = PageRequest.of(page, size);
         Page<NursingHomeResponse> nursinghomes;
 
-        if(search != null) {
+        if (search != null) {
             nursinghomes = service.searchNursingHomeByName(pageable, search);
-        }
-        else if (province != null && district != null) {
+        } else if (province != null && district != null) {
             nursinghomes = service.getNursingHomeByRegion(pageable, province, district);
         } else {
             nursinghomes = service.getNursingHomeList(pageable);

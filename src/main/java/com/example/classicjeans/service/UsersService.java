@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -33,21 +34,18 @@ public class UsersService {
     public Users findUserById(Long id) {
         Users user = usersRepository.findById(id).orElse(null);
 
-        if(user == null || user.getIsDeleted()) {
+        if (user == null || user.getIsDeleted()) {
             return null;
         }
-
         return user;
     }
 
     // 유저 정보 수정
     public Users update(Long userId, UsersRequest request) {
         Users user = findUserById(userId);
-
-        if(user == null) {
+        if (user == null) {
             return null;
         }
-
         return usersRepository.save(request.update(user));
     }
 
@@ -63,6 +61,7 @@ public class UsersService {
         if (passwordEncoder.matches(password, user.getPassword()) || password.equals(user.getPassword())) {
             user.setIsDeleted(true);
             user.setDeletedAt(LocalDateTime.now());
+            user.setUniqueKey(null);
             usersRepository.save(user);
             return true;
         }
@@ -71,7 +70,7 @@ public class UsersService {
 
     // 회원정보삭제
     public boolean delete(Long id) {
-        if(findUserById(id) == null) {
+        if (findUserById(id) == null) {
             return false;
         }
         usersRepository.deleteById(id);
@@ -131,5 +130,37 @@ public class UsersService {
     public Users findByLoginIdAndEmail(String loginId, String email) {
 
         return usersRepository.findByLoginIdAndEmailAndIsDeletedFalse(loginId, email);
+    }
+
+    // 회원가입 시 로그인ID 패턴 일치 확인
+    public boolean isLoginIdValidate(String loginId) {
+        String loginIdPattern = "^[a-zA-Z0-9]{4,20}$";
+        if (loginId == null || loginId.isBlank()) {
+            return false;
+        }
+        return Pattern.matches(loginIdPattern, loginId);
+    }
+
+    // 회원가입 시 닉네임 패턴 일치 확인
+    public boolean isNicknameValidate(String nickname) {
+        String nicknamePattern = "^[a-zA-Z0-9]{4,20}$";
+        if (nickname == null || nickname.isBlank()) {
+            return false;
+        }
+        return Pattern.matches(nicknamePattern, nickname);
+    }
+
+    // 회원가입 시 비밀번호 패턴 일치 확인
+    public boolean isPasswordValidate(String password) {
+        String passwordPattern = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$";
+        if(password == null || password.isBlank()) {
+            return false;
+        }
+        return Pattern.matches(passwordPattern, password);
+    }
+
+    // 회원가입 시 비밀번호 일치 확인
+    public boolean isConfirmPasswordValidate(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 }

@@ -27,11 +27,4 @@ sequenceDiagram
     Server->>MainController: 요청 전달
     MainController-->>Server: 병원 검색 페이지 정보
     Server-->>User: 병원 검색 페이지로 이동
-
-    %% 요양원 검색 페이지로 이동
-    User->>Server: 요양원 검색 페이지 요청
-    Server->>MainController: 요청 전달
-    MainController-->>Server: 요양원 검색 페이지 정보
-    Server-->>User: 요양원 검색 페이지로 이동
-
 ```

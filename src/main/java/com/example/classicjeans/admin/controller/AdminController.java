@@ -25,13 +25,12 @@ public class AdminController {
 
     @GetMapping("/member/list")
     public String memberListForAdmin(@RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "10") int size,
-                                    @RequestParam(defaultValue = "all") String sortOption,
-                                    @RequestParam(required = false) String keyword,
-                                    Model model) {
+                                     @RequestParam(defaultValue = "10") int size,
+                                     @RequestParam(defaultValue = "all") String sortOption,
+                                     @RequestParam(required = false) String keyword,
+                                     Model model) {
         Page<UsersResponse> allUser = adminService.getFilteredUsers(page, size, sortOption, keyword)
                 .map(UsersResponse::new);
-
 
         model.addAttribute("allUser", allUser);
         model.addAttribute("sortOption", sortOption);
@@ -58,7 +57,7 @@ public class AdminController {
     @PostMapping("/member/delete/{id}")
     public String memberDeleteForAdmin(@PathVariable Long id) {
         Users user = usersService.findById(id);
-        if(!user.getGrade().name().equals("ADMIN")) {
+        if (!user.getGrade().name().equals("ADMIN")) {
             usersService.softDelete(id, user.getPassword());
         }
         return "redirect:/admin/member/list";

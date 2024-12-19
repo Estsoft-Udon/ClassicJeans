@@ -31,7 +31,10 @@ public class HealthReportService {
     private final AlanService alanService;
 
     @Autowired
-    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository, DementiaDataRepository dementiaDataRepository, UsersService usersService, FamilyInfoRepository familyInfoRepository, FamilyInfoService familyInfoService, AlanService alanService) {
+    public HealthReportService(QuestionnaireDataRepository questionnaireDataRepository,
+                               DementiaDataRepository dementiaDataRepository, UsersService usersService,
+                               FamilyInfoRepository familyInfoRepository, FamilyInfoService familyInfoService,
+                               AlanService alanService) {
         this.questionnaireDataRepository = questionnaireDataRepository;
         this.dementiaDataRepository = dementiaDataRepository;
         this.usersService = usersService;
@@ -109,7 +112,8 @@ public class HealthReportService {
 
         Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("date")));
 
-        List<QuestionnaireData> recent5Data = questionnaireDataRepository.findTop5ByUserIdOrderByDateDesc(user, pageable);
+        List<QuestionnaireData> recent5Data = questionnaireDataRepository.findTop5ByUserIdOrderByDateDesc(user,
+                pageable);
 
         List<HealthStatisticsResponse> healthStatisticsList = new ArrayList<>();
         for (QuestionnaireData data : recent5Data) {

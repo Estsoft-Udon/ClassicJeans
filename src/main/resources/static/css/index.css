@@ -1,4 +1,4 @@
-.wrap{
+.wrap {
     padding: 7.7rem 3rem 0;
     position: relative;
 }
@@ -18,25 +18,25 @@
     background-position: center center;
 }
 
-.sec01{
+.sec01 {
     background-image: url("/img/sec01.png");
     max-height: 86rem;
     color: #fff;
 }
 
-.sec01 .tit{
+.sec01 .tit {
     font-size: clamp(3rem, 4.1vw, 8rem);
 }
 
-.sec01 .txt{
+.sec01 .txt {
     line-height: clamp(3rem, 2.5vw, 4.8rem);
 }
 
-.sec01 .txt span{
+.sec01 .txt span {
     position: relative;
 }
 
-.sec01 .txt span::before{
+.sec01 .txt span::before {
     content: "";
     position: absolute;
     bottom: -1rem;
@@ -47,39 +47,39 @@
     animation: underlineAnimation 2s forwards;
 }
 
-.sec02{
+.sec02 {
     background-image: url("/img/sec02.png");
     max-height: 66rem;
 }
 
-.sec03{
+.sec03 {
     background-image: url("/img/sec03.png");
     max-height: 74rem;
 }
 
-.sec04{
+.sec04 {
     background-image: url("/img/sec04.png");
     max-height: 66rem;
     color: #fff;
 }
 
-.sec04 .main_btn{
+.sec04 .main_btn {
     background-color: #fff;
     color: #012D66;
     border: 1px solid #fff;
 }
 
-.sec04 .main_btn:hover{
+.sec04 .main_btn:hover {
     background-color: #012D66;
     color: #fff;
 }
 
-.sec05{
+.sec05 {
     height: auto;
     margin: 17rem 0 21.8rem;
 }
 
-.bazi_cont{
+.bazi_cont {
     padding: 9.8rem 2rem 10.2rem;
     width: 100%;
     max-width: 100rem;
@@ -94,13 +94,13 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 19.3rem;
-    height: 22.8rem;
+    width: clamp(16.3rem,10.0521vw,19.3rem);
+    height: clamp(19.8rem,11.875vw,22.8rem);
     background-image: url("/img/sec05.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transform: translate(8rem, 17rem);
+    transform: translate(clamp(5rem,4.1667vw,8rem), clamp(14rem,8.8542vw,17rem));
 }
 
 .bazi_cont::before {
@@ -117,33 +117,35 @@
     transform: translate(-16rem, 5rem);
 }
 
-.log_on_txt pre{
+.log_on_txt pre {
     white-space: pre-wrap;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
+
 .log_on_txt pre ul,
 .log_on_txt pre ol {
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
 }
+
 .log_on_txt pre strong {
     font-weight: bold;
 }
 
 
-.username span{
+.username span {
     color: #013E8B;
     font-weight: bold;
 }
 
-.username{
+.username {
     margin-bottom: 2rem;
 }
 
-.bazi_cont .btn_box{
+.bazi_cont .btn_box {
     margin-top: 3rem;
 }
 
@@ -152,6 +154,7 @@
     font-weight: bold;
     text-align: center;
 }
+
 .tit span {
     position: relative;
     font-weight: bold;
@@ -240,12 +243,15 @@
     align-items: center;
     gap: 8rem;
 }
+
 .sec02 .flex_box .l_box .tit {
     margin-bottom: clamp(3rem, 3.1vw, 8rem);
 }
+
 .sec02 .flex_box .l_box .txt + .txt {
     margin-top: 2rem;
 }
+
 .sec03 .sel_wr {
     width: 100%;
     background: #fff;
@@ -256,7 +262,7 @@
     max-width: 120rem;
 }
 
-.sec03 .sel_wr .btn_box{
+.sec03 .sel_wr .btn_box {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -264,7 +270,7 @@
     align-items: center;
 }
 
-.sec03 .sel_wr .btn_box button{
+.sec03 .sel_wr .btn_box button {
     min-width: 32.5rem;
 }
 
@@ -272,14 +278,15 @@
 .sec03 .sel_wr select {
     font-size: 2rem;
 }
+
 .btn_wr .scr_top_btn {
     position: fixed;
     bottom: 2rem;
     transform: translateX(-50%);
     left: 50%;
     padding: 0;
-    width: 9rem;
-    height: 9rem;
+    width: clamp(7.5rem, 4.68vw, 9rem);
+    height: clamp(7.5rem, 4.68vw, 9rem);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -291,31 +298,38 @@
     cursor: inherit;
     z-index: 9;
 }
+
 .btn_wr .scr_top_btn svg {
     animation: scr_down .8s infinite alternate ease-in-out;
     stroke: #fff;
 }
+
 .btn_wr .scr_top_btn.act .scr_txt01,
 .btn_wr .scr_top_btn .scr_txt02 {
     display: none;
 }
 
-.scr_txt01{
+.scr_txt01 {
     white-space: nowrap;
 }
+
 .btn_wr .scr_top_btn.act {
-    left: calc(100% - 10rem);
+    left: calc(100% - 5%);
     background: #013E8B;
     color: #fff;
     cursor: pointer;
 }
+
 .btn_wr .scr_top_btn.act:hover {
     background: #032D41;
 }
+
 .btn_wr .scr_top_btn.act svg {
     animation: scr_up .8s infinite alternate ease-in-out;
     stroke: #fff;
+    width: clamp(1.9rem, 1.25vw, 2.4rem);
 }
+
 .btn_wr .scr_top_btn.act .scr_txt02 {
     display: block;
 }
@@ -326,13 +340,14 @@
     transition: none;
 }
 
-.main_btn{
-    font-size: clamp(1.2rem,1.3vw,2.6rem);
+.main_btn {
+    font-size: clamp(1.2rem, 1.3vw, 2.6rem);
     font-weight: bold;
     padding: 2.1rem 4rem;
     border-radius: 2rem;
     white-space: nowrap;
 }
+
 #loadingMessage .spinner {
     border: 8px solid #fff;
     border-top: 8px solid #013E8B;
@@ -347,8 +362,12 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes scr_down {
@@ -359,6 +378,7 @@
         transform: translateY(10px);
     }
 }
+
 @keyframes scr_up {
     0% {
         transform: translateY(0) rotate(180deg);
@@ -411,6 +431,13 @@
     }
 }
 
+@media (max-width: 768px) {
+    .btn_wr .scr_top_btn.act {
+        width: 7rem;
+        height: 7rem;
+        left: calc(100% - 4.5rem);
+    }
+}
 @media (max-width: 480px) {
     .bazi_cont::after {
         width: 10rem;
@@ -424,7 +451,15 @@
         transform: translate(-10rem, 2rem);
     }
 
-    .sec03 .sel_wr .btn_box button{
+    .sec03 .sel_wr .btn_box button {
         min-width: 22rem;
+    }
+
+    .wrap {
+        padding: 7.7rem 1.5rem 0;
+    }
+
+    .sec05 {
+        margin: 7rem 0 21.8rem;
     }
 }

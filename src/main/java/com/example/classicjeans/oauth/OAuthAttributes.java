@@ -16,7 +16,8 @@ public class OAuthAttributes {
         this.nameAttributeKey = nameAttributeKey;
     }
 
-    public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
+    public static OAuthAttributes of(String registrationId, String userNameAttributeName,
+                                     Map<String, Object> attributes) {
 
         if ("google".equals(registrationId)) {
             return ofGoogle(userNameAttributeName, attributes);

@@ -4,6 +4,7 @@ import com.example.classicjeans.dto.response.HospitalResponse;
 import com.example.classicjeans.entity.Users;
 import com.example.classicjeans.service.HospitalService;
 import com.example.classicjeans.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class HospitalViewController {
 
-    @Autowired
-    private HospitalService hospitalService;
+    private final HospitalService hospitalService;
 
     // 병원 목록 조회
     @GetMapping("/hospital-list")

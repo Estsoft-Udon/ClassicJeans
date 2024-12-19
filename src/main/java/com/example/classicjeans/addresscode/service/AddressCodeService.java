@@ -19,7 +19,7 @@ public class AddressCodeService {
         CSVParser csvParser = CsvReader.readCsvFile(filePath);
 
         for (CSVRecord record : csvParser) {
-            if(!repository.existsByCode(record.get("col1"))) {
+            if (!repository.existsByCode(record.get("col1"))) {
                 AddressCode entity = new AddressCode(record.get("col1"), record.get("col2"));
 
                 repository.save(entity);
@@ -32,7 +32,7 @@ public class AddressCodeService {
     public String getAddress(String code) {
         AddressCode entity = repository.findByCode(code);
 
-        if(entity == null) {
+        if (entity == null) {
             return "";
         }
 

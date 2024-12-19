@@ -2,12 +2,15 @@ package com.example.classicjeans.controller.rest;
 
 import com.example.classicjeans.dto.response.HospitalResponse;
 import com.example.classicjeans.service.HospitalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "병원정보 api", description = "병원정보 조회/저장/검색")
 @RestController
 @RequestMapping("/api/hospitals")
 @RequiredArgsConstructor
@@ -16,6 +19,7 @@ public class HospitalController {
     private final HospitalService hospitalService;
 
     // 병원 목록 조회 (검색 및 페이지네이션 포함)
+    @Operation(summary = "병원 목록 조회")
     @GetMapping
     public ResponseEntity<Page<HospitalResponse>> getHospitals(
             @RequestParam(required = false) String city,
@@ -32,6 +36,7 @@ public class HospitalController {
     }
 
     // 전체 병원 목록 저장
+    @Operation(summary = "병원 전체 목록 저장")
     @PostMapping
     public ResponseEntity<String> saveAllHospitals() {
         try {
@@ -43,6 +48,7 @@ public class HospitalController {
     }
 
     // 병원명으로 병원 검색
+    @Operation(summary = "병원명으로 병원 검색")
     @GetMapping("/search")
     public Page<HospitalResponse> searchHospitalsByName(
             @RequestParam String name,

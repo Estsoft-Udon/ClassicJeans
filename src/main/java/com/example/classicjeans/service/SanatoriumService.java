@@ -30,7 +30,8 @@ public class SanatoriumService {
     private final ObjectMapper objectMapper;
     private final SanatoriumDataRepository repository;
     private final AddressCodeService addressCodeService;
-    private final String[] siDoCodes = {"11", "21", "22", "23", "24", "25", "26", "36", "41", "42", "43", "44", "45", "46", "47", "48", "50"};
+    private final String[] siDoCodes = {"11", "21", "22", "23", "24", "25", "26", "36", "41", "42", "43", "44", "45",
+            "46", "47", "48", "50"};
 
     @Value("${SANATORIUM_API_KEY}")
     private String SANATORIUM_API_KEY;
@@ -40,14 +41,14 @@ public class SanatoriumService {
     }
 
     public void setSanatoriumDatas() throws Exception {
-        for(String sidoCode : siDoCodes) {
+        for (String sidoCode : siDoCodes) {
             List<SanatoriumRequest> datas = new ArrayList<>();
             int totalCount = Math.min(calculateTotalCount(sidoCode), 1000);
             datas.addAll(parseJsonToDTOList(fetchSanatoriumData(sidoCode, totalCount)));
             List<SanatoriumData> sanatoriumDatas = new ArrayList<>();
 
-            for(SanatoriumRequest response : datas) {
-                if(repository.existsByName(response.getName())) {
+            for (SanatoriumRequest response : datas) {
+                if (repository.existsByName(response.getName())) {
                     continue;
                 }
 
@@ -89,7 +90,7 @@ public class SanatoriumService {
     }
 
     private List<SanatoriumRequest> convertToSanatoriumRequests(List<AddressCodeRequest> requests) {
-        if(requests == null) {
+        if (requests == null) {
             return new ArrayList<>();
         }
 
@@ -102,7 +103,7 @@ public class SanatoriumService {
 
             String[] addressParts = sanatoriumRequest.getAddress().split(" ");
 
-            switch(addressParts.length) {
+            switch (addressParts.length) {
                 case 3:
                     sanatoriumRequest.setSubRegion(addressParts[1] + " " + addressParts[2]);
                     break;
@@ -111,7 +112,7 @@ public class SanatoriumService {
                     break;
             }
 
-            if(addressParts.length > 0) {
+            if (addressParts.length > 0) {
                 sanatoriumRequest.setRegion(addressParts[0]);
             }
 

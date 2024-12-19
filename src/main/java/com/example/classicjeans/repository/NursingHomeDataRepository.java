@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NursingHomeDataRepository extends JpaRepository<NursingHomeData, Long> {
     boolean existsByName(String name);
+
     Page<NursingHomeData> findAllByRegionAndSubRegion(String region, String subRegion, Pageable pageable);
+
     Page<NursingHomeData> findAllByNameContaining(String search, Pageable pageable);
 }

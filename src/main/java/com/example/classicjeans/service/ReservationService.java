@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import static com.example.classicjeans.util.SecurityUtil.getLoggedInUser;
 
 @Service
@@ -41,7 +42,7 @@ public class ReservationService {
     }
 
     public Reservation addReservation(ReservationRequest request) {
-        if(getLoggedInUser() == null) {
+        if (getLoggedInUser() == null) {
             return null;
         }
         Users user = getLoggedInUser();
@@ -69,7 +70,7 @@ public class ReservationService {
 
     public Reservation toggleReadStatus(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElse(null);
-        if(reservation == null) {
+        if (reservation == null) {
             return null;
         }
 
