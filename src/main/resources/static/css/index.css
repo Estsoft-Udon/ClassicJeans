@@ -94,13 +94,13 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 19.3rem;
-    height: 22.8rem;
+    width: clamp(16.3rem,10.0521vw,19.3rem);
+    height: clamp(19.8rem,11.875vw,22.8rem);
     background-image: url("/img/sec05.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transform: translate(8rem, 17rem);
+    transform: translate(clamp(5rem,4.1667vw,8rem), clamp(14rem,8.8542vw,17rem));
 }
 
 .bazi_cont::before {
