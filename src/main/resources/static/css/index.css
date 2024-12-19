@@ -94,13 +94,13 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 19.3rem;
-    height: 22.8rem;
+    width: clamp(16.3rem,10.0521vw,19.3rem);
+    height: clamp(19.8rem,11.875vw,22.8rem);
     background-image: url("/img/sec05.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    transform: translate(8rem, 17rem);
+    transform: translate(clamp(5rem,4.1667vw,8rem), clamp(14rem,8.8542vw,17rem));
 }
 
 .bazi_cont::before {
@@ -285,8 +285,8 @@
     transform: translateX(-50%);
     left: 50%;
     padding: 0;
-    width: 9rem;
-    height: 9rem;
+    width: clamp(7.5rem, 4.68vw, 9rem);
+    height: clamp(7.5rem, 4.68vw, 9rem);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
@@ -314,7 +314,7 @@
 }
 
 .btn_wr .scr_top_btn.act {
-    left: calc(100% - 10rem);
+    left: calc(100% - 5%);
     background: #013E8B;
     color: #fff;
     cursor: pointer;
@@ -327,6 +327,7 @@
 .btn_wr .scr_top_btn.act svg {
     animation: scr_up .8s infinite alternate ease-in-out;
     stroke: #fff;
+    width: clamp(1.9rem, 1.25vw, 2.4rem);
 }
 
 .btn_wr .scr_top_btn.act .scr_txt02 {
@@ -430,6 +431,13 @@
     }
 }
 
+@media (max-width: 768px) {
+    .btn_wr .scr_top_btn.act {
+        width: 7rem;
+        height: 7rem;
+        left: calc(100% - 4.5rem);
+    }
+}
 @media (max-width: 480px) {
     .bazi_cont::after {
         width: 10rem;
