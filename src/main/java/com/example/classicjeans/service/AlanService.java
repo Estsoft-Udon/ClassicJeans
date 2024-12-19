@@ -157,7 +157,7 @@ public class AlanService {
         String uri = UriComponentsBuilder
                 .fromHttpUrl(BASE_URL)
                 .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID_3)
+                .queryParam("client_id", CLIENT_ID_4)
                 .toUriString();
         return restTemplate.getForEntity(uri, String.class).getBody();
     }
@@ -168,7 +168,7 @@ public class AlanService {
                 .fromHttpUrl(DELETE_URL)
                 .toUriString();
 
-        String jsonBody = "{\"client_id\":\"" + CLIENT_ID_3 + "\"}";
+        String jsonBody = "{\"client_id\":\"" + CLIENT_ID_4 + "\"}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
