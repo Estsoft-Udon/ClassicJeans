@@ -154,12 +154,21 @@ public class AlanService {
 
     // URI 생성과 요청 전송
     private String fetchResponse(String content) {
-        String uri = UriComponentsBuilder
-                .fromHttpUrl(BASE_URL)
-                .queryParam("content", content)
-                .queryParam("client_id", CLIENT_ID_4)
-                .toUriString();
-        return restTemplate.getForEntity(uri, String.class).getBody();
+        try {
+            String uri = UriComponentsBuilder
+                    .fromHttpUrl(BASE_URL)
+                    .queryParam("content", content)
+                    .queryParam("client_id", CLIENT_ID_4)
+                    .toUriString();
+            return restTemplate.getForEntity(uri, String.class).getBody();
+        } catch (Exception e) {
+            String fallbackUri = UriComponentsBuilder
+                    .fromHttpUrl(BASE_URL)
+                    .queryParam("content", content)
+                    .queryParam("client_id", CLIENT_ID_3)
+                    .toUriString();
+            return restTemplate.getForEntity(fallbackUri, String.class).getBody();
+        }
     }
 
     // 메소드 실행 전에 이전 데이터를 초기화
