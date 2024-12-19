@@ -14,10 +14,10 @@ footer .inner {
 .scroll-to-top-btn {
     position: fixed;
     bottom: 2rem;
-    right: 6rem;
+    right: clamp(3rem,3.125vw,6rem);
     padding: 0;
-    width: 9rem;
-    height: 9rem;
+    width: clamp(7.5rem, 4.68vw, 9rem);
+    height: clamp(7.5rem, 4.68vw, 9rem);
     border-radius: 50%;
     background: #013E8B;
     color: #fff;
@@ -37,6 +37,7 @@ footer .inner {
 #scrollToTopBtn svg {
     animation: scr_up .8s infinite alternate ease-in-out;
     stroke: #fff;
+    width: clamp(1.9rem, 1.25vw, 2.4rem);
 }
 
 .scroll-to-top-btn.stop {
@@ -67,4 +68,10 @@ footer .inner {
         transform: translateY(-.5rem) rotate(180deg);
     }
 }
-
+@media (max-width: 768px) {
+    .scroll-to-top-btn {
+        width: 7rem;
+        height: 7rem;
+        right: 2rem;
+    }
+}
