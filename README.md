@@ -30,7 +30,7 @@
 
 ```mermaid
 gantt
-    title 청춘은 바로 지 프로젝트 일정 
+    title 청춘은 바로 지금 프로젝트 일정 
     dateFormat  YYYY-MM-DD
     axisFormat  %m-%d
 
@@ -124,7 +124,7 @@ gantt
 ## ⚓ 시스템 아키텍처 구성도
 
 ![시스템 아키텍처 구성도](docs/sys1.png)
-![시스템 아키텍처 구성도](docs/sys2.png)
+![시스템 아키텍처 구성도](docs/sys3.png)
 <br>
 <br>
 
