@@ -30,7 +30,7 @@
 
 ```mermaid
 gantt
-    title 청춘은 바로 지 프로젝트 일정 
+    title 청춘은 바로 지금 프로젝트 일정 
     dateFormat  YYYY-MM-DD
     axisFormat  %m-%d
 
