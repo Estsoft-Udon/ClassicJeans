@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -29,7 +30,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer ignore() {
         return WebSecurity -> WebSecurity.ignoring()
-                .requestMatchers("/css/**", "/js/**", "/img/**", "/error"); // 정적 리소스 허용
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/error", "/DB/**"); // 정적 리소스 허용
     }
 
     @Bean
@@ -37,7 +38,7 @@ public class SecurityConfig {
         return http.authorizeHttpRequests(
                         custom -> custom
                                 .requestMatchers("/", "/find-id", "/find-pw",
-                                        "/success", "/change-pw-after-find", "/api/**").permitAll()
+                                        "/success", "/change-pw-after-find", "/api/**", "/h2-console/**").permitAll()
                                 .requestMatchers("/admin/**", "/swagger-ui/**", "/swagger-ui.html").hasRole("ADMIN")
                                 .requestMatchers("/login", "/signup").anonymous()
                                 .anyRequest().hasAnyRole("CHUNGBAZI", "ADMIN")
@@ -60,6 +61,7 @@ public class SecurityConfig {
                     custom.accessDeniedPage("/access-denied"); // 권한 없는 사용자가 접근할 경우 리다이렉트할 페이지
                 })
                 .csrf(AbstractHttpConfigurer::disable)
+                .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
                 .build();
     }
 
